@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "RBBDd8D6ZAhsCN5YNz5j/jgPIkxHsYztqbgD/ZFN5erBar2+Xww9dWA1UUULzCc/4eIb2eTWLZX4oQ9+cU1WaQ==",
+  "success": true,
+  "projectFilePath": "X:\\projects\\climbing-map\\src\\ClimbingMap.Domain\\ClimbingMap.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lyuboslav\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\lyuboslav\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

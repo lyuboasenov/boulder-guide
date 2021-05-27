@@ -1,0 +1,8 @@
+X:\projects\climbing-map\src\ClimbingMap.Domain\bin\Debug\netstandard2.0\ClimbingMap.Domain.deps.json
+X:\projects\climbing-map\src\ClimbingMap.Domain\bin\Debug\netstandard2.0\ClimbingMap.Domain.dll
+X:\projects\climbing-map\src\ClimbingMap.Domain\bin\Debug\netstandard2.0\ClimbingMap.Domain.pdb
+X:\projects\climbing-map\src\ClimbingMap.Domain\obj\Debug\netstandard2.0\ClimbingMap.Domain.AssemblyInfoInputs.cache
+X:\projects\climbing-map\src\ClimbingMap.Domain\obj\Debug\netstandard2.0\ClimbingMap.Domain.AssemblyInfo.cs
+X:\projects\climbing-map\src\ClimbingMap.Domain\obj\Debug\netstandard2.0\ClimbingMap.Domain.csproj.CoreCompileInputs.cache
+X:\projects\climbing-map\src\ClimbingMap.Domain\obj\Debug\netstandard2.0\ClimbingMap.Domain.dll
+X:\projects\climbing-map\src\ClimbingMap.Domain\obj\Debug\netstandard2.0\ClimbingMap.Domain.pdb
