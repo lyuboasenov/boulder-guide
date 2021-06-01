@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ClimbingMap.Domain.Entities {
    public class SchemaPoint {
-      public double X { get; }
-      public double Y { get; }
+      public double X { get; set; }
+      public double Y { get; set; }
 
       public SchemaPoint() {
 

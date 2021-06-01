@@ -1,1 +1,0 @@
-X:\projects\climbing-map\src\ClimbingMap.Backend\ClimbingMap.Backend.UWP\ClimbingMap.Backend.UWP.csproj;x86

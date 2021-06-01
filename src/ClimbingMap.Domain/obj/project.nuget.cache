@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "RBBDd8D6ZAhsCN5YNz5j/jgPIkxHsYztqbgD/ZFN5erBar2+Xww9dWA1UUULzCc/4eIb2eTWLZX4oQ9+cU1WaQ==",
+  "dgSpecHash": "UDe+7C+JGjYcmREMGjNYsdH4SS6Ff5LacUAt9GEOlRtD0vfBhutBzMvYbxBgvJAJF8vSkXV1fQGcdA/7PiXowg==",
   "success": true,
-  "projectFilePath": "X:\\projects\\climbing-map\\src\\ClimbingMap.Domain\\ClimbingMap.Domain.csproj",
+  "projectFilePath": "D:\\_projects\\climbing-map\\src\\ClimbingMap.Domain\\ClimbingMap.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\lyuboslav\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\lyuboslav\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\lyubo\\.nuget\\packages\\jsonsubtypes\\1.8.0\\jsonsubtypes.1.8.0.nupkg.sha512",
+    "C:\\Users\\lyubo\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\lyubo\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],
   "logs": []
 }

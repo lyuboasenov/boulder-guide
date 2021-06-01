@@ -11,7 +11,8 @@ namespace ClimbingMap.Domain.Entities {
       public string Ethics { get; set; }
       public string Accomodations { get; set; }
       public string Restrictions { get; set; }
-      public ICollection<string> Tags { get; } = new HashSet<string>();
-      public ICollection<Location> Location { get; } = new HashSet<Location>();
+      public string[] Tags { get; set; } = new string[0];
+      public Location[] Location { get; set; } = new Location[0];
+      public string[] Links { get; set; } = new string[0];
    }
 }

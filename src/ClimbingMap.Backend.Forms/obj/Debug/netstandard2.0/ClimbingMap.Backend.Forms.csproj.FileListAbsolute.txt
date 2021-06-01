@@ -1,0 +1,17 @@
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\bin\Debug\netstandard2.0\ClimbingMap.Backend.Forms.deps.json
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\bin\Debug\netstandard2.0\ClimbingMap.Backend.Forms.dll
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\bin\Debug\netstandard2.0\ClimbingMap.Backend.Forms.pdb
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\bin\Debug\netstandard2.0\ClimbingMap.Domain.dll
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\bin\Debug\netstandard2.0\ClimbingMap.Domain.pdb
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.csproj.AssemblyReference.cache
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\App.xaml.g.cs
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\Views\DialogView.xaml.g.cs
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\Views\MainPage.xaml.g.cs
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.AssemblyInfoInputs.cache
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.AssemblyInfo.cs
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.csproj.CoreCompileInputs.cache
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.csproj.Fody.CopyLocal.cache
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\XamlC.stamp
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.csproj.CopyComplete
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.dll
+D:\_projects\climbing-map\src\ClimbingMap.Backend.Forms\obj\Debug\netstandard2.0\ClimbingMap.Backend.Forms.pdb

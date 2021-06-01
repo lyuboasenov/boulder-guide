@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Prism.Unity.Forms</name>
+    </assembly>
+    <members>
+        <member name="M:Prism.Unity.PrismApplication.#ctor">
+            <summary>
+            Initializes a new instance of PrismApplication using the default constructor
+            </summary>
+        </member>
+        <member name="M:Prism.Unity.PrismApplication.#ctor(Prism.IPlatformInitializer)">
+            <summary>
+            Initializes a new instance of <see cref="T:Prism.Unity.PrismApplication" /> with a <see cref="T:Prism.IPlatformInitializer" />.
+            Used when there are specific types that need to be registered on the platform.
+            </summary>
+            <param name="platformInitializer">The <see cref="T:Prism.IPlatformInitializer"/>.</param>
+        </member>
+        <member name="M:Prism.Unity.PrismApplication.#ctor(Prism.IPlatformInitializer,System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:Prism.Unity.PrismApplication" /> with a <see cref="T:Prism.IPlatformInitializer" />.
+            Used when there are specific types that need to be registered on the platform.
+            Also determines whether to set the <see cref="!:DependencyResolver" /> for resolving Renderers and Platform Effects.
+            </summary>
+            <param name="platformInitializer">The <see cref="T:Prism.IPlatformInitializer"/>.</param>
+            <param name="setFormsDependencyResolver">Should <see cref="T:Prism.Unity.PrismApplication" /> set the <see cref="!:DependencyResolver" />.</param>
+        </member>
+    </members>
+</doc>

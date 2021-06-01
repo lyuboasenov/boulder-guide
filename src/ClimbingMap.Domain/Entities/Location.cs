@@ -8,6 +8,8 @@ namespace ClimbingMap.Domain.Entities {
          Latitude = latitude;
          Longitude = longitude;
       }
+      public Location() {
+      }
 
       public double Latitude { get; set; }
       public double Longitude { get; set; }

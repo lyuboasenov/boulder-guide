@@ -1,0 +1,158 @@
+﻿<Window x:Class="ClimbingMap.Wpf.RouteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClimbingMap.Wpf" xmlns:wpf="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+        mc:Ignorable="d"
+        Title="RouteWindow" Height="450" Width="800">
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Button
+         Name="btnSave"
+         Content="Save"
+         Click="btnSave_Click" />
+      <TabControl Grid.Row="1">
+         <TabItem Header="Info">
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+               </Grid.ColumnDefinitions>
+               <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+               </Grid.RowDefinitions>
+
+               <TextBlock Grid.Row="0" Text="Id" />
+               <TextBox Grid.Row="0" Grid.Column="1" Name="txtId" />
+
+               <TextBlock Grid.Row="1" Text="Name" />
+               <TextBox Grid.Row="1" Grid.Column="1" Name="txtName" />
+
+               <TextBlock Grid.Row="2" Text="Grade" />
+               <ComboBox Grid.Row="2" Grid.Column="1" Name="lstGrade">
+                  <ComboBoxItem DataContext="20" Content="3" />
+                  <ComboBoxItem DataContext="25" Content="4-" />
+                  <ComboBoxItem DataContext="30" Content="4" />
+                  <ComboBoxItem DataContext="35" Content="4+" />
+                  <ComboBoxItem DataContext="40" Content="5-" />
+                  <ComboBoxItem DataContext="45" Content="5" />
+                  <ComboBoxItem DataContext="50" Content="5+" />
+                  <ComboBoxItem DataContext="55" Content="6A" />
+                  <ComboBoxItem DataContext="60" Content="6A+" />
+                  <ComboBoxItem DataContext="65" Content="6B" />
+                  <ComboBoxItem DataContext="70" Content="6B+" />
+                  <ComboBoxItem DataContext="75" Content="6C" />
+                  <ComboBoxItem DataContext="80" Content="6C+" />
+                  <ComboBoxItem DataContext="85" Content="7A" />
+                  <ComboBoxItem DataContext="90" Content="7A+" />
+                  <ComboBoxItem DataContext="95" Content="7B" />
+                  <ComboBoxItem DataContext="100" Content="7B+" />
+                  <ComboBoxItem DataContext="105" Content="7C" />
+                  <ComboBoxItem DataContext="110" Content="7C+" />
+                  <ComboBoxItem DataContext="115" Content="8A" />
+                  <ComboBoxItem DataContext="120" Content="8A+" />
+                  <ComboBoxItem DataContext="125" Content="8B" />
+                  <ComboBoxItem DataContext="130" Content="8B+" />
+                  <ComboBoxItem DataContext="135" Content="8C" />
+                  <ComboBoxItem DataContext="140" Content="8C+" />
+                  <ComboBoxItem DataContext="145" Content="9A" />
+               </ComboBox>
+
+               <TextBlock Grid.Row="3" Text="Info" />
+               <TextBox Grid.Row="3" Grid.Column="1" Name="txtInfo" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="4" Text="Approach" />
+               <TextBox Grid.Row="4" Grid.Column="1" Name="txtApproach" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="5" Text="History" />
+               <TextBox Grid.Row="5" Grid.Column="1" Name="txtHistory" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="6" Text="Tags" />
+               <TextBox Grid.Row="6" Grid.Column="1" Name="txtTags" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="7" Text="Height" />
+               <TextBox Grid.Row="7" Grid.Column="1" Name="txtHeight" />
+
+               <ListBox Name="lstImages" Grid.Row="8" Grid.ColumnSpan="2" SelectionChanged="lstImages_SelectionChanged">
+                  <ListBox.ItemTemplate>
+                     <DataTemplate>
+                        <Image Height="50" Width="50">
+                           <Image.Source>
+                              <BitmapImage DecodePixelWidth="50" UriSource="{Binding Id}" />
+                           </Image.Source>
+                        </Image>
+                     </DataTemplate>
+                  </ListBox.ItemTemplate>
+               </ListBox>
+
+               <Button x:Name="btnAddImage" Grid.Row="9" Content="Add image" Click="btnAddImage_Click" />
+            </Grid>
+         </TabItem>
+         <TabItem Header="Location">
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+               </Grid.ColumnDefinitions>
+               <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+               </Grid.RowDefinitions>
+
+               <TextBlock Grid.Row="0" Text="Lat" />
+               <TextBox Grid.Row="0" Grid.Column="1" Name="txtLat1" />
+               <TextBlock Grid.Row="0" Grid.Column="2" Text="Lon" />
+               <TextBox Grid.Row="0" Grid.Column="3" Name="txtLon1" />
+            </Grid>
+         </TabItem>
+         <TabItem Header="Schema" IsEnabled="False" Name="tabSchema">
+            <Grid>
+               <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+               </Grid.RowDefinitions>
+
+               <StackPanel Orientation="Horizontal">
+                  <ToggleButton
+                     x:Name="btnAddPath"
+                     Content="Add Path"
+                     ToggleButton.Checked="btnAddPath_Checked"
+                     ToggleButton.Unchecked="btnAddPath_Unchecked" />
+                  <ToggleButton
+                     x:Name="btnAddEllipse"
+                     Content="Add Ellipse"
+                     ToggleButton.Checked="btnAddEllipse_Checked"
+                     ToggleButton.Unchecked="btnAddEllipse_Unchecked" />
+
+                  <Button x:Name="btnUndo" Content="Undo" Margin="20, 0, 0, 0" Click="btnUndo_Click"/>
+               </StackPanel>
+
+               <ScrollViewer Grid.Row="1">
+                  <wpf:SKElement
+                     Name="skCanvas"
+                     MouseLeftButtonDown="skCanvas_MouseLeftButtonDown"
+                     MouseLeftButtonUp="skCanvas_MouseLeftButtonUp"
+                     MouseMove="skCanvas_MouseMove"
+                     PaintSurface="skCanvas_PaintSurface" />
+               </ScrollViewer>
+
+            </Grid>
+         </TabItem>
+      </TabControl>
+   </Grid>
+</Window>
