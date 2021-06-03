@@ -38,7 +38,7 @@ namespace ClimbingMap.Wpf {
             }
          }
 
-         File.WriteAllText(path, JsonConvert.SerializeObject(InitializeArea()));
+         File.WriteAllText(path, JsonConvert.SerializeObject(InitializeArea(), Formatting.Indented));
 
          Close();
       }
@@ -48,9 +48,8 @@ namespace ClimbingMap.Wpf {
             Id = txtId.Text,
             Name = txtName.Text,
             Info = txtInfo.Text,
-            Approach = txtApproach.Text,
-            Descent = txtDescent.Text,
-            Accomodations = txtAccomodations.Text,
+            Access = txtAccess.Text,
+            Accommodations = txtAccommodations.Text,
             Ethics = txtEthics.Text,
             History = txtHistory.Text,
             Restrictions = txtRestrictions.Text,
@@ -58,28 +57,28 @@ namespace ClimbingMap.Wpf {
          };
 
          var locations = new List<Location>();
-         if (!string.IsNullOrEmpty(txtLat1.Text)) {
-            locations.Add(new Location(double.Parse(txtLat1.Text), double.Parse(txtLon1.Text)));
+         if (!string.IsNullOrEmpty(txtLocation1.Text)) {
+            locations.Add(new Location(txtLocation1.Text));
          }
 
-         if (!string.IsNullOrEmpty(txtLat2.Text)) {
-            locations.Add(new Location(double.Parse(txtLat2.Text), double.Parse(txtLon2.Text)));
+         if (!string.IsNullOrEmpty(txtLocation2.Text)) {
+            locations.Add(new Location(txtLocation2.Text));
          }
 
-         if (!string.IsNullOrEmpty(txtLat3.Text)) {
-            locations.Add(new Location(double.Parse(txtLat3.Text), double.Parse(txtLon3.Text)));
+         if (!string.IsNullOrEmpty(txtLocation3.Text)) {
+            locations.Add(new Location(txtLocation3.Text));
          }
 
-         if (!string.IsNullOrEmpty(txtLat4.Text)) {
-            locations.Add(new Location(double.Parse(txtLat4.Text), double.Parse(txtLon4.Text)));
+         if (!string.IsNullOrEmpty(txtLocation4.Text)) {
+            locations.Add(new Location(txtLocation4.Text));
          }
 
-         if (!string.IsNullOrEmpty(txtLat5.Text)) {
-            locations.Add(new Location(double.Parse(txtLat5.Text), double.Parse(txtLon5.Text)));
+         if (!string.IsNullOrEmpty(txtLocation5.Text)) {
+            locations.Add(new Location(txtLocation5.Text));
          }
 
-         if (!string.IsNullOrEmpty(txtLat6.Text)) {
-            locations.Add(new Location(double.Parse(txtLat6.Text), double.Parse(txtLon6.Text)));
+         if (!string.IsNullOrEmpty(txtLocation6.Text)) {
+            locations.Add(new Location(txtLocation6.Text));
          }
          result.Location = locations.ToArray();
 
@@ -91,41 +90,34 @@ namespace ClimbingMap.Wpf {
          txtId.Text = area.Id;
          txtName.Text = area.Name;
          txtInfo.Text = area.Info;
-         txtApproach.Text = area.Approach;
-         txtDescent.Text = area.Descent;
-         txtAccomodations.Text = area.Accomodations;
+         txtAccess.Text = area.Access;
+         txtAccommodations.Text = area.Accommodations;
          txtEthics.Text = area.Ethics;
          txtHistory.Text = area.History;
          txtRestrictions.Text = area.Restrictions;
 
          if (area.Location.Length > 0) {
-            txtLat1.Text = area.Location[0].Latitude.ToString();
-            txtLon1.Text = area.Location[0].Longitude.ToString();
+            txtLocation1.Text = area.Location[0].ToString();
          }
 
          if (area.Location.Length > 1) {
-            txtLat2.Text = area.Location[1].Latitude.ToString();
-            txtLon2.Text = area.Location[1].Longitude.ToString();
+            txtLocation2.Text = area.Location[1].ToString();
          }
 
          if (area.Location.Length > 2) {
-            txtLat3.Text = area.Location[2].Latitude.ToString();
-            txtLon3.Text = area.Location[2].Longitude.ToString();
+            txtLocation3.Text = area.Location[2].ToString();
          }
 
          if (area.Location.Length > 3) {
-            txtLat4.Text = area.Location[3].Latitude.ToString();
-            txtLon4.Text = area.Location[3].Longitude.ToString();
+            txtLocation4.Text = area.Location[3].ToString();
          }
 
          if (area.Location.Length > 4) {
-            txtLat5.Text = area.Location[4].Latitude.ToString();
-            txtLon5.Text = area.Location[4].Longitude.ToString();
+            txtLocation5.Text = area.Location[4].ToString();
          }
 
          if (area.Location.Length > 5) {
-            txtLat6.Text = area.Location[5].Latitude.ToString();
-            txtLon6.Text = area.Location[5].Longitude.ToString();
+            txtLocation6.Text = area.Location[5].ToString();
          }
       }
    }

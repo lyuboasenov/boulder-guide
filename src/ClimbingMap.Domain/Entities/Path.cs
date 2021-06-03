@@ -1,5 +1,15 @@
-﻿namespace ClimbingMap.Domain.Entities {
+﻿using ClimbingMap.Domain.Schema;
+using SkiaSharp;
+using System.Linq;
+
+namespace ClimbingMap.Domain.Entities {
    public class Path : Shape {
-      public SchemaPoint[] Points { get; set; } = new SchemaPoint[0];
+      public RelativePoint[] Points { get; set; } = new RelativePoint[0];
+
+      public override void Draw(SKCanvas canvas, Size imageSize) {
+         if ((Points?.Length ?? 0) > 0) {
+            canvas.DrawPath(Points.Select(p => p.ToImagePoint(imageSize)));
+         }
+      }
    }
 }

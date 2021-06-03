@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClimbingMap.Wpf" xmlns:wpf="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
         mc:Ignorable="d"
-        Title="RouteWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterOwner"
+        Title="RouteWindow" Height="800" Width="1000">
    <Grid>
       <Grid.RowDefinitions>
          <RowDefinition Height="Auto" />
@@ -23,9 +24,6 @@
                   <ColumnDefinition Width="*" />
                </Grid.ColumnDefinitions>
                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
@@ -75,19 +73,13 @@
                <TextBlock Grid.Row="3" Text="Info" />
                <TextBox Grid.Row="3" Grid.Column="1" Name="txtInfo" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
 
-               <TextBlock Grid.Row="4" Text="Approach" />
-               <TextBox Grid.Row="4" Grid.Column="1" Name="txtApproach" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+               <TextBlock Grid.Row="4" Text="Tags" />
+               <TextBox Grid.Row="4" Grid.Column="1" Name="txtTags" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
 
-               <TextBlock Grid.Row="5" Text="History" />
-               <TextBox Grid.Row="5" Grid.Column="1" Name="txtHistory" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+               <TextBlock Grid.Row="5" Text="Location" />
+               <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation" />
 
-               <TextBlock Grid.Row="6" Text="Tags" />
-               <TextBox Grid.Row="6" Grid.Column="1" Name="txtTags" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
-
-               <TextBlock Grid.Row="7" Text="Height" />
-               <TextBox Grid.Row="7" Grid.Column="1" Name="txtHeight" />
-
-               <ListBox Name="lstImages" Grid.Row="8" Grid.ColumnSpan="2" SelectionChanged="lstImages_SelectionChanged">
+               <ListBox Name="lstImages" Grid.Row="6" Grid.ColumnSpan="2" SelectionChanged="lstImages_SelectionChanged">
                   <ListBox.ItemTemplate>
                      <DataTemplate>
                         <Image Height="50" Width="50">
@@ -99,25 +91,7 @@
                   </ListBox.ItemTemplate>
                </ListBox>
 
-               <Button x:Name="btnAddImage" Grid.Row="9" Content="Add image" Click="btnAddImage_Click" />
-            </Grid>
-         </TabItem>
-         <TabItem Header="Location">
-            <Grid>
-               <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-               </Grid.ColumnDefinitions>
-               <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-               </Grid.RowDefinitions>
-
-               <TextBlock Grid.Row="0" Text="Lat" />
-               <TextBox Grid.Row="0" Grid.Column="1" Name="txtLat1" />
-               <TextBlock Grid.Row="0" Grid.Column="2" Text="Lon" />
-               <TextBox Grid.Row="0" Grid.Column="3" Name="txtLon1" />
+               <Button x:Name="btnAddImage" Grid.Row="7" Content="Add image" Click="btnAddImage_Click" />
             </Grid>
          </TabItem>
          <TabItem Header="Schema" IsEnabled="False" Name="tabSchema">

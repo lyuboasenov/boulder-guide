@@ -10,5 +10,7 @@ namespace ClimbingMap.Domain.Entities {
             return JsonSubtypesConverterBuilder.Of(typeof(Shape), "_type").Build();
          }
       }
+
+      public abstract void Draw(SkiaSharp.SKCanvas canvas, Size imageSize);
    }
 }

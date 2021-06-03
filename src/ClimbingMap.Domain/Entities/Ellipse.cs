@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ClimbingMap.Domain.Schema;
+using SkiaSharp;
 
 namespace ClimbingMap.Domain.Entities {
    public class Ellipse : Shape {
-      public SchemaPoint Center { get; set; } = new SchemaPoint();
-      public SchemaPoint Radius { get; set; } = new SchemaPoint();
+      public RelativePoint Center { get; set; } = new RelativePoint();
+      public RelativePoint Radius { get; set; } = new RelativePoint();
+
+      public override void Draw(SKCanvas canvas, Size imageSize) {
+         if (null != Center && null != Radius) {
+            canvas.DrawEllipse(Center.ToImagePoint(imageSize), Radius.ToImagePoint(imageSize));
+         }
+      }
    }
 }

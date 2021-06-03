@@ -92,7 +92,8 @@
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
           "JsonSubTypes": "1.8.0",
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.1",
+          "SkiaSharp": "2.80.2"
         },
         "compile": {
           "bin/placeholder/ClimbingMap.Domain.dll": {}

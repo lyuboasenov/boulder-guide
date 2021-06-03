@@ -1,4 +1,5 @@
 ﻿using ClimbingMap.Domain.Entities;
+using ClimbingMap.Domain.Schema;
 using Newtonsoft.Json;
 using SkiaSharp;
 using System;
@@ -16,8 +17,9 @@ namespace ClimbingMap.Wpf {
       private string path;
       private Schema selectedSchemas;
       private readonly List<Schema> schemas = new List<Schema>();
-      private readonly List<SchemaPoint> currentPath = new List<SchemaPoint>();
+      private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
+      private Domain.Entities.Size currentImageSize;
 
       public RouteWindow() {
          InitializeComponent();
@@ -34,8 +36,6 @@ namespace ClimbingMap.Wpf {
          txtId.Text = route.Id;
          txtName.Text = route.Name;
          txtInfo.Text = route.Info;
-         txtApproach.Text = route.Approach;
-         txtHistory.Text = route.History;
          txtTags.Text = string.Join(',', route.Tags);
          foreach (var item in lstGrade.Items) {
             if (item is ComboBoxItem ci &&
@@ -43,10 +43,8 @@ namespace ClimbingMap.Wpf {
                lstGrade.SelectedItem = item;
             }
          }
-         txtHeight.Text = route.Height.ToString();
 
-         txtLat1.Text = route.Location?.Latitude.ToString();
-         txtLon1.Text = route.Location?.Longitude.ToString();
+         txtLocation.Text = route.Location?.ToString();
 
          foreach (var schema in route.Schemas) {
             schema.Id = System.IO.Path.Combine(fi.Directory.FullName, schema.Id);
@@ -81,25 +79,18 @@ namespace ClimbingMap.Wpf {
             Id = txtId.Text,
             Name = txtName.Text,
             Info = txtInfo.Text,
-            Approach = txtApproach.Text,
-            History = txtHistory.Text,
             Difficulty = double.Parse((lstGrade.SelectedItem as ComboBoxItem).DataContext.ToString()),
             Tags = txtTags.Text.Split(',', StringSplitOptions.RemoveEmptyEntries)
          };
 
-         if (ushort.TryParse(txtHeight.Text, out ushort h)) {
-            result.Height = h;
+
+         if (txtLocation.Text.Length > 0) {
+            result.Location = new Location(txtLocation.Text);
+         } else {
+            result.Location = new Location();
          }
 
-         result.Location = new Location();
-         if (double.TryParse(txtLat1.Text, out double lat)) {
-            result.Location.Latitude = lat;
-         }
-         if (double.TryParse(txtLon1.Text, out double lon)) {
-            result.Location.Longitude = lon;
-         }
-
-         var name = result.Name.Replace(" ", "_").ToLowerInvariant();
+         var name = result.Id.Substring(result.Id.LastIndexOf('/') + 1).ToLowerInvariant();
          int counter = 0;
 
          var schemaList = new List<Schema>();
@@ -129,7 +120,7 @@ namespace ClimbingMap.Wpf {
 
          result.Schemas = schemaList.ToArray();
 
-         File.WriteAllText(System.IO.Path.Combine(saveDirectory.FullName, $"{name}.json"), JsonConvert.SerializeObject(result));
+         File.WriteAllText(System.IO.Path.Combine(saveDirectory.FullName, $"{name}.json"), JsonConvert.SerializeObject(result, Formatting.Indented));
       }
 
       private void lstImages_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -163,15 +154,15 @@ namespace ClimbingMap.Wpf {
       }
 
       private void skCanvas_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e) {
-         Size imageSize = new Size(0, 0);
+         currentImageSize = new Domain.Entities.Size();
 
          if (!string.IsNullOrEmpty(selectedSchemas?.Id)) {
-            using (var bitmap = SkiaSharpHelper.LoadBitmap(selectedSchemas?.Id, skCanvas.ActualWidth, skCanvas.ActualHeight))
+            using (var bitmap = SkiaSharpExtensions.LoadBitmap(selectedSchemas?.Id, skCanvas.ActualWidth, skCanvas.ActualHeight))
             using (var paint = new SKPaint {
                FilterQuality = SKFilterQuality.High, // high quality scaling
                IsAntialias = true
             }) {
-               imageSize = new Size(bitmap.Width, bitmap.Height);
+               currentImageSize = new Domain.Entities.Size(bitmap.Width, bitmap.Height);
                e.Surface.Canvas.DrawBitmap(bitmap, 0, 0, paint);
             }
          }
@@ -185,43 +176,22 @@ namespace ClimbingMap.Wpf {
          }
 
          foreach (Shape shape in shapes) {
-            if (shape is Domain.Entities.Path p && p.Points.Length > 0) {
-               SkiaSharpHelper.DrawPath(
-                  e.Surface.Canvas,
-                  p.Points.Select(p => new Point(p.X * imageSize.Width, p.Y * imageSize.Height)),
-                  System.Windows.Media.Colors.Red);
-            } else if (shape is Ellipse el && el.Center != null && el.Radius != null) {
-               SkiaSharpHelper.DrawEllipse(
-                  e.Surface.Canvas,
-                  new Point(el.Center.X * imageSize.Width, el.Center.Y * imageSize.Height),
-                  new Point(el.Radius.X * imageSize.Width, el.Radius.Y * imageSize.Height),
-                  System.Windows.Media.Colors.Red);
-            }
+            shape.Draw(e.Surface.Canvas, currentImageSize);
          }
       }
 
-
-
       private void skCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-         Point position = e.GetPosition(skCanvas);
-         position.X /= skCanvas.ActualWidth;
-         position.Y /= skCanvas.ActualHeight;
-
          if (currentShape is Ellipse el) {
-            el.Center = new SchemaPoint(position.X, position.Y);
+            el.Center = GetImageRelativePosition(e);
          }
       }
 
       private void skCanvas_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-         Point position = e.GetPosition(skCanvas);
-         position.X /= skCanvas.ActualWidth;
-         position.Y /= skCanvas.ActualHeight;
-
          if (currentShape is Ellipse el) {
-            el.Radius = new SchemaPoint(position.X, position.Y);
+            el.Radius = GetImageRelativePosition(e);
             btnAddEllipse.IsChecked = false;
          } else if (currentShape is Domain.Entities.Path p) {
-            currentPath.Add(new SchemaPoint(position.X, position.Y));
+            currentPath.Add(GetImageRelativePosition(e));
             p.Points = currentPath.ToArray();
             btnUndo.IsEnabled = true;
          }
@@ -230,20 +200,25 @@ namespace ClimbingMap.Wpf {
       }
 
       private void skCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e) {
-         Point position = e.GetPosition(skCanvas);
-         position.X /= skCanvas.ActualWidth;
-         position.Y /= skCanvas.ActualHeight;
-
          if (currentShape is Ellipse el) {
-            el.Radius = new SchemaPoint(position.X, position.Y);
+            el.Radius = GetImageRelativePosition(e);
          }
 
          skCanvas.InvalidateVisual();
       }
 
+      private RelativePoint GetImageRelativePosition(System.Windows.Input.MouseEventArgs e) {
+         Point position = e.GetPosition(skCanvas);
+         position.X /= currentImageSize.Width;
+         position.Y /= currentImageSize.Height;
+
+         return position.ToRelativePoint();
+      }
+
       private void btnAddPath_Checked(object sender, RoutedEventArgs e) {
          btnAddEllipse.IsChecked = false;
          currentShape = new Domain.Entities.Path();
+         currentPath.Clear();
       }
 
       private void btnAddPath_Unchecked(object sender, RoutedEventArgs e) {
