@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Forms;assembly=Mapsui.UI.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ClimbingMap.Mobile.Forms.Views.AreaDetailsPage">
+   <ScrollView>
+      <StackLayout>
+         <Label Text="{Binding Model.Name}" />
+         <Label Text="{Binding Model.Info}" />
+
+         <mapsui:MapView
+            x:Name="mapView"
+            Map="{Binding Map}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="Fill"
+            HeightRequest="{Binding ActualWidth, Source={RelativeSource Self}}"
+            BackgroundColor="Gray" />
+
+         <Label Text="{Binding Model.Access}" />
+         <Label Text="{Binding Model.History}" />
+         <Label Text="{Binding Model.Ethics}" />
+         <Label Text="{Binding Model.Accommodations}" />
+         <Label Text="{Binding Model.Restrictions}" />
+
+         <Label Text="Сектори" />
+         <ListView ItemsSource="{Binding Areas}" />
+
+         <Label Text="Маршрути" />
+         <ListView ItemsSource="{Binding Routes}" />
+
+      </StackLayout>
+   </ScrollView>
+
+</ContentPage>

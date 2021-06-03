@@ -5,7 +5,7 @@
     <link href="http://www.garmin.com">
       <text>Garmin International</text>
     </link>
-    <time>2021-06-02T11:27:48Z</time>
+    <time>2021-06-03T19:32:33Z</time>
     <bounds maxlat="42.705524582415819" maxlon="26.385793397203088" minlat="42.14489403180778" minlon="23.194313021376729"/>
   </metadata>
 
@@ -760,10 +760,14 @@
     <time>2021-06-02T07:35:26Z</time>
     <name>udri brusli</name>
     <cmt>udri brusli
+
 42.154785,23.410109
+
 N42.15470 E23.41020</cmt>
     <desc>udri brusli
+
 42.154785,23.410109
+
 N42.15470 E23.41020</desc>
     <sym>Pin, Green</sym>
     <extensions>
