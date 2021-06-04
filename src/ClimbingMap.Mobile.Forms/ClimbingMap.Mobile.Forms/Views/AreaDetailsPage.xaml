@@ -15,12 +15,20 @@
    </TabbedPage.Resources>
 
    <TabbedPage.ToolbarItems>
-      <ToolbarItem Text="{Binding Source={Static root:Strings.Download}}" Command="DownloadCommand" />
+      <ToolbarItem Text="{Binding Source={Static root:Strings.Download}}" Command="{Binding DownloadCommand}" />
    </TabbedPage.ToolbarItems>
+
+
 
    <ContentPage Title="{Binding Source={Static root:Strings.Info}}">
       <ScrollView>
          <StackLayout>
+            <ActivityIndicator
+               IsRunning="{Binding IsLoading}"
+               IsVisible="{Binding IsLoading}"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Color="Gray"/>
             <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
             <Label Text="{Binding Area.Info}" />
 

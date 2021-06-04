@@ -55,16 +55,6 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
 
       private async Task DownloadRoute(RouteInfo info) {
          await GetRoute(info, true);
-
-         Parallel.ForEach(info.Images ?? Enumerable.Empty<string>(), async (i) => {
-            using (var response = await httpClient.GetAsync(info.GetImageRemotePath(i))) {
-               response.EnsureSuccessStatusCode();
-
-               using (var stream = File.Open(info.GetImageLocalPath(i), FileMode.Create)) {
-                  await response.Content.CopyToAsync(stream);
-               }
-            }
-         });
       }
 
       private async Task<Domain.Entities.Route> GetRoute(RouteInfo info, bool download) {
@@ -80,6 +70,16 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
 
                using (var stream = File.Open(info.LocalPath, FileMode.Create)) {
                   await response.Content.CopyToAsync(stream);
+               }
+            }
+
+            foreach (var image in info.Images ?? Enumerable.Empty<string>()) {
+               using (var response = await httpClient.GetAsync(info.GetImageRemotePath(image))) {
+                  response.EnsureSuccessStatusCode();
+
+                  using (var stream = File.Open(info.GetImageLocalPath(image), FileMode.Create)) {
+                     await response.Content.CopyToAsync(stream);
+                  }
                }
             }
          }

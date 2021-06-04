@@ -24,6 +24,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
       private bool runLocationTracker = false;
 
       public ICommand DownloadCommand { get; }
+      public bool IsLoading { get; set; }
       public Area Area { get; set; }
       public AreaInfo Info { get; set; }
       public AreaInfo SelectedAreaInfo { get; set; }
@@ -56,7 +57,12 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
             stack.Push(info);
          } else {
             stack.Pop();
-            info = stack.Peek() as AreaInfo;
+            if (stack.Count == 0) {
+               NavigationService.GoBackToRootAsync();
+               return;
+            } else {
+               info = stack.Peek() as AreaInfo;
+            }
          }
 
          Task.Run(async () => await InitializeAsync(info));
@@ -88,6 +94,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
       }
 
       private async Task InitializeAsync(AreaInfo info) {
+         IsLoading = true;
 
          Info = info;
 
@@ -113,6 +120,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          } catch (Exception ex) {
             await HandleExceptionAsync(ex);
          }
+         IsLoading = false;
       }
 
       private void RunLocationTracker() {
@@ -130,8 +138,11 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
       }
 
       private async Task Download() {
+
          if (connectivity.NetworkAccess == NetworkAccess.Internet) {
+            IsLoading = true;
             await dataService.DownloadArea(Info);
+            IsLoading = false;
          } else {
             var dialogParams = new DialogParameters();
             dialogParams.Add(

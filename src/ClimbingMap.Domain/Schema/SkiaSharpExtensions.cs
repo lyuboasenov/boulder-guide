@@ -14,7 +14,7 @@ namespace ClimbingMap.Domain.Schema {
          return new SKPaint {
             Style = SKPaintStyle.Stroke,
             Color = color,
-            StrokeWidth = 0,
+            StrokeWidth = 5,
             StrokeCap = SKStrokeCap.Round,
             StrokeJoin = SKStrokeJoin.Round
          };
@@ -62,8 +62,8 @@ namespace ClimbingMap.Domain.Schema {
       }
 
       public static SKBitmap LoadBitmap(string bitmapPath, double width, double height) {
-         using (var input = File.OpenRead(bitmapPath))                 // load the file
-         using (var inputStream = new SKManagedStream(input))          // create a sream SkiaSharp uses
+         using (var input = File.OpenRead(bitmapPath))               // load the file
+         using (var inputStream = new SKManagedStream(input))    // create a stream SkiaSharp uses
          using (var codec = SKCodec.Create(inputStream)) {             // get the decoder
 
             var bitmap = SKBitmap.Decode(codec).HandleOrientation(codec.EncodedOrigin);

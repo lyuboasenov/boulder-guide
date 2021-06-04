@@ -181,7 +181,7 @@ namespace ClimbingMap.Wpf {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ClimbingMap.Wpf;V1.0.0.0;component/areawindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ClimbingMap.Wpf;component/areawindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\AreaWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

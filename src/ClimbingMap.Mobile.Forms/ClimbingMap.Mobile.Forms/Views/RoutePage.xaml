@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:localViews="clr-namespace:ClimbingMap.Mobile.Forms.Views"
             xmlns:root="clr-namespace:ClimbingMap.Mobile.Forms"
+            xmlns:viewModels="clr-namespace:ClimbingMap.Mobile.Forms.ViewModels"
             xmlns:converters="clr-namespace:ClimbingMap.Mobile.Forms.Converters"
             x:Class="ClimbingMap.Mobile.Forms.Views.RoutePage">
    <TabbedPage.Title>
@@ -19,16 +20,23 @@
    </TabbedPage.Resources>
 
    <ContentPage Title="{Binding Source={Static root:Strings.Info}}">
-      <ScrollView>
-         <StackLayout>
-            <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
-            <Label Text="{Binding Route.Info}" />
+      <StackLayout>
+         <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
+         <Label Text="{Binding Route.Info}" />
 
-            <ListView ItemsSource="{Binding Route.Schemas}">
-
-            </ListView>
-         </StackLayout>
-      </ScrollView>
+         <CarouselView ItemsSource="{Binding Route.Schemas}">
+            <CarouselView.ItemTemplate>
+               <DataTemplate>
+                  <localViews:SchemaView
+                           HorizontalOptions="CenterAndExpand"
+                           HeightRequest="{Binding Source={RelativeSource Self}, Path=Width}"
+                           Schema="{Binding}"
+                           RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
+                           />
+               </DataTemplate>
+            </CarouselView.ItemTemplate>
+         </CarouselView>
+      </StackLayout>
    </ContentPage>
    <ContentPage Title="{Binding Source={Static root:Strings.Map}}">
       <localViews:BindableMapView
