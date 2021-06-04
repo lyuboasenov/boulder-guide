@@ -4,34 +4,25 @@ using ClimbingMap.Mobile.Forms.Services.Maps;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
 namespace ClimbingMap.Mobile.Forms.ViewModels {
-   public class AreaDetailsPageViewModel : ViewModelBase {
-
-      private static Stack stack = new Stack();
+   public class RoutePageViewModel : ViewModelBase {
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
       private readonly IMapService mapService;
-      private readonly IGeolocation geolocation;
-      private readonly IPermissions permissions;
       private bool runLocationTracker = false;
 
-      public ICommand DownloadCommand { get; }
-      public Area Area { get; set; }
-      public AreaInfo Info { get; set; }
-      public AreaInfo SelectedAreaInfo { get; set; }
-      public RouteInfo SelectedRouteInfo { get; set; }
+      public Route Route { get; set; }
+      public RouteInfo Info { get; set; }
       public Mapsui.Map Map { get; set; }
       public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
 
-      public AreaDetailsPageViewModel(
+      public RoutePageViewModel(
          INavigationService navigationService,
          IDataService dataService,
          IConnectivity connectivity,
@@ -39,27 +30,23 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          IMapService mapService,
          IGeolocation geolocation,
          IPermissions permissions) :
-         base (navigationService, dialogService) {
+         base(navigationService, dialogService) {
          this.dataService = dataService;
          this.connectivity = connectivity;
          this.mapService = mapService;
          this.geolocation = geolocation;
          this.permissions = permissions;
-
-         DownloadCommand = new Command(async () => await Download());
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
          base.OnNavigatedTo(parameters);
 
-         if (parameters.TryGetValue<AreaInfo>(ParameterKeys.AreaInfo, out AreaInfo info)) {
-            stack.Push(info);
+         if (parameters.TryGetValue<RouteInfo>(ParameterKeys.RouteInfo, out RouteInfo info)) {
+            Task.Run(async () => await InitializeAsync(info));
          } else {
-            stack.Pop();
-            info = stack.Peek() as AreaInfo;
+            Task.Run(async () => await NavigationService.GoBackAsync());
          }
-
-         Task.Run(async () => await InitializeAsync(info));
+         runLocationTracker = true;
       }
 
       public override void OnNavigatedFrom(INavigationParameters parameters) {
@@ -67,46 +54,25 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          runLocationTracker = false;
       }
 
-      public void OnSelectedAreaInfoChanged() {
-         NavigationParameters parameters = new NavigationParameters();
-         parameters.Add(AreaDetailsPageViewModel.ParameterKeys.AreaInfo, SelectedAreaInfo);
-
-         NavigationService.NavigateAsync($"{AreaDetailsPageViewModel.View}", parameters);
-      }
-
-      public void OnSelectedRouteInfoChanged() {
-         NavigationParameters parameters = new NavigationParameters();
-         parameters.Add(RoutePageViewModel.ParameterKeys.RouteInfo, SelectedRouteInfo);
-
-         NavigationService.NavigateAsync($"{RoutePageViewModel.View}", parameters);
-      }
-
-      public const string View = "AreaDetailsPage";
-
-      public static class ParameterKeys {
-         public const string AreaInfo = "AreaInfo";
-      }
-
-      private async Task InitializeAsync(AreaInfo info) {
-
+      private async Task InitializeAsync(RouteInfo info) {
          Info = info;
 
          try {
             if (Info.IsOffline) {
-               Area = await dataService.GetOfflineArea(Info);
+               Route = await dataService.GetOfflineRoute(Info);
             } else if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-               Area = await dataService.GetArea(Info);
+               Route = await dataService.GetRoute(Info);
             } else {
                var dialogParams = new DialogParameters();
                dialogParams.Add(
                   DialogPageViewModel.ParameterKeys.Message,
-                  Strings.UnableToDownloadArea);
+                  Strings.UnableToDownloadRoute);
                dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
 
                await DialogService.ShowDialogAsync("Unable to download", dialogParams);
             }
 
-            Map = mapService.GetMap(Area, Info);
+            Map = mapService.GetMap(Route, Info);
             if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
                RunLocationTracker();
             }
@@ -129,18 +95,12 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          });
       }
 
-      private async Task Download() {
-         if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-            await dataService.DownloadArea(Info);
-         } else {
-            var dialogParams = new DialogParameters();
-            dialogParams.Add(
-               DialogPageViewModel.ParameterKeys.Message,
-               Strings.UnableToDownloadEntireArea);
-            dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
+      public const string View = "RoutePage";
+      private readonly IGeolocation geolocation;
+      private readonly IPermissions permissions;
 
-            await DialogService.ShowDialogAsync("Unable to download", dialogParams);
-         }
+      public static class ParameterKeys {
+         public const string RouteInfo = "RouteInfo";
       }
    }
 }

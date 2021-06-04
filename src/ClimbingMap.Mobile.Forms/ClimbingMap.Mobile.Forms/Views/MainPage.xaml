@@ -2,11 +2,36 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClimbingMap.Mobile.Forms.Views.MainPage"
+             xmlns:root="clr-namespace:ClimbingMap.Mobile.Forms"
              Title="{Binding Title}">
+   <ContentPage.ToolbarItems>
+      <ToolbarItem Text="{Binding Source={Static root:Strings.Reload}}" Command="{Binding ReloadCommand}" />
+   </ContentPage.ToolbarItems>
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-      <Button Text="Load" Command="{Binding Load}" />
-   </StackLayout>
+   <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <ActivityIndicator
+         IsRunning="{Binding IsLoading}"
+         IsVisible="{Binding IsLoading}"
+         HorizontalOptions="Center"
+         Color="Gray"/>
+      <Label Text="{Binding Source={Static root:Strings.Hello}}" HorizontalOptions="CenterAndExpand" FontSize="Title" />
+      <ListView
+         Grid.Row="1"
+         ItemsSource="{Binding AreaInfos}"
+         SelectedItem="{Binding SelectedAreaInfo}"
+         Margin="10">
+         <ListView.ItemTemplate>
+            <DataTemplate>
+               <ViewCell>
+                  <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+               </ViewCell>
+            </DataTemplate>
+         </ListView.ItemTemplate>
+      </ListView>
+   </Grid>
 
 </ContentPage>

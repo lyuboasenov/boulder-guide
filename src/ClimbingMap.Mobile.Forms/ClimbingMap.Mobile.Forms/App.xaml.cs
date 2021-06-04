@@ -1,3 +1,5 @@
+using ClimbingMap.Mobile.Forms.Services.Data;
+using ClimbingMap.Mobile.Forms.Services.Maps;
 using ClimbingMap.Mobile.Forms.ViewModels;
 using ClimbingMap.Mobile.Forms.Views;
 using Prism;
@@ -26,10 +28,19 @@ namespace ClimbingMap.Mobile.Forms
       {
          containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
          containerRegistry.RegisterSingleton<IFileSystem, FileSystemImplementation>();
+         containerRegistry.RegisterSingleton<IConnectivity, ConnectivityImplementation>();
+         containerRegistry.RegisterSingleton<IGeolocation, GeolocationImplementation>();
+         containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
+
+         containerRegistry.RegisterSingleton<IDataService, DataService>();
+         containerRegistry.RegisterSingleton<IMapService, MapService>();
 
          containerRegistry.RegisterForNavigation<NavigationPage>();
          containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
          containerRegistry.RegisterForNavigation<AreaDetailsPage, AreaDetailsPageViewModel>();
+
+         containerRegistry.RegisterDialog<DialogPage, DialogPageViewModel>();
+         containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
       }
    }
 }

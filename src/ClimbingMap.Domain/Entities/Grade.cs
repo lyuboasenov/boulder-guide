@@ -59,7 +59,7 @@ namespace ClimbingMap.Domain.Entities {
       };
       private readonly double difficulty;
 
-      internal Grade(double difficulty) {
+      public Grade(double difficulty) {
          this.difficulty = difficulty;
       }
 
@@ -87,7 +87,7 @@ namespace ClimbingMap.Domain.Entities {
          //   }
          //}
 
-         for (int i = container.Count; i >= 0; i--) {
+         for (int i = container.Count - 1; i >= 0; i--) {
             var kv = container.ElementAt(i);
             if (kv.Key <= difficulty) {
                return kv.Value;

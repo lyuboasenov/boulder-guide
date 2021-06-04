@@ -1,47 +1,88 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using ClimbingMap.Mobile.Forms.Services.Data;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
+using Xamarin.Forms;
 
 namespace ClimbingMap.Mobile.Forms.ViewModels {
    public class MainPageViewModel : ViewModelBase {
-      private readonly IFileSystem fileSystem;
 
-      public MainPageViewModel(INavigationService navigationService, IFileSystem fileSystem)
-          : base(navigationService) {
-         Title = "Main Page";
-         this.fileSystem = fileSystem;
+      public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
+      public AreaInfo SelectedAreaInfo { get; set; }
+      public bool IsLoading { get; set; }
+
+      public ICommand ReloadCommand { get; }
+
+      private readonly IDataService dataService;
+      private readonly IConnectivity connectivity;
+      private readonly IPermissions permissions;
+
+      public MainPageViewModel(
+         INavigationService navigationService,
+         IDialogService dialogService,
+         IDataService dataService,
+         IConnectivity connectivity,
+         IPermissions permissions)
+          : base(navigationService, dialogService) {
+
+         ReloadCommand = new Command(async () => await Reload());
+
+         Title = Strings.ClimbingAreas;
+         this.dataService = dataService;
+         this.connectivity = connectivity;
+         this.permissions = permissions;
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
          base.OnNavigatedTo(parameters);
 
-         var dict = new Dictionary<string, string>() {
-            {
-               "rila-monastery", "https://raw.githubusercontent.com/lyuboasenov/climbing-map-rila-monastery/main/index.json"
-            }
-         };
+         ReloadCommand.Execute(null);
 
-         foreach (var kv in dict) {
-            var repoDir = Path.Combine(fileSystem.AppDataDirectory, kv.Key);
+         Task.Run(async () => {
+            await InitializeAsync();
+         });
+      }
 
-            using (var httpClient = new HttpClient()) {
-               using (var response = httpClient.GetAsync(kv.Value).Result) {
-                  response.EnsureSuccessStatusCode();
+      public void OnSelectedAreaInfoChanged() {
+         NavigationParameters parameters = new NavigationParameters();
+         parameters.Add(AreaDetailsPageViewModel.ParameterKeys.AreaInfo, SelectedAreaInfo);
 
-                  var indexPath = Path.Combine(repoDir, "index.json");
-                  using (var stream = File.Open(indexPath, FileMode.CreateNew)) {
-                     response.Content.CopyToAsync(stream).Wait();
-                  }
-               }
-            }
+         NavigationService.NavigateAsync($"{AreaDetailsPageViewModel.View}", parameters);
+      }
+      private async Task InitializeAsync() {
+         var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+         if (status != PermissionStatus.Granted) {
+            status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
          }
+      }
+
+      private async Task Reload() {
+         var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+         if (status != PermissionStatus.Granted) {
+            status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
+         }
+
+         IsLoading = true;
+         AreaInfos.Clear();
+
+         IEnumerable<AreaInfo> areas;
+         if (connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.Internet) {
+            areas = await dataService.GetOfflineAreas();
+         } else {
+            areas = await dataService.GetAreas();
+         }
+
+         foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
+            AreaInfos.Add(area);
+         }
+         IsLoading = false;
       }
    }
 }
