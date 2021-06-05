@@ -80,14 +80,14 @@ namespace ClimbingMap.Mobile.Forms.Services.Maps {
             Transformation = new MinimalTransformation()
          };
 
-         if (File.Exists(info.MapLocalPath)) {
+         if (connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet) {
+            map.Layers.Add(OpenStreetMap.CreateTileLayer());
+         } else if (File.Exists(info.MapLocalPath)) {
             var mbTilesTileSource =
                new MbTilesTileSource(
                   new SQLiteConnectionString(info.MapLocalPath, true),
-                  type:MbTilesType.BaseLayer);
+                  type: MbTilesType.BaseLayer);
             map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
-         } else if (connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet) {
-            map.Layers.Add(OpenStreetMap.CreateTileLayer());
          }
 
          return map;
