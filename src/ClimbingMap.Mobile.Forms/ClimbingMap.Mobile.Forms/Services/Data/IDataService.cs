@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClimbingMap.Mobile.Forms.Services.Data {
    public interface IDataService {
-      Task<IEnumerable<AreaInfo>> GetAreas();
+      Task<IEnumerable<AreaInfo>> GetAreas(bool force);
       Task<IEnumerable<AreaInfo>> GetOfflineAreas();
       Task<Area> GetOfflineArea(AreaInfo info);
       Task<Area> GetArea(AreaInfo info);

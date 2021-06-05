@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using ClimbingMap.Mobile.Forms.Views;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -46,7 +47,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
             DialogPageViewModel.ParameterKeys.Message, ex.Message);
          dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
 
-         await DialogService.ShowDialogAsync("Error", dialogParams);
+         await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
       }
    }
 }

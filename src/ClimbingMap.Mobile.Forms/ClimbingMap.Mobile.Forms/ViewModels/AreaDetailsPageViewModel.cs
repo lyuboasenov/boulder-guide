@@ -1,6 +1,7 @@
 ﻿using ClimbingMap.Domain.Entities;
 using ClimbingMap.Mobile.Forms.Services.Data;
 using ClimbingMap.Mobile.Forms.Services.Maps;
+using ClimbingMap.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
@@ -83,6 +84,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
       public void OnSelectedRouteInfoChanged() {
          NavigationParameters parameters = new NavigationParameters();
          parameters.Add(RoutePageViewModel.ParameterKeys.RouteInfo, SelectedRouteInfo);
+         parameters.Add(RoutePageViewModel.ParameterKeys.AreaInfo, Info);
 
          NavigationService.NavigateAsync($"{RoutePageViewModel.View}", parameters);
       }
@@ -110,7 +112,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
                   Strings.UnableToDownloadArea);
                dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
 
-               await DialogService.ShowDialogAsync("Unable to download", dialogParams);
+               await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
             }
 
             Map = mapService.GetMap(Area, Info);
@@ -150,7 +152,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
                Strings.UnableToDownloadEntireArea);
             dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
 
-            await DialogService.ShowDialogAsync("Unable to download", dialogParams);
+            await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
          }
       }
    }

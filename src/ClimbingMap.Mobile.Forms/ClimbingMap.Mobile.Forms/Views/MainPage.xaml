@@ -3,9 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClimbingMap.Mobile.Forms.Views.MainPage"
              xmlns:root="clr-namespace:ClimbingMap.Mobile.Forms"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              Title="{Binding Title}">
+   <ContentPage.Resources>
+      <system:Boolean x:Key="true">True</system:Boolean>
+   </ContentPage.Resources>
    <ContentPage.ToolbarItems>
-      <ToolbarItem Text="{Binding Source={Static root:Strings.Reload}}" Command="{Binding ReloadCommand}" />
+      <ToolbarItem
+         Text="{Binding Source={Static root:Strings.Reload}}"
+         Command="{Binding ReloadCommand}"
+         CommandParameter="{x:StaticResource true}"/>
    </ContentPage.ToolbarItems>
 
    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">

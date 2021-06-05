@@ -22,12 +22,12 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
          this.fileSystem = fileSystem;
       }
 
-      public Task<IEnumerable<AreaInfo>> GetAreas() {
-         return GetAreas(true);
+      public Task<IEnumerable<AreaInfo>> GetAreas(bool force) {
+         return GetAreas(true, force);
       }
 
       public Task<IEnumerable<AreaInfo>> GetOfflineAreas() {
-         return GetAreas(false);
+         return GetAreas(false, false);
       }
 
       public Task<Domain.Entities.Area> GetOfflineArea(AreaInfo info) {
@@ -59,28 +59,16 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
 
       private async Task<Domain.Entities.Route> GetRoute(RouteInfo info, bool download) {
          if (download) {
-            using (var response = await httpClient.GetAsync(info.RemotePath)) {
-               response.EnsureSuccessStatusCode();
+            var fileInfo = new FileInfo(info.LocalPath);
 
-               var fileInfo = new FileInfo(info.LocalPath);
-
-               if (!fileInfo.Directory.Exists) {
-                  fileInfo.Directory.Create();
-               }
-
-               using (var stream = File.Open(info.LocalPath, FileMode.Create)) {
-                  await response.Content.CopyToAsync(stream);
-               }
+            if (!fileInfo.Directory.Exists) {
+               fileInfo.Directory.Create();
             }
 
-            foreach (var image in info.Images ?? Enumerable.Empty<string>()) {
-               using (var response = await httpClient.GetAsync(info.GetImageRemotePath(image))) {
-                  response.EnsureSuccessStatusCode();
+            await DownloadFile(info.RemotePath, info.LocalPath);
 
-                  using (var stream = File.Open(info.GetImageLocalPath(image), FileMode.Create)) {
-                     await response.Content.CopyToAsync(stream);
-                  }
-               }
+            foreach (var image in info.Images ?? Enumerable.Empty<string>()) {
+               await DownloadFile(info.GetImageRemotePath(image), info.GetImageLocalPath(image));
             }
          }
 
@@ -94,19 +82,13 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
 
       private async Task<Domain.Entities.Area> GetArea(AreaInfo info, bool download) {
          if (download) {
-            using (var response = await httpClient.GetAsync(info.RemotePath)) {
-               response.EnsureSuccessStatusCode();
+            var fileInfo = new FileInfo(info.LocalPath);
 
-               var fileInfo = new FileInfo(info.LocalPath);
-
-               if (!fileInfo.Directory.Exists) {
-                  fileInfo.Directory.Create();
-               }
-
-               using (var stream = File.Open(info.LocalPath, FileMode.Create)) {
-                  await response.Content.CopyToAsync(stream);
-               }
+            if (!fileInfo.Directory.Exists) {
+               fileInfo.Directory.Create();
             }
+
+            await DownloadFile(info.RemotePath, info.LocalPath);
          }
 
          if (!File.Exists(info.LocalPath)) {
@@ -117,7 +99,7 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
             File.ReadAllText(info.LocalPath));
       }
 
-      private async Task<IEnumerable<AreaInfo>> GetAreas(bool download) {
+      private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
          var result = new List<AreaInfo>();
          foreach (var kv in areaAddresses) {
             var repoDir = Path.Combine(fileSystem.AppDataDirectory, kv.Key);
@@ -128,14 +110,8 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
 
             var localIndexPath = Path.Combine(repoDir, "index.json");
 
-            if (download) {
-               using (var response = await httpClient.GetAsync(kv.Value + "/index.json")) {
-                  response.EnsureSuccessStatusCode();
-
-                  using (var stream = File.Open(localIndexPath, FileMode.Create)) {
-                     await response.Content.CopyToAsync(stream);
-                  }
-               }
+            if (download && !File.Exists(localIndexPath) || force) {
+               await DownloadFile(kv.Value + "/index.json", localIndexPath);
             }
 
             if (!File.Exists(localIndexPath)) {
@@ -143,8 +119,16 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
             }
 
             var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(localIndexPath));
+            index.SetRoots(kv.Value, repoDir);
+
+            if (!string.IsNullOrEmpty(index.Map)) {
+               if (download && !File.Exists(index.MapLocalPath) || force) {
+                  await DownloadFile(index.MapRemotePath, index.MapLocalPath);
+               }
+            }
 
             SetIsOfflineAndRoots(index, kv.Value, repoDir);
+            index.IsOffline = true;
 
             result.Add(index);
          }
@@ -155,7 +139,7 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
       private void SetIsOfflineAndRoots(AreaInfo index, string remoteRoot, string localRoot) {
 
          index.SetRoots(remoteRoot, localRoot);
-         bool isOffline = File.Exists(index.LocalPath);
+         bool isOffline = File.Exists(index.LocalPath) && File.Exists(index.MapLocalPath);
 
          foreach (var area in index.Areas ?? Enumerable.Empty<AreaInfo>()) {
             SetIsOfflineAndRoots(area, remoteRoot, localRoot);
@@ -167,12 +151,22 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
             routeInfo.IsOffline = File.Exists(routeInfo.LocalPath);
 
             foreach (var img in routeInfo.Images ?? Enumerable.Empty<string>()) {
-               routeInfo.IsOffline = routeInfo.IsOffline && File.Exists(Path.Combine(localRoot, img));
+               routeInfo.IsOffline = routeInfo.IsOffline && File.Exists(routeInfo.GetImageLocalPath(img));
             }
             isOffline = isOffline && routeInfo.IsOffline;
          }
 
          index.IsOffline = isOffline;
+      }
+
+      private async Task DownloadFile(string remotePath, string localPath) {
+         using (var response = await httpClient.GetAsync(remotePath)) {
+            response.EnsureSuccessStatusCode();
+
+            using (var stream = File.Open(localPath, FileMode.Create)) {
+               await response.Content.CopyToAsync(stream);
+            }
+         }
       }
    }
 }

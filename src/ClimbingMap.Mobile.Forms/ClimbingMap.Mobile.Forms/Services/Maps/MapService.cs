@@ -1,4 +1,5 @@
 ﻿using BruTile;
+using BruTile.MbTiles;
 using BruTile.Predefined;
 using BruTile.Web;
 using ClimbingMap.Domain.Entities;
@@ -11,20 +12,32 @@ using Mapsui.Providers;
 using Mapsui.Styles;
 using Mapsui.Utilities;
 using Mapsui.Widgets.ScaleBar;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Xamarin.Essentials.Interfaces;
 
 namespace ClimbingMap.Mobile.Forms.Services.Maps {
    public class MapService : IMapService {
+      private readonly IConnectivity connectivity;
+
+      public MapService(IConnectivity connectivity) {
+         this.connectivity = connectivity;
+      }
+
       public Map GetMap(Area area, AreaInfo info) {
-         var map = GetMap();
+         var map = GetMap(info);
 
          // Add area outline
          var polygonLayer = CreateOutlineLayer(area);
          map.Layers.Add(polygonLayer);
-         map.Home = n => n.NavigateTo(polygonLayer.Envelope.Centroid, map.Resolutions[16]);
+         map.Home = n =>
+            n.NavigateTo(
+               polygonLayer.Envelope.Centroid,
+               10);
 
          // Add area routes
          if ((info.Routes?.Length ?? 0) > 0) {
@@ -34,12 +47,14 @@ namespace ClimbingMap.Mobile.Forms.Services.Maps {
          return map;
       }
 
-      public Map GetMap(Route route, RouteInfo info) {
-         var map = GetMap();
+      public Map GetMap(Route route, AreaInfo info) {
+         var map = GetMap(info);
 
          var routeLayer = CreateRouteLayer(route);
          map.Layers.Add(routeLayer);
-         map.Home = n => n.NavigateTo(routeLayer.Envelope.Centroid, map.Resolutions[16]);
+         map.Home = n =>
+            n.NavigateTo(
+               routeLayer.Envelope.Centroid, 1);
 
          return map;
       }
@@ -59,17 +74,24 @@ namespace ClimbingMap.Mobile.Forms.Services.Maps {
          };
       }
 
-      private Map GetMap() {
+      private Map GetMap(AreaInfo info) {
          var map = new Map {
             CRS = "EPSG:3857",
             Transformation = new MinimalTransformation()
          };
 
-         map.Layers.Add(OpenStreetMap.CreateTileLayer());
+         if (File.Exists(info.MapLocalPath)) {
+            var mbTilesTileSource =
+               new MbTilesTileSource(
+                  new SQLiteConnectionString(info.MapLocalPath, true),
+                  type:MbTilesType.BaseLayer);
+            map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
+         } else if (connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet) {
+            map.Layers.Add(OpenStreetMap.CreateTileLayer());
+         }
 
          return map;
       }
-
 
       private ILayer CreateRoutesLayer(AreaInfo info) {
          var features = new List<IFeature>();

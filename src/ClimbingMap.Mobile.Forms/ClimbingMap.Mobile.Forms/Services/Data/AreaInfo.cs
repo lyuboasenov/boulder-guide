@@ -3,6 +3,20 @@
       public AreaInfo[] Areas { get; set; }
       public RouteInfo[] Routes { get; set; }
 
+      public string Map { get; set; }
+
+      public string MapLocalPath {
+         get {
+            return GetLocalPath(Map);
+         }
+      }
+
+      public string MapRemotePath {
+         get {
+            return GetRemotePath(Map);
+         }
+      }
+
 
       public bool HasAreas {
          get {

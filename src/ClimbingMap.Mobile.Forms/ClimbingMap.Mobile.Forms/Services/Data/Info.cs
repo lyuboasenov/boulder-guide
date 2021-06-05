@@ -39,10 +39,16 @@ namespace ClimbingMap.Mobile.Forms.Services.Data {
       }
 
       protected string GetRemotePath(string relativePath) {
+         if (string.IsNullOrEmpty(relativePath)) {
+            return string.Empty;
+         }
          return remoteRoot.Trim('/') + "/" + relativePath.Trim('/');
       }
 
       protected string GetLocalPath(string relativePath) {
+         if (string.IsNullOrEmpty(relativePath)) {
+            return string.Empty;
+         }
          return Path.Combine(localRoot, relativePath.Trim('/'));
       }
    }

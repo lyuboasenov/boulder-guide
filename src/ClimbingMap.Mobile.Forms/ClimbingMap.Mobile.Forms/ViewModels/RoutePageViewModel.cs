@@ -1,6 +1,7 @@
 ﻿using ClimbingMap.Domain.Entities;
 using ClimbingMap.Mobile.Forms.Services.Data;
 using ClimbingMap.Mobile.Forms.Services.Maps;
+using ClimbingMap.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
@@ -19,6 +20,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
 
       public Route Route { get; set; }
       public RouteInfo Info { get; set; }
+      public AreaInfo AreaInfo { get; set; }
       public Mapsui.Map Map { get; set; }
       public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
 
@@ -41,8 +43,9 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
       public override void OnNavigatedTo(INavigationParameters parameters) {
          base.OnNavigatedTo(parameters);
 
-         if (parameters.TryGetValue<RouteInfo>(ParameterKeys.RouteInfo, out RouteInfo info)) {
-            Task.Run(async () => await InitializeAsync(info));
+         if (parameters.TryGetValue(ParameterKeys.RouteInfo, out RouteInfo info) &&
+            parameters.TryGetValue(ParameterKeys.AreaInfo, out AreaInfo areaInfo)) {
+            Task.Run(async () => await InitializeAsync(info, areaInfo));
          } else {
             Task.Run(async () => await NavigationService.GoBackAsync());
          }
@@ -54,8 +57,9 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          runLocationTracker = false;
       }
 
-      private async Task InitializeAsync(RouteInfo info) {
+      private async Task InitializeAsync(RouteInfo info, AreaInfo areaInfo) {
          Info = info;
+         AreaInfo = areaInfo;
 
          try {
             if (Info.IsOffline) {
@@ -69,10 +73,10 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
                   Strings.UnableToDownloadRoute);
                dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
 
-               await DialogService.ShowDialogAsync("Unable to download", dialogParams);
+               await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
             }
 
-            Map = mapService.GetMap(Route, Info);
+            Map = mapService.GetMap(Route, AreaInfo);
             if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
                RunLocationTracker();
             }
@@ -101,6 +105,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
 
       public static class ParameterKeys {
          public const string RouteInfo = "RouteInfo";
+         public const string AreaInfo = "AreaInfo";
       }
    }
 }

@@ -32,7 +32,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          IPermissions permissions)
           : base(navigationService, dialogService) {
 
-         ReloadCommand = new Command(async () => await Reload());
+         ReloadCommand = new Command(async (f) => await Reload((bool)f));
 
          Title = Strings.ClimbingAreas;
          this.dataService = dataService;
@@ -43,7 +43,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
       public override void OnNavigatedTo(INavigationParameters parameters) {
          base.OnNavigatedTo(parameters);
 
-         ReloadCommand.Execute(null);
+         ReloadCommand.Execute(false);
 
          Task.Run(async () => {
             await InitializeAsync();
@@ -63,7 +63,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          }
       }
 
-      private async Task Reload() {
+      private async Task Reload(bool force) {
          var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
          if (status != PermissionStatus.Granted) {
             status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
@@ -76,7 +76,7 @@ namespace ClimbingMap.Mobile.Forms.ViewModels {
          if (connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.Internet) {
             areas = await dataService.GetOfflineAreas();
          } else {
-            areas = await dataService.GetAreas();
+            areas = await dataService.GetAreas(force);
          }
 
          foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
