@@ -5,7 +5,7 @@
     <link href="http://www.garmin.com">
       <text>Garmin International</text>
     </link>
-    <time>2021-06-03T19:32:33Z</time>
+    <time>2021-06-06T09:16:22Z</time>
     <bounds maxlat="42.705524582415819" maxlon="26.385793397203088" minlat="42.14489403180778" minlon="23.194313021376729"/>
   </metadata>
 
@@ -179,12 +179,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154760034754872" lon="23.410402005538344">
-    <ele>1509</ele>
-    <time>2021-06-02T07:32:00Z</time>
-    <name>bezdnata</name>
-    <cmt>bezdnata</cmt>
-    <desc>bezdnata</desc>
+  <wpt lat="42.154698511585593" lon="23.410397227853537">
+    <ele>1505.97</ele>
+    <time>2021-06-05T13:37:14Z</time>
+    <name>Bezdnata1</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -211,12 +209,55 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154530035331845" lon="23.410512981936336">
-    <ele>1511</ele>
-    <time>2021-06-02T07:23:23Z</time>
-    <name>compressor</name>
-    <cmt>compressor</cmt>
-    <desc>compressor</desc>
+  <wpt lat="42.151583377271891" lon="23.412967370823026">
+    <ele>1479.47</ele>
+    <time>2021-06-05T14:07:10Z</time>
+    <name>Central park</name>
+    <sym>Pin, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154665570706129" lon="23.410576684400439">
+    <ele>1524.4200000000001</ele>
+    <time>2021-06-05T13:03:32Z</time>
+    <name>Cepka sled ice age</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154485275968909" lon="23.411052441224456">
+    <ele>1521.3099999999999</ele>
+    <time>2021-06-05T13:00:24Z</time>
+    <name>Chupi kupi, noktorezachka</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.15466951020062" lon="23.410204192623496">
+    <ele>1498.6600000000001</ele>
+    <time>2021-06-05T13:39:40Z</time>
+    <name>Compressor1</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -245,6 +286,21 @@
     </extensions>
   </wpt>
 
+  <wpt lat="42.152505805715919" lon="23.379415115341544">
+    <ele>1339.6700000000001</ele>
+    <time>2021-06-05T20:35:43Z</time>
+    <name>Crimposa1</name>
+    <sym>Pin, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Gorata</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
   <wpt lat="42.227600030601025" lon="23.546299980953336">
     <ele>1360</ele>
     <time>2021-06-02T06:48:36Z</time>
@@ -262,12 +318,55 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154987016692758" lon="23.410303015261889">
-    <ele>1500</ele>
-    <time>2021-06-02T07:27:26Z</time>
-    <name>gang bang</name>
-    <cmt>gang bang</cmt>
-    <desc>gang bang</desc>
+  <wpt lat="42.151889819651842" lon="23.412114260718226">
+    <ele>1481.2</ele>
+    <time>2021-06-05T14:09:04Z</time>
+    <name>Do central park</name>
+    <sym>Pin, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154219569638371" lon="23.409981485456228">
+    <ele>1480.6400000000001</ele>
+    <time>2021-06-05T13:58:39Z</time>
+    <name>El corazon</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154932199046016" lon="23.410198828205466">
+    <ele>1511.5599999999999</ele>
+    <time>2021-06-05T13:21:39Z</time>
+    <name>Gang bang1</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154361810535192" lon="23.410916067659855">
+    <ele>1501.9100000000001</ele>
+    <time>2021-06-05T12:48:13Z</time>
+    <name>Gips</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -296,12 +395,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154210936278105" lon="23.41001627035439">
-    <ele>1486.1199999999999</ele>
-    <time>2021-05-22T15:03:27Z</time>
-    <name>Gush, El corason</name>
-    <cmt>Gush, El corason</cmt>
-    <desc>Gush, El corason</desc>
+  <wpt lat="42.154996320605278" lon="23.410796290263534">
+    <ele>1523.95</ele>
+    <time>2021-06-05T13:06:54Z</time>
+    <name>Hei momche</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -330,6 +427,21 @@
     </extensions>
   </wpt>
 
+  <wpt lat="42.154546966776252" lon="23.410841636359692">
+    <ele>1529.4200000000001</ele>
+    <time>2021-06-05T13:02:18Z</time>
+    <name>Ice age</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
   <wpt lat="42.589722219854593" lon="23.194722225889564">
     <ele>1365</ele>
     <time>2021-06-02T07:14:21Z</time>
@@ -347,12 +459,25 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.150700008496642" lon="23.41630001552403">
-    <ele>1579</ele>
-    <time>2021-06-02T06:50:46Z</time>
-    <name>Jaba</name>
-    <cmt>Jaba</cmt>
-    <desc>Jaba</desc>
+  <wpt lat="42.150438660755754" lon="23.416098933666945">
+    <ele>1508.6900000000001</ele>
+    <time>2021-06-05T14:17:47Z</time>
+    <name>Jaba orux</name>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Tunelite</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.150583164766431" lon="23.415921572595835">
+    <ele>1493.05</ele>
+    <time>2021-06-05T14:14:14Z</time>
+    <name>Jar jar</name>
     <sym>Flag, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -376,6 +501,21 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Mosta</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154189981520176" lon="23.409298192709684">
+    <ele>1476.3</ele>
+    <time>2021-06-05T14:00:08Z</time>
+    <name>Kalinari</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -415,12 +555,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154761962592602" lon="23.410418014973402">
-    <ele>2150</ele>
-    <time>2021-06-02T07:29:38Z</time>
-    <name>kilera</name>
-    <cmt>kilera</cmt>
-    <desc>kilera</desc>
+  <wpt lat="42.154505560174584" lon="23.410533014684916">
+    <ele>1497.0999999999999</ele>
+    <time>2021-06-05T13:41:46Z</time>
+    <name>Kilera1</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -466,12 +604,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154760034754872" lon="23.410396976396441">
-    <ele>1500</ele>
-    <time>2021-06-02T07:24:03Z</time>
-    <name>maskata</name>
-    <cmt>maskata</cmt>
-    <desc>maskata</desc>
+  <wpt lat="42.154622320085764" lon="23.410466713830829">
+    <ele>1502.8199999999999</ele>
+    <time>2021-06-05T13:38:32Z</time>
+    <name>Maskata1</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -483,12 +619,25 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154674958437681" lon="23.410584982484579">
-    <ele>1525</ele>
-    <time>2021-06-02T07:39:45Z</time>
-    <name>mudi waters</name>
-    <cmt>mudi waters</cmt>
-    <desc>mudi waters</desc>
+  <wpt lat="42.151430826634169" lon="23.413060493767262">
+    <ele>1474.05</ele>
+    <time>2021-06-05T14:06:05Z</time>
+    <name>Midnight</name>
+    <sym>Pin, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154791299253702" lon="23.41053762473166">
+    <ele>1506.97</ele>
+    <time>2021-06-05T13:36:00Z</time>
+    <name>Muddy waters</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -506,6 +655,21 @@
     <name>Muha v glavata</name>
     <cmt>Muha v glavata</cmt>
     <desc>Muha v glavata</desc>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154402965679765" lon="23.410829566419125">
+    <ele>1510.8099999999999</ele>
+    <time>2021-06-05T12:50:02Z</time>
+    <name>Mygel</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -602,12 +766,55 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154819965362549" lon="23.410145016387105">
-    <ele>1509</ele>
-    <time>2021-06-02T07:33:55Z</time>
-    <name>pyrvi mai</name>
-    <cmt>pyrvi mai https://photos.google.com/search/boulders/photo/AF1QipNxp10OKwQL2TM7jgEtfZMtK6L3HLKSDNBNQBgr</cmt>
-    <desc>pyrvi mai https://photos.google.com/search/boulders/photo/AF1QipNxp10OKwQL2TM7jgEtfZMtK6L3HLKSDNBNQBgr</desc>
+  <wpt lat="42.154036173596978" lon="23.411372797563672">
+    <ele>1506.6600000000001</ele>
+    <time>2021-06-05T12:56:10Z</time>
+    <name>Pod tntm</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.150524407625198" lon="23.416188033297658">
+    <ele>1505.3299999999999</ele>
+    <time>2021-06-05T14:14:52Z</time>
+    <name>Princesa lea</name>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Tunelite</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.1543856151402" lon="23.411020338535309">
+    <ele>1510.29</ele>
+    <time>2021-06-05T12:51:43Z</time>
+    <name>Pyasychen chasovnik</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154787611216307" lon="23.410258339717984">
+    <ele>1503.05</ele>
+    <time>2021-06-05T13:31:32Z</time>
+    <name>Pyrvi mai1, udri brusli, hei myh</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -636,12 +843,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154807979241014" lon="23.41026496142149">
-    <ele>1509</ele>
-    <time>2021-06-02T07:32:48Z</time>
-    <name>rainforrest</name>
-    <cmt>rainforrest</cmt>
-    <desc>rainforrest</desc>
+  <wpt lat="42.154769506305456" lon="23.410306703299284">
+    <ele>1505.8299999999999</ele>
+    <time>2021-06-05T13:30:29Z</time>
+    <name>Rain forrest, rila express</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -653,12 +858,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154800016433001" lon="23.410299997776747">
-    <ele>2072</ele>
-    <time>2021-06-02T07:31:10Z</time>
-    <name>rila express</name>
-    <cmt>rila express</cmt>
-    <desc>rila express</desc>
+  <wpt lat="42.154750898480415" lon="23.41030603274703">
+    <ele>1509.78</ele>
+    <time>2021-06-05T13:23:18Z</time>
+    <name>Rakia</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -704,12 +907,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.155045019462705" lon="23.410269990563393">
-    <ele>1525</ele>
-    <time>2021-06-02T07:38:36Z</time>
-    <name>sharen svqt</name>
-    <cmt>sharen svqt</cmt>
-    <desc>sharen svqt</desc>
+  <wpt lat="42.154922392219305" lon="23.410310475155711">
+    <ele>1515.0599999999999</ele>
+    <time>2021-06-05T13:20:56Z</time>
+    <name>Sharen svqt, primitiven</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -721,18 +922,46 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154807979241014" lon="23.410652037709951">
-    <ele>1525</ele>
-    <time>2021-06-02T07:40:53Z</time>
-    <name>shogun</name>
-    <cmt>shogun</cmt>
-    <desc>shogun</desc>
+  <wpt lat="42.154785934835672" lon="23.41061532497406">
+    <ele>1525.72</ele>
+    <time>2021-06-05T13:04:45Z</time>
+    <name>Shogun1</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.150441259145737" lon="23.416338739916682">
+    <ele>1506.3099999999999</ele>
+    <time>2021-06-05T14:17:03Z</time>
+    <name>Skywalker</name>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Tunelite</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.152640670537949" lon="23.3798732701689">
+    <ele>1322.97</ele>
+    <time>2021-06-05T20:34:40Z</time>
+    <name>Svinya</name>
+    <sym>Pin, Blue</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Gorata</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -755,20 +984,10 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.154785012826324" lon="23.410108974203467">
-    <ele>1506</ele>
-    <time>2021-06-02T07:35:26Z</time>
-    <name>udri brusli</name>
-    <cmt>udri brusli
-
-42.154785,23.410109
-
-N42.15470 E23.41020</cmt>
-    <desc>udri brusli
-
-42.154785,23.410109
-
-N42.15470 E23.41020</desc>
+  <wpt lat="42.154171038419008" lon="23.411577316001058">
+    <ele>1510.0699999999999</ele>
+    <time>2021-06-05T12:57:54Z</time>
+    <name>Tntm</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -780,12 +999,100 @@ N42.15470 E23.41020</desc>
     </extensions>
   </wpt>
 
-  <wpt lat="42.155299996957183" lon="23.410799978300929">
-    <ele>1720</ele>
-    <time>2021-06-02T06:29:51Z</time>
-    <name>yurgan</name>
-    <cmt>Yurgan</cmt>
-    <desc>Yurgan</desc>
+  <wpt lat="42.154029970988631" lon="23.410152224823833">
+    <ele>1473.0599999999999</ele>
+    <time>2021-06-05T13:51:05Z</time>
+    <name>Tush</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154215713962913" lon="23.411075491458178">
+    <ele>1512.9100000000001</ele>
+    <time>2021-06-05T12:54:01Z</time>
+    <name>Wiskey bar</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.155148703604937" lon="23.410837193951011">
+    <ele>1533.1300000000001</ele>
+    <time>2021-06-05T13:08:05Z</time>
+    <name>Yurgan</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.151585137471557" lon="23.41294658370316">
+    <ele>1482.1900000000001</ele>
+    <time>2021-06-05T14:07:30Z</time>
+    <name>Zad central park</name>
+    <sym>Pin, Red</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.155023058876395" lon="23.411660883575678">
+    <ele>1546.02</ele>
+    <time>2021-06-05T13:11:08Z</time>
+    <name>Zad yurgan</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154919039458036" lon="23.41131110675633">
+    <ele>1546.8</ele>
+    <time>2021-06-05T13:13:57Z</time>
+    <name>Zad yurgan 2</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154854414984584" lon="23.411322673782706">
+    <ele>1545.0599999999999</ele>
+    <time>2021-06-05T13:14:45Z</time>
+    <name>Zad yurgan3</name>
     <sym>Pin, Green</sym>
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
@@ -814,6 +1121,36 @@ N42.15470 E23.41020</desc>
     </extensions>
   </wpt>
 
+  <wpt lat="42.154879979789257" lon="23.410706603899598">
+    <ele>1516.52</ele>
+    <time>2021-06-05T13:06:00Z</time>
+    <name>Zagryavki do shogun</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154972264543176" lon="23.410289268940687">
+    <ele>1518.0799999999999</ele>
+    <time>2021-06-05T13:19:46Z</time>
+    <name>Zagryavki sharen svqr</name>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Kamennata reka</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
   <wpt lat="42.589733032509685" lon="23.19538900628686">
     <ele>1370</ele>
     <time>2021-06-02T07:09:52Z</time>
@@ -826,6 +1163,21 @@ N42.15470 E23.41020</desc>
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.150431033223867" lon="23.416206892579794">
+    <ele>1506.3</ele>
+    <time>2021-06-05T14:15:52Z</time>
+    <name>Zavryavka</name>
+    <sym>Flag, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>Tunelite</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
