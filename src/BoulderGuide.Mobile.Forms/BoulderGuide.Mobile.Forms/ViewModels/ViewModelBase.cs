@@ -59,6 +59,20 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return NavigationService.NavigateAsync(path, parameters);
       }
 
+      public Task<INavigationResult> GoBackAsync() {
+         var lastItem = Breadcrumbs.Items.LastOrDefault();
+         if (lastItem != null) {
+            Breadcrumbs.Items.Remove(lastItem);
+            var secondToLast = Breadcrumbs.Items.LastOrDefault();
+            if (secondToLast != null) {
+               Breadcrumbs.Items.Remove(secondToLast);
+               lastItem = secondToLast;
+            }
+         }
+
+         return NavigateAsync(lastItem.Name, lastItem.Path, lastItem.Parameters);
+      }
+
       public Task HandleExceptionAsync(Exception ex) {
          var dialogParams = new DialogParameters();
          dialogParams.Add(
