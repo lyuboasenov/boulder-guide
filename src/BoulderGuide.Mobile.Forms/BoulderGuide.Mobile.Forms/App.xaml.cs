@@ -31,9 +31,11 @@ namespace BoulderGuide.Mobile.Forms
          containerRegistry.RegisterSingleton<IConnectivity, ConnectivityImplementation>();
          containerRegistry.RegisterSingleton<IGeolocation, GeolocationImplementation>();
          containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
+         containerRegistry.RegisterSingleton<IPreferences, PreferencesImplementation>();
 
          containerRegistry.RegisterSingleton<IDataService, DataService>();
          containerRegistry.RegisterSingleton<IMapService, MapService>();
+         containerRegistry.RegisterSingleton<Services.Preferences.IPreferences, Services.Preferences.Preferences> ();
 
          containerRegistry.RegisterForNavigation<NavigationPage>();
          containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
@@ -41,6 +43,7 @@ namespace BoulderGuide.Mobile.Forms
 
          containerRegistry.RegisterDialog<DialogPage, DialogPageViewModel>();
          containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
+         containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
       }
    }
 }

@@ -5,7 +5,9 @@ using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -15,46 +17,42 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
-      private readonly IMapService mapService;
-      private bool runLocationTracker = false;
 
       public Route Route { get; set; }
       public RouteInfo Info { get; set; }
       public AreaInfo AreaInfo { get; set; }
-      public Mapsui.Map Map { get; set; }
-      public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
+      public ICommand MapCommand { get; }
 
       public RoutePageViewModel(
          INavigationService navigationService,
          IDataService dataService,
          IConnectivity connectivity,
-         IDialogService dialogService,
-         IMapService mapService,
-         IGeolocation geolocation,
-         IPermissions permissions) :
+         IDialogService dialogService) :
          base(navigationService, dialogService) {
          this.dataService = dataService;
          this.connectivity = connectivity;
-         this.mapService = mapService;
-         this.geolocation = geolocation;
-         this.permissions = permissions;
+         MapCommand = new Command(async () => await Map(), CanShowMap);
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
          base.OnNavigatedTo(parameters);
 
-         if (parameters.TryGetValue(ParameterKeys.RouteInfo, out RouteInfo info) &&
-            parameters.TryGetValue(ParameterKeys.AreaInfo, out AreaInfo areaInfo)) {
+         if (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo info) &&
+            parameters.TryGetValue(nameof(AreaInfo), out AreaInfo areaInfo)) {
             Task.Run(async () => await InitializeAsync(info, areaInfo));
          } else {
             Task.Run(async () => await NavigationService.GoBackAsync());
          }
-         runLocationTracker = true;
       }
 
-      public override void OnNavigatedFrom(INavigationParameters parameters) {
-         base.OnNavigatedFrom(parameters);
-         runLocationTracker = false;
+      private bool CanShowMap() {
+         return Route != null && Info != null;
+      }
+
+      private async Task Map() {
+         await NavigationService.NavigateAsync(
+            nameof(MapPage),
+            MapPageViewModel.InitializeParameters(Route, AreaInfo));
       }
 
       private async Task InitializeAsync(RouteInfo info, AreaInfo areaInfo) {
@@ -75,37 +73,18 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
                await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
             }
-
-            Map = mapService.GetMap(Route, AreaInfo);
-            if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
-               RunLocationTracker();
-            }
+            Device.BeginInvokeOnMainThread(() => {
+               (MapCommand as Command)?.ChangeCanExecute();
+            });
          } catch (Exception ex) {
             await HandleExceptionAsync(ex);
          }
       }
 
-      private void RunLocationTracker() {
-         Device.StartTimer(TimeSpan.FromSeconds(30), () => {
-            Task.Run(async () => {
-               var currentLocation =
-                  await geolocation.GetLocationAsync(
-                     new GeolocationRequest(GeolocationAccuracy.Best));
-               MyLocationLayer.UpdateMyLocation(
-                  new Mapsui.UI.Forms.Position(currentLocation.Latitude, currentLocation.Longitude));
-            });
-
-            return runLocationTracker;
-         });
-      }
-
-      public const string View = "RoutePage";
-      private readonly IGeolocation geolocation;
-      private readonly IPermissions permissions;
-
-      public static class ParameterKeys {
-         public const string RouteInfo = "RouteInfo";
-         public const string AreaInfo = "AreaInfo";
+      public static NavigationParameters InitializeParameters(RouteInfo routeInfo, AreaInfo areaInfo) {
+         return InitializeParameters(
+            new KeyValuePair<string, object>(nameof(RouteInfo), routeInfo),
+            new KeyValuePair<string, object>(nameof(AreaInfo), areaInfo));
       }
    }
 }

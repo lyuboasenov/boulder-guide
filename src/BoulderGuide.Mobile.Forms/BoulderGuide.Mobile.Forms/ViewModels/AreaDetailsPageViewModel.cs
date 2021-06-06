@@ -19,80 +19,58 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
-      private readonly IMapService mapService;
-      private readonly IGeolocation geolocation;
-      private readonly IPermissions permissions;
-      private bool runLocationTracker = false;
 
       public ICommand DownloadCommand { get; }
+      public ICommand MapCommand { get; }
       public bool IsLoading { get; set; }
       public Area Area { get; set; }
       public AreaInfo Info { get; set; }
       public AreaInfo SelectedAreaInfo { get; set; }
       public RouteInfo SelectedRouteInfo { get; set; }
-      public Mapsui.Map Map { get; set; }
-      public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
 
       public AreaDetailsPageViewModel(
          INavigationService navigationService,
          IDataService dataService,
          IConnectivity connectivity,
-         IDialogService dialogService,
-         IMapService mapService,
-         IGeolocation geolocation,
-         IPermissions permissions) :
+         IDialogService dialogService) :
          base (navigationService, dialogService) {
          this.dataService = dataService;
          this.connectivity = connectivity;
-         this.mapService = mapService;
-         this.geolocation = geolocation;
-         this.permissions = permissions;
 
          DownloadCommand = new Command(async () => await Download());
+         MapCommand = new Command(async () => await Map(), CanShowMap);
+      }
+
+      private bool CanShowMap() {
+         return Area != null && Info != null;
+      }
+
+      private async Task Map() {
+         await NavigationService.NavigateAsync(nameof(MapPage), MapPageViewModel.InitializeParameters(Area, Info));
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
          base.OnNavigatedTo(parameters);
 
-         if (parameters.TryGetValue<AreaInfo>(ParameterKeys.AreaInfo, out AreaInfo info)) {
-            stack.Push(info);
+         if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo info)) {
+            Task.Run(async () => await InitializeAsync(info));
          } else {
-            stack.Pop();
-            if (stack.Count == 0) {
-               NavigationService.GoBackToRootAsync();
-               return;
-            } else {
-               info = stack.Peek() as AreaInfo;
-            }
+            NavigationService.GoBackAsync(BackParameters);
          }
-
-         Task.Run(async () => await InitializeAsync(info));
-      }
-
-      public override void OnNavigatedFrom(INavigationParameters parameters) {
-         base.OnNavigatedFrom(parameters);
-         runLocationTracker = false;
       }
 
       public void OnSelectedAreaInfoChanged() {
-         NavigationParameters parameters = new NavigationParameters();
-         parameters.Add(AreaDetailsPageViewModel.ParameterKeys.AreaInfo, SelectedAreaInfo);
-
-         NavigationService.NavigateAsync($"{AreaDetailsPageViewModel.View}", parameters);
+         NavigationService.NavigateAsync(nameof(AreaDetailsPage), InitializeParameters(SelectedAreaInfo));
       }
 
       public void OnSelectedRouteInfoChanged() {
-         NavigationParameters parameters = new NavigationParameters();
-         parameters.Add(RoutePageViewModel.ParameterKeys.RouteInfo, SelectedRouteInfo);
-         parameters.Add(RoutePageViewModel.ParameterKeys.AreaInfo, Info);
-
-         NavigationService.NavigateAsync($"{RoutePageViewModel.View}", parameters);
+         NavigationService.NavigateAsync(
+            nameof(RoutePage),
+            RoutePageViewModel.InitializeParameters(SelectedRouteInfo, Info));
       }
 
-      public const string View = "AreaDetailsPage";
-
-      public static class ParameterKeys {
-         public const string AreaInfo = "AreaInfo";
+      public static NavigationParameters InitializeParameters(AreaInfo info) {
+         return InitializeParameters(nameof(AreaInfo), info);
       }
 
       private async Task InitializeAsync(AreaInfo info) {
@@ -114,29 +92,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
                await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
             }
-
-            Map = mapService.GetMap(Area, Info);
-            if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
-               RunLocationTracker();
-            }
+            Device.BeginInvokeOnMainThread(() => {
+               (MapCommand as Command)?.ChangeCanExecute();
+            });
          } catch (Exception ex) {
             await HandleExceptionAsync(ex);
          }
          IsLoading = false;
-      }
-
-      private void RunLocationTracker() {
-         Device.StartTimer(TimeSpan.FromSeconds(30), () => {
-            Task.Run(async () => {
-               var currentLocation =
-                  await geolocation.GetLocationAsync(
-                     new GeolocationRequest(GeolocationAccuracy.Best));
-               MyLocationLayer.UpdateMyLocation(
-                  new Mapsui.UI.Forms.Position(currentLocation.Latitude, currentLocation.Longitude));
-            });
-
-            return runLocationTracker;
-         });
       }
 
       private async Task Download() {

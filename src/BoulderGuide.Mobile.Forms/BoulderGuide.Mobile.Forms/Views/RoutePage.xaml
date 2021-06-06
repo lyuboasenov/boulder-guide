@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
@@ -8,43 +8,37 @@
             xmlns:viewModels="clr-namespace:BoulderGuide.Mobile.Forms.ViewModels"
             xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
             x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage">
-   <TabbedPage.Title>
+   <ContentPage.Title>
       <MultiBinding StringFormat="{}{0} ({1})">
          <Binding Path="Info.Name" />
          <Binding Path="Route.Grade" />
       </MultiBinding>
-   </TabbedPage.Title>
+   </ContentPage.Title>
 
-   <TabbedPage.Resources>
+   <ContentPage.ToolbarItems>
+      <ToolbarItem Text="{Binding Source={Static root:Strings.Map}}" Command="{Binding MapCommand}" />
+   </ContentPage.ToolbarItems>
+
+   <ContentPage.Resources>
       <converters:ValueToVisibilityConverter x:Key="valueToVisibility" />
-   </TabbedPage.Resources>
+   </ContentPage.Resources>
 
-   <ContentPage Title="{Binding Source={Static root:Strings.Info}}">
-      <StackLayout>
-         <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
-         <Label Text="{Binding Route.Info}" />
+   <StackLayout>
+      <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
+      <Label Text="{Binding Route.Info}" />
 
-         <CarouselView ItemsSource="{Binding Route.Schemas}">
-            <CarouselView.ItemTemplate>
-               <DataTemplate>
-                  <localViews:SchemaView
+      <CarouselView ItemsSource="{Binding Route.Schemas}">
+         <CarouselView.ItemTemplate>
+            <DataTemplate>
+               <localViews:SchemaView
                            HorizontalOptions="CenterAndExpand"
                            HeightRequest="{Binding Source={RelativeSource Self}, Path=Width}"
                            Schema="{Binding}"
                            RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
                            />
-               </DataTemplate>
-            </CarouselView.ItemTemplate>
-         </CarouselView>
-      </StackLayout>
-   </ContentPage>
-   <ContentPage Title="{Binding Source={Static root:Strings.Map}}">
-      <localViews:BindableMapView
-         BindableMap="{Binding Map}"
-         BindableMyLocationLayer="{Binding MyLocationLayer, Mode=OneWayToSource}"
-         VerticalOptions="FillAndExpand"
-         HorizontalOptions="Fill"
-         BackgroundColor="Gray" />
-   </ContentPage>
+            </DataTemplate>
+         </CarouselView.ItemTemplate>
+      </CarouselView>
+   </StackLayout>
 
-</TabbedPage>
+</ContentPage>

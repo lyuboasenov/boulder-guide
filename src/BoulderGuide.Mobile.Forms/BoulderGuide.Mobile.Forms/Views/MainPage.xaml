@@ -25,7 +25,6 @@
          IsVisible="{Binding IsLoading}"
          HorizontalOptions="Center"
          Color="Gray"/>
-      <Label Text="{Binding Source={Static root:Strings.Hello}}" HorizontalOptions="CenterAndExpand" FontSize="Title" />
       <ListView
          Grid.Row="1"
          ItemsSource="{Binding AreaInfos}"

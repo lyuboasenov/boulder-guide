@@ -1,4 +1,5 @@
 ﻿using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
@@ -51,10 +52,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public void OnSelectedAreaInfoChanged() {
-         NavigationParameters parameters = new NavigationParameters();
-         parameters.Add(AreaDetailsPageViewModel.ParameterKeys.AreaInfo, SelectedAreaInfo);
-
-         NavigationService.NavigateAsync($"{AreaDetailsPageViewModel.View}", parameters);
+         NavigationService.NavigateAsync(
+            nameof(AreaDetailsPage),
+            AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo));
       }
       private async Task InitializeAsync() {
          var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();

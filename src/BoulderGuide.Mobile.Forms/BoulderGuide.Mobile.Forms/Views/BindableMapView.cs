@@ -1,8 +1,4 @@
 ﻿using Mapsui;
-using Mapsui.Layers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.Views {
@@ -13,7 +9,9 @@ namespace BoulderGuide.Mobile.Forms.Views {
             typeof(Map),
             typeof(BindableMapView),
             null,
-            propertyChanged: (b, o, n) => { ((BindableMapView) b).OnBindableMapChanged(); });
+            propertyChanged: (b, o, n) => {
+               ((BindableMapView) b).OnBindableMapChanged();
+            });
 
 
       public Map BindableMap {
@@ -22,7 +20,13 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void OnBindableMapChanged() {
-         this.Map = BindableMap;
+         if (BindableMap is null) {
+            this.Map.Layers.Clear();
+            this.Map.ClearCache();
+            this.Map = new Map();
+         } else {
+            this.Map = BindableMap;
+         }
          this.BindableMyLocationLayer = this.MyLocationLayer;
       }
 

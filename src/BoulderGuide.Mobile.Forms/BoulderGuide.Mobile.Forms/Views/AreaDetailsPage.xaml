@@ -2,7 +2,6 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:prism="http://prismlibrary.com"
-            xmlns:localViews="clr-namespace:BoulderGuide.Mobile.Forms.Views"
             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
             xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
             prism:ViewModelLocator.AutowireViewModel="True"
@@ -15,6 +14,7 @@
    </TabbedPage.Resources>
 
    <TabbedPage.ToolbarItems>
+      <ToolbarItem Text="{Binding Source={Static root:Strings.Map}}" Command="{Binding MapCommand}" />
       <ToolbarItem Text="{Binding Source={Static root:Strings.Download}}" Command="{Binding DownloadCommand}" />
    </TabbedPage.ToolbarItems>
 
@@ -137,13 +137,5 @@
          </StackLayout>
       </ScrollView>
 
-   </ContentPage>
-   <ContentPage Title="{Binding Source={Static root:Strings.Map}}">
-      <localViews:BindableMapView
-         BindableMap="{Binding Map}"
-         BindableMyLocationLayer="{Binding MyLocationLayer, Mode=OneWayToSource}"
-         VerticalOptions="FillAndExpand"
-         HorizontalOptions="Fill"
-         BackgroundColor="Gray" />
    </ContentPage>
 </TabbedPage>
