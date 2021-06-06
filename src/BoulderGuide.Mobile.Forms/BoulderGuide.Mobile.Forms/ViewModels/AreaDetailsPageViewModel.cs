@@ -46,7 +46,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task Map() {
-         await NavigationService.NavigateAsync(nameof(MapPage), MapPageViewModel.InitializeParameters(Area, Info));
+         await NavigateAsync(
+            $"{Strings.Map}: {Area.Name}" ,
+            $"/MainPage/NavigationPage/{nameof(MapPage)}",
+            MapPageViewModel.InitializeParameters(Area, Info));
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
@@ -55,17 +58,21 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo info)) {
             Task.Run(async () => await InitializeAsync(info));
          } else {
-            NavigationService.GoBackAsync(BackParameters);
+            NavigationService.GoBackAsync();
          }
       }
 
       public void OnSelectedAreaInfoChanged() {
-         NavigationService.NavigateAsync(nameof(AreaDetailsPage), InitializeParameters(SelectedAreaInfo));
+         NavigateAsync(
+            SelectedAreaInfo.Name,
+            $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
+            InitializeParameters(SelectedAreaInfo));
       }
 
       public void OnSelectedRouteInfoChanged() {
-         NavigationService.NavigateAsync(
-            nameof(RoutePage),
+         NavigateAsync(
+            $"{SelectedRouteInfo.Name} ({new Grade(SelectedRouteInfo.Difficulty)})",
+            $"/MainPage/NavigationPage/{nameof(RoutePage)}",
             RoutePageViewModel.InitializeParameters(SelectedRouteInfo, Info));
       }
 

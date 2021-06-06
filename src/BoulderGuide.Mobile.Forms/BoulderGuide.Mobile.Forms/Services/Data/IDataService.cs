@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
    public interface IDataService {
+      Task RemoveLocalAreas();
       Task<IEnumerable<AreaInfo>> GetAreas(bool force);
       Task<IEnumerable<AreaInfo>> GetOfflineAreas();
       Task<Area> GetOfflineArea(AreaInfo info);

@@ -6,6 +6,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -21,10 +22,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          set { SetProperty(ref _title, value); }
       }
 
-      protected INavigationParameters BackParameters { get; private set; }
-      protected INavigationParameters InputParameters { get; private set; }
-
-
       public ViewModelBase(INavigationService navigationService, IDialogService dialogService) {
          NavigationService = navigationService;
          DialogService = dialogService;
@@ -35,18 +32,31 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public virtual void OnNavigatedFrom(INavigationParameters parameters) {
-         parameters?.Add(nameof(BackParameters), InputParameters);
+
       }
 
       public virtual void OnNavigatedTo(INavigationParameters parameters) {
-         if (parameters.TryGetValue(nameof(BackParameters), out INavigationParameters backParameters)) {
-            BackParameters = backParameters;
-         }
-         InputParameters = parameters;
+
       }
 
       public virtual void Destroy() {
 
+      }
+
+      public Task<INavigationResult> NavigateAsync(string title, string path, INavigationParameters parameters = null) {
+         var lastItem = Breadcrumbs.Items.LastOrDefault();
+         if (lastItem is null ||
+            lastItem.Name != title ||
+            lastItem.Path != path ||
+            lastItem.Parameters != parameters) {
+            Breadcrumbs.Items.Add(new Breadcrumbs.Item() {
+               Name = title,
+               Path = path,
+               Parameters = parameters
+            });
+         }
+
+         return NavigationService.NavigateAsync(path, parameters);
       }
 
       public Task HandleExceptionAsync(Exception ex) {

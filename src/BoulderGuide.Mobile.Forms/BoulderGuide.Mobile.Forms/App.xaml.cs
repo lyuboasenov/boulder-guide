@@ -21,7 +21,7 @@ namespace BoulderGuide.Mobile.Forms
       {
          InitializeComponent();
 
-         await NavigationService.NavigateAsync("NavigationPage/MainPage");
+         await NavigationService.NavigateAsync("MainPage");
       }
 
       protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -44,6 +44,7 @@ namespace BoulderGuide.Mobile.Forms
          containerRegistry.RegisterDialog<DialogPage, DialogPageViewModel>();
          containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
          containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+         containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
       }
    }
 }

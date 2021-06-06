@@ -50,8 +50,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task Map() {
-         await NavigationService.NavigateAsync(
-            nameof(MapPage),
+         await NavigateAsync(
+            $"{Strings.Map}: {Route.Name} ({Route.Grade})",
+            $"/MainPage/NavigationPage/{nameof(MapPage)}",
             MapPageViewModel.InitializeParameters(Route, AreaInfo));
       }
 

@@ -99,10 +99,19 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             File.ReadAllText(info.LocalPath));
       }
 
+      public Task RemoveLocalAreas() {
+         foreach (var kv in areaAddresses) {
+            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
+            Directory.Delete(repoDir, true);
+         }
+
+         return Task.CompletedTask;
+      }
+
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
          var result = new List<AreaInfo>();
          foreach (var kv in areaAddresses) {
-            var repoDir = Path.Combine(fileSystem.AppDataDirectory, kv.Key);
+            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
 
             if (!Directory.Exists(repoDir)) {
                Directory.CreateDirectory(repoDir);

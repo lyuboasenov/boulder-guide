@@ -142,6 +142,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Изтриване на локалните данни.
+        /// </summary>
+        internal static string ClearLocalData {
+            get {
+                return ResourceManager.GetString("ClearLocalData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Катерачни обекти.
         /// </summary>
         internal static string ClimbingAreas {
@@ -169,11 +178,29 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Интервал на опресняване на локацията (в секунди).
+        /// </summary>
+        internal static string GpsPollingInterval {
+            get {
+                return ResourceManager.GetString("GpsPollingInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Привет!.
         /// </summary>
         internal static string Hello {
             get {
                 return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Начало.
+        /// </summary>
+        internal static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
@@ -210,6 +237,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string Routes {
             get {
                 return ResourceManager.GetString("Routes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Настройки.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         

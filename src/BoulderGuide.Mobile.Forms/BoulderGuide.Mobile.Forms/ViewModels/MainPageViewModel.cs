@@ -18,8 +18,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
       public AreaInfo SelectedAreaInfo { get; set; }
       public bool IsLoading { get; set; }
+      public Breadcrumbs.Item SelectectedBreadcrumbsItem { get; set; }
 
       public ICommand ReloadCommand { get; }
+      public ICommand SettingsCommand { get; }
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
@@ -34,6 +36,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
           : base(navigationService, dialogService) {
 
          ReloadCommand = new Command(async (f) => await Reload((bool)f));
+         SettingsCommand = new Command(async () => await Settings());
 
          Title = Strings.ClimbingAreas;
          this.dataService = dataService;
@@ -52,8 +55,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public void OnSelectedAreaInfoChanged() {
-         NavigationService.NavigateAsync(
-            nameof(AreaDetailsPage),
+         NavigateAsync(
+            SelectedAreaInfo.Name,
+            $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
             AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo));
       }
       private async Task InitializeAsync() {
@@ -61,6 +65,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          if (status != PermissionStatus.Granted) {
             status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
          }
+      }
+
+      private async Task Settings() {
+         await NavigateAsync(
+            Strings.Settings,
+            "/MainPage/NavigationPage/SettingsPage");
       }
 
       private async Task Reload(bool force) {
@@ -73,7 +83,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          AreaInfos.Clear();
 
          IEnumerable<AreaInfo> areas;
-         if (connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.Internet) {
+         if (connectivity.NetworkAccess != NetworkAccess.Internet) {
             areas = await dataService.GetOfflineAreas();
          } else {
             areas = await dataService.GetAreas(force);
@@ -83,6 +93,17 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             AreaInfos.Add(area);
          }
          IsLoading = false;
+      }
+
+      public void OnSelectectedBreadcrumbsItemChanged() {
+         for (int i = Breadcrumbs.Items.Count - 1; i >= 0; i--) {
+            var current = Breadcrumbs.Items[i];
+            Breadcrumbs.Items.RemoveAt(i);
+            if (current == SelectectedBreadcrumbsItem) {
+               NavigateAsync(current.Name, current.Path, current.Parameters);
+               break;
+            }
+         }
       }
    }
 }

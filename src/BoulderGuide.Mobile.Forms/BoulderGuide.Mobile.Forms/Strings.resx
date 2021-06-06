@@ -144,6 +144,9 @@
   <data name="Areas" xml:space="preserve">
     <value>Сектори</value>
   </data>
+  <data name="ClearLocalData" xml:space="preserve">
+    <value>Изтриване на локалните данни</value>
+  </data>
   <data name="ClimbingAreas" xml:space="preserve">
     <value>Катерачни обекти</value>
   </data>
@@ -153,8 +156,14 @@
   <data name="Download" xml:space="preserve">
     <value>Свали</value>
   </data>
+  <data name="GpsPollingInterval" xml:space="preserve">
+    <value>Интервал на опресняване на локацията (в секунди)</value>
+  </data>
   <data name="Hello" xml:space="preserve">
     <value>Привет!</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
   </data>
   <data name="Info" xml:space="preserve">
     <value>Информация</value>
@@ -167,6 +176,9 @@
   </data>
   <data name="Routes" xml:space="preserve">
     <value>Маршрути</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
   </data>
   <data name="UnableToDownloadArea" xml:space="preserve">
     <value>Избраният сектор не е запазен на устройството.
