@@ -3,6 +3,7 @@
   <item android:drawable="@color/launcher_background"/>
   <item>
     <bitmap android:gravity="center"
-            android:src="@drawable/icon" />
+            android:tileMode="disabled"
+            android:src="@drawable/logo" />
   </item>
 </layer-list>
