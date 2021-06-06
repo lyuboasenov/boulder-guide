@@ -1,0 +1,99 @@
+﻿<Window x:Class="BoulderGuide.Wpf.AreaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BoulderGuide.Wpf"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"
+        Title="AreaWindow" Width="1000" Height="800">
+   <StackPanel>
+      <Button
+         Name="btnSave"
+         Content="Save"
+         Click="btnSave_Click" />
+      <TabControl>
+         <TabItem Header="Info">
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+               </Grid.ColumnDefinitions>
+               <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+               </Grid.RowDefinitions>
+
+               <TextBlock Grid.Row="0" Text="Id" />
+               <TextBox Grid.Row="0" Grid.Column="1" Name="txtId" />
+
+               <TextBlock Grid.Row="1" Text="Name" />
+               <TextBox Grid.Row="1" Grid.Column="1" Name="txtName" />
+
+               <TextBlock Grid.Row="2" Text="Info" />
+               <TextBox Grid.Row="2" Grid.Column="1" Name="txtInfo" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="3" Text="Access" />
+               <TextBox Grid.Row="3" Grid.Column="1" Name="txtAccess" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="4" Text="History" />
+               <TextBox Grid.Row="4" Grid.Column="1" Name="txtHistory" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="5" Text="Ethics" />
+               <TextBox Grid.Row="5" Grid.Column="1" Name="txtEthics" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="6" Text="Accommodations" />
+               <TextBox Grid.Row="6" Grid.Column="1" Name="txtAccommodations" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="7" Text="Restrictions" />
+               <TextBox Grid.Row="7" Grid.Column="1" Name="txtRestrictions" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+               <TextBlock Grid.Row="8" Text="Tags" />
+               <TextBox Grid.Row="8" Grid.Column="1" Name="txtTags" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+
+            </Grid>
+         </TabItem>
+         <TabItem Header="Location">
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+               </Grid.ColumnDefinitions>
+               <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+               </Grid.RowDefinitions>
+
+               <TextBlock Grid.Row="0" Text="Location" />
+               <TextBox Grid.Row="0" Grid.Column="1" Name="txtLocation1" />
+
+               <TextBlock Grid.Row="1" Text="Location" />
+               <TextBox Grid.Row="1" Grid.Column="1" Name="txtLocation2" />
+
+               <TextBlock Grid.Row="2" Text="Location" />
+               <TextBox Grid.Row="2" Grid.Column="1" Name="txtLocation3" />
+
+               <TextBlock Grid.Row="3" Text="Location" />
+               <TextBox Grid.Row="3" Grid.Column="1" Name="txtLocation4" />
+
+               <TextBlock Grid.Row="4" Text="Location" />
+               <TextBox Grid.Row="4" Grid.Column="1" Name="txtLocation5" />
+
+               <TextBlock Grid.Row="5" Text="Location" />
+               <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation6" />
+            </Grid>
+         </TabItem>
+      </TabControl>
+   </StackPanel>
+</Window>
