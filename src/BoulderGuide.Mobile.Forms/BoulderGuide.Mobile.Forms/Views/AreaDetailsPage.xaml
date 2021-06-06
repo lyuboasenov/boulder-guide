@@ -6,6 +6,7 @@
             xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="BoulderGuide.Mobile.Forms.Views.AreaDetailsPage"
+            BarBackgroundColor="{StaticResource Primary}"
             Title="{Binding Info.Name}">
 
    <TabbedPage.Resources>
