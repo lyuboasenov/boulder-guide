@@ -79,7 +79,7 @@
                <TextBlock Grid.Row="5" Text="Location" />
                <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation" />
 
-               <ListBox Name="lstImages" Grid.Row="6" Grid.ColumnSpan="2" SelectionChanged="lstImages_SelectionChanged">
+               <ListView Name="lstImages" Grid.Row="6" Grid.ColumnSpan="2" SelectionChanged="lstImages_SelectionChanged">
                   <ListBox.ItemTemplate>
                      <DataTemplate>
                         <Image Height="50" Width="50">
@@ -89,9 +89,18 @@
                         </Image>
                      </DataTemplate>
                   </ListBox.ItemTemplate>
-               </ListBox>
+                  <ListView.ItemsPanel>
+                     <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                     </ItemsPanelTemplate>
+                  </ListView.ItemsPanel>
+               </ListView>
 
-               <Button x:Name="btnAddImage" Grid.Row="7" Content="Add image" Click="btnAddImage_Click" />
+               <StackPanel Grid.Row="7" Orientation="Horizontal">
+                  <Button x:Name="btnAddImage" Content="Add image" Click="btnAddImage_Click" />
+                  <Button x:Name="btnRemoveImage" IsEnabled="False" Content="Remove image" Click="btnRemoveImage_Click" />
+               </StackPanel>
+
             </Grid>
          </TabItem>
          <TabItem Header="Schema" IsEnabled="False" Name="tabSchema">
@@ -106,14 +115,33 @@
                      x:Name="btnAddPath"
                      Content="Add Path"
                      ToggleButton.Checked="btnAddPath_Checked"
-                     ToggleButton.Unchecked="btnAddPath_Unchecked" />
+                     ToggleButton.Unchecked="btnAddPath_Unchecked"
+                     Height="50"
+                     Margin="10" />
                   <ToggleButton
                      x:Name="btnAddEllipse"
                      Content="Add Ellipse"
                      ToggleButton.Checked="btnAddEllipse_Checked"
-                     ToggleButton.Unchecked="btnAddEllipse_Unchecked" />
+                     ToggleButton.Unchecked="btnAddEllipse_Unchecked"
+                     Height="50"
+                     Margin="10"  />
 
-                  <Button x:Name="btnUndo" Content="Undo" Margin="20, 0, 0, 0" Click="btnUndo_Click"/>
+                  <Button x:Name="btnUndo" Content="Undo" Margin="50, 10, 10, 10" Click="btnUndo_Click" />
+                  <Button x:Name="btnRemoveShape" Content="Remove" Margin="50, 10, 10, 10" Click="btnRemoveShape_Click" />
+
+                  <ListView x:Name="lstShapes">
+                     <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                           <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                     </ListView.ItemsPanel>
+
+                     <ListView.ItemTemplate>
+                        <DataTemplate>
+                           <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                     </ListView.ItemTemplate>
+                  </ListView>
                </StackPanel>
 
                <ScrollViewer Grid.Row="1">

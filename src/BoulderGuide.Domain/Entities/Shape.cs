@@ -12,5 +12,9 @@ namespace BoulderGuide.Domain.Entities {
       }
 
       public abstract void Draw(SkiaSharp.SKCanvas canvas, Size imageSize);
+
+      public override string ToString() {
+         return _type;
+      }
    }
 }

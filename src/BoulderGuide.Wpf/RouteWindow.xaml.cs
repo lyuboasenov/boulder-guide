@@ -50,7 +50,8 @@ namespace BoulderGuide.Wpf {
             schema.Id = System.IO.Path.Combine(fi.Directory.FullName, schema.Id);
             schemas.Add(schema);
          }
-         InitializeList();
+         InitializeImageList();
+         InitializeShapeList();
       }
 
       private void btnSave_Click(object sender, RoutedEventArgs e) {
@@ -128,6 +129,8 @@ namespace BoulderGuide.Wpf {
          if (tabSchema.IsEnabled) {
             // Load schema
             selectedSchemas = lstImages.SelectedItem as Schema;
+            btnRemoveImage.IsEnabled = true;
+            InitializeShapeList();
          }
       }
 
@@ -142,11 +145,21 @@ namespace BoulderGuide.Wpf {
             schemas.Add(new Schema() {
                Id = saveFileDlg.FileName
             });
-            InitializeList();
+            InitializeImageList();
          }
       }
 
-      private void InitializeList() {
+      private void btnRemoveImage_Click(object sender, RoutedEventArgs e) {
+         if (lstImages.SelectedItem is Schema schema) {
+            schemas.Remove(schema);
+            selectedSchemas = null;
+            btnRemoveImage.IsEnabled = false;
+            lstImages.SelectedItem = null;
+            InitializeImageList();
+         }
+      }
+
+      private void InitializeImageList() {
          lstImages.Items.Clear();
          foreach (var schema in schemas) {
             lstImages.Items.Add(schema);
@@ -219,24 +232,30 @@ namespace BoulderGuide.Wpf {
          btnAddEllipse.IsChecked = false;
          currentShape = new Domain.Entities.Path();
          currentPath.Clear();
+         btnSave.IsEnabled = false;
       }
 
       private void btnAddPath_Unchecked(object sender, RoutedEventArgs e) {
-         selectedSchemas.Shapes = selectedSchemas.Shapes.Append(currentShape).ToArray();
-         currentShape = null;
+         CommitCurrentShape();
          btnUndo.IsEnabled = false;
-         skCanvas.InvalidateVisual();
       }
 
       private void btnAddEllipse_Checked(object sender, RoutedEventArgs e) {
          btnAddPath.IsChecked = false;
          currentShape = new Ellipse() { Center = null };
+         btnSave.IsEnabled = false;
       }
 
       private void btnAddEllipse_Unchecked(object sender, RoutedEventArgs e) {
+         CommitCurrentShape();
+      }
+
+      private void CommitCurrentShape() {
          selectedSchemas.Shapes = selectedSchemas.Shapes.Append(currentShape).ToArray();
+         InitializeShapeList();
          currentShape = null;
          skCanvas.InvalidateVisual();
+         btnSave.IsEnabled = true;
       }
 
       private void btnUndo_Click(object sender, RoutedEventArgs e) {
@@ -244,6 +263,23 @@ namespace BoulderGuide.Wpf {
             currentPath.RemoveAt(currentPath.Count - 1);
             p.Points = currentPath.ToArray();
             skCanvas.InvalidateVisual();
+         }
+      }
+
+      private void btnRemoveShape_Click(object sender, RoutedEventArgs e) {
+         if (lstShapes.SelectedItem is Shape shape) {
+            var list = new List<Shape>(selectedSchemas.Shapes);
+            list.Remove(shape);
+            selectedSchemas.Shapes = list.ToArray();
+            skCanvas.InvalidateVisual();
+            InitializeShapeList();
+         }
+      }
+
+      private void InitializeShapeList() {
+         lstShapes.Items.Clear();
+         foreach (var shape in selectedSchemas?.Shapes ?? Enumerable.Empty<Shape>()) {
+            lstShapes.Items.Add(shape);
          }
       }
    }
