@@ -11,11 +11,8 @@ using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
    internal class DataService : IDataService {
-      private static readonly Dictionary<string, string>  areaAddresses = new Dictionary<string, string>() {
-            {
-               "rila-monastery", "https://raw.githubusercontent.com/lyuboasenov/climbing-map-rila-monastery/main"
-            }
-         };
+      private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index.json";
+      private Dictionary<string, string> areaAddresses;
 
       private readonly IFileSystem fileSystem;
       private readonly HttpClient httpClient = new HttpClient();
@@ -36,7 +33,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public Task ClearLocalStorage() {
          try {
-            foreach (var kv in areaAddresses) {
+            foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
                var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
                Directory.Delete(repoDir, true);
             }
@@ -177,8 +174,16 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       }
 
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
+         var masterIndexLocalPath = Path.Combine(fileSystem.AppDataDirectory, "repositories", "index.json");
+         if (download && !File.Exists(masterIndexLocalPath) || force) {
+            await DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
+         }
+
+         areaAddresses =
+            JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(masterIndexLocalPath));
+
          var result = new List<AreaInfo>();
-         foreach (var kv in areaAddresses) {
+         foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
             var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
 
             if (!Directory.Exists(repoDir)) {
