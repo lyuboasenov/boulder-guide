@@ -6,7 +6,6 @@
              xmlns:localViews="clr-namespace:BoulderGuide.Mobile.Forms.Views"
              xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
              xmlns:viewModels="clr-namespace:BoulderGuide.Mobile.Forms.ViewModels"
-             xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
              xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
              x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage">
    <ContentPage.Title>
@@ -27,23 +26,26 @@
       </ToolbarItem>
    </ContentPage.ToolbarItems>
 
-   <ContentPage.Resources>
-      <converters:ValueToVisibilityConverter x:Key="valueToVisibility" />
-   </ContentPage.Resources>
-
    <StackLayout>
       <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
       <Label Text="{Binding Route.Info}" />
 
-      <CarouselView ItemsSource="{Binding Route.Schemas}">
+      <CarouselView ItemsSource="{Binding Route.Schemas}"
+                    PeekAreaInsets="10"
+                    Margin="0, 0, 0, 5">
          <CarouselView.ItemTemplate>
             <DataTemplate>
-               <localViews:SchemaView
-                           HorizontalOptions="CenterAndExpand"
-                           HeightRequest="{Binding Source={RelativeSource Self}, Path=Width}"
-                           Schema="{Binding}"
-                           RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
-                           />
+               <Frame HasShadow="false"
+                      BorderColor="LightGray"
+                      Padding="5"
+                  CornerRadius="5"
+                  HorizontalOptions="Center"
+                  VerticalOptions="CenterAndExpand">
+                  <localViews:SchemaView
+                     Schema="{Binding}"
+                     RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
+                     />
+               </Frame>
             </DataTemplate>
          </CarouselView.ItemTemplate>
       </CarouselView>
