@@ -7,6 +7,7 @@
              x:Class="BoulderGuide.Mobile.Forms.Views.MapPage"
              Title="{Binding Title}">
    <localViews:BindableMapView
+      IsZoomButtonVisible="False"
          BindableMap="{Binding Map}"
          BindableMyLocationLayer="{Binding MyLocationLayer, Mode=OneWayToSource}"
          VerticalOptions="FillAndExpand"
