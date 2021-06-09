@@ -1,11 +1,9 @@
 ﻿using BoulderGuide.Domain.Entities;
 using BoulderGuide.Mobile.Forms.Services.Data;
-using BoulderGuide.Mobile.Forms.Services.Maps;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -14,8 +12,6 @@ using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class AreaDetailsPageViewModel : ViewModelBase {
-
-      private static Stack stack = new Stack();
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
@@ -86,19 +82,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          Info = info;
 
          try {
-            if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-               Area = await dataService.GetArea(Info);
-            } else if (Info.IsOffline) {
-               Area = await dataService.GetOfflineArea(Info);
-            } else {
-               var dialogParams = new DialogParameters();
-               dialogParams.Add(
-                  DialogPageViewModel.ParameterKeys.Message,
-                  Strings.UnableToDownloadArea);
-               dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
+            Area = await dataService.GetArea(Info);
 
-               await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
-            }
             Device.BeginInvokeOnMainThread(() => {
                (MapCommand as Command)?.ChangeCanExecute();
             });

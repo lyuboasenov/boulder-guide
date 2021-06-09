@@ -214,6 +214,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Размер на локалните данни.
+        /// </summary>
+        internal static string LocalStorageSizeInMB {
+            get {
+                return ResourceManager.GetString("LocalStorageSizeInMB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Карта.
         /// </summary>
         internal static string Map {

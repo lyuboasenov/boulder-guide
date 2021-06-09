@@ -15,6 +15,10 @@ using Xamarin.Forms;
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class MainPageViewModel : ViewModelBase {
 
+      private readonly IDataService dataService;
+      private readonly IConnectivity connectivity;
+      private readonly IPermissions permissions;
+
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
       public AreaInfo SelectedAreaInfo { get; set; }
       public bool IsLoading { get; set; }
@@ -22,10 +26,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public ICommand ReloadCommand { get; }
       public ICommand SettingsCommand { get; }
-
-      private readonly IDataService dataService;
-      private readonly IConnectivity connectivity;
-      private readonly IPermissions permissions;
 
       public MainPageViewModel(
          INavigationService navigationService,
@@ -82,12 +82,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          IsLoading = true;
          AreaInfos.Clear();
 
-         IEnumerable<AreaInfo> areas;
-         if (connectivity.NetworkAccess != NetworkAccess.Internet) {
-            areas = await dataService.GetOfflineAreas();
-         } else {
-            areas = await dataService.GetAreas(force);
-         }
+         IEnumerable<AreaInfo> areas = await dataService.GetIndexAreas(force);
 
          foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
             AreaInfos.Add(area);

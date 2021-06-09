@@ -1,6 +1,5 @@
 ﻿using BoulderGuide.Domain.Entities;
 using BoulderGuide.Mobile.Forms.Services.Data;
-using BoulderGuide.Mobile.Forms.Services.Maps;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -61,19 +60,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          AreaInfo = areaInfo;
 
          try {
-            if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-               Route = await dataService.GetRoute(Info);
-            } else if (Info.IsOffline) {
-               Route = await dataService.GetOfflineRoute(Info);
-            } else {
-               var dialogParams = new DialogParameters();
-               dialogParams.Add(
-                  DialogPageViewModel.ParameterKeys.Message,
-                  Strings.UnableToDownloadRoute);
-               dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
+            Route = await dataService.GetRoute(Info);
 
-               await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
-            }
             Device.BeginInvokeOnMainThread(() => {
                (MapCommand as Command)?.ChangeCanExecute();
             });

@@ -6,8 +6,17 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.SettingsPage">
    <StackLayout>
+
+
+      <Label
+         Text="{Binding Source={Static root:Strings.LocalStorageSizeInMB}}" />
+      <Label
+         Text="{Binding LocalStorageSizeInMB, StringFormat='{0} MB' }"
+          />
+
       <Button Text="{Binding Source={Static root:Strings.ClearLocalData}}"
-              Command="{Binding ClearLocalDataCommand}" />
+              Command="{Binding ClearLocalDataCommand}"
+              Margin="0, 10, 0, 0"/>
 
       <Label
          Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"

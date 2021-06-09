@@ -5,7 +5,7 @@
     <link href="http://www.garmin.com">
       <text>Garmin International</text>
     </link>
-    <time>2021-06-07T21:40:23Z</time>
+    <time>2021-06-08T21:33:31Z</time>
     <bounds maxlat="42.705524582415819" maxlon="26.385793397203088" minlat="42.14489403180778" minlon="23.194313021376729"/>
   </metadata>
 
@@ -346,23 +346,6 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.15250002220273" lon="23.379500024020672">
-    <ele>1280</ele>
-    <time>2021-06-02T06:47:42Z</time>
-    <name>crimposa</name>
-    <cmt>crimposa</cmt>
-    <desc>crimposa</desc>
-    <sym>Pin, Blue</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Gorata</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -1006,6 +989,20 @@
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
         </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.154419897124171" lon="23.410876085981727">
+    <ele>1501</ele>
+    <time>2021-06-08T17:11:37Z</time>
+    <name>rilski sportist</name>
+    <cmt>Forest</cmt>
+    <desc>Forest</desc>
+    <sym>Pin, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
       </gpxx:WaypointExtension>
     </extensions>
   </wpt>

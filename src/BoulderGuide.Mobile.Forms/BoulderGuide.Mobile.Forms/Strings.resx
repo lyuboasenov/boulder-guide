@@ -168,6 +168,9 @@
   <data name="Info" xml:space="preserve">
     <value>Информация</value>
   </data>
+  <data name="LocalStorageSizeInMB" xml:space="preserve">
+    <value>Размер на локалните данни</value>
+  </data>
   <data name="Map" xml:space="preserve">
     <value>Карта</value>
   </data>

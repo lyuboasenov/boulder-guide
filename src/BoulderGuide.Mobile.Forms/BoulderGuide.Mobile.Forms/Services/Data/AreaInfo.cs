@@ -29,5 +29,9 @@
             return (Routes?.Length ?? 0) > 0;
          }
       }
+
+      public override string ToString() {
+         return $"Area: '{Name}'";
+      }
    }
 }

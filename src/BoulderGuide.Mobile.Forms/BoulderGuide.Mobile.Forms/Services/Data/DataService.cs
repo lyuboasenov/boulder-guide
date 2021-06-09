@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using BoulderGuide.Mobile.Forms.Services.Errors;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
@@ -17,40 +19,107 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       private readonly IFileSystem fileSystem;
       private readonly HttpClient httpClient = new HttpClient();
+      private readonly IConnectivity connectivity;
+      private readonly IErrorService errorService;
 
-      public DataService(IFileSystem fileSystem) {
+      public DataService(IFileSystem fileSystem, IConnectivity connectivity, IErrorService errorService) {
          this.fileSystem = fileSystem;
+         this.connectivity = connectivity;
+         this.errorService = errorService;
       }
 
-      public Task<IEnumerable<AreaInfo>> GetAreas(bool force) {
-         return GetAreas(true, force);
+      public Task ClearLocalStorage() {
+         try {
+            foreach (var kv in areaAddresses) {
+               var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
+               Directory.Delete(repoDir, true);
+            }
+
+            return Task.CompletedTask;
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+            return Task.CompletedTask;
+         }
       }
 
-      public Task<IEnumerable<AreaInfo>> GetOfflineAreas() {
-         return GetAreas(false, false);
+      public Task<int> GetLocalStorageSizeInMB() {
+         try {
+            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
+            DirectoryInfo info = new DirectoryInfo(repoDir);
+            long size = 0;
+            foreach (var file in info.GetFiles("*", SearchOption.AllDirectories)) {
+               size += file.Length;
+            }
+
+            return Task.FromResult<int>((int) (size >> 20));
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+            return Task.FromResult(0);
+         }
       }
 
-      public Task<Domain.Entities.Area> GetOfflineArea(AreaInfo info) {
-         return GetArea(info, false);
+      public Task<IEnumerable<AreaInfo>> GetIndexAreas(bool force) {
+         try {
+            if (connectivity.NetworkAccess != NetworkAccess.Internet) {
+               return GetAreas(false, force);
+            } else {
+               return GetAreas(true, force);
+            }
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+            return Task.FromResult<IEnumerable<AreaInfo>>(null);
+         }
       }
 
       public Task<Domain.Entities.Area> GetArea(AreaInfo info) {
-         return GetArea(info, true);
-      }
-
-      public Task<Domain.Entities.Route> GetOfflineRoute(RouteInfo info) {
-         return GetRoute(info, false);
+         try {
+            if (connectivity.NetworkAccess == NetworkAccess.Internet) {
+               return GetArea(info, true);
+            } else if (info.IsOffline) {
+               return GetArea(info, false);
+            } else {
+               // TODO show message that it can't be downloaded
+               return Task.FromResult<Domain.Entities.Area>(null);
+            }
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+            return Task.FromResult<Domain.Entities.Area>(null);
+         }
       }
 
       public Task<Domain.Entities.Route> GetRoute(RouteInfo info) {
-         return GetRoute(info, true);
+         try {
+            if (connectivity.NetworkAccess == NetworkAccess.Internet) {
+               return GetRoute(info, true);
+            } else if (info.IsOffline) {
+               return GetRoute(info, false);
+            } else {
+               // TODO show message that it can't be downloaded
+               return Task.FromResult<Domain.Entities.Route>(null);
+            }
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+            return Task.FromResult<Domain.Entities.Route>(null);
+         }
       }
 
       public async Task DownloadArea(AreaInfo info) {
-         await GetArea(info, true);
+         try {
+            await GetArea(info, true);
 
-         Parallel.ForEach(info.Areas ?? Enumerable.Empty<AreaInfo>(), async (i) => await DownloadArea(i));
-         Parallel.ForEach(info.Routes ?? Enumerable.Empty<RouteInfo>(), async (i) => await DownloadRoute(i));
+            var tasks = new List<Task>();
+            foreach (var i in info.Areas ?? Enumerable.Empty<AreaInfo>()) {
+               tasks.Add(DownloadArea(i));
+            }
+
+            foreach (var i in info.Routes ?? Enumerable.Empty<RouteInfo>()) {
+               tasks.Add(DownloadRoute(i));
+            }
+
+            await Task.WhenAll(tasks);
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+         }
       }
 
       private async Task DownloadRoute(RouteInfo info) {
@@ -97,15 +166,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          return JsonConvert.DeserializeObject<Domain.Entities.Area>(
             File.ReadAllText(info.LocalPath));
-      }
-
-      public Task RemoveLocalAreas() {
-         foreach (var kv in areaAddresses) {
-            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
-            Directory.Delete(repoDir, true);
-         }
-
-         return Task.CompletedTask;
       }
 
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
@@ -169,12 +229,18 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       }
 
       private async Task DownloadFile(string remotePath, string localPath) {
-         using (var response = await httpClient.GetAsync(remotePath)) {
-            response.EnsureSuccessStatusCode();
+         try {
+            using (var response = await httpClient.GetAsync(remotePath)) {
+               response.EnsureSuccessStatusCode();
 
-            using (var stream = File.Open(localPath, FileMode.Create)) {
-               await response.Content.CopyToAsync(stream);
+               using (var stream = File.Open(localPath, FileMode.Create)) {
+                  await response.Content.CopyToAsync(stream);
+               }
             }
+         } catch (Exception ex) {
+            errorService.HandleError(new DownloadFileException("", ex) {
+               Address = remotePath
+            });
          }
       }
    }

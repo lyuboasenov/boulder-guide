@@ -1,4 +1,5 @@
 using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.Maps;
 using BoulderGuide.Mobile.Forms.ViewModels;
 using BoulderGuide.Mobile.Forms.Views;
@@ -33,6 +34,7 @@ namespace BoulderGuide.Mobile.Forms
          containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
          containerRegistry.RegisterSingleton<IPreferences, PreferencesImplementation>();
 
+         containerRegistry.RegisterSingleton<IErrorService, ErrorService>();
          containerRegistry.RegisterSingleton<IDataService, DataService>();
          containerRegistry.RegisterSingleton<IMapService, MapService>();
          containerRegistry.RegisterSingleton<Services.Preferences.IPreferences, Services.Preferences.Preferences> ();
