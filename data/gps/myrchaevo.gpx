@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="MapSource 6.16.3" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <link href="http://www.garmin.com">
+      <text>Garmin International</text>
+    </link>
+    <time>2021-06-09T20:49:03Z</time>
+    <bounds maxlat="42.58976798504591" maxlon="23.195966687053442" minlat="42.588874809443951" minlon="23.194313021376729"/>
+  </metadata>
+
+  <wpt lat="42.588874809443951" lon="23.195966687053442">
+    <ele>1350</ele>
+    <time>2021-06-02T07:13:30Z</time>
+    <name>bachi miri</name>
+    <cmt>bachi miri</cmt>
+    <desc>bachi miri</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.589130038395524" lon="23.194313021376729">
+    <ele>1370</ele>
+    <time>2021-06-02T07:11:27Z</time>
+    <name>gn riba</name>
+    <cmt>gn riba https://photos.google.com/search/boulders/photo/AF1QipMWl0d8Wu_l0p6j5XKRjZU_TVSvpLz2-qCgGwAE</cmt>
+    <desc>gn riba https://photos.google.com/search/boulders/photo/AF1QipMWl0d8Wu_l0p6j5XKRjZU_TVSvpLz2-qCgGwAE</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.58976798504591" lon="23.194720968604088">
+    <ele>969</ele>
+    <time>2021-06-02T07:06:27Z</time>
+    <name>hitar petar</name>
+    <cmt>hitar petar</cmt>
+    <desc>hitar petar</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.589722219854593" lon="23.194722225889564">
+    <ele>1365</ele>
+    <time>2021-06-02T07:14:21Z</time>
+    <name>Instinkt za samosahranenie</name>
+    <cmt>Instinkt za samosahranenie</cmt>
+    <desc>Instinkt za samosahranenie</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.589408988133073" lon="23.194623989984393">
+    <ele>1369</ele>
+    <time>2021-06-02T07:07:20Z</time>
+    <name>plochata, fazanev rab</name>
+    <cmt>plochata, fazanev rab</cmt>
+    <desc>plochata, fazanev rab</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.589600011706352" lon="23.194700013846159">
+    <ele>945</ele>
+    <time>2021-06-02T07:04:39Z</time>
+    <name>schupeno pironche</name>
+    <cmt>schupeno pironche</cmt>
+    <desc>schupeno pironche</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.589413011446595" lon="23.194665983319283">
+    <ele>1370</ele>
+    <time>2021-06-02T07:08:27Z</time>
+    <name>zagryavki</name>
+    <cmt>zagryavk https://photos.google.com/search/boulders/photo/AF1QipMgYoOTymxToXqm8DRaxDijNcbM5E_Ch2SY63Zti</cmt>
+    <desc>zagryavk https://photos.google.com/search/boulders/photo/AF1QipMgYoOTymxToXqm8DRaxDijNcbM5E_Ch2SY63Zti</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+  <wpt lat="42.589733032509685" lon="23.19538900628686">
+    <ele>1370</ele>
+    <time>2021-06-02T07:09:52Z</time>
+    <name>zagryavki, uaz</name>
+    <cmt>zagryavki, uaz https://photos.google.com/search/boulders/photo/AF1QipPTXRhrzheNxceXusrBvNLiUdeZXLf4vmRnZfuE</cmt>
+    <desc>zagryavki, uaz https://photos.google.com/search/boulders/photo/AF1QipPTXRhrzheNxceXusrBvNLiUdeZXLf4vmRnZfuE</desc>
+    <sym>Block, Green</sym>
+    <extensions>
+      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+        <gpxx:Categories>
+          <gpxx:Category>marchaevo</gpxx:Category>
+        </gpxx:Categories>
+      </gpxx:WaypointExtension>
+    </extensions>
+  </wpt>
+
+</gpx>

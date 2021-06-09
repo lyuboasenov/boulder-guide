@@ -5,8 +5,8 @@
     <link href="http://www.garmin.com">
       <text>Garmin International</text>
     </link>
-    <time>2021-06-08T21:33:31Z</time>
-    <bounds maxlat="42.705524582415819" maxlon="26.385793397203088" minlat="42.14489403180778" minlon="23.194313021376729"/>
+    <time>2021-06-09T20:50:39Z</time>
+    <bounds maxlat="42.155629992485046" maxlon="23.431412000209093" minlat="42.14489403180778" minlon="23.377117300406098"/>
   </metadata>
 
   <wpt lat="42.153429575264454" lon="23.37847919203341">
@@ -142,23 +142,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.588874809443951" lon="23.195966687053442">
-    <ele>1350</ele>
-    <time>2021-06-02T07:13:30Z</time>
-    <name>bachi miri</name>
-    <cmt>bachi miri</cmt>
-    <desc>bachi miri</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.155192960053682" lon="23.409903030842543">
     <ele>1500</ele>
     <time>2021-06-02T07:26:46Z</time>
@@ -203,21 +186,6 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.642245991155505" lon="23.274214267730713">
-    <ele>0</ele>
-    <time>2020-06-05T05:46:06Z</time>
-    <name>Boyana parking</name>
-    <sym>Block, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Boyana</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -366,23 +334,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.227600030601025" lon="23.546299980953336">
-    <ele>1360</ele>
-    <time>2021-06-02T06:48:36Z</time>
-    <name>davai chicho</name>
-    <cmt>davai chicho</cmt>
-    <desc>davai chicho</desc>
-    <sym>Flag, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Beli Iskar</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.154219569638371" lon="23.409981485456228">
     <ele>1480.6400000000001</ele>
     <time>2021-06-05T13:58:39Z</time>
@@ -428,23 +379,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.589130038395524" lon="23.194313021376729">
-    <ele>1370</ele>
-    <time>2021-06-02T07:11:27Z</time>
-    <name>gn riba</name>
-    <cmt>gn riba https://photos.google.com/search/boulders/photo/AF1QipMWl0d8Wu_l0p6j5XKRjZU_TVSvpLz2-qCgGwAE</cmt>
-    <desc>gn riba https://photos.google.com/search/boulders/photo/AF1QipMWl0d8Wu_l0p6j5XKRjZU_TVSvpLz2-qCgGwAE</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.154996320605278" lon="23.410796290263534">
     <ele>1523.95</ele>
     <time>2021-06-05T13:06:54Z</time>
@@ -460,23 +394,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.58976798504591" lon="23.194720968604088">
-    <ele>969</ele>
-    <time>2021-06-02T07:06:27Z</time>
-    <name>hitar petar</name>
-    <cmt>hitar petar</cmt>
-    <desc>hitar petar</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.154546966776252" lon="23.410841636359692">
     <ele>1529.4200000000001</ele>
     <time>2021-06-05T13:02:18Z</time>
@@ -487,23 +404,6 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.589722219854593" lon="23.194722225889564">
-    <ele>1365</ele>
-    <time>2021-06-02T07:14:21Z</time>
-    <name>Instinkt za samosahranenie</name>
-    <cmt>Instinkt za samosahranenie</cmt>
-    <desc>Instinkt za samosahranenie</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -641,40 +541,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.231281027197838" lon="23.544530980288982">
-    <ele>1303</ele>
-    <time>2021-06-02T06:55:40Z</time>
-    <name>kikimora 2</name>
-    <cmt>kikimora 2</cmt>
-    <desc>kikimora 2</desc>
-    <sym>Flag, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Beli Iskar</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.23089998587966" lon="23.544599963352084">
-    <ele>1720</ele>
-    <time>2021-06-02T06:54:02Z</time>
-    <name>kikimora, gym rat brat, tikvenyak, between the trees</name>
-    <cmt>kikimora, gym rat brat, tikvenyak, between the trees</cmt>
-    <desc>kikimora, gym rat brat, tikvenyak, between the trees</desc>
-    <sym>Flag, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Beli Iskar</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.154505560174584" lon="23.410533014684916">
     <ele>1497.0999999999999</ele>
     <time>2021-06-05T13:41:46Z</time>
@@ -717,23 +583,6 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.229587966576219" lon="23.545001959428191">
-    <ele>1280</ele>
-    <time>2021-06-02T06:57:34Z</time>
-    <name>kyrti-chisti-izvozva</name>
-    <cmt>kyrti-chisti-izvozva</cmt>
-    <desc>kyrti-chisti-izvozva</desc>
-    <sym>Flag, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Beli Iskar</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -816,23 +665,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.642199974507093" lon="23.276300020515919">
-    <ele>945</ele>
-    <time>2021-06-02T07:03:35Z</time>
-    <name>myrtva tqga</name>
-    <cmt>myrtva tqga</cmt>
-    <desc>myrtva tqga</desc>
-    <sym>Block, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Boyana</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.145700035616755" lon="23.428499959409237">
     <ele>1720</ele>
     <time>2021-06-02T06:28:12Z</time>
@@ -879,23 +711,6 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Mosta</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.589408988133073" lon="23.194623989984393">
-    <ele>1369</ele>
-    <time>2021-06-02T07:07:20Z</time>
-    <name>plochata, fazanev rab</name>
-    <cmt>plochata, fazanev rab</cmt>
-    <desc>plochata, fazanev rab</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -1003,40 +818,6 @@
     <extensions>
       <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.635099999606609" lon="23.270000014454126">
-    <ele>1340</ele>
-    <time>2021-06-02T07:00:30Z</time>
-    <name>sam na bara</name>
-    <cmt>sam na bara</cmt>
-    <desc>sam na bara</desc>
-    <sym>Block, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Boyana</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.589600011706352" lon="23.194700013846159">
-    <ele>945</ele>
-    <time>2021-06-02T07:04:39Z</time>
-    <name>schupeno pironche</name>
-    <cmt>schupeno pironche</cmt>
-    <desc>schupeno pironche</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
-        </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
   </wpt>
@@ -1187,23 +968,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.227730033919215" lon="23.54641699232161">
-    <ele>1340</ele>
-    <time>2021-06-02T06:58:47Z</time>
-    <name>tanka, divo pivo</name>
-    <cmt>tanka, divo pivo</cmt>
-    <desc>tanka, divo pivo</desc>
-    <sym>Flag, Red</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>Beli Iskar</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.154171038419008" lon="23.411577316001058">
     <ele>1510.0699999999999</ele>
     <time>2021-06-05T12:57:54Z</time>
@@ -1309,23 +1073,6 @@
     </extensions>
   </wpt>
 
-  <wpt lat="42.589413011446595" lon="23.194665983319283">
-    <ele>1370</ele>
-    <time>2021-06-02T07:08:27Z</time>
-    <name>zagryavki</name>
-    <cmt>zagryavk https://photos.google.com/search/boulders/photo/AF1QipMgYoOTymxToXqm8DRaxDijNcbM5E_Ch2SY63Zti</cmt>
-    <desc>zagryavk https://photos.google.com/search/boulders/photo/AF1QipMgYoOTymxToXqm8DRaxDijNcbM5E_Ch2SY63Zti</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
   <wpt lat="42.154879979789257" lon="23.410706603899598">
     <ele>1516.52</ele>
     <time>2021-06-05T13:06:00Z</time>
@@ -1351,23 +1098,6 @@
         <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
         <gpxx:Categories>
           <gpxx:Category>Kamennata reka</gpxx:Category>
-        </gpxx:Categories>
-      </gpxx:WaypointExtension>
-    </extensions>
-  </wpt>
-
-  <wpt lat="42.589733032509685" lon="23.19538900628686">
-    <ele>1370</ele>
-    <time>2021-06-02T07:09:52Z</time>
-    <name>zagryavki, uaz</name>
-    <cmt>zagryavki, uaz https://photos.google.com/search/boulders/photo/AF1QipPTXRhrzheNxceXusrBvNLiUdeZXLf4vmRnZfuE</cmt>
-    <desc>zagryavki, uaz https://photos.google.com/search/boulders/photo/AF1QipPTXRhrzheNxceXusrBvNLiUdeZXLf4vmRnZfuE</desc>
-    <sym>Block, Green</sym>
-    <extensions>
-      <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
-        <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
-        <gpxx:Categories>
-          <gpxx:Category>marchaevo</gpxx:Category>
         </gpxx:Categories>
       </gpxx:WaypointExtension>
     </extensions>
@@ -1404,112 +1134,5 @@
       </gpxx:WaypointExtension>
     </extensions>
   </wpt>
-
-  <trk>
-    <name>2020-06-02 15:34</name>
-    <desc>&lt;p&gt;Start time: 3:34 PM Jun 2, 2020&lt;br/&gt;Finish time: 3:46 PM Jun 2, 2020&lt;br/&gt;Distance: 0.5 km (00:12)&lt;br/&gt;Moving time: 00:11&lt;br/&gt;Average speed: 2.46 km/h&lt;br/&gt;Avg. Speed Mov.: 2.59 km/h&lt;br/&gt;Max. speed: 4.25 km/h&lt;br/&gt;Minimum altitude: 384 m&lt;br/&gt;Maximum altitude: 492 m&lt;br/&gt;Ascent speed: 479 m/h&lt;br/&gt;Elevation gain: 96 m&lt;br/&gt;Ascent time: 00:12&lt;br/&gt;&lt;/p&gt;&lt;hr align="center" width="480" style="height: 2px; width: 517px"/&gt;</desc>
-    <trkseg>
-      <trkpt lat="42.7021408919245" lon="26.385789709165692">
-        <ele>400.13999999999999</ele>
-        <time>2020-06-02T12:34:14Z</time>
-      </trkpt>
-      <trkpt lat="42.702367203310132" lon="26.385793397203088">
-        <ele>384.80000000000001</ele>
-        <time>2020-06-02T12:34:56Z</time>
-      </trkpt>
-      <trkpt lat="42.702404083684087" lon="26.385552836582065">
-        <ele>388.99000000000001</ele>
-        <time>2020-06-02T12:35:18Z</time>
-      </trkpt>
-      <trkpt lat="42.70258697681129" lon="26.38553649187088">
-        <ele>393.81999999999999</ele>
-        <time>2020-06-02T12:35:42Z</time>
-      </trkpt>
-      <trkpt lat="42.702770037576556" lon="26.385560799390078">
-        <ele>396.75999999999999</ele>
-        <time>2020-06-02T12:36:10Z</time>
-      </trkpt>
-      <trkpt lat="42.702939938753843" lon="26.385645288974047">
-        <ele>399.98000000000002</ele>
-        <time>2020-06-02T12:36:35Z</time>
-      </trkpt>
-      <trkpt lat="42.703127022832632" lon="26.385657023638487">
-        <ele>401.49000000000001</ele>
-        <time>2020-06-02T12:37:00Z</time>
-      </trkpt>
-      <trkpt lat="42.70318997092545" lon="26.38541872613132">
-        <ele>404.36000000000001</ele>
-        <time>2020-06-02T12:37:28Z</time>
-      </trkpt>
-      <trkpt lat="42.703056028112769" lon="26.385249495506287">
-        <ele>405.22000000000003</ele>
-        <time>2020-06-02T12:37:46Z</time>
-      </trkpt>
-      <trkpt lat="42.703242525458336" lon="26.385196689516306">
-        <ele>412.14999999999998</ele>
-        <time>2020-06-02T12:38:14Z</time>
-      </trkpt>
-      <trkpt lat="42.703420808538795" lon="26.385124772787094">
-        <ele>414.10000000000002</ele>
-        <time>2020-06-02T12:38:31Z</time>
-      </trkpt>
-      <trkpt lat="42.703600767999887" lon="26.385054783895612">
-        <ele>419.47000000000003</ele>
-        <time>2020-06-02T12:38:51Z</time>
-      </trkpt>
-      <trkpt lat="42.703769914805889" lon="26.384961241856217">
-        <ele>425.32999999999998</ele>
-        <time>2020-06-02T12:39:10Z</time>
-      </trkpt>
-      <trkpt lat="42.703942414373159" lon="26.38488027267158">
-        <ele>430.19999999999999</ele>
-        <time>2020-06-02T12:39:31Z</time>
-      </trkpt>
-      <trkpt lat="42.704121870920062" lon="26.384903322905302">
-        <ele>431.38999999999999</ele>
-        <time>2020-06-02T12:39:50Z</time>
-      </trkpt>
-      <trkpt lat="42.704198397696018" lon="26.384679106995463">
-        <ele>435.99000000000001</ele>
-        <time>2020-06-02T12:40:22Z</time>
-      </trkpt>
-      <trkpt lat="42.704379027709365" lon="26.384677765890956">
-        <ele>439.85000000000002</ele>
-        <time>2020-06-02T12:40:53Z</time>
-      </trkpt>
-      <trkpt lat="42.704531410709023" lon="26.384542398154736">
-        <ele>446.02999999999997</ele>
-        <time>2020-06-02T12:41:26Z</time>
-      </trkpt>
-      <trkpt lat="42.704681027680635" lon="26.384398732334375">
-        <ele>449.54000000000002</ele>
-        <time>2020-06-02T12:42:05Z</time>
-      </trkpt>
-      <trkpt lat="42.704861322417855" lon="26.384351458400488">
-        <ele>455.13</ele>
-        <time>2020-06-02T12:42:49Z</time>
-      </trkpt>
-      <trkpt lat="42.705014795064926" lon="26.384216761216521">
-        <ele>459.66000000000003</ele>
-        <time>2020-06-02T12:43:21Z</time>
-      </trkpt>
-      <trkpt lat="42.705179834738374" lon="26.38411408290267">
-        <ele>464.00999999999999</ele>
-        <time>2020-06-02T12:44:00Z</time>
-      </trkpt>
-      <trkpt lat="42.705299528315663" lon="26.383921466767788">
-        <ele>471.72000000000003</ele>
-        <time>2020-06-02T12:44:47Z</time>
-      </trkpt>
-      <trkpt lat="42.70540053024888" lon="26.383717535063624">
-        <ele>484.12</ele>
-        <time>2020-06-02T12:45:46Z</time>
-      </trkpt>
-      <trkpt lat="42.705524582415819" lon="26.38353556394577">
-        <ele>492.94</ele>
-        <time>2020-06-02T12:46:16Z</time>
-      </trkpt>
-    </trkseg>
-  </trk>
 
 </gpx>
