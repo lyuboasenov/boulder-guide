@@ -177,6 +177,18 @@
   <data name="Reload" xml:space="preserve">
     <value>Презареди</value>
   </data>
+  <data name="RouteOrderByDifficulty" xml:space="preserve">
+    <value>Трудност 6A-8C</value>
+  </data>
+  <data name="RouteOrderByDifficultyDesc" xml:space="preserve">
+    <value>Трудност 8C-6A</value>
+  </data>
+  <data name="RouteOrderByName" xml:space="preserve">
+    <value>Име А-Я</value>
+  </data>
+  <data name="RouteOrderByNameDesc" xml:space="preserve">
+    <value>Име Я-А</value>
+  </data>
   <data name="Routes" xml:space="preserve">
     <value>Маршрути</value>
   </data>

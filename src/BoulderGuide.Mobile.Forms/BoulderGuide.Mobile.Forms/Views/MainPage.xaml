@@ -13,8 +13,8 @@
       <ContentPage Title="Menu">
          <Grid>
             <Grid.RowDefinitions>
-               <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
+               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <ImageButton Grid.Row="0"
@@ -32,11 +32,10 @@
             </ImageButton>
 
             <ListView
-               Grid.Row="0"
+               Grid.Row="1"
                ItemsSource="{Binding Source={Static root:Breadcrumbs.Items}}"
                SelectedItem="{Binding SelectectedBreadcrumbsItem}"
-               SelectionMode="Single"
-               Margin="0, 10, 0, 0">
+               SelectionMode="Single">
 
                <ListView.ItemTemplate>
                   <DataTemplate>

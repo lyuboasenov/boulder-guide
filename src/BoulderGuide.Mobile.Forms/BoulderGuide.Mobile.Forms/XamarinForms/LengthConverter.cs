@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace BoulderGuide.Mobile.Forms.Converters {
+namespace BoulderGuide.Mobile.Forms.XamarinForms {
    public class LengthConverter : IValueConverter {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
          if (value is null) {

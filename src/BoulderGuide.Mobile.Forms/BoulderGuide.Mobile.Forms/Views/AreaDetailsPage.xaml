@@ -3,7 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:prism="http://prismlibrary.com"
             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
-            xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
+            xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="BoulderGuide.Mobile.Forms.Views.AreaDetailsPage"
@@ -11,8 +11,104 @@
             Title="{Binding Info.Name}">
 
    <TabbedPage.Resources>
-      <converters:ValueToVisibilityConverter x:Key="valueToVisibility" />
-      <converters:LengthConverter x:Key="lengthConverter" />
+      <xamForms:ValueToVisibilityConverter x:Key="valueToVisibility" />
+      <xamForms:LengthConverter x:Key="lengthConverter" />
+
+      <DataTemplate x:Key="areaDataTemplate">
+         <ViewCell>
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+               </Grid.ColumnDefinitions>
+
+               <Label
+                  Text="{Static icons:MaterialIconFont.Terrain}"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}"
+                  VerticalOptions="CenterAndExpand"
+                  Margin="5, 0, 0, 0"/>
+
+               <Label
+                  Grid.Column="1"
+                  Text="{Binding Name}"
+                  VerticalOptions="CenterAndExpand"
+                  Margin="5, 0, 0, 0"/>
+
+               <StackLayout Grid.Column="3" Orientation="Horizontal">
+                  <Label
+                     Text="{Binding Areas, Converter={StaticResource Key=lengthConverter}}"
+                     VerticalOptions="CenterAndExpand"
+                     FontSize="Micro" />
+                  <Label
+                     Text="/"
+                     VerticalOptions="CenterAndExpand"
+                     FontSize="Micro" />
+                  <Label
+                     Text="{Binding Routes, Converter={StaticResource Key=lengthConverter}}"
+                     VerticalOptions="CenterAndExpand"
+                     FontSize="Micro" />
+               </StackLayout>
+
+               <Label
+                  Grid.Column="4"
+                  Text="{Static icons:MaterialIconFont.DownloadDone}"
+                  HorizontalOptions="End"
+                  VerticalOptions="Center"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}"
+                  IsVisible="{Binding IsOffline}"/>
+               <Label
+                  Grid.Column="4"
+                  Text="{Static icons:MaterialIconFont.CloudDownload}"
+                  HorizontalOptions="End"
+                  VerticalOptions="Center"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}">
+                  <Label.Triggers>
+                     <DataTrigger TargetType="Label" Binding="{Binding IsOffline}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                     </DataTrigger>
+                  </Label.Triggers>
+               </Label>
+            </Grid>
+         </ViewCell>
+      </DataTemplate>
+
+      <DataTemplate x:Key="routeTemplate">
+         <ViewCell>
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+               </Grid.ColumnDefinitions>
+
+               <Label
+                  Text="{Static icons:MaterialIconFont.Moving}"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}"
+                  VerticalOptions="CenterAndExpand"
+                  Margin="10, 0, 0, 0"/>
+               <Label
+                  Grid.Column="1"
+                  Text="{Binding Name}"
+                  VerticalOptions="CenterAndExpand"
+                  Margin="10, 0, 0, 0"/>
+
+               <Label
+                  Text="{Binding Grade, StringFormat='({0})'}"
+                  VerticalOptions="CenterAndExpand"
+                  Grid.Column="3"
+                  FontSize="Micro" />
+            </Grid>
+         </ViewCell>
+      </DataTemplate>
+
+      <xamForms:AreaRouteDataTemplateSelector
+         x:Key="areaRouteDataTemplateSelector"
+         AreaTemplate="{StaticResource Key=areaDataTemplate}"
+         RouteTemplate="{StaticResource Key=routeTemplate}"/>
    </TabbedPage.Resources>
 
    <TabbedPage.ToolbarItems>
@@ -41,115 +137,14 @@
             FontFamily="{StaticResource Key=MaterialFontFamily}" />
       </ContentPage.IconImageSource>
 
-      <ScrollView>
-         <StackLayout>
+      <Grid>
 
-            <ListView ItemsSource="{Binding Info.Areas}"
-                      SelectedItem="{Binding SelectedAreaInfo}"
-                      IsVisible="{Binding Info.HasAreas}"
-                      Margin="10">
-               <ListView.ItemTemplate>
-                  <DataTemplate>
-                     <ViewCell>
-                        <Grid>
-                           <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="*" />
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="Auto" />
-                           </Grid.ColumnDefinitions>
+         <ListView ItemsSource="{Binding Children}"
+                     SelectedItem="{Binding SelectedChild}"
+                     Margin="10"
+                     ItemTemplate="{StaticResource areaRouteDataTemplateSelector}" />
 
-                           <Label
-                                 Text="{Static icons:MaterialIconFont.Terrain}"
-                                 FontFamily="{StaticResource Key=MaterialFontFamily}"
-                                 VerticalOptions="CenterAndExpand"
-                                 Margin="5, 0, 0, 0"/>
-
-                           <Label
-                                 Grid.Column="1"
-                                 Text="{Binding Name}"
-                                 VerticalOptions="CenterAndExpand"
-                                 Margin="5, 0, 0, 0"/>
-
-                           <StackLayout Grid.Column="3" Orientation="Horizontal">
-                              <Label
-                                    Text="{Binding Areas, Converter={StaticResource Key=lengthConverter}}"
-                                    VerticalOptions="CenterAndExpand"
-                                    FontSize="Micro" />
-                              <Label
-                                    Text="/"
-                                    VerticalOptions="CenterAndExpand"
-                                    FontSize="Micro" />
-                              <Label
-                                    Text="{Binding Routes, Converter={StaticResource Key=lengthConverter}}"
-                                    VerticalOptions="CenterAndExpand"
-                                    FontSize="Micro" />
-                           </StackLayout>
-
-                           <Label
-                                 Grid.Column="4"
-                                 Text="{Static icons:MaterialIconFont.DownloadDone}"
-                                 HorizontalOptions="End"
-                                 VerticalOptions="Center"
-                                 FontFamily="{StaticResource Key=MaterialFontFamily}"
-                                 IsVisible="{Binding IsOffline}"/>
-                           <Label
-                                 Grid.Column="4"
-                                 Text="{Static icons:MaterialIconFont.CloudDownload}"
-                                 HorizontalOptions="End"
-                                 VerticalOptions="Center"
-                                 FontFamily="{StaticResource Key=MaterialFontFamily}">
-                              <Label.Triggers>
-                                 <DataTrigger TargetType="Label" Binding="{Binding IsOffline}" Value="True">
-                                    <Setter Property="IsVisible" Value="False" />
-                                 </DataTrigger>
-                              </Label.Triggers>
-                           </Label>
-                        </Grid>
-                     </ViewCell>
-                  </DataTemplate>
-               </ListView.ItemTemplate>
-            </ListView>
-
-            <ListView ItemsSource="{Binding Info.Routes}"
-                      Margin="10"
-                      IsVisible="{Binding Info.HasRoutes}"
-                      SelectedItem="{Binding SelectedRouteInfo}">
-               <ListView.ItemTemplate>
-                  <DataTemplate>
-                     <ViewCell>
-                        <Grid>
-                           <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="*" />
-                              <ColumnDefinition Width="Auto" />
-                           </Grid.ColumnDefinitions>
-
-                           <Label
-                                 Text="{Static icons:MaterialIconFont.Moving}"
-                                 FontFamily="{StaticResource Key=MaterialFontFamily}"
-                                 VerticalOptions="CenterAndExpand"
-                                 Margin="10, 0, 0, 0"/>
-                           <Label
-                                 Grid.Column="1"
-                                 Text="{Binding Name}"
-                                 VerticalOptions="CenterAndExpand"
-                                 Margin="10, 0, 0, 0"/>
-
-                           <Label
-                                 Text="{Binding Grade, StringFormat='({0})'}"
-                                 VerticalOptions="CenterAndExpand"
-                                 Grid.Column="3"
-                                 FontSize="Micro" />
-                        </Grid>
-                     </ViewCell>
-                  </DataTemplate>
-               </ListView.ItemTemplate>
-            </ListView>
-         </StackLayout>
-      </ScrollView>
+      </Grid>
 
    </ContentPage>
 

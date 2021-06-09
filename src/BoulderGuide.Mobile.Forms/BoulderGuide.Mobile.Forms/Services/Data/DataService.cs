@@ -21,11 +21,17 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       private readonly HttpClient httpClient = new HttpClient();
       private readonly IConnectivity connectivity;
       private readonly IErrorService errorService;
+      private readonly Services.Preferences.IPreferences preferences;
 
-      public DataService(IFileSystem fileSystem, IConnectivity connectivity, IErrorService errorService) {
+      public DataService(
+         IFileSystem fileSystem,
+         IConnectivity connectivity,
+         IErrorService errorService,
+         Services.Preferences.IPreferences preferences) {
          this.fileSystem = fileSystem;
          this.connectivity = connectivity;
          this.errorService = errorService;
+         this.preferences = preferences;
       }
 
       public Task ClearLocalStorage() {
@@ -73,6 +79,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public Task<Domain.Entities.Area> GetArea(AreaInfo info) {
          try {
+            OrderAreasRoutes(info);
+
             if (connectivity.NetworkAccess == NetworkAccess.Internet) {
                return GetArea(info, true);
             } else if (info.IsOffline) {
@@ -196,6 +204,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                }
             }
 
+            OrderAreasRoutes(index);
             SetIsOfflineAndRoots(index, kv.Value, repoDir);
             index.IsOffline = true;
 
@@ -203,6 +212,28 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
 
          return result;
+      }
+
+      private void OrderAreasRoutes(AreaInfo index) {
+         if (index.Areas?.Any() ?? false) {
+            foreach (var area in index.Areas ?? Enumerable.Empty<AreaInfo>()) {
+               OrderAreasRoutes(area);
+            }
+            index.Areas = index.Areas.OrderBy(a => a.Name).ToArray();
+         }
+
+         if (index.Routes?.Any() ?? false) {
+            var setting = preferences.RouteOrderByProperty;
+            if (setting == Preferences.RouteOrderBy.Difficulty) {
+               index.Routes = index.Routes.OrderBy(r => r.Difficulty).ToArray();
+            } else if (setting == Preferences.RouteOrderBy.DifficultyDesc) {
+               index.Routes = index.Routes.OrderByDescending(r => r.Difficulty).ToArray();
+            } else if (setting == Preferences.RouteOrderBy.NameDesc) {
+               index.Routes = index.Routes.OrderByDescending(r => r.Name).ToArray();
+            } else {
+               index.Routes = index.Routes.OrderBy(r => r.Name).ToArray();
+            }
+         }
       }
 
       private void SetIsOfflineAndRoots(AreaInfo index, string remoteRoot, string localRoot) {

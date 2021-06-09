@@ -241,6 +241,42 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Трудност 6A-8C.
+        /// </summary>
+        internal static string RouteOrderByDifficulty {
+            get {
+                return ResourceManager.GetString("RouteOrderByDifficulty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Трудност 8C-6A.
+        /// </summary>
+        internal static string RouteOrderByDifficultyDesc {
+            get {
+                return ResourceManager.GetString("RouteOrderByDifficultyDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Име А-Я.
+        /// </summary>
+        internal static string RouteOrderByName {
+            get {
+                return ResourceManager.GetString("RouteOrderByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Име Я-А.
+        /// </summary>
+        internal static string RouteOrderByNameDesc {
+            get {
+                return ResourceManager.GetString("RouteOrderByNameDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Маршрути.
         /// </summary>
         internal static string Routes {

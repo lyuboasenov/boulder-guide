@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 
-namespace BoulderGuide.Mobile.Forms.Converters {
+namespace BoulderGuide.Mobile.Forms.XamarinForms {
    public class ValueToVisibilityConverter : IValueConverter {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
          if (value is null ||

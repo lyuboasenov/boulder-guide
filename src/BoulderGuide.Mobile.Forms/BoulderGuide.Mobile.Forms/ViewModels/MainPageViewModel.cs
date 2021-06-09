@@ -99,7 +99,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             var current = Breadcrumbs.Items[i];
             Breadcrumbs.Items.RemoveAt(i);
             if (current == SelectectedBreadcrumbsItem) {
-               NavigateAsync(current.Title, current.Path, current.Parameters);
+               NavigateAsync(current.Title, current.Path, current.Parameters, current.Glyph);
                break;
             }
          }

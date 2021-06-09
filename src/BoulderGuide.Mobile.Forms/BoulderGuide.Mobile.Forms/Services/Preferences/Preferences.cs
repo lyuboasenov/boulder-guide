@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BoulderGuide.Mobile.Forms.Services.Preferences {
+﻿namespace BoulderGuide.Mobile.Forms.Services.Preferences {
    internal class Preferences : IPreferences {
       private readonly Xamarin.Essentials.Interfaces.IPreferences preferences;
 
@@ -16,6 +12,15 @@ namespace BoulderGuide.Mobile.Forms.Services.Preferences {
          }
          set {
             preferences.Set(nameof(GPSPollIntervalInSeconds), value);
+         }
+      }
+
+      public RouteOrderBy RouteOrderByProperty {
+         get {
+            return (RouteOrderBy) preferences.Get(nameof(RouteOrderByProperty), 0);
+         }
+         set {
+            preferences.Set(nameof(RouteOrderByProperty), (int) value);
          }
       }
    }

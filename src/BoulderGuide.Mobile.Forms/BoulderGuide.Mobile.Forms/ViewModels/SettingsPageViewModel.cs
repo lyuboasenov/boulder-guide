@@ -12,6 +12,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IDataService dataService;
 
       public IEnumerable<int> GpsPollingIntervalList { get; set; }
+      public IEnumerable<string> RouteOrderByPropertyList { get; set; }
+      public int RouteOrderByPropertyIndex { get; set; }
       public int SelectedGpsPollingInterval { get; set; }
       public int LocalStorageSizeInMB { get; set; }
       public ICommand ClearLocalDataCommand { get; }
@@ -38,6 +40,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             LocalStorageSizeInMB = await dataService.GetLocalStorageSizeInMB();
          });
+
+         RouteOrderByPropertyList = new[] {
+            Strings.RouteOrderByName,
+            Strings.RouteOrderByNameDesc,
+            Strings.RouteOrderByDifficulty,
+            Strings.RouteOrderByDifficultyDesc
+         };
+         RouteOrderByPropertyIndex = (int) preferences.RouteOrderByProperty;
       }
 
       private Task ClearLocalData() {
@@ -46,6 +56,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public void OnSelectedGpsPollingIntervalChanged() {
          preferences.GPSPollIntervalInSeconds = SelectedGpsPollingInterval;
+      }
+
+      public void OnRouteOrderByPropertyIndexChanged() {
+         preferences.RouteOrderByProperty = (Services.Preferences.RouteOrderBy) RouteOrderByPropertyIndex;
       }
    }
 }

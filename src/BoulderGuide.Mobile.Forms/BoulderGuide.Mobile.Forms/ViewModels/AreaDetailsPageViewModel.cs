@@ -5,6 +5,8 @@ using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -22,8 +24,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
       public Area Area { get; set; }
       public AreaInfo Info { get; set; }
-      public AreaInfo SelectedAreaInfo { get; set; }
-      public RouteInfo SelectedRouteInfo { get; set; }
+      public Info SelectedChild { get; set; }
+      public ObservableCollection<Info> Children { get; set; } = new ObservableCollection<Info>();
 
       public AreaDetailsPageViewModel(
          INavigationService navigationService,
@@ -34,10 +36,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          base (navigationService, dialogService) {
          this.dataService = dataService;
          this.connectivity = connectivity;
+         this.activityIndicationService = activityIndicationService;
 
          DownloadCommand = new Command(async () => await Download());
          MapCommand = new Command(async () => await Map(), CanShowMap);
-         this.activityIndicationService = activityIndicationService;
       }
 
       private bool CanShowMap() {
@@ -62,20 +64,20 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
       }
 
-      public void OnSelectedAreaInfoChanged() {
-         NavigateAsync(
-            SelectedAreaInfo.Name,
-            $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
-            InitializeParameters(SelectedAreaInfo),
-            Icons.MaterialIconFont.Terrain);
-      }
-
-      public void OnSelectedRouteInfoChanged() {
-         NavigateAsync(
-            $"{SelectedRouteInfo.Name} ({new Grade(SelectedRouteInfo.Difficulty)})",
-            $"/MainPage/NavigationPage/{nameof(RoutePage)}",
-            RoutePageViewModel.InitializeParameters(SelectedRouteInfo, Info),
-            Icons.MaterialIconFont.Moving);
+      public void OnSelectedChildChanged() {
+         if (SelectedChild is AreaInfo areaInfo) {
+            NavigateAsync(
+               areaInfo.Name,
+               $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
+               InitializeParameters(areaInfo),
+               Icons.MaterialIconFont.Terrain);
+         } else if (SelectedChild is RouteInfo routeInfo) {
+            NavigateAsync(
+               $"{routeInfo.Name} ({new Grade(routeInfo.Difficulty)})",
+               $"/MainPage/NavigationPage/{nameof(RoutePage)}",
+               RoutePageViewModel.InitializeParameters(routeInfo, Info),
+               Icons.MaterialIconFont.Moving);
+         }
       }
 
       public static NavigationParameters InitializeParameters(AreaInfo info) {
@@ -89,6 +91,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
          try {
             Area = await dataService.GetArea(Info);
+
+            Children.Clear();
+            foreach (var area in info.Areas ?? Enumerable.Empty<AreaInfo>()) {
+               Children.Add(area);
+            }
+            foreach (var route in info.Routes ?? Enumerable.Empty<RouteInfo>()) {
+               Children.Add(route);
+            }
 
             Device.BeginInvokeOnMainThread(() => {
                (MapCommand as Command)?.ChangeCanExecute();
