@@ -21,13 +21,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       private readonly HttpClient httpClient = new HttpClient();
       private readonly IConnectivity connectivity;
       private readonly IErrorService errorService;
-      private readonly Services.Preferences.IPreferences preferences;
+      private readonly Preferences.IPreferences preferences;
 
       public DataService(
          IFileSystem fileSystem,
          IConnectivity connectivity,
          IErrorService errorService,
-         Services.Preferences.IPreferences preferences) {
+         Preferences.IPreferences preferences) {
          this.fileSystem = fileSystem;
          this.connectivity = connectivity;
          this.errorService = errorService;
@@ -206,7 +206,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
             OrderAreasRoutes(index);
             SetIsOfflineAndRoots(index, kv.Value, repoDir);
-            index.IsOffline = true;
+            //index.IsOffline = true;
 
             result.Add(index);
          }

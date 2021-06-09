@@ -74,7 +74,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private async Task Settings() {
          await NavigateAsync(
             Strings.Settings,
-            "/MainPage/NavigationPage/SettingsPage");
+            "/MainPage/NavigationPage/SettingsPage",
+            glyph:Icons.MaterialIconFont.Settings);
       }
 
       private async Task Reload(bool force) {

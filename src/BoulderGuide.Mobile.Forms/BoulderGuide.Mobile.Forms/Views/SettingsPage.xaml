@@ -29,7 +29,7 @@
          Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
          Margin="0, 10, 0, 0" />
       <Picker
-         SelectedIndex="{Binding RouteOrderByPropertyIndex}"
+         SelectedItem="{Binding RouteOrderByProperty}"
          ItemsSource="{Binding RouteOrderByPropertyList}" />
    </StackLayout>
 </ContentPage>

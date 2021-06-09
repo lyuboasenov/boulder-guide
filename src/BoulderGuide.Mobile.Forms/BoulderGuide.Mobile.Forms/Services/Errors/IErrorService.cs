@@ -5,6 +5,5 @@ using System.Text;
 namespace BoulderGuide.Mobile.Forms.Services.Errors {
    public interface IErrorService {
       void HandleError(Exception ex);
-      void HandleError(string errorCode, Exception ex);
    }
 }

@@ -4,6 +4,7 @@ using BoulderGuide.Mobile.Forms.Services.Maps;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.ViewModels;
 using BoulderGuide.Mobile.Forms.Views;
+using Plugin.Toasts;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Essentials.Implementation;

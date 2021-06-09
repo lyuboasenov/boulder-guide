@@ -2,6 +2,7 @@
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -13,7 +14,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public IEnumerable<int> GpsPollingIntervalList { get; set; }
       public IEnumerable<string> RouteOrderByPropertyList { get; set; }
-      public int RouteOrderByPropertyIndex { get; set; }
+      public string RouteOrderByProperty { get; set; }
       public int SelectedGpsPollingInterval { get; set; }
       public int LocalStorageSizeInMB { get; set; }
       public ICommand ClearLocalDataCommand { get; }
@@ -47,19 +48,26 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Strings.RouteOrderByDifficulty,
             Strings.RouteOrderByDifficultyDesc
          };
-         RouteOrderByPropertyIndex = (int) preferences.RouteOrderByProperty;
+         RouteOrderByProperty = RouteOrderByPropertyList.ElementAt((int) preferences.RouteOrderByProperty);
       }
 
-      private Task ClearLocalData() {
-         return dataService.ClearLocalStorage();
+      private async Task ClearLocalData() {
+         await dataService.ClearLocalStorage();
+         LocalStorageSizeInMB = await dataService.GetLocalStorageSizeInMB();
       }
 
       public void OnSelectedGpsPollingIntervalChanged() {
          preferences.GPSPollIntervalInSeconds = SelectedGpsPollingInterval;
       }
 
-      public void OnRouteOrderByPropertyIndexChanged() {
-         preferences.RouteOrderByProperty = (Services.Preferences.RouteOrderBy) RouteOrderByPropertyIndex;
+      public void OnRouteOrderByPropertyChanged() {
+         int i = 0;
+         foreach (var current in RouteOrderByPropertyList) {
+            if (current == RouteOrderByProperty) {
+               preferences.RouteOrderByProperty = (Services.Preferences.RouteOrderBy) i;
+            }
+            i++;
+         }
       }
    }
 }
