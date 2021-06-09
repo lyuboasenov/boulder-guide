@@ -174,7 +174,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       }
 
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
-         var masterIndexLocalPath = Path.Combine(fileSystem.AppDataDirectory, "repositories", "index.json");
+
+         var repositoriesDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
+         if (!Directory.Exists(repositoriesDir)) {
+            Directory.CreateDirectory(repositoriesDir);
+         }
+
+         var masterIndexLocalPath = Path.Combine(repositoriesDir, "index.json");
          if (download && !File.Exists(masterIndexLocalPath) || force) {
             await DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
@@ -184,7 +190,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          var result = new List<AreaInfo>();
          foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
-            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
+            var repoDir = Path.Combine(repositoriesDir, kv.Key);
 
             if (!Directory.Exists(repoDir)) {
                Directory.CreateDirectory(repoDir);

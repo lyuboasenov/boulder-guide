@@ -35,7 +35,7 @@
                     Margin="0, 0, 0, 5">
          <CarouselView.ItemTemplate>
             <DataTemplate>
-               <Frame HasShadow="false"
+               <Frame HasShadow="True"
                       BorderColor="LightGray"
                       Padding="5"
                   CornerRadius="5"
