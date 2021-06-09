@@ -1,5 +1,6 @@
 ﻿using BoulderGuide.Domain.Entities;
 using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -15,10 +16,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
+      private readonly IActivityIndicationService activityIndicationService;
 
       public ICommand DownloadCommand { get; }
       public ICommand MapCommand { get; }
-      public bool IsLoading { get; set; }
       public Area Area { get; set; }
       public AreaInfo Info { get; set; }
       public AreaInfo SelectedAreaInfo { get; set; }
@@ -28,13 +29,15 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          INavigationService navigationService,
          IDataService dataService,
          IConnectivity connectivity,
-         IDialogService dialogService) :
+         IDialogService dialogService,
+         IActivityIndicationService activityIndicationService) :
          base (navigationService, dialogService) {
          this.dataService = dataService;
          this.connectivity = connectivity;
 
          DownloadCommand = new Command(async () => await Download());
          MapCommand = new Command(async () => await Map(), CanShowMap);
+         this.activityIndicationService = activityIndicationService;
       }
 
       private bool CanShowMap() {
@@ -43,9 +46,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private async Task Map() {
          await NavigateAsync(
-            $"{Strings.Map}: {Area.Name}" ,
+            Area.Name,
             $"/MainPage/NavigationPage/{nameof(MapPage)}",
-            MapPageViewModel.InitializeParameters(Area, Info));
+            MapPageViewModel.InitializeParameters(Area, Info),
+            Icons.MaterialIconFont.Map);
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
@@ -62,14 +66,16 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          NavigateAsync(
             SelectedAreaInfo.Name,
             $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
-            InitializeParameters(SelectedAreaInfo));
+            InitializeParameters(SelectedAreaInfo),
+            Icons.MaterialIconFont.Terrain);
       }
 
       public void OnSelectedRouteInfoChanged() {
          NavigateAsync(
             $"{SelectedRouteInfo.Name} ({new Grade(SelectedRouteInfo.Difficulty)})",
             $"/MainPage/NavigationPage/{nameof(RoutePage)}",
-            RoutePageViewModel.InitializeParameters(SelectedRouteInfo, Info));
+            RoutePageViewModel.InitializeParameters(SelectedRouteInfo, Info),
+            Icons.MaterialIconFont.Moving);
       }
 
       public static NavigationParameters InitializeParameters(AreaInfo info) {
@@ -77,7 +83,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task InitializeAsync(AreaInfo info) {
-         IsLoading = true;
+         await activityIndicationService.StartLoadingAsync();
 
          Info = info;
 
@@ -90,15 +96,15 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          } catch (Exception ex) {
             await HandleExceptionAsync(ex);
          }
-         IsLoading = false;
+         await activityIndicationService.FinishLoadingAsync();
       }
 
       private async Task Download() {
 
          if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-            IsLoading = true;
+            await activityIndicationService.StartLoadingAsync();
             await dataService.DownloadArea(Info);
-            IsLoading = false;
+            await activityIndicationService.FinishLoadingAsync();
          } else {
             var dialogParams = new DialogParameters();
             dialogParams.Add(

@@ -43,14 +43,16 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       }
 
-      public Task<INavigationResult> NavigateAsync(string title, string path, INavigationParameters parameters = null) {
+      public Task<INavigationResult> NavigateAsync(string title, string path, INavigationParameters parameters = null, string glyph = "") {
          var lastItem = Breadcrumbs.Items.LastOrDefault();
          if (lastItem is null ||
-            lastItem.Name != title ||
+            lastItem.Glyph != glyph ||
+            lastItem.Title != title ||
             lastItem.Path != path ||
             lastItem.Parameters != parameters) {
             Breadcrumbs.Items.Add(new Breadcrumbs.Item() {
-               Name = title,
+               Glyph = glyph,
+               Title = title,
                Path = path,
                Parameters = parameters
             });
@@ -70,7 +72,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             }
          }
 
-         return NavigateAsync(lastItem.Name, lastItem.Path, lastItem.Parameters);
+         return NavigateAsync(lastItem.Title, lastItem.Path, lastItem.Parameters, lastItem.Glyph);
       }
 
       public Task HandleExceptionAsync(Exception ex) {

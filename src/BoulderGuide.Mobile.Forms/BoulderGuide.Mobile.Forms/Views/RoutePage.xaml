@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-            xmlns:localViews="clr-namespace:BoulderGuide.Mobile.Forms.Views"
-            xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
-            xmlns:viewModels="clr-namespace:BoulderGuide.Mobile.Forms.ViewModels"
-            xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
-            x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage">
+             xmlns:localViews="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
+             xmlns:viewModels="clr-namespace:BoulderGuide.Mobile.Forms.ViewModels"
+             xmlns:converters="clr-namespace:BoulderGuide.Mobile.Forms.Converters"
+             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+             x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage">
    <ContentPage.Title>
       <MultiBinding StringFormat="{}{0} ({1})">
          <Binding Path="Info.Name" />
@@ -16,7 +17,14 @@
    </ContentPage.Title>
 
    <ContentPage.ToolbarItems>
-      <ToolbarItem Text="{Binding Source={Static root:Strings.Map}}" Command="{Binding MapCommand}" />
+      <ToolbarItem
+         Command="{Binding MapCommand}">
+         <ToolbarItem.IconImageSource>
+            <FontImageSource
+               Glyph="{Static icons:MaterialIconFont.Place}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+         </ToolbarItem.IconImageSource>
+      </ToolbarItem>
    </ContentPage.ToolbarItems>
 
    <ContentPage.Resources>

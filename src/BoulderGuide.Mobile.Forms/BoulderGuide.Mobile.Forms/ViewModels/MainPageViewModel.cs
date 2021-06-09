@@ -1,4 +1,5 @@
 ﻿using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -18,10 +19,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
       private readonly IPermissions permissions;
+      private readonly IActivityIndicationService activityIndicationService;
 
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
       public AreaInfo SelectedAreaInfo { get; set; }
-      public bool IsLoading { get; set; }
       public Breadcrumbs.Item SelectectedBreadcrumbsItem { get; set; }
 
       public ICommand ReloadCommand { get; }
@@ -32,7 +33,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          IDialogService dialogService,
          IDataService dataService,
          IConnectivity connectivity,
-         IPermissions permissions)
+         IPermissions permissions,
+         IActivityIndicationService activityIndicationService)
           : base(navigationService, dialogService) {
 
          ReloadCommand = new Command(async (f) => await Reload((bool)f));
@@ -42,6 +44,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.dataService = dataService;
          this.connectivity = connectivity;
          this.permissions = permissions;
+         this.activityIndicationService = activityIndicationService;
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
@@ -58,7 +61,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          NavigateAsync(
             SelectedAreaInfo.Name,
             $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
-            AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo));
+            AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo),
+            Icons.MaterialIconFont.Terrain);
       }
       private async Task InitializeAsync() {
          var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
@@ -79,7 +83,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
          }
 
-         IsLoading = true;
+         await activityIndicationService.StartLoadingAsync();
          AreaInfos.Clear();
 
          IEnumerable<AreaInfo> areas = await dataService.GetIndexAreas(force);
@@ -87,7 +91,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
             AreaInfos.Add(area);
          }
-         IsLoading = false;
+         await activityIndicationService.FinishLoadingAsync();
       }
 
       public void OnSelectectedBreadcrumbsItemChanged() {
@@ -95,7 +99,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             var current = Breadcrumbs.Items[i];
             Breadcrumbs.Items.RemoveAt(i);
             if (current == SelectectedBreadcrumbsItem) {
-               NavigateAsync(current.Name, current.Path, current.Parameters);
+               NavigateAsync(current.Title, current.Path, current.Parameters);
                break;
             }
          }

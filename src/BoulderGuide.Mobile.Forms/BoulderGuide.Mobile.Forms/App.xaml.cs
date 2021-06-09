@@ -1,6 +1,7 @@
 using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.Maps;
+using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.ViewModels;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism;
@@ -38,6 +39,7 @@ namespace BoulderGuide.Mobile.Forms
          containerRegistry.RegisterSingleton<IDataService, DataService>();
          containerRegistry.RegisterSingleton<IMapService, MapService>();
          containerRegistry.RegisterSingleton<Services.Preferences.IPreferences, Services.Preferences.Preferences> ();
+         containerRegistry.RegisterSingleton<IActivityIndicationService, ActivityIndicationService> ();
 
          containerRegistry.RegisterForNavigation<NavigationPage>();
          containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

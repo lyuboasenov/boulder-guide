@@ -66,7 +66,8 @@ namespace BoulderGuide.Domain.Schema {
          using (var inputStream = new SKManagedStream(input))    // create a stream SkiaSharp uses
          using (var codec = SKCodec.Create(inputStream)) {             // get the decoder
 
-            var bitmap = SKBitmap.Decode(codec).HandleOrientation(codec.EncodedOrigin);
+            var bitmap = SKBitmap.Decode(codec).HandleOrientation(
+               codec.EncodedOrigin);
 
             // Determine scaling factor
             var bitmapAspectRatio = (double) bitmap.Width / bitmap.Height;

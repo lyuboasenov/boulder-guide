@@ -9,6 +9,7 @@
     <PackageReference Include="BruTile.MbTiles" Version="2.2.0" />
     <PackageReference Include="Mapsui.Forms" Version="2.0.3" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.3.3" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.11" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.6.1" />
@@ -26,6 +27,9 @@
     <EmbeddedResource Update="Views\DialogPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\LoadingPopupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\MapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -39,6 +43,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Services\UI\" />
   </ItemGroup>
 
   <ItemGroup>
