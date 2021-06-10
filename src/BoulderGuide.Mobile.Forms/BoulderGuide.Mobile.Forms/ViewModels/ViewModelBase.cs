@@ -37,7 +37,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public virtual void OnNavigatedTo(INavigationParameters parameters) {
-         locationService.StopLocationPollingAsync().ConfigureAwait(false);
+
       }
 
       public virtual void Destroy() {
