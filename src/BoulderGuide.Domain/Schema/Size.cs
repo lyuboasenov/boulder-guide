@@ -1,11 +1,11 @@
-﻿namespace BoulderGuide.Domain.Entities {
+﻿namespace BoulderGuide.Domain.Schema {
    public class Size {
       public Size() {
          Width = 0;
          Height = 0;
       }
 
-      public Size(int width, int height) {
+      public Size(double width, double height) {
          Width = width;
          Height = height;
       }

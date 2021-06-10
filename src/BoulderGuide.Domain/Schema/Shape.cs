@@ -1,7 +1,7 @@
 ﻿using JsonSubTypes;
 using Newtonsoft.Json;
 
-namespace BoulderGuide.Domain.Entities {
+namespace BoulderGuide.Domain.Schema {
    public abstract class Shape {
       public string _type => GetType().Name;
 
@@ -11,7 +11,7 @@ namespace BoulderGuide.Domain.Entities {
          }
       }
 
-      public abstract void Draw(SkiaSharp.SKCanvas canvas, Size imageSize);
+      public abstract void Draw(SkiaSharp.SKCanvas canvas, Size imageSize, Size offset);
 
       public override string ToString() {
          return _type;

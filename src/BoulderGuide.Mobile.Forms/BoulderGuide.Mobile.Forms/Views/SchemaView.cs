@@ -1,10 +1,6 @@
-﻿using BoulderGuide.Domain.Entities;
-using BoulderGuide.Domain.Schema;
+﻿using BoulderGuide.Domain.Schema;
 using BoulderGuide.Mobile.Forms.Services.Data;
-using SkiaSharp;
 using SkiaSharp.Views.Forms;
-using System;
-using System.IO;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -42,26 +38,12 @@ namespace BoulderGuide.Mobile.Forms.Views {
          set { SetValue(SchemaProperty, value); }
       }
 
-      private Domain.Entities.Size imageSize;
       private string imageLocalPath;
 
       protected override void OnPaintSurface(SKPaintSurfaceEventArgs e) {
          base.OnPaintSurface(e);
 
-         if (File.Exists(imageLocalPath)) {
-            using (var bitmap = SkiaSharpExtensions.LoadBitmap(imageLocalPath, CanvasSize.Width, CanvasSize.Height))
-            using (var paint = new SKPaint {
-               FilterQuality = SKFilterQuality.High, // high quality scaling
-               IsAntialias = true
-            }) {
-               imageSize = new Domain.Entities.Size(bitmap.Width, bitmap.Height);
-               e.Surface.Canvas.DrawBitmap(bitmap, 0, 0, paint);
-            }
-
-            foreach (var shape in Schema.Shapes ?? Enumerable.Empty<Shape>()) {
-               shape.Draw(e.Surface.Canvas, imageSize);
-            }
-         }
+         e.Surface.Canvas.DrawSchema(imageLocalPath, Schema.Shapes);
       }
 
       private void SetImageLocalPath() {

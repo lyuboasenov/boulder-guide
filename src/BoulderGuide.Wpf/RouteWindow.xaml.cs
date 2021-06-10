@@ -19,7 +19,7 @@ namespace BoulderGuide.Wpf {
       private readonly List<Schema> schemas = new List<Schema>();
       private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
-      private Domain.Entities.Size currentImageSize;
+      private Domain.Schema.Size currentImageSize;
 
       public RouteWindow() {
          InitializeComponent();
@@ -203,7 +203,7 @@ namespace BoulderGuide.Wpf {
          if (currentShape is Ellipse el) {
             el.Radius = GetImageRelativePosition(e);
             btnAddEllipse.IsChecked = false;
-         } else if (currentShape is Domain.Entities.Path p) {
+         } else if (currentShape is Domain.Schema.Path p) {
             currentPath.Add(GetImageRelativePosition(e));
             p.Points = currentPath.ToArray();
             btnUndo.IsEnabled = true;
@@ -259,7 +259,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private void btnUndo_Click(object sender, RoutedEventArgs e) {
-         if (currentShape is Domain.Entities.Path p && currentPath.Count > 0) {
+         if (currentShape is Domain.Schema.Path p && currentPath.Count > 0) {
             currentPath.RemoveAt(currentPath.Count - 1);
             p.Points = currentPath.ToArray();
             skCanvas.InvalidateVisual();

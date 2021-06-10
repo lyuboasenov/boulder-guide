@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoulderGuide.Domain.Entities {
+namespace BoulderGuide.Domain.Schema {
    public class RelativePoint {
       private double y;
       private double x;
@@ -24,10 +24,10 @@ namespace BoulderGuide.Domain.Entities {
          }
       }
 
-      public ImagePoint ToImagePoint(Size imageSize) {
+      public ImagePoint ToImagePoint(Size imageSize, Size offset) {
          return new ImagePoint() {
-            X = X * imageSize.Width,
-            Y = Y * imageSize.Height
+            X = X * imageSize.Width + offset.Width,
+            Y = Y * imageSize.Height + offset.Height
          };
       }
    }

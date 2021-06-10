@@ -1,4 +1,5 @@
-﻿using BoulderGuide.Mobile.Forms.Services.Errors;
+﻿using BoulderGuide.Domain.Schema;
+using BoulderGuide.Mobile.Forms.Services.Errors;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       public Task ClearLocalStorage() {
          try {
             foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
-               var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
+               var repoDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
                Directory.Delete(repoDir, true);
             }
 
@@ -47,7 +48,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public Task<int> GetLocalStorageSizeInMB() {
          try {
-            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
+            var repoDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
             DirectoryInfo info = new DirectoryInfo(repoDir);
             long size = 0;
             foreach (var file in info.GetFiles("*", SearchOption.AllDirectories)) {
@@ -151,7 +152,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
 
          return JsonConvert.DeserializeObject<Domain.Entities.Route>(
-            File.ReadAllText(info.LocalPath), Domain.Entities.Shape.StandardJsonConverter);
+            File.ReadAllText(info.LocalPath), Shape.StandardJsonConverter);
       }
 
       private async Task<Domain.Entities.Area> GetArea(AreaInfo info, bool download) {
@@ -175,12 +176,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
 
-         var repositoriesDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
+         var repositoriesDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
          if (!Directory.Exists(repositoriesDir)) {
             Directory.CreateDirectory(repositoriesDir);
          }
 
-         var masterIndexLocalPath = Path.Combine(repositoriesDir, "index.json");
+         var masterIndexLocalPath = System.IO.Path.Combine(repositoriesDir, "index.json");
          if (download && !File.Exists(masterIndexLocalPath) || force) {
             await DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
@@ -190,13 +191,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          var result = new List<AreaInfo>();
          foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
-            var repoDir = Path.Combine(repositoriesDir, kv.Key);
+            var repoDir = System.IO.Path.Combine(repositoriesDir, kv.Key);
 
             if (!Directory.Exists(repoDir)) {
                Directory.CreateDirectory(repoDir);
             }
 
-            var localIndexPath = Path.Combine(repoDir, "index.json");
+            var localIndexPath = System.IO.Path.Combine(repoDir, "index.json");
 
             if (download && !File.Exists(localIndexPath) || force) {
                await DownloadFile(kv.Value + "/index.json", localIndexPath);

@@ -1,5 +1,4 @@
-﻿using BoulderGuide.Domain.Entities;
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -77,6 +76,33 @@ namespace BoulderGuide.Domain.Schema {
             bitmap = bitmap.Resize(info, SKFilterQuality.High);
 
             return bitmap;
+         }
+      }
+
+      public static void DrawSchema(this SKCanvas canvas, string imagePath, IEnumerable<Shape> shapes) {
+         if (File.Exists(imagePath)) {
+            var canvasSize = new Size(
+               canvas.DeviceClipBounds.Width,
+               canvas.DeviceClipBounds.Height);
+            using (var bitmap = SkiaSharpExtensions.LoadBitmap(
+               imagePath,
+               canvasSize.Width,
+               canvasSize.Height))
+            using (var paint = new SKPaint {
+               FilterQuality = SKFilterQuality.High, // high quality scaling
+               IsAntialias = true
+            }) {
+               var imageSize = new Size(bitmap.Width, bitmap.Height);
+               var offset = new Size(
+                  (canvasSize.Width - imageSize.Width) / 2,
+                  (canvasSize.Height - imageSize.Height) / 2);
+
+               canvas.DrawBitmap(bitmap, (float) offset.Width, (float) offset.Height, paint);
+
+               foreach (var shape in shapes ?? Enumerable.Empty<Shape>()) {
+                  shape.Draw(canvas, imageSize, offset);
+               }
+            }
          }
       }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BoulderGuide.Domain.Entities {
+﻿namespace BoulderGuide.Domain.Entities {
    public class Route {
       public string Id { get; set; }
       public Location Location { get; set; } = new Location();
@@ -12,6 +8,6 @@ namespace BoulderGuide.Domain.Entities {
       public string Info { get; set; }
       public string[] Tags { get; set; } = new string[0];
       public string[] Links { get; set; } = new string[0];
-      public Schema[] Schemas { get; set; } = new Schema[0];
+      public Schema.Schema[] Schemas { get; set; } = new Schema.Schema[0];
    }
 }
