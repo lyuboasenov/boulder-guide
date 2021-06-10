@@ -7,7 +7,7 @@ namespace BoulderGuide.Mobile.Forms {
          new Item() {
             Glyph = Icons.MaterialIconFont.Home,
             Title = Strings.Home,
-            Path = "/MainPage"
+            Path = "/MainPage/NavigationPage/HomePage"
          }});
 
       public class Item {

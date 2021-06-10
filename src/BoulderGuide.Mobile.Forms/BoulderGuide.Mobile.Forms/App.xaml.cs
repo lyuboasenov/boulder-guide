@@ -22,7 +22,7 @@ namespace BoulderGuide.Mobile.Forms {
       {
          InitializeComponent();
 
-         await NavigationService.NavigateAsync("MainPage");
+         await NavigationService.NavigateAsync("/MainPage/NavigationPage/HomePage");
       }
 
       protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -51,6 +51,7 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
          containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
          containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+         containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
       }
    }
 }

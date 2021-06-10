@@ -6,6 +6,7 @@
        xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
        xmlns:roots="clr-namespace:BoulderGuide.Mobile.Forms"
        xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+       xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
        x:Class="BoulderGuide.Mobile.Forms.Views.FilterDialogPage"
        Margin="20"
        HasShadow="True"
@@ -14,6 +15,9 @@
        Padding="10"
        CornerRadius="5"
        HorizontalOptions="Center">
+   <Frame.Resources>
+      <xamForms:DifficultyToGradeConverter x:Key="difficultyToGradeConverter" />
+   </Frame.Resources>
    <StackLayout IsVisible="{Binding IsFilterVisible}">
 
       <Frame
@@ -29,13 +33,37 @@
       </Frame>
 
       <Grid>
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
+         </Grid.ColumnDefinitions>
+         <Label
+            Text="{Binding MinDifficulty, Converter={StaticResource Key=difficultyToGradeConverter}}"
+            Margin="0, 27, 0, 0" />
          <xct:RangeSlider
-                MaximumValue="150"
-                MinimumValue="0"
-                StepValue="1"
-                LowerValue="{Binding MinDifficulty}"
-                UpperValue="{Binding MaxDifficulty}">
+            Grid.Column="1"
+            MaximumValue="150"
+            MinimumValue="0"
+            StepValue="1"
+            LowerValue="{Binding MinDifficulty}"
+            UpperValue="{Binding MaxDifficulty}">
+            <xct:RangeSlider.LowerValueLabelStyle>
+               <Style TargetType="Label">
+                  <Setter Property="IsVisible" Value="False" />
+               </Style>
+            </xct:RangeSlider.LowerValueLabelStyle>
+            <xct:RangeSlider.UpperValueLabelStyle>
+               <Style TargetType="Label">
+                  <Setter Property="IsVisible" Value="False" />
+               </Style>
+            </xct:RangeSlider.UpperValueLabelStyle>
          </xct:RangeSlider>
+         <Label
+            Grid.Column="2"
+            Margin="0, 27, 0, 0"
+            Text="{Binding MaxDifficulty, Converter={StaticResource Key=difficultyToGradeConverter}}"
+            HorizontalOptions="End"/>
       </Grid>
 
       <StackLayout Orientation="Horizontal" HorizontalOptions="End">

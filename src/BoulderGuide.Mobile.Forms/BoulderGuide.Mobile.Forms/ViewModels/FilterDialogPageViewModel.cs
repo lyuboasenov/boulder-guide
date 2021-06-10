@@ -17,8 +17,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand CloseCommand { get; }
 
       public string SearchTerm { get; set; }
-      public string MinGrade { get; set; }
-      public string MaxGrade { get; set; }
       public int MinDifficulty { get; set; }
       public int MaxDifficulty { get; set; }
 
@@ -65,12 +63,5 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public event Action<IDialogParameters> RequestClose;
 
-      public void OnMinDifficultyChanged() {
-         MinGrade = new Grade(MinDifficulty).ToString();
-      }
-
-      public void OnMaxDifficultyChanged() {
-         MaxGrade = new Grade(MaxDifficulty).ToString();
-      }
    }
 }

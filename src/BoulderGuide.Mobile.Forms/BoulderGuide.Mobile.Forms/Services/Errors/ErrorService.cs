@@ -13,17 +13,20 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
       }
 
       public void HandleError(Exception ex) {
-         toastNotificator.Notify(new NotificationOptions() {
-            Title = "Error",
-            Description = FormatException(ex)
-         });
+         toastNotificator.Notify(FormatException(ex));
       }
 
-      private string FormatException(Exception ex) {
+      private NotificationOptions FormatException(Exception ex) {
          if (ex is DownloadFileException dEx) {
-            return $"Error downloading {dEx.Address}";
+            return new NotificationOptions() {
+               Title = "Error downloading file",
+               Description = dEx.Address
+            };
          } else {
-            return ex.Message + Environment.NewLine + ex.StackTrace;
+            return new NotificationOptions() {
+               Title = "Generic error",
+               Description = ex.Message + Environment.NewLine + ex.StackTrace
+            };
          }
       }
    }
