@@ -123,6 +123,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             }
 
             await Task.WhenAll(tasks);
+
+            SetIsOfflineAndRoots(info, info.RemoteRoot, info.LocalRoot);
          } catch (Exception ex) {
             errorService.HandleError(ex);
          }
