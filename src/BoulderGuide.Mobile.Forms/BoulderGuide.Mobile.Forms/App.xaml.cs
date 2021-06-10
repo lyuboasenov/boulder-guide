@@ -1,6 +1,6 @@
 using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.Errors;
-using BoulderGuide.Mobile.Forms.Services.Maps;
+using BoulderGuide.Mobile.Forms.Services.Location;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.ViewModels;
 using BoulderGuide.Mobile.Forms.Views;
@@ -11,8 +11,7 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
-namespace BoulderGuide.Mobile.Forms
-{
+namespace BoulderGuide.Mobile.Forms {
    public partial class App
    {
       public App(IPlatformInitializer initializer)
@@ -38,7 +37,7 @@ namespace BoulderGuide.Mobile.Forms
 
          containerRegistry.RegisterSingleton<IErrorService, ErrorService>();
          containerRegistry.RegisterSingleton<IDataService, DataService>();
-         containerRegistry.RegisterSingleton<IMapService, MapService>();
+         containerRegistry.RegisterSingleton<ILocationService, LocationService>();
          containerRegistry.RegisterSingleton<Services.Preferences.IPreferences, Services.Preferences.Preferences> ();
          containerRegistry.RegisterSingleton<IActivityIndicationService, ActivityIndicationService> ();
 

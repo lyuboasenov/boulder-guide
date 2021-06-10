@@ -21,10 +21,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
 
       public SettingsPageViewModel(
-         INavigationService navigationService,
-         IDialogService dialogService,
          Services.Preferences.IPreferences preferences,
-         IDataService dataService) : base(navigationService, dialogService) {
+         IDataService dataService) {
          this.preferences = preferences;
          this.dataService = dataService;
 

@@ -1,18 +1,17 @@
-﻿using BoulderGuide.Mobile.Forms.Services.Data;
+﻿using BoulderGuide.Mobile.Forms.Services.Location;
 using BoulderGuide.Mobile.Forms.Views;
-using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible {
+      private ILocationService locationService;
       protected INavigationService NavigationService { get; }
       protected IDialogService DialogService { get; }
 
@@ -22,9 +21,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          set { SetProperty(ref _title, value); }
       }
 
-      public ViewModelBase(INavigationService navigationService, IDialogService dialogService) {
-         NavigationService = navigationService;
-         DialogService = dialogService;
+      public ViewModelBase() {
+         var container = Prism.PrismApplicationBase.Current.Container.CurrentScope;
+         NavigationService = (INavigationService) container.Resolve(typeof(INavigationService));
+         DialogService = (IDialogService) container.Resolve(typeof(IDialogService));
+         locationService = (ILocationService) container.Resolve(typeof(ILocationService));
       }
 
       public virtual void Initialize(INavigationParameters parameters) {
@@ -36,7 +37,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public virtual void OnNavigatedTo(INavigationParameters parameters) {
-
+         locationService.StopLocationPollingAsync().ConfigureAwait(false);
       }
 
       public virtual void Destroy() {

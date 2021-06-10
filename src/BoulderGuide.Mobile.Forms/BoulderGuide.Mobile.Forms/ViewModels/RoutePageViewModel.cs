@@ -23,11 +23,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
 
       public RoutePageViewModel(
-         INavigationService navigationService,
          IDataService dataService,
-         IConnectivity connectivity,
-         IDialogService dialogService) :
-         base(navigationService, dialogService) {
+         IConnectivity connectivity) {
          this.dataService = dataService;
          this.connectivity = connectivity;
          MapCommand = new Command(async () => await Map(), CanShowMap);

@@ -5,7 +5,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       public string[] Images { get; set; }
       public double Difficulty { get; set; }
 
-      public Location Location { get; set; }
+      public Domain.Entities.Location Location { get; set; }
 
       public string Grade {
          get {

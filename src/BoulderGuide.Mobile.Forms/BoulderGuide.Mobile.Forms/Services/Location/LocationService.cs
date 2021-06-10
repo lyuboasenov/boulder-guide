@@ -1,7 +1,4 @@
-﻿using BruTile;
-using BruTile.MbTiles;
-using BruTile.Predefined;
-using BruTile.Web;
+﻿using BruTile.MbTiles;
 using BoulderGuide.Domain.Entities;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using Mapsui;
@@ -11,24 +8,69 @@ using Mapsui.Projection;
 using Mapsui.Providers;
 using Mapsui.Styles;
 using Mapsui.Utilities;
-using Mapsui.Widgets.ScaleBar;
 using SQLite;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xamarin.Essentials.Interfaces;
+using System;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
-namespace BoulderGuide.Mobile.Forms.Services.Maps {
-   public class MapService : IMapService {
+namespace BoulderGuide.Mobile.Forms.Services.Location {
+   public class LocationService : ILocationService {
       private readonly IConnectivity connectivity;
+      private int _locationPollersCount;
+      private readonly object _lock = new object();
+      private readonly IPermissions permissions;
+      private readonly Preferences.IPreferences preferences;
+      private readonly IGeolocation geolocation;
+      private static readonly GeolocationRequest locationRequest = new GeolocationRequest(GeolocationAccuracy.Best);
 
-      public MapService(IConnectivity connectivity) {
+
+      public event EventHandler<LocationUpdatedEventArgs> LocationUpdated;
+
+      public LocationService(
+         IConnectivity connectivity,
+         IPermissions permissions,
+         Preferences.IPreferences preferences,
+         IGeolocation geolocation) {
          this.connectivity = connectivity;
+         this.permissions = permissions;
+         this.preferences = preferences;
+         this.geolocation = geolocation;
       }
 
-      public Map GetMap(Area area, AreaInfo info) {
+      public async Task StartLocationPollingAsync() {
+         lock (_lock) {
+            _locationPollersCount++;
+         }
+         System.Threading.Interlocked.Increment(ref _locationPollersCount);
+         if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
+            Device.StartTimer(TimeSpan.FromSeconds(preferences.GPSPollIntervalInSeconds), () => {
+               Task.Run(async () => {
+                  if (_locationPollersCount > 0) {
+                     var currentLocation =
+                        await geolocation.GetLocationAsync(locationRequest).ConfigureAwait(false);
+
+                     LocationUpdated?.Invoke(this, new LocationUpdatedEventArgs(currentLocation.Latitude, currentLocation.Longitude));
+                  }
+               });
+
+               return _locationPollersCount > 0;
+            });
+         }
+      }
+
+      public Task StopLocationPollingAsync() {
+         lock(_lock) {
+            _locationPollersCount = Math.Max(0, _locationPollersCount - 1);
+         }
+         return Task.CompletedTask;
+      }
+
+      public Mapsui.Map GetMap(Area area, AreaInfo info) {
          var map = GetMap(info);
 
          // Add area outline
@@ -47,7 +89,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Maps {
          return map;
       }
 
-      public Map GetMap(Route route, AreaInfo info) {
+      public Mapsui.Map GetMap(Route route, AreaInfo info) {
          var map = GetMap(info);
 
          var routeLayer = CreateRouteLayer(route);
@@ -74,8 +116,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Maps {
          };
       }
 
-      private Map GetMap(AreaInfo info) {
-         var map = new Map {
+      private Mapsui.Map GetMap(AreaInfo info) {
+         var map = new Mapsui.Map {
             CRS = "EPSG:3857",
             Transformation = new MinimalTransformation()
          };
@@ -116,9 +158,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Maps {
          return new Layer("Outline layer") {
             DataSource = new MemoryProvider(CreatePolygon(area)),
             Style = new VectorStyle {
-               Fill = new Brush(new Color(150, 150, 30, 64)),
+               Fill = new Mapsui.Styles.Brush(new Mapsui.Styles.Color(150, 150, 30, 64)),
                Outline = new Pen {
-                  Color = Color.Orange,
+                  Color = Mapsui.Styles.Color.Orange,
                   Width = 2,
                   PenStyle = PenStyle.Solid,
                   PenStrokeCap = PenStrokeCap.Round

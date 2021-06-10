@@ -28,12 +28,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ObservableCollection<Info> Children { get; set; } = new ObservableCollection<Info>();
 
       public AreaDetailsPageViewModel(
-         INavigationService navigationService,
          IDataService dataService,
          IConnectivity connectivity,
-         IDialogService dialogService,
-         IActivityIndicationService activityIndicationService) :
-         base (navigationService, dialogService) {
+         IActivityIndicationService activityIndicationService) {
          this.dataService = dataService;
          this.connectivity = connectivity;
          this.activityIndicationService = activityIndicationService;

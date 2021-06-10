@@ -29,13 +29,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand SettingsCommand { get; }
 
       public MainPageViewModel(
-         INavigationService navigationService,
-         IDialogService dialogService,
          IDataService dataService,
          IConnectivity connectivity,
          IPermissions permissions,
-         IActivityIndicationService activityIndicationService)
-          : base(navigationService, dialogService) {
+         IActivityIndicationService activityIndicationService) {
 
          ReloadCommand = new Command(async (f) => await Reload((bool)f));
          SettingsCommand = new Command(async () => await Settings());
