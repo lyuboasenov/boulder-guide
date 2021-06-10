@@ -184,7 +184,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
 
          var masterIndexLocalPath = System.IO.Path.Combine(repositoriesDir, "index.json");
-         if (download && !File.Exists(masterIndexLocalPath) || force) {
+         if (!File.Exists(masterIndexLocalPath) || download && force) {
             await DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
 
@@ -201,7 +201,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
             var localIndexPath = System.IO.Path.Combine(repoDir, "index.json");
 
-            if (download && !File.Exists(localIndexPath) || force) {
+            if (!File.Exists(localIndexPath) || download && force) {
                await DownloadFile(kv.Value + "/index.json", localIndexPath);
             }
 
@@ -211,16 +211,18 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
             var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(localIndexPath));
             index.SetRoots(kv.Value, repoDir);
+            foreach (var image in index.Images ?? Enumerable.Empty<string>()) {
+               await DownloadFile(index.GetImageRemotePath(image), index.GetImageLocalPath(image));
+            }
 
             if (!string.IsNullOrEmpty(index.Map)) {
-               if (download && !File.Exists(index.MapLocalPath) || force) {
+               if (!File.Exists(index.MapLocalPath) || download && force) {
                   await DownloadFile(index.MapRemotePath, index.MapLocalPath);
                }
             }
 
             OrderAreasRoutes(index);
             SetIsOfflineAndRoots(index, kv.Value, repoDir);
-            //index.IsOffline = true;
 
             result.Add(index);
          }
@@ -229,11 +231,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       }
 
       private void OrderAreasRoutes(AreaInfo index) {
+
          if (index.Areas?.Any() ?? false) {
             foreach (var area in index.Areas ?? Enumerable.Empty<AreaInfo>()) {
                OrderAreasRoutes(area);
             }
-            index.Areas = index.Areas.OrderBy(a => a.Name).ToArray();
+            index.Areas = index.
+               Areas.OrderBy(a => a.Name).ToArray();
          }
 
          if (index.Routes?.Any() ?? false) {

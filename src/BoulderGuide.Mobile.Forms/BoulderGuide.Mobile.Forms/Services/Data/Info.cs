@@ -38,6 +38,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          this.remoteRoot = remoteRoot;
       }
 
+      public string GetImageRemotePath(string relativePath) {
+         return GetRemotePath(relativePath);
+      }
+      public string GetImageLocalPath(string relativePath) {
+         return GetLocalPath(relativePath);
+      }
+
       protected string GetRemotePath(string relativePath) {
          if (string.IsNullOrEmpty(relativePath)) {
             return string.Empty;

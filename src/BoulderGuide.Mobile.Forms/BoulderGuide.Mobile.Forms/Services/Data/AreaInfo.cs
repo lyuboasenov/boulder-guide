@@ -2,6 +2,7 @@
    public class AreaInfo : Info {
       public AreaInfo[] Areas { get; set; }
       public RouteInfo[] Routes { get; set; }
+      public string[] Images { get; set; }
 
       public string Map { get; set; }
 

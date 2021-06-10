@@ -89,12 +89,12 @@ namespace BoulderGuide.Domain.Entities {
 
          for (int i = container.Count - 1; i >= 0; i--) {
             var kv = container.ElementAt(i);
-            if (kv.Key <= difficulty) {
+            if (kv.Key <= difficulty || i == 0) {
                return kv.Value;
             }
          }
 
-         throw new ArgumentException("Grade not found.");
+         return string.Empty;
       }
    }
 }

@@ -13,13 +13,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
       }
 
-      public string GetImageRemotePath(string relativePath) {
-         return GetRemotePath(relativePath);
-      }
-      public string GetImageLocalPath(string relativePath) {
-         return GetLocalPath(relativePath);
-      }
-
       public override string ToString() {
          return $"Route: '{Name} ({Grade})'";
       }

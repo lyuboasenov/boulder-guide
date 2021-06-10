@@ -23,5 +23,30 @@
             preferences.Set(nameof(RouteOrderByProperty), (int) value);
          }
       }
+
+      public int FilterMinDifficulty {
+         get {
+            return preferences.Get(nameof(FilterMinDifficulty), 0);
+         }
+         set {
+            preferences.Set(nameof(FilterMinDifficulty), value);
+         }
+      }
+      public int FilterMaxDifficulty {
+         get {
+            return preferences.Get(nameof(FilterMaxDifficulty), 150);
+         }
+         set {
+            preferences.Set(nameof(FilterMaxDifficulty), value);
+         }
+      }
+      public string FilterSearchTerm {
+         get {
+            return preferences.Get(nameof(FilterSearchTerm), string.Empty);
+         }
+         set {
+            preferences.Set(nameof(FilterSearchTerm), value);
+         }
+      }
    }
 }

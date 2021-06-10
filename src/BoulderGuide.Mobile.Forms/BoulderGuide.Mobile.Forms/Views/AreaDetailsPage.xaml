@@ -120,14 +120,22 @@
                FontFamily="{StaticResource Key=MaterialFontFamily}"/>
          </ToolbarItem.IconImageSource>
       </ToolbarItem>
+
       <ToolbarItem
-         Command="{Binding DownloadCommand}">
-         <ToolbarItem.IconImageSource>
-            <FontImageSource
-               Glyph="{Static icons:MaterialIconFont.FileDownload}"
-               FontFamily="{StaticResource Key=MaterialFontFamily}"/>
-         </ToolbarItem.IconImageSource>
-      </ToolbarItem>
+         Text="{Static root:Strings.Download}"
+         Order="Secondary"
+         Command="{Binding DownloadCommand}"/>
+
+      <ToolbarItem
+         Text="{Static root:Strings.Filter}"
+         Order="Secondary"
+         Command="{Binding FilterCommand}" />
+
+      <ToolbarItem
+         Text="{Static root:Strings.Order}"
+         Order="Secondary"
+         Command="{Binding OrderCommand}"/>
+
    </TabbedPage.ToolbarItems>
 
    <ContentPage>
@@ -137,14 +145,14 @@
             FontFamily="{StaticResource Key=MaterialFontFamily}" />
       </ContentPage.IconImageSource>
 
-      <Grid>
+      <StackLayout>
 
          <ListView ItemsSource="{Binding Children}"
                      SelectedItem="{Binding SelectedChild}"
                      Margin="10"
                      ItemTemplate="{StaticResource areaRouteDataTemplateSelector}" />
 
-      </Grid>
+      </StackLayout>
 
    </ContentPage>
 

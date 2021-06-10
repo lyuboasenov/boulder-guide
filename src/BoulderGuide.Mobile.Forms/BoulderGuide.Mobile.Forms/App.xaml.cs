@@ -4,7 +4,6 @@ using BoulderGuide.Mobile.Forms.Services.Location;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.ViewModels;
 using BoulderGuide.Mobile.Forms.Views;
-using Plugin.Toasts;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Essentials.Implementation;
@@ -46,6 +45,9 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterForNavigation<AreaDetailsPage, AreaDetailsPageViewModel>();
 
          containerRegistry.RegisterDialog<DialogPage, DialogPageViewModel>();
+         containerRegistry.RegisterDialog<FilterDialogPage, FilterDialogPageViewModel>();
+         containerRegistry.RegisterDialog<OrderDialogPage, OrderDialogPageViewModel>();
+
          containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
          containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
          containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();

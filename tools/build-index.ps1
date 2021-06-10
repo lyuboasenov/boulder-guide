@@ -4,6 +4,9 @@ param(
 )
 
 function getArea ($path) {
+
+   Write-Host "Getting area from '$path'"
+
    if (-Not (test-path (Join-Path $path 'area.json'))) {
       throw "'$path' does not contain area.json - invalid container/area."
    }
@@ -28,6 +31,7 @@ function getArea ($path) {
 
          $routeObject.images | % {
             $imageLocalPath = Join-Path $rootPath $_
+
             if (-Not (test-path $imageLocalPath)) {
                throw "Image '$imageLocalPath' does not exist - route '$($routeObject.Name)' is invalid."
             }
@@ -49,7 +53,8 @@ function getArea ($path) {
       index = (getRelativePath $path 'area.json');
       areas = $areas;
       routes = $routes;
-      map = '/map.mbtiles'
+      map = '/map.mbtiles';
+      images = @()
    }
 }
 
@@ -92,8 +97,9 @@ function getImages ($path, $file) {
 
 $indexLocation = (Join-Path $rootPath 'index.json')
 $rootUri = [System.Uri]::new("$rootPath/")
-Remove-Item -Path $indexLocation
+Remove-Item -Path $indexLocation -ErrorAction:SilentlyContinue
 
 $area = getArea $rootPath
+$area.images = [string[]]@(Get-ChildItem -Path $rootPath -Filter '*.jpg' | %{ "/$($_.Name)" })
 
 $area | ConvertTo-Json -depth 100 | Set-Content -Path $indexLocation -Force

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:prism="http://prismlibrary.com"
+       prism:ViewModelLocator.AutowireViewModel="True"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       xmlns:roots="clr-namespace:BoulderGuide.Mobile.Forms"
+       xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+       x:Class="BoulderGuide.Mobile.Forms.Views.FilterDialogPage"
+       Margin="20"
+       HasShadow="True"
+       BorderColor="LightGray"
+       BackgroundColor="white"
+       Padding="10"
+       CornerRadius="5"
+       HorizontalOptions="Center">
+   <StackLayout IsVisible="{Binding IsFilterVisible}">
+
+      <Frame
+         Padding="0"
+         BackgroundColor="LightGray"
+         CornerRadius="40">
+         <SearchBar
+            Margin="0"
+            Placeholder="{Static roots:Strings.Search}"
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding SearchTerm}"
+            SearchCommand="{Binding DoneCommand}" />
+      </Frame>
+
+      <Grid>
+         <xct:RangeSlider
+                MaximumValue="150"
+                MinimumValue="0"
+                StepValue="1"
+                LowerValue="{Binding MinDifficulty}"
+                UpperValue="{Binding MaxDifficulty}">
+         </xct:RangeSlider>
+      </Grid>
+
+      <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+
+         <ImageButton
+            Command="{Binding DoneCommand}"
+            BackgroundColor="Transparent"
+            WidthRequest="40"
+            HeightRequest="40">
+            <ImageButton.Source>
+               <FontImageSource
+                        Glyph="{Static icons:MaterialIconFont.Done}"
+                        Color="Gray"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+            </ImageButton.Source>
+         </ImageButton>
+
+         <ImageButton
+            Command="{Binding CloseCommand}"
+            BackgroundColor="Transparent"
+            WidthRequest="40"
+            HeightRequest="40">
+            <ImageButton.Source>
+               <FontImageSource
+                        Glyph="{Static icons:MaterialIconFont.Close}"
+                        Color="Gray"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+            </ImageButton.Source>
+         </ImageButton>
+
+      </StackLayout>
+   </StackLayout>
+</Frame>

@@ -19,9 +19,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
       private readonly IActivityIndicationService activityIndicationService;
+      private readonly Services.Preferences.IPreferences preferences;
 
       public ICommand DownloadCommand { get; }
       public ICommand MapCommand { get; }
+      public ICommand FilterCommand { get; }
+      public ICommand OrderCommand { get; }
       public Area Area { get; set; }
       public AreaInfo Info { get; set; }
       public Info SelectedChild { get; set; }
@@ -30,13 +33,27 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public AreaDetailsPageViewModel(
          IDataService dataService,
          IConnectivity connectivity,
-         IActivityIndicationService activityIndicationService) {
+         IActivityIndicationService activityIndicationService,
+         Services.Preferences.IPreferences preferences) {
          this.dataService = dataService;
          this.connectivity = connectivity;
          this.activityIndicationService = activityIndicationService;
+         this.preferences = preferences;
 
          DownloadCommand = new Command(async () => await Download());
+         FilterCommand = new Command(async () => await Filter());
+         OrderCommand = new Command(async () => await Order());
          MapCommand = new Command(async () => await Map(), CanShowMap);
+      }
+
+      private async Task Order() {
+         await DialogService.ShowDialogAsync(nameof(OrderDialogPage));
+         await InitializeAsync(Info);
+      }
+
+      private async Task Filter() {
+         await DialogService.ShowDialogAsync(nameof(FilterDialogPage));
+         await InitializeAsync(Info);
       }
 
       private bool CanShowMap() {
@@ -89,11 +106,21 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          try {
             Area = await dataService.GetArea(Info);
 
+            var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
+            var minDifficulty = preferences.FilterMinDifficulty;
+            var maxDifficulty = preferences.FilterMaxDifficulty;
+
             Children.Clear();
-            foreach (var area in info.Areas ?? Enumerable.Empty<AreaInfo>()) {
+            foreach (var area in info.Areas?.
+                  Where(a =>
+                     string.IsNullOrEmpty(searchTerm) ||
+                     a.Name.ToLowerInvariant().Contains(searchTerm))
+                   ?? Enumerable.Empty<AreaInfo>()) {
                Children.Add(area);
             }
-            foreach (var route in info.Routes ?? Enumerable.Empty<RouteInfo>()) {
+            foreach (var route in info.Routes?.Where(r =>
+                  (string.IsNullOrEmpty(searchTerm) || r.Name.ToLowerInvariant().Contains(searchTerm)) &&
+                  minDifficulty <= r.Difficulty && r.Difficulty <= maxDifficulty) ?? Enumerable.Empty<RouteInfo>()) {
                Children.Add(route);
             }
 

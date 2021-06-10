@@ -178,6 +178,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Филтър.
+        /// </summary>
+        internal static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Интервал на опресняване на локацията (в секунди).
         /// </summary>
         internal static string GpsPollingInterval {
@@ -232,6 +241,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Подредба.
+        /// </summary>
+        internal static string Order {
+            get {
+                return ResourceManager.GetString("Order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Презареди.
         /// </summary>
         internal static string Reload {
@@ -282,6 +300,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string Routes {
             get {
                 return ResourceManager.GetString("Routes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Търсене.
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
         

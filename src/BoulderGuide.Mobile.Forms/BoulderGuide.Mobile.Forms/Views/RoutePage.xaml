@@ -38,9 +38,9 @@
                <Frame HasShadow="True"
                       BorderColor="LightGray"
                       Padding="5"
-                  CornerRadius="5"
-                  HorizontalOptions="Center"
-                  VerticalOptions="CenterAndExpand">
+                     CornerRadius="5"
+                     HorizontalOptions="Center"
+                     VerticalOptions="CenterAndExpand">
                   <localViews:SchemaView
                      Schema="{Binding}"
                      RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
