@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <SelectedDevice>HUAWEI VOG-L29</SelectedDevice>
-    <ActiveDebugProfile>HUAWEI VOG-L29</ActiveDebugProfile>
+    <SelectedDevice>tablet_m-dpi_10_1in_marshmallow_6_0_-_api_23</SelectedDevice>
+    <ActiveDebugProfile>tablet_m-dpi_10_1in_marshmallow_6_0_-_api_23</ActiveDebugProfile>
     <DefaultDevice>tablet_m-dpi_10_1in_marshmallow_6_0_-_api_23</DefaultDevice>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
   </PropertyGroup>

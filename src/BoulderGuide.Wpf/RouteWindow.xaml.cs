@@ -20,6 +20,7 @@ namespace BoulderGuide.Wpf {
       private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
       private Domain.Schema.Size currentImageSize;
+      private Domain.Schema.Size currentCanvasControlSize;
 
       public RouteWindow() {
          InitializeComponent();
@@ -125,13 +126,11 @@ namespace BoulderGuide.Wpf {
       }
 
       private void lstImages_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-         tabSchema.IsEnabled = lstImages.SelectedItem != null;
-         if (tabSchema.IsEnabled) {
-            // Load schema
-            selectedSchemas = lstImages.SelectedItem as Schema;
-            btnRemoveImage.IsEnabled = true;
-            InitializeShapeList();
-         }
+         // Load schema
+         selectedSchemas = lstImages.SelectedItem as Schema;
+         btnRemoveImage.IsEnabled = true;
+         InitializeShapeList();
+         skCanvas.InvalidateVisual();
       }
 
       private void btnAddImage_Click(object sender, RoutedEventArgs e) {
@@ -167,15 +166,16 @@ namespace BoulderGuide.Wpf {
       }
 
       private void skCanvas_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e) {
-         currentImageSize = new Domain.Entities.Size();
+         currentImageSize = new Domain.Schema.Size();
+         currentCanvasControlSize = new Domain.Schema.Size();
 
          if (!string.IsNullOrEmpty(selectedSchemas?.Id)) {
-            using (var bitmap = SkiaSharpExtensions.LoadBitmap(selectedSchemas?.Id, skCanvas.ActualWidth, skCanvas.ActualHeight))
+            using (var bitmap = SkiaSharpExtensions.LoadBitmap(selectedSchemas?.Id, skCanvas.CanvasSize.Width, skCanvas.CanvasSize.Height))
             using (var paint = new SKPaint {
                FilterQuality = SKFilterQuality.High, // high quality scaling
                IsAntialias = true
             }) {
-               currentImageSize = new Domain.Entities.Size(bitmap.Width, bitmap.Height);
+               currentImageSize = new Domain.Schema.Size(bitmap.Width, bitmap.Height);
                e.Surface.Canvas.DrawBitmap(bitmap, 0, 0, paint);
             }
          }
@@ -189,32 +189,45 @@ namespace BoulderGuide.Wpf {
          }
 
          foreach (Shape shape in shapes) {
-            shape.Draw(e.Surface.Canvas, currentImageSize);
+            shape.Draw(e.Surface.Canvas, currentImageSize, new Domain.Schema.Size(0, 0));
          }
       }
 
       private void skCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
          if (currentShape is Ellipse el) {
-            el.Center = GetImageRelativePosition(e);
+            try {
+               el.Center = GetImageRelativePosition(e);
+            } catch (ArgumentException) {
+               // if point is not valid we do nothing
+            }
          }
       }
 
       private void skCanvas_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-         if (currentShape is Ellipse el) {
-            el.Radius = GetImageRelativePosition(e);
-            btnAddEllipse.IsChecked = false;
-         } else if (currentShape is Domain.Schema.Path p) {
-            currentPath.Add(GetImageRelativePosition(e));
-            p.Points = currentPath.ToArray();
-            btnUndo.IsEnabled = true;
+         try {
+            if (currentShape is Ellipse el) {
+               el.Radius = GetImageRelativePosition(e);
+               btnAddEllipse.IsChecked = false;
+            } else if (currentShape is Domain.Schema.Path p) {
+               currentPath.Add(GetImageRelativePosition(e));
+               p.Points = currentPath.ToArray();
+               btnUndo.IsEnabled = true;
+            }
+         } catch (ArgumentException) {
+            // if point is not valid we do nothing
          }
+
 
          skCanvas.InvalidateVisual();
       }
 
       private void skCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e) {
          if (currentShape is Ellipse el) {
-            el.Radius = GetImageRelativePosition(e);
+            try {
+               el.Radius = GetImageRelativePosition(e);
+            } catch (ArgumentException) {
+               // if point is not valid we do nothing
+            }
          }
 
          skCanvas.InvalidateVisual();
@@ -222,15 +235,22 @@ namespace BoulderGuide.Wpf {
 
       private RelativePoint GetImageRelativePosition(System.Windows.Input.MouseEventArgs e) {
          Point position = e.GetPosition(skCanvas);
-         position.X /= currentImageSize.Width;
-         position.Y /= currentImageSize.Height;
+
+         // added ratio calculation because canvas control is smalle than
+         // the actual canvas
+         double widthRatio = currentImageSize.Width / skCanvas.ActualWidth;
+         double heightRatio = currentImageSize.Height / skCanvas.ActualHeight;
+         var ratio = Math.Max(widthRatio, heightRatio);
+
+         position.X /= currentImageSize.Width / ratio;
+         position.Y /= currentImageSize.Height / ratio;
 
          return position.ToRelativePoint();
       }
 
       private void btnAddPath_Checked(object sender, RoutedEventArgs e) {
          btnAddEllipse.IsChecked = false;
-         currentShape = new Domain.Entities.Path();
+         currentShape = new Domain.Schema.Path();
          currentPath.Clear();
          btnSave.IsEnabled = false;
       }

@@ -42,32 +42,32 @@
 
                <TextBlock Grid.Row="2" Text="Grade" />
                <ComboBox Grid.Row="2" Grid.Column="1" Name="lstGrade">
-                  <ComboBoxItem DataContext="20" Content="3" />
-                  <ComboBoxItem DataContext="25" Content="4-" />
-                  <ComboBoxItem DataContext="30" Content="4" />
-                  <ComboBoxItem DataContext="35" Content="4+" />
-                  <ComboBoxItem DataContext="40" Content="5-" />
-                  <ComboBoxItem DataContext="45" Content="5" />
-                  <ComboBoxItem DataContext="50" Content="5+" />
-                  <ComboBoxItem DataContext="55" Content="6A" />
-                  <ComboBoxItem DataContext="60" Content="6A+" />
-                  <ComboBoxItem DataContext="65" Content="6B" />
-                  <ComboBoxItem DataContext="70" Content="6B+" />
-                  <ComboBoxItem DataContext="75" Content="6C" />
-                  <ComboBoxItem DataContext="80" Content="6C+" />
-                  <ComboBoxItem DataContext="85" Content="7A" />
-                  <ComboBoxItem DataContext="90" Content="7A+" />
-                  <ComboBoxItem DataContext="95" Content="7B" />
-                  <ComboBoxItem DataContext="100" Content="7B+" />
-                  <ComboBoxItem DataContext="105" Content="7C" />
-                  <ComboBoxItem DataContext="110" Content="7C+" />
-                  <ComboBoxItem DataContext="115" Content="8A" />
-                  <ComboBoxItem DataContext="120" Content="8A+" />
-                  <ComboBoxItem DataContext="125" Content="8B" />
-                  <ComboBoxItem DataContext="130" Content="8B+" />
-                  <ComboBoxItem DataContext="135" Content="8C" />
-                  <ComboBoxItem DataContext="140" Content="8C+" />
                   <ComboBoxItem DataContext="145" Content="9A" />
+                  <ComboBoxItem DataContext="140" Content="8C+" />
+                  <ComboBoxItem DataContext="135" Content="8C" />
+                  <ComboBoxItem DataContext="130" Content="8B+" />
+                  <ComboBoxItem DataContext="125" Content="8B" />
+                  <ComboBoxItem DataContext="120" Content="8A+" />
+                  <ComboBoxItem DataContext="115" Content="8A" />
+                  <ComboBoxItem DataContext="110" Content="7C+" />
+                  <ComboBoxItem DataContext="105" Content="7C" />
+                  <ComboBoxItem DataContext="100" Content="7B+" />
+                  <ComboBoxItem DataContext="95" Content="7B" />
+                  <ComboBoxItem DataContext="90" Content="7A+" />
+                  <ComboBoxItem DataContext="85" Content="7A" />
+                  <ComboBoxItem DataContext="80" Content="6C+" />
+                  <ComboBoxItem DataContext="75" Content="6C" />
+                  <ComboBoxItem DataContext="70" Content="6B+" />
+                  <ComboBoxItem DataContext="65" Content="6B" />
+                  <ComboBoxItem DataContext="60" Content="6A+" />
+                  <ComboBoxItem DataContext="55" Content="6A" />
+                  <ComboBoxItem DataContext="50" Content="5+" />
+                  <ComboBoxItem DataContext="45" Content="5" />
+                  <ComboBoxItem DataContext="40" Content="5-" />
+                  <ComboBoxItem DataContext="35" Content="4+" />
+                  <ComboBoxItem DataContext="30" Content="4" />
+                  <ComboBoxItem DataContext="25" Content="4-" />
+                  <ComboBoxItem DataContext="20" Content="3" />
                </ComboBox>
 
                <TextBlock Grid.Row="3" Text="Info" />
@@ -79,57 +79,79 @@
                <TextBlock Grid.Row="5" Text="Location" />
                <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation" />
 
-               <ListView Name="lstImages" Grid.Row="6" Grid.ColumnSpan="2" SelectionChanged="lstImages_SelectionChanged">
-                  <ListBox.ItemTemplate>
-                     <DataTemplate>
-                        <Image Height="50" Width="50">
-                           <Image.Source>
-                              <BitmapImage DecodePixelWidth="50" UriSource="{Binding Id}" />
-                           </Image.Source>
-                        </Image>
-                     </DataTemplate>
-                  </ListBox.ItemTemplate>
-                  <ListView.ItemsPanel>
-                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"></StackPanel>
-                     </ItemsPanelTemplate>
-                  </ListView.ItemsPanel>
-               </ListView>
-
-               <StackPanel Grid.Row="7" Orientation="Horizontal">
-                  <Button x:Name="btnAddImage" Content="Add image" Click="btnAddImage_Click" />
-                  <Button x:Name="btnRemoveImage" IsEnabled="False" Content="Remove image" Click="btnRemoveImage_Click" />
-               </StackPanel>
-
             </Grid>
          </TabItem>
-         <TabItem Header="Schema" IsEnabled="False" Name="tabSchema">
+         <TabItem Header="Schema" Name="tabSchema">
             <Grid>
                <Grid.RowDefinitions>
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="*" />
                </Grid.RowDefinitions>
 
-               <StackPanel Orientation="Horizontal">
-                  <ToggleButton
-                     x:Name="btnAddPath"
-                     Content="Add Path"
-                     ToggleButton.Checked="btnAddPath_Checked"
-                     ToggleButton.Unchecked="btnAddPath_Unchecked"
-                     Height="50"
-                     Margin="10" />
-                  <ToggleButton
-                     x:Name="btnAddEllipse"
-                     Content="Add Ellipse"
-                     ToggleButton.Checked="btnAddEllipse_Checked"
-                     ToggleButton.Unchecked="btnAddEllipse_Unchecked"
-                     Height="50"
-                     Margin="10"  />
+               <Grid>
+                  <Grid.ColumnDefinitions>
+                     <ColumnDefinition Width="Auto" />
+                     <ColumnDefinition Width="*" />
+                     <ColumnDefinition Width="Auto" />
+                     <ColumnDefinition Width="*" />
+                     <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
 
-                  <Button x:Name="btnUndo" Content="Undo" Margin="50, 10, 10, 10" Click="btnUndo_Click" />
-                  <Button x:Name="btnRemoveShape" Content="Remove" Margin="50, 10, 10, 10" Click="btnRemoveShape_Click" />
+                  <StackPanel Grid.Column="0">
+                     <Button
+                        x:Name="btnAddImage"
+                        Content=" + "
+                        Click="btnAddImage_Click"
+                        Margin="10" />
+                     <Button
+                        x:Name="btnRemoveImage"
+                        IsEnabled="False"
+                        Content=" - "
+                        Click="btnRemoveImage_Click"
+                        Margin="10, 0, 10, 10"/>
+                  </StackPanel>
 
-                  <ListView x:Name="lstShapes">
+                  <ListView
+                     Grid.Column="1"
+                     Name="lstImages"
+                     SelectionChanged="lstImages_SelectionChanged">
+                     <ListBox.ItemTemplate>
+                        <DataTemplate>
+                           <Image Height="50" Width="50">
+                              <Image.Source>
+                                 <BitmapImage DecodePixelWidth="50" UriSource="{Binding Id}" />
+                              </Image.Source>
+                           </Image>
+                        </DataTemplate>
+                     </ListBox.ItemTemplate>
+                     <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                           <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                     </ListView.ItemsPanel>
+                  </ListView>
+
+                  <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="20, 0, 0, 0">
+                     <ToggleButton
+                        x:Name="btnAddPath"
+                        Content="Add Path"
+                        ToggleButton.Checked="btnAddPath_Checked"
+                        ToggleButton.Unchecked="btnAddPath_Unchecked"
+                        Height="50"
+                        Margin="10" />
+                     <ToggleButton
+                        x:Name="btnAddEllipse"
+                        Content="Add Ellipse"
+                        ToggleButton.Checked="btnAddEllipse_Checked"
+                        ToggleButton.Unchecked="btnAddEllipse_Unchecked"
+                        Height="50"
+                        Margin="10"  />
+                     <Button x:Name="btnUndo" Content="Undo" Margin="10, 15, 20, 15" Click="btnUndo_Click" />
+                  </StackPanel>
+
+                  <ListView
+                     x:Name="lstShapes"
+                     Grid.Column="3">
                      <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                            <StackPanel Orientation="Horizontal"></StackPanel>
@@ -142,16 +164,24 @@
                         </DataTemplate>
                      </ListView.ItemTemplate>
                   </ListView>
-               </StackPanel>
 
-               <ScrollViewer Grid.Row="1">
-                  <wpf:SKElement
-                     Name="skCanvas"
-                     MouseLeftButtonDown="skCanvas_MouseLeftButtonDown"
-                     MouseLeftButtonUp="skCanvas_MouseLeftButtonUp"
-                     MouseMove="skCanvas_MouseMove"
-                     PaintSurface="skCanvas_PaintSurface" />
-               </ScrollViewer>
+
+                  <Button
+                     x:Name="btnRemoveShape"
+                     Grid.Column="4"
+                     Content="X"
+                     Margin="10, 30, 10, 30"
+                     Click="btnRemoveShape_Click" />
+
+               </Grid>
+
+               <wpf:SKElement
+                  Name="skCanvas"
+                  Grid.Row="1"
+                  MouseLeftButtonDown="skCanvas_MouseLeftButtonDown"
+                  MouseLeftButtonUp="skCanvas_MouseLeftButtonUp"
+                  MouseMove="skCanvas_MouseMove"
+                  PaintSurface="skCanvas_PaintSurface" />
 
             </Grid>
          </TabItem>
