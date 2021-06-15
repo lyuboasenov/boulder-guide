@@ -15,7 +15,7 @@ function getArea ($path) {
    $routes = [System.Collections.ArrayList]::new()
 
    Get-ChildItem -Path $path | % {
-      if ($_.PSIsContainer) {
+      if ($_.PSIsContainer -and !$_.name.StartsWith('.')) {
          $area = getArea ($_.FullName)
          $areas.Add($area) | Out-Null
       } elseif ($_.Name -eq 'area.json') {
