@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Plugin.Toasts;
 using Prism;
 using Prism.Ioc;
 using UIKit;
