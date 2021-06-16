@@ -69,8 +69,7 @@ namespace BoulderGuide.Domain.Schema {
                codec.EncodedOrigin);
 
             // Determine scaling factor
-            var bitmapAspectRatio = (double) bitmap.Width / bitmap.Height;
-            double factor = bitmapAspectRatio > 1 ? width / bitmap.Width : height / bitmap.Height;
+            double factor = Math.Min(width / bitmap.Width, height / bitmap.Height);
 
             var info = new SKImageInfo((int) (bitmap.Width * factor), (int) (bitmap.Height * factor));
             bitmap = bitmap.Resize(info, SKFilterQuality.High);
@@ -94,8 +93,8 @@ namespace BoulderGuide.Domain.Schema {
             }) {
                var imageSize = new Size(bitmap.Width, bitmap.Height);
                var offset = new Size(
-                  (canvasSize.Width - imageSize.Width) / 2,
-                  (canvasSize.Height - imageSize.Height) / 2);
+                  Math.Max((canvasSize.Width - imageSize.Width) / 2, 0),
+                  Math.Max((canvasSize.Height - imageSize.Height) / 2,  0));
 
                canvas.DrawBitmap(bitmap, (float) offset.Width, (float) offset.Height, paint);
 
