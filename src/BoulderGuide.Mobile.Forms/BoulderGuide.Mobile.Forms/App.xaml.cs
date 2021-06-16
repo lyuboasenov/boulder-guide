@@ -52,6 +52,7 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
          containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
          containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+         containerRegistry.RegisterForNavigation<SchemaPage, SchemaPageViewModel>();
       }
    }
 }
