@@ -21,6 +21,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public RouteInfo Info { get; set; }
       public AreaInfo AreaInfo { get; set; }
       public ICommand MapCommand { get; }
+      public ICommand ViewSchemaCommand { get; }
 
       public RoutePageViewModel(
          IDataService dataService,
@@ -28,6 +29,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.dataService = dataService;
          this.connectivity = connectivity;
          MapCommand = new Command(async () => await Map(), CanShowMap);
+         ViewSchemaCommand = new Command(async (obj) => await ViewSchema(obj as Domain.Schema.Schema));
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
@@ -51,6 +53,16 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             $"/MainPage/NavigationPage/{nameof(MapPage)}",
             MapPageViewModel.InitializeParameters(Route, AreaInfo),
             Icons.MaterialIconFont.Place);
+      }
+
+      private async Task ViewSchema(Domain.Schema.Schema schema) {
+         if (null != schema) {
+            await NavigateAsync(
+               $"{Route.Name} ({Route.Grade})",
+               $"/MainPage/NavigationPage/{nameof(SchemaPage)}",
+               SchemaPageViewModel.InitializeParameters(Route, Info, schema),
+               Icons.MaterialIconFont.Moving);
+         }
       }
 
       private async Task InitializeAsync(RouteInfo info, AreaInfo areaInfo) {

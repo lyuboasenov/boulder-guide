@@ -79,7 +79,7 @@ namespace BoulderGuide.Domain.Schema {
       }
 
       public static void DrawSchema(this SKCanvas canvas, string imagePath, IEnumerable<Shape> shapes) {
-         if (File.Exists(imagePath)) {
+         if (File.Exists(imagePath ?? "")) {
             var canvasSize = new Size(
                canvas.DeviceClipBounds.Width,
                canvas.DeviceClipBounds.Height);

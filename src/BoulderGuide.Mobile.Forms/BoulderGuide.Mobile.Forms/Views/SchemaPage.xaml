@@ -1,11 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com" xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.SchemaPage">
+   <ContentPage.Title>
+      <MultiBinding StringFormat="{}{0} ({1})">
+         <Binding Path="Info.Name" />
+         <Binding Path="Route.Grade" />
+      </MultiBinding>
+   </ContentPage.Title>
 
-   <views:SchemaView
-      Schema="{Binding Schema}" />
+   <views:PinchToZoomContainer>
+      <views:SchemaView
+         Schema="{Binding Schema}"
+         RouteInfo="{Binding Info}" />
+   </views:PinchToZoomContainer>
 
 </ContentPage>

@@ -42,30 +42,36 @@
                      HorizontalOptions="Center"
                      VerticalOptions="CenterAndExpand">
 
-                  <Grid>
-                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                     </Grid.ColumnDefinitions>
-                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                     </Grid.RowDefinitions>
-                     <ImageButton Grid.Column="1" WidthRequest="20" HeightRequest="20">
-                        <ImageButton.Source>
-                           <FontImageSource
-                              Color="Gray"
-                              Glyph="{Static icons:MaterialIconFont.Fullscreen}"
-                              FontFamily="{StaticResource Key=MaterialFontFamily}" />
-                        </ImageButton.Source>
-                     </ImageButton>
+                  <AbsoluteLayout>
+
                      <localViews:SchemaView
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
+                        AbsoluteLayout.LayoutFlags="All"
+                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                         Schema="{Binding}"
                         RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
                         />
-                  </Grid>
+
+                     <AbsoluteLayout
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        AbsoluteLayout.LayoutBounds="1, 0">
+                        <ImageButton
+                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=ViewSchemaCommand}"
+                           CommandParameter="{Binding}"
+                           WidthRequest="60"
+                           HeightRequest="60"
+                           VerticalOptions="Start"
+                           BackgroundColor="#11000000"
+                           CornerRadius="10">
+                           <ImageButton.Source>
+                              <FontImageSource
+                              Color="Gray"
+                              Glyph="{Static icons:MaterialIconFont.Fullscreen}"
+                              FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                           </ImageButton.Source>
+                        </ImageButton>
+                     </AbsoluteLayout>
+
+                  </AbsoluteLayout>
 
                </Frame>
             </DataTemplate>

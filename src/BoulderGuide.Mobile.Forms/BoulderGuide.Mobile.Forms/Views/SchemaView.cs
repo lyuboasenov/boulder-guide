@@ -43,7 +43,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
       protected override void OnPaintSurface(SKPaintSurfaceEventArgs e) {
          base.OnPaintSurface(e);
 
-         e.Surface.Canvas.DrawSchema(imageLocalPath, Schema.Shapes);
+         e.Surface.Canvas.DrawSchema(imageLocalPath, Schema?.Shapes ?? Enumerable.Empty<Shape>());
       }
 
       private void SetImageLocalPath() {
