@@ -12,8 +12,12 @@ using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
    internal class DataService : IDataService {
+#if DEBUG
+      private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index-v2.debug.json";
+#else
       private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index.json";
-      private Dictionary<string, string> areaAddresses;
+#endif
+      private RegionInfo[] regions;
 
       private readonly IFileSystem fileSystem;
       private readonly HttpClient httpClient = new HttpClient();
@@ -34,10 +38,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public Task ClearLocalStorage() {
          try {
-            foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
-               var repoDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories", kv.Key);
-               Directory.Delete(repoDir, true);
-            }
+            var reposDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
+            Directory.Delete(reposDir, true);
 
             return Task.CompletedTask;
          } catch (Exception ex) {
@@ -183,48 +185,51 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             Directory.CreateDirectory(repositoriesDir);
          }
 
-         var masterIndexLocalPath = System.IO.Path.Combine(repositoriesDir, "index.json");
+         var masterIndexLocalPath = System.IO.Path.Combine(repositoriesDir, "index-v2.json");
          if (!File.Exists(masterIndexLocalPath) || download && force) {
             await DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
 
-         areaAddresses =
-            JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(masterIndexLocalPath));
+         regions =
+            JsonConvert.DeserializeObject<RegionInfo[]>(File.ReadAllText(masterIndexLocalPath));
 
          var result = new List<AreaInfo>();
-         foreach (var kv in areaAddresses ?? Enumerable.Empty<KeyValuePair<string, string>>()) {
-            var repoDir = System.IO.Path.Combine(repositoriesDir, kv.Key);
+         foreach (var region in regions ?? Enumerable.Empty<RegionInfo>()) {
+            if (region.Access == RegionAccess.@public ||
+               (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
+               var repoDir = System.IO.Path.Combine(repositoriesDir, region.Name);
 
-            if (!Directory.Exists(repoDir)) {
-               Directory.CreateDirectory(repoDir);
-            }
-
-            var localIndexPath = System.IO.Path.Combine(repoDir, "index.json");
-
-            if (!File.Exists(localIndexPath) || download && force) {
-               await DownloadFile(kv.Value + "/index.json", localIndexPath);
-            }
-
-            if (!File.Exists(localIndexPath)) {
-               throw new ArgumentException(Strings.AreaNotFoundOrCantBeDownloaded);
-            }
-
-            var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(localIndexPath));
-            index.SetRoots(kv.Value, repoDir);
-            foreach (var image in index.Images ?? Enumerable.Empty<string>()) {
-               await DownloadFile(index.GetImageRemotePath(image), index.GetImageLocalPath(image));
-            }
-
-            if (!string.IsNullOrEmpty(index.Map)) {
-               if (!File.Exists(index.MapLocalPath) || download && force) {
-                  await DownloadFile(index.MapRemotePath, index.MapLocalPath);
+               if (!Directory.Exists(repoDir)) {
+                  Directory.CreateDirectory(repoDir);
                }
+
+               var localIndexPath = System.IO.Path.Combine(repoDir, "index.json");
+
+               if (!File.Exists(localIndexPath) || download && force) {
+                  await DownloadFile(region.Url.Trim('/') + "/index.json", localIndexPath);
+               }
+
+               if (!File.Exists(localIndexPath)) {
+                  throw new ArgumentException(Strings.AreaNotFoundOrCantBeDownloaded);
+               }
+
+               var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(localIndexPath));
+               index.SetRoots(region.Url, repoDir);
+               foreach (var image in index.Images ?? Enumerable.Empty<string>()) {
+                  await DownloadFile(index.GetImageRemotePath(image), index.GetImageLocalPath(image));
+               }
+
+               if (!string.IsNullOrEmpty(index.Map)) {
+                  if (!File.Exists(index.MapLocalPath) || download && force) {
+                     await DownloadFile(index.MapRemotePath, index.MapLocalPath);
+                  }
+               }
+
+               OrderAreasRoutes(index);
+               SetIsOfflineAndRoots(index, region.Url, repoDir);
+
+               result.Add(index);
             }
-
-            OrderAreasRoutes(index);
-            SetIsOfflineAndRoots(index, kv.Value, repoDir);
-
-            result.Add(index);
          }
 
          return result;

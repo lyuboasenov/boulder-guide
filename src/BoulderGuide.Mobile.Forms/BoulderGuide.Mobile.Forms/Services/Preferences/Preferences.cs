@@ -48,5 +48,21 @@
             preferences.Set(nameof(FilterSearchTerm), value);
          }
       }
+      public bool ShowPrivateRegions {
+         get {
+            return preferences.Get(nameof(ShowPrivateRegions), false);
+         }
+         set {
+            preferences.Set(nameof(ShowPrivateRegions), value);
+         }
+      }
+      public string PrivateRegionsKey {
+         get {
+            return preferences.Get(nameof(PrivateRegionsKey), "");
+         }
+         set {
+            preferences.Set(nameof(PrivateRegionsKey), value);
+         }
+      }
    }
 }
