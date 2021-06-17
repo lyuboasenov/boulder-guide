@@ -8,13 +8,13 @@
 
       public string MapLocalPath {
          get {
-            return GetLocalPath(Map);
+            return Region.GetLocalPath(Map);
          }
       }
 
       public string MapRemotePath {
          get {
-            return GetRemotePath(Map);
+            return Region.GetRemotePath(Map);
          }
       }
 

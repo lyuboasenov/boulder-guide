@@ -126,7 +126,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
             await Task.WhenAll(tasks);
 
-            SetIsOfflineAndRoots(info, info.RemoteRoot, info.LocalRoot);
+            SetIsOfflineAndRoots(info, info.Region);
          } catch (Exception ex) {
             errorService.HandleError(ex);
          }
@@ -197,24 +197,22 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          foreach (var region in regions ?? Enumerable.Empty<RegionInfo>()) {
             if (region.Access == RegionAccess.@public ||
                (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
-               var repoDir = System.IO.Path.Combine(repositoriesDir, region.Name);
+               region.LocalPath = System.IO.Path.Combine(repositoriesDir, region.Name);
 
-               if (!Directory.Exists(repoDir)) {
-                  Directory.CreateDirectory(repoDir);
+               if (!Directory.Exists(region.LocalPath)) {
+                  Directory.CreateDirectory(region.LocalPath);
                }
 
-               var localIndexPath = System.IO.Path.Combine(repoDir, "index.json");
-
-               if (!File.Exists(localIndexPath) || download && force) {
-                  await DownloadFile(region.Url.Trim('/') + "/index.json", localIndexPath);
+               if (!File.Exists(region.LocalIndexPath) || download && force) {
+                  await DownloadFile(region.IndexUrl, region.LocalIndexPath);
                }
 
-               if (!File.Exists(localIndexPath)) {
+               if (!File.Exists(region.LocalIndexPath)) {
                   throw new ArgumentException(Strings.AreaNotFoundOrCantBeDownloaded);
                }
 
-               var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(localIndexPath));
-               index.SetRoots(region.Url, repoDir);
+               var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(region.LocalIndexPath));
+               index.Region = region;
                foreach (var image in index.Images ?? Enumerable.Empty<string>()) {
                   await DownloadFile(index.GetImageRemotePath(image), index.GetImageLocalPath(image));
                }
@@ -226,7 +224,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                }
 
                OrderAreasRoutes(index);
-               SetIsOfflineAndRoots(index, region.Url, repoDir);
+               SetIsOfflineAndRoots(index, region);
 
                result.Add(index);
             }
@@ -259,18 +257,18 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
       }
 
-      private void SetIsOfflineAndRoots(AreaInfo index, string remoteRoot, string localRoot) {
+      private void SetIsOfflineAndRoots(AreaInfo index, RegionInfo region) {
 
-         index.SetRoots(remoteRoot, localRoot);
+         index.Region = region;
          bool isOffline = File.Exists(index.LocalPath) && File.Exists(index.MapLocalPath);
 
          foreach (var area in index.Areas ?? Enumerable.Empty<AreaInfo>()) {
-            SetIsOfflineAndRoots(area, remoteRoot, localRoot);
+            SetIsOfflineAndRoots(area, region);
             isOffline = isOffline && area.IsOffline;
          }
 
          foreach (var routeInfo in index.Routes ?? Enumerable.Empty<RouteInfo>()) {
-            routeInfo.SetRoots(remoteRoot, localRoot);
+            routeInfo.Region = region;
             routeInfo.IsOffline = File.Exists(routeInfo.LocalPath);
 
             foreach (var img in routeInfo.Images ?? Enumerable.Empty<string>()) {
