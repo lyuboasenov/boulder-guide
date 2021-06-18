@@ -1,5 +1,4 @@
-﻿using BoulderGuide.Domain.Entities;
-using BoulderGuide.Domain.Schema;
+﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using Prism.Navigation;
 using System.Collections.Generic;

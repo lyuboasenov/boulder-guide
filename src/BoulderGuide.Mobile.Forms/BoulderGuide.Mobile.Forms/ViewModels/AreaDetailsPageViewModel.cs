@@ -1,4 +1,4 @@
-﻿using BoulderGuide.Domain.Entities;
+﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;

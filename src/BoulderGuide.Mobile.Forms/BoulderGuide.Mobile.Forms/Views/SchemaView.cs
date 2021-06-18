@@ -1,4 +1,5 @@
-﻿using BoulderGuide.Domain.Schema;
+﻿using BoulderGuide.DTOs;
+using BoulderGuide.ImageUtils;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using SkiaSharp.Views.Forms;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using BoulderGuide.Domain.Entities;
+﻿using BoulderGuide.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

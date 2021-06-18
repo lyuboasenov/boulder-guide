@@ -1,11 +1,11 @@
-﻿using BoulderGuide.Domain.Entities;
+﻿using BoulderGuide.DTOs;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
    public class RouteInfo : Info {
       public string[] Images { get; set; }
       public double Difficulty { get; set; }
 
-      public Domain.Entities.Location Location { get; set; }
+      public DTOs.Location Location { get; set; }
 
       public string Grade {
          get {

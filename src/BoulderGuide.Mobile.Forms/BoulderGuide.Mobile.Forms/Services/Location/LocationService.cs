@@ -1,5 +1,4 @@
 ﻿using BruTile.MbTiles;
-using BoulderGuide.Domain.Entities;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using Mapsui;
 using Mapsui.Geometries;
@@ -17,6 +16,7 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using BoulderGuide.DTOs;
 
 namespace BoulderGuide.Mobile.Forms.Services.Location {
    public class LocationService : ILocationService {

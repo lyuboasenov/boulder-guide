@@ -1,4 +1,4 @@
-﻿using BoulderGuide.Domain.Schema;
+﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Services.Errors;
 using Newtonsoft.Json;
 using System;
@@ -77,7 +77,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
       }
 
-      public Task<Domain.Entities.Area> GetArea(AreaInfo info) {
+      public Task<Area> GetArea(AreaInfo info) {
          try {
             OrderAreasRoutes(info);
 
@@ -87,15 +87,15 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                return GetArea(info, false);
             } else {
                // TODO show message that it can't be downloaded
-               return Task.FromResult<Domain.Entities.Area>(null);
+               return Task.FromResult<Area>(null);
             }
          } catch (Exception ex) {
             errorService.HandleError(ex);
-            return Task.FromResult<Domain.Entities.Area>(null);
+            return Task.FromResult<Area>(null);
          }
       }
 
-      public Task<Domain.Entities.Route> GetRoute(RouteInfo info) {
+      public Task<Route> GetRoute(RouteInfo info) {
          try {
             if (connectivity.NetworkAccess == NetworkAccess.Internet) {
                return GetRoute(info, true);
@@ -103,11 +103,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                return GetRoute(info, false);
             } else {
                // TODO show message that it can't be downloaded
-               return Task.FromResult<Domain.Entities.Route>(null);
+               return Task.FromResult<Route>(null);
             }
          } catch (Exception ex) {
             errorService.HandleError(ex);
-            return Task.FromResult<Domain.Entities.Route>(null);
+            return Task.FromResult<Route>(null);
          }
       }
 
@@ -136,7 +136,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          await GetRoute(info, true);
       }
 
-      private async Task<Domain.Entities.Route> GetRoute(RouteInfo info, bool download) {
+      private async Task<Route> GetRoute(RouteInfo info, bool download) {
          if (download) {
             var fileInfo = new FileInfo(info.LocalPath);
 
@@ -151,11 +151,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             }
          }
 
-         return JsonConvert.DeserializeObject<Domain.Entities.Route>(
+         return JsonConvert.DeserializeObject<Route>(
             info.GetAllText(), Shape.StandardJsonConverter);
       }
 
-      private async Task<Domain.Entities.Area> GetArea(AreaInfo info, bool download) {
+      private async Task<Area> GetArea(AreaInfo info, bool download) {
          if (download) {
             var fileInfo = new FileInfo(info.LocalPath);
 
@@ -166,7 +166,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             await DownloadFile(info.RemotePath, info.LocalPath);
          }
 
-         return JsonConvert.DeserializeObject<Domain.Entities.Area>(
+         return JsonConvert.DeserializeObject<Area>(
             info.GetAllText());
       }
 

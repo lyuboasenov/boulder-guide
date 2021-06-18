@@ -1,4 +1,4 @@
-﻿using BoulderGuide.Domain.Entities;
+﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
@@ -29,7 +29,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.dataService = dataService;
          this.connectivity = connectivity;
          MapCommand = new Command(async () => await Map(), CanShowMap);
-         ViewSchemaCommand = new Command(async (obj) => await ViewSchema(obj as Domain.Schema.Schema));
+         ViewSchemaCommand = new Command(async (obj) => await ViewSchema(obj as Schema));
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
@@ -55,7 +55,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Icons.MaterialIconFont.Place);
       }
 
-      private async Task ViewSchema(Domain.Schema.Schema schema) {
+      private async Task ViewSchema(Schema schema) {
          if (null != schema) {
             await NavigateAsync(
                $"{Route.Name} ({Route.Grade})",

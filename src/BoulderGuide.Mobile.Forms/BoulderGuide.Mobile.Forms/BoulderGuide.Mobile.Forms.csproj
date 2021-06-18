@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BruTile" Version="2.2.0" />
     <PackageReference Include="BruTile.MbTiles" Version="2.2.0" />
     <PackageReference Include="Mapsui.Forms" Version="2.0.3" />
@@ -59,12 +65,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
     <Folder Include="Services\UI\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="FodyWeavers.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BoulderGuide.DTOs\BoulderGuide.DTOs.csproj" />
+    <ProjectReference Include="..\..\BoulderGuide.ImageUtils\BoulderGuide.ImageUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
