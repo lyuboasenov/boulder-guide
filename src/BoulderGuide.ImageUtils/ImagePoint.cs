@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoulderGuide.Domain.Schema {
+namespace BoulderGuide.ImageUtils {
    public class ImagePoint {
       private double y;
       private double x;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BoulderGuide.Domain.Entities {
+namespace BoulderGuide.DTOs {
    public class Location {
       public Location(double latitude, double longitude) {
          Latitude = latitude;
@@ -26,12 +26,12 @@ namespace BoulderGuide.Domain.Entities {
             throw new ArgumentException(nameof(latLonDD));
          }
 
-         if (!double.TryParse(parts[0].Substring(1), out double lat)) {
+         if (!double.TryParse(parts[0].Substring(1), out var lat)) {
             throw new ArgumentException("invalid latitude");
          }
          Latitude = lat;
 
-         if (!double.TryParse(parts[1].Substring(1), out double lon)) {
+         if (!double.TryParse(parts[1].Substring(1), out var lon)) {
             throw new ArgumentException("invalid longitude");
          }
          Longitude = lon;

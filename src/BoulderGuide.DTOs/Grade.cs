@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BoulderGuide.Domain.Entities {
+namespace BoulderGuide.DTOs {
    public class Grade {
       private static IDictionary<double, string> vGrade = new Dictionary<double, string>() {
          { 20, "VB" },
@@ -77,17 +77,7 @@ namespace BoulderGuide.Domain.Entities {
 
 
       private string SelectGrade(IDictionary<double, string> container) {
-         //// TODO: bauble search for string
-         //int index = container.Count / 2;
-         //while (true) {
-         //   if (container.Keys.ElementAt(index) > difficulty) {
-
-         //   } else {
-
-         //   }
-         //}
-
-         for (int i = container.Count - 1; i >= 0; i--) {
+         for (var i = container.Count - 1; i >= 0; i--) {
             var kv = container.ElementAt(i);
             if (kv.Key <= difficulty || i == 0) {
                return kv.Value;

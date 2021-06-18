@@ -1,5 +1,5 @@
-﻿using BoulderGuide.Domain.Entities;
-using BoulderGuide.Domain.Schema;
+﻿using BoulderGuide.DTOs;
+using BoulderGuide.ImageUtils;
 using Newtonsoft.Json;
 using SkiaSharp;
 using System;
@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Path = BoulderGuide.DTOs.Path;
+using Size = BoulderGuide.ImageUtils.Size;
 
 namespace BoulderGuide.Wpf {
    /// <summary>
@@ -19,8 +21,8 @@ namespace BoulderGuide.Wpf {
       private readonly List<Schema> schemas = new List<Schema>();
       private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
-      private Domain.Schema.Size currentImageSize;
-      private Domain.Schema.Size currentCanvasControlSize;
+      private Size currentImageSize;
+      private Size currentCanvasControlSize;
 
       public RouteWindow() {
          InitializeComponent();
@@ -166,8 +168,8 @@ namespace BoulderGuide.Wpf {
       }
 
       private void skCanvas_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e) {
-         currentImageSize = new Domain.Schema.Size();
-         currentCanvasControlSize = new Domain.Schema.Size();
+         currentImageSize = new Size();
+         currentCanvasControlSize = new Size();
 
          if (!string.IsNullOrEmpty(selectedSchemas?.Id)) {
             using (var bitmap = SkiaSharpExtensions.LoadBitmap(selectedSchemas?.Id, skCanvas.CanvasSize.Width, skCanvas.CanvasSize.Height))
@@ -175,7 +177,7 @@ namespace BoulderGuide.Wpf {
                FilterQuality = SKFilterQuality.High, // high quality scaling
                IsAntialias = true
             }) {
-               currentImageSize = new Domain.Schema.Size(bitmap.Width, bitmap.Height);
+               currentImageSize = new Size(bitmap.Width, bitmap.Height);
                e.Surface.Canvas.DrawBitmap(bitmap, 0, 0, paint);
             }
          }
@@ -189,7 +191,7 @@ namespace BoulderGuide.Wpf {
          }
 
          foreach (Shape shape in shapes) {
-            shape.Draw(e.Surface.Canvas, currentImageSize, new Domain.Schema.Size(0, 0));
+            shape.Draw(e.Surface.Canvas, currentImageSize, new Size(0, 0));
          }
       }
 
@@ -208,7 +210,7 @@ namespace BoulderGuide.Wpf {
             if (currentShape is Ellipse el) {
                el.Radius = GetImageRelativePosition(e);
                btnAddEllipse.IsChecked = false;
-            } else if (currentShape is Domain.Schema.Path p) {
+            } else if (currentShape is Path p) {
                currentPath.Add(GetImageRelativePosition(e));
                p.Points = currentPath.ToArray();
                btnUndo.IsEnabled = true;
@@ -250,7 +252,7 @@ namespace BoulderGuide.Wpf {
 
       private void btnAddPath_Checked(object sender, RoutedEventArgs e) {
          btnAddEllipse.IsChecked = false;
-         currentShape = new Domain.Schema.Path();
+         currentShape = new Path();
          currentPath.Clear();
          btnSave.IsEnabled = false;
       }
@@ -279,7 +281,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private void btnUndo_Click(object sender, RoutedEventArgs e) {
-         if (currentShape is Domain.Schema.Path p && currentPath.Count > 0) {
+         if (currentShape is Path p && currentPath.Count > 0) {
             currentPath.RemoveAt(currentPath.Count - 1);
             p.Points = currentPath.ToArray();
             skCanvas.InvalidateVisual();

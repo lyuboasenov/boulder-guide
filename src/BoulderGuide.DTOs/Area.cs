@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BoulderGuide.Domain.Entities {
+﻿namespace BoulderGuide.DTOs {
    public class Area {
       public string Id { get; set; }
       public string Name { get; set; }

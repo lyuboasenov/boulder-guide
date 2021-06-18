@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoulderGuide.Domain\BoulderGuide.Domain.csproj" />
+    <ProjectReference Include="..\BoulderGuide.DTOs\BoulderGuide.DTOs.csproj" />
+    <ProjectReference Include="..\BoulderGuide.ImageUtils\BoulderGuide.ImageUtils.csproj" />
   </ItemGroup>
 
 </Project>

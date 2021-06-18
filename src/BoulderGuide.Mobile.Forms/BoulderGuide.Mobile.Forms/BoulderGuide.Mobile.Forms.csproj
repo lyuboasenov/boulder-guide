@@ -68,10 +68,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BoulderGuide.Domain\BoulderGuide.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

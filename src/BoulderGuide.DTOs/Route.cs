@@ -1,4 +1,4 @@
-﻿namespace BoulderGuide.Domain.Entities {
+﻿namespace BoulderGuide.DTOs {
    public class Route {
       public string Id { get; set; }
       public Location Location { get; set; } = new Location();
@@ -8,6 +8,6 @@
       public string Info { get; set; }
       public string[] Tags { get; set; } = new string[0];
       public string[] Links { get; set; } = new string[0];
-      public Schema.Schema[] Schemas { get; set; } = new Schema.Schema[0];
+      public Schema[] Schemas { get; set; } = new Schema[0];
    }
 }

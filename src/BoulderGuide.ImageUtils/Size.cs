@@ -1,4 +1,4 @@
-﻿namespace BoulderGuide.Domain.Schema {
+﻿namespace BoulderGuide.ImageUtils {
    public class Size {
       public Size() {
          Width = 0;

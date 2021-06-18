@@ -1,10 +1,12 @@
-﻿using SkiaSharp;
+﻿using BoulderGuide.DTOs;
+using BoulderGuide.ImageUtils;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BoulderGuide.Domain.Schema {
+namespace BoulderGuide.ImageUtils {
    public static class SkiaSharpExtensions {
 
       private static SKColor defaultColor = SKColors.White;
@@ -83,7 +85,7 @@ namespace BoulderGuide.Domain.Schema {
             var canvasSize = new Size(
                canvas.DeviceClipBounds.Width,
                canvas.DeviceClipBounds.Height);
-            using (var bitmap = SkiaSharpExtensions.LoadBitmap(
+            using (var bitmap = LoadBitmap(
                imagePath,
                canvasSize.Width,
                canvasSize.Height))
@@ -94,7 +96,7 @@ namespace BoulderGuide.Domain.Schema {
                var imageSize = new Size(bitmap.Width, bitmap.Height);
                var offset = new Size(
                   Math.Max((canvasSize.Width - imageSize.Width) / 2, 0),
-                  Math.Max((canvasSize.Height - imageSize.Height) / 2,  0));
+                  Math.Max((canvasSize.Height - imageSize.Height) / 2, 0));
 
                canvas.DrawBitmap(bitmap, (float) offset.Width, (float) offset.Height, paint);
 
@@ -157,8 +159,8 @@ namespace BoulderGuide.Domain.Schema {
       /// <param name="scaleFactor">Scale factor if scaling is to be made</param>
       /// <returns></returns>
       public static SKPoint ToSKPoint(this ImagePoint point, ImagePoint originPoint = null, double scaleFactor = 1) {
-         double originX = originPoint?.X ?? 0;
-         double originY = originPoint?.Y ?? 0;
+         var originX = originPoint?.X ?? 0;
+         var originY = originPoint?.Y ?? 0;
          return new SKPoint((float) ((point.X - originX) * scaleFactor), (float) ((point.Y - originY) * scaleFactor));
       }
 
