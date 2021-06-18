@@ -17,6 +17,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
       }
 
       private NotificationOptions FormatException(Exception ex) {
+         // todo handle filenotfoundexception
          if (ex is DownloadFileException dEx) {
             return new NotificationOptions() {
                Title = "Error downloading file",

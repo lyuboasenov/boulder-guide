@@ -26,5 +26,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       public string GetImageLocalPath(string relativePath) {
          return Region.GetLocalPath(relativePath);
       }
+
+      public string GetAllText() {
+         return Region.GetAllText(Index);
+      }
+
+      public byte[] GetAllBytes() {
+         return Region.GetAllBytes(Index);
+      }
    }
 }

@@ -151,12 +151,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             }
          }
 
-         if (!File.Exists(info.LocalPath)) {
-            throw new ArgumentException(Strings.AreaNotFoundOrCantBeDownloaded);
-         }
-
          return JsonConvert.DeserializeObject<Domain.Entities.Route>(
-            File.ReadAllText(info.LocalPath), Shape.StandardJsonConverter);
+            info.GetAllText(), Shape.StandardJsonConverter);
       }
 
       private async Task<Domain.Entities.Area> GetArea(AreaInfo info, bool download) {
@@ -170,12 +166,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             await DownloadFile(info.RemotePath, info.LocalPath);
          }
 
-         if (!File.Exists(info.LocalPath)) {
-            throw new ArgumentException(Strings.AreaNotFoundOrCantBeDownloaded);
-         }
-
          return JsonConvert.DeserializeObject<Domain.Entities.Area>(
-            File.ReadAllText(info.LocalPath));
+            info.GetAllText());
       }
 
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
@@ -207,11 +199,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                   await DownloadFile(region.IndexUrl, region.LocalIndexPath);
                }
 
-               if (!File.Exists(region.LocalIndexPath)) {
-                  throw new ArgumentException(Strings.AreaNotFoundOrCantBeDownloaded);
-               }
-
-               var index = JsonConvert.DeserializeObject<AreaInfo>(File.ReadAllText(region.LocalIndexPath));
+               var index = JsonConvert.DeserializeObject<AreaInfo>(region.GetAllText());
                index.Region = region;
                foreach (var image in index.Images ?? Enumerable.Empty<string>()) {
                   await DownloadFile(index.GetImageRemotePath(image), index.GetImageLocalPath(image));

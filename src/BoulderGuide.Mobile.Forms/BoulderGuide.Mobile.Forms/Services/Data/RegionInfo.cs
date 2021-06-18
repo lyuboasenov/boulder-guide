@@ -41,5 +41,20 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          return Path.Combine(LocalPath, relativePath.Trim('/'));
       }
 
+      public string GetAllText() {
+         return GetAllText("index.json");
+      }
+
+      public string GetAllText(string relativePath) {
+         string localPath = GetLocalPath(relativePath);
+
+         return File.ReadAllText(localPath);
+      }
+
+      public byte[] GetAllBytes(string relativePath) {
+         string localPath = GetLocalPath(relativePath);
+
+         return File.ReadAllBytes(localPath);
+      }
    }
 }

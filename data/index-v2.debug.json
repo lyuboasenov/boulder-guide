@@ -9,8 +9,8 @@
    {
       "urn": "rila-monastery",
       "url": "https://storage.googleapis.com/boulder-maps/map-rila-monastery/main",
-      "access": "public",
+      "access": "private",
       "gzip": true,
-      "encrypted": false
+      "encrypted": true
    }
 ]
