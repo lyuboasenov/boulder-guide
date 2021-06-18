@@ -352,5 +352,14 @@ namespace BoulderGuide.Mobile.Forms {
                 return ResourceManager.GetString("UnableToDownloadRoute", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Версия.
+        /// </summary>
+        internal static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
     }
 }
