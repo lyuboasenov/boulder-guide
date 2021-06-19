@@ -54,8 +54,10 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             var repoDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
             DirectoryInfo info = new DirectoryInfo(repoDir);
             long size = 0;
-            foreach (var file in info.GetFiles("*", SearchOption.AllDirectories)) {
-               size += file.Length;
+            if (info.Exists) {
+               foreach (var file in info.GetFiles("*", SearchOption.AllDirectories)) {
+                  size += file.Length;
+               }
             }
 
             return Task.FromResult<int>((int) (size >> 20));
