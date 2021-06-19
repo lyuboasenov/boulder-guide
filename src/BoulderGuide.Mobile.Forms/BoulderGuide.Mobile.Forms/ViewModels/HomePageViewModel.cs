@@ -3,8 +3,6 @@ using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -43,44 +41,32 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          Title = Strings.ClimbingAreas;
       }
 
+      public void OnSelectedAreaInfoChanged() {
+         RunAsync(NavigateToAreaAsync);
+      }
+
+      private async Task NavigateToAreaAsync() {
+         await NavigateAsync(
+            SelectedAreaInfo.Name,
+            $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
+            AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo),
+            Icons.MaterialIconFont.Terrain);
+      }
+
       public override void Initialize(INavigationParameters parameters) {
          base.Initialize(parameters);
 
          ReloadCommand.Execute(false);
-
-         Task.Run(async () => await InitializeAsync());
-      }
-
-      public void OnSelectedAreaInfoChanged() {
-         Task.Run(async () => await NavigateToAreaAsync());
-      }
-
-      private async Task NavigateToAreaAsync() {
-         try {
-            await NavigateAsync(
-               SelectedAreaInfo.Name,
-               $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
-               AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo),
-               Icons.MaterialIconFont.Terrain);
-         } catch (Exception ex) {
-            errorService.HandleError(ex);
-         }
-      }
-
-      private async Task InitializeAsync() {
-         var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-         if (status != PermissionStatus.Granted) {
-            status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
-         }
       }
 
       private async Task Reload(bool force) {
+
          var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
          if (status != PermissionStatus.Granted) {
-            status = await permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            await permissions.RequestAsync<Permissions.LocationWhenInUse>();
          }
 
-         await activityIndicationService.StartLoadingAsync();
+         activityIndicationService.StartLoading();
          AreaInfos.Clear();
 
          IEnumerable<AreaInfo> areas = await dataService.GetIndexAreas(force);
@@ -89,7 +75,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             AreaInfos.Add(area);
          }
 
-         await activityIndicationService.FinishLoadingAsync();
+         activityIndicationService.FinishLoading();
       }
    }
 }

@@ -10,7 +10,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public AreaInfo(Region region, AreaInfo parent, AreaInfoDTO dto) :
          base (
-            region.DownloadService,
             "index.json",
             region.RemoteRootPath,
             region.LocalRootPath) {
@@ -64,40 +63,40 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public Area Area { get; private set; }
 
-      public async Task LoadAreaAsync() {
+      public async Task LoadAreaAsync(bool force = false) {
          if (Area is null) {
             var area = new Area(region, Index);
-            await area.DownloadAsync();
+            await area.DownloadAsync(force).ConfigureAwait(false);
             Area = area;
          }
       }
 
-      public async Task DownloadMapAsync() {
-         await Map?.DownloadAsync();
+      public async Task DownloadMapAsync(bool force = false) {
+         await Map?.DownloadAsync(force);
       }
 
-      public async Task DownloadImagesAsync() {
+      public async Task DownloadImagesAsync(bool force = false) {
          var list = new List<Task>();
          foreach (var image in Images ?? Enumerable.Empty<Image>()) {
-            list.Add(image.DownloadAsync());
+            list.Add(image.DownloadAsync(force));
          }
 
          await Task.WhenAll(list);
       }
 
-      public override async Task DownloadAsync() {
+      public override async Task DownloadAsync(bool force = false) {
 
          var tasks = new List<Task>();
-         tasks.Add(DownloadMapAsync());
-         tasks.Add(DownloadImagesAsync());
-         tasks.Add(LoadAreaAsync());
+         tasks.Add(DownloadMapAsync(force));
+         tasks.Add(DownloadImagesAsync(force));
+         tasks.Add(LoadAreaAsync(force));
 
          foreach (var i in Areas ?? Enumerable.Empty<AreaInfo>()) {
-            tasks.Add(i.DownloadAsync());
+            tasks.Add(i.DownloadAsync(force));
          }
 
          foreach (var i in Routes ?? Enumerable.Empty<RouteInfo>()) {
-            tasks.Add(i.DownloadAsync());
+            tasks.Add(i.DownloadAsync(force));
          }
 
          await Task.WhenAll(tasks);

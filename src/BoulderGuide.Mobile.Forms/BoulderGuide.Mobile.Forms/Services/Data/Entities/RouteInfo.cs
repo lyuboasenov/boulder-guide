@@ -9,7 +9,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public RouteInfo(Region region, AreaInfo parent, RouteInfoDTO dto) :
          base(
-            region.DownloadService,
             "index.json",
             region.RemoteRootPath,
             region.LocalRootPath) {

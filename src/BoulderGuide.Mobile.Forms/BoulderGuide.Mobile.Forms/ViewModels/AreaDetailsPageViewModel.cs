@@ -6,10 +6,12 @@ using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -40,20 +42,20 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.activityIndicationService = activityIndicationService;
          this.preferences = preferences;
 
-         DownloadCommand = new Command(async () => await Download());
-         FilterCommand = new Command(async () => await Filter());
-         OrderCommand = new Command(async () => await Order());
-         MapCommand = new Command(async () => await Map(), CanShowMap);
+         DownloadCommand = new AsyncCommand(Download);
+         FilterCommand = new AsyncCommand(Filter);
+         OrderCommand = new AsyncCommand(Order);
+         MapCommand = new AsyncCommand(Map, CanShowMap);
       }
 
       private async Task Order() {
-         await DialogService.ShowDialogAsync(nameof(OrderDialogPage));
-         await InitializeAsync(Info);
+         await DialogService.ShowDialogAsync(nameof(OrderDialogPage)).ConfigureAwait(false);
+         await InitializeAsync().ConfigureAwait(false);
       }
 
       private async Task Filter() {
-         await DialogService.ShowDialogAsync(nameof(FilterDialogPage));
-         await InitializeAsync(Info);
+         await DialogService.ShowDialogAsync(nameof(FilterDialogPage)).ConfigureAwait(false);
+         await InitializeAsync().ConfigureAwait(false);
       }
 
       private async Task Map() {
@@ -61,36 +63,44 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Info.Name,
             $"/MainPage/NavigationPage/{nameof(MapPage)}",
             MapPageViewModel.InitializeParameters(Info),
-            Icons.MaterialIconFont.Map);
+            Icons.MaterialIconFont.Map).ConfigureAwait(false);
       }
 
       private bool CanShowMap() {
-         return null != Info.Area;
+         return null != Info?.Area;
       }
 
-      public override void Initialize(INavigationParameters parameters) {
-         base.Initialize(parameters);
+      public override void OnNavigatedTo(INavigationParameters parameters) {
+         base.OnNavigatedTo(parameters);
 
          if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo info)) {
-            Task.Run(async () => await InitializeAsync(info));
-         } else {
-            NavigationService.GoBackAsync();
+            Info = info;
+            RunAsync(InitializeAsync);
          }
       }
 
+      public override bool CanNavigate(INavigationParameters parameters) {
+         return base.CanNavigate(parameters) &&
+            parameters.TryGetValue(nameof(AreaInfo), out AreaInfo _);
+      }
+
       public void OnSelectedChildChanged() {
+         RunAsync(NavigateAsync);
+      }
+
+      private async Task NavigateAsync() {
          if (SelectedChild is AreaInfo areaInfo) {
-            NavigateAsync(
+            await NavigateAsync(
                areaInfo.Name,
                $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
                InitializeParameters(areaInfo),
-               Icons.MaterialIconFont.Terrain);
+               Icons.MaterialIconFont.Terrain).ConfigureAwait(false);
          } else if (SelectedChild is RouteInfo routeInfo) {
-            NavigateAsync(
+            await NavigateAsync(
                $"{routeInfo.Name} ({new Grade(routeInfo.Difficulty)})",
                $"/MainPage/NavigationPage/{nameof(RoutePage)}",
                RoutePageViewModel.InitializeParameters(routeInfo),
-               Icons.MaterialIconFont.Moving);
+               Icons.MaterialIconFont.Moving).ConfigureAwait(false);
          }
       }
 
@@ -98,50 +108,81 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return InitializeParameters(nameof(AreaInfo), info);
       }
 
-      private async Task InitializeAsync(AreaInfo info) {
-         await activityIndicationService.StartLoadingAsync();
-
-         Info = info;
+      private async Task InitializeAsync() {
+         await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
 
          try {
-            await Info.LoadAreaAsync();
+            await Info.LoadAreaAsync().ConfigureAwait(false);
 
             var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
             var minDifficulty = preferences.FilterMinDifficulty;
             var maxDifficulty = preferences.FilterMaxDifficulty;
+            var setting = preferences.RouteOrderByProperty;
 
             Children.Clear();
-            foreach (var area in info.Areas?.
-                  Where(a =>
-                     string.IsNullOrEmpty(searchTerm) ||
-                     a.Name.ToLowerInvariant().Contains(searchTerm))
-                   ?? Enumerable.Empty<AreaInfo>()) {
+
+            foreach (var area in OrderAreas(FilterAreas(searchTerm), setting)) {
                Children.Add(area);
             }
 
             // TODO route order
 
-            foreach (var route in info.Routes?.Where(r =>
-                  (string.IsNullOrEmpty(searchTerm) || r.Name.ToLowerInvariant().Contains(searchTerm)) &&
-                  minDifficulty <= r.Difficulty && r.Difficulty <= maxDifficulty) ?? Enumerable.Empty<RouteInfo>()) {
+            foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
                Children.Add(route);
             }
 
-            Device.BeginInvokeOnMainThread(() => {
-               (MapCommand as Command)?.ChangeCanExecute();
-            });
+            await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
          } catch (Exception ex) {
-            await HandleExceptionAsync(ex);
+            HandleException(ex);
+         } finally {
+            await activityIndicationService.FinishLoadingAsync().ConfigureAwait(false);
          }
-         await activityIndicationService.FinishLoadingAsync();
+      }
+
+      private IEnumerable<object> OrderRoutes(IEnumerable<RouteInfo> enumerable, Services.Preferences.RouteOrderBy setting) {
+         if (setting == Services.Preferences.RouteOrderBy.Difficulty) {
+            enumerable = enumerable.OrderBy(r => r.Difficulty).ToArray();
+         } else if (setting == Services.Preferences.RouteOrderBy.DifficultyDesc) {
+            enumerable = enumerable.OrderByDescending(r => r.Difficulty).ToArray();
+         } else if (setting == Services.Preferences.RouteOrderBy.NameDesc) {
+            enumerable = enumerable.OrderByDescending(r => r.Name).ToArray();
+         } else {
+            enumerable = enumerable.OrderBy(r => r.Name).ToArray();
+         }
+
+         return enumerable;
+      }
+
+      private IEnumerable<object> OrderAreas(IEnumerable<AreaInfo> enumerable, Services.Preferences.RouteOrderBy setting) {
+         if (setting == Services.Preferences.RouteOrderBy.NameDesc) {
+            enumerable = enumerable.OrderByDescending(r => r.Name).ToArray();
+         } else {
+            enumerable = enumerable.OrderBy(r => r.Name).ToArray();
+         }
+
+         return enumerable;
+      }
+
+      private IEnumerable<RouteInfo> FitlerRoutes(string searchTerm, int minDifficulty, int maxDifficulty) {
+         return Info.Routes?.Where(r =>
+            (string.IsNullOrEmpty(searchTerm) || r.Name.ToLowerInvariant().Contains(searchTerm)) &&
+            minDifficulty <= r.Difficulty && r.Difficulty <= maxDifficulty) ?? Enumerable.Empty<RouteInfo>();
+      }
+
+      private IEnumerable<AreaInfo> FilterAreas(string searchTerm) {
+         return Info.Areas?.
+            Where(a =>
+               string.IsNullOrEmpty(searchTerm) ||
+               a.Name.ToLowerInvariant().Contains(searchTerm))
+               ?? Enumerable.Empty<AreaInfo>();
       }
 
       private async Task Download() {
 
          if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-            await activityIndicationService.StartLoadingAsync();
-            await Info.DownloadAsync();
-            await activityIndicationService.FinishLoadingAsync();
+            await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
+            await Info.DownloadAsync().ConfigureAwait(false);
+            await activityIndicationService.FinishLoadingAsync().ConfigureAwait(false);
          } else {
             var dialogParams = new DialogParameters();
             dialogParams.Add(

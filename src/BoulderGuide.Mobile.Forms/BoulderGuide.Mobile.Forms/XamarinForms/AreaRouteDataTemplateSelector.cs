@@ -1,5 +1,4 @@
-﻿using BoulderGuide.Mobile.Forms.Services.Data;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+﻿using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.XamarinForms {
@@ -8,7 +7,7 @@ namespace BoulderGuide.Mobile.Forms.XamarinForms {
       public DataTemplate RouteTemplate { get; set; }
 
       protected override DataTemplate OnSelectTemplate(object item, BindableObject container) {
-         if (item is AreaInfoDTO) {
+         if (item is AreaInfo) {
             return AreaTemplate;
          } else if (item is RouteInfo) {
             return RouteTemplate;

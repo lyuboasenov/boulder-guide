@@ -1,8 +1,6 @@
 ﻿using BoulderGuide.DTOs;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
@@ -12,7 +10,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public Area(Region region, string index) :
          base (
-            region.DownloadService,
             index,
             region.RemoteRootPath,
             region.LocalRootPath) {
@@ -20,9 +17,15 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
       }
 
       public IEnumerable<DTOs.Location> Location => dto?.Location;
+      public string Info => dto?.Info;
+      public string Access => dto?.Access;
+      public string Accommodations => dto?.Accommodations;
+      public string Ethics => dto?.Ethics;
+      public string History => dto?.History;
+      public string Restrictions => dto?.Restrictions;
 
-      public override async Task DownloadAsync() {
-         await base.DownloadAsync();
+      public override async Task DownloadAsync(bool force = false) {
+         await base.DownloadAsync(force);
 
          dto = JsonConvert.DeserializeObject<AreaDTO>(GetAllText());
       }

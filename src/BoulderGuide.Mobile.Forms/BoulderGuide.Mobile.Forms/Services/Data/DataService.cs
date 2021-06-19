@@ -1,12 +1,10 @@
-﻿using BoulderGuide.DTOs;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+﻿using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using BoulderGuide.Mobile.Forms.Services.Errors;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
@@ -23,19 +21,16 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       private readonly IFileSystem fileSystem;
       private readonly IConnectivity connectivity;
       private readonly IErrorService errorService;
-      private readonly Preferences.IPreferences preferences;
       private readonly IDownloadService downloadService;
 
       public DataService(
          IFileSystem fileSystem,
          IConnectivity connectivity,
          IErrorService errorService,
-         Preferences.IPreferences preferences,
          IDownloadService downloadService) {
          this.fileSystem = fileSystem;
          this.connectivity = connectivity;
          this.errorService = errorService;
-         this.preferences = preferences;
          this.downloadService = downloadService;
       }
 
@@ -98,8 +93,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                Select(dto =>
                   new Region(
                      dto,
-                     System.IO.Path.Combine(repositoriesDir, dto.Name),
-                     downloadService))?.ToArray();
+                     System.IO.Path.Combine(repositoriesDir, dto.Name)))?.ToArray();
 
          var result = new List<AreaInfo>();
          foreach (var region in regions ?? Enumerable.Empty<Region>()) {

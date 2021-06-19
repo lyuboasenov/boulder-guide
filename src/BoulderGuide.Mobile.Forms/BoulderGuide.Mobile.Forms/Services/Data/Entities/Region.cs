@@ -8,10 +8,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public Region(
          RegionDTO dto,
-         string localPath,
-         IDownloadService downloadService) :
+         string localPath) :
          base(
-            downloadService,
             "index.json",
             dto?.Url?.TrimEnd('/'),
             localPath) {
@@ -20,16 +18,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public RegionAccess Access => dto.Access;
 
-      internal Task DownloadAsync(string relativePath) {
-         return DownloadService.DownloadFile(GetRemotePath(relativePath), GetLocalPath(relativePath));
-      }
-
-      public async Task<AreaInfo> GetIndexAsync() {
+      public async Task<AreaInfo> GetIndexAsync(bool force = false) {
          var dto = JsonConvert.DeserializeObject<AreaInfoDTO>(GetAllText());
          var index = new AreaInfo(this, null, dto);
 
-         await index.DownloadImagesAsync();
-         await index.DownloadMapAsync();
+         await index.DownloadImagesAsync(force);
+         await index.DownloadMapAsync(force);
 
          return index;
       }

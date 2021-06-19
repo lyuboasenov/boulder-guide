@@ -8,11 +8,15 @@
              xmlns:viewModels="clr-namespace:BoulderGuide.Mobile.Forms.ViewModels"
              xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
              xmlns:xamarinforms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
-             x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage"
-             Title="{Binding Info, Converter={StaticResource Key=RouteInfoToTitleConverter}}">
+             x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage">
+
    <ContentPage.Resources>
       <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
    </ContentPage.Resources>
+
+   <ContentPage.Title>
+      <Binding Converter="{StaticResource Key=RouteInfoToTitleConverter}" Path="Info" />
+   </ContentPage.Title>
 
    <ContentPage.ToolbarItems>
       <ToolbarItem
@@ -27,9 +31,9 @@
 
    <StackLayout>
       <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
-      <Label Text="{Binding Route.Info}" />
+      <Label Text="{Binding Info.Route.Info}" />
 
-      <CarouselView ItemsSource="{Binding Route.Schemas}"
+      <CarouselView ItemsSource="{Binding Info.Route.Schemas}"
                     PeekAreaInsets="10"
                     Margin="0, 0, 0, 5">
          <CarouselView.ItemTemplate>

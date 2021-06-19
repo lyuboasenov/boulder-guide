@@ -157,28 +157,32 @@
       <ScrollView>
          <StackLayout>
             <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
-            <Label Text="{Binding Area.Info}" />
+            <Label Text="{Binding Info.Area.Info}" />
 
             <Label Text="{Binding Source={Static root:Strings.AreaAccess}}"
-                   IsVisible="{Binding Area.Access, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Area.Access}"
-                   IsVisible="{Binding Area.Access, Converter={StaticResource Key=valueToVisibility}}" />
+                   IsVisible="{Binding Info.Area.Access, Converter={StaticResource Key=valueToVisibility}}" />
+            <Label Text="{Binding Info.Area.Access}"
+                   IsVisible="{Binding Info.Area.Access, Converter={StaticResource Key=valueToVisibility}}" />
+
             <Label Text="{Binding Source={Static root:Strings.AreaHistory}}"
-                   IsVisible="{Binding Area.History, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Area.History}"
-                   IsVisible="{Binding Area.History, Converter={StaticResource Key=valueToVisibility}}" />
+                   IsVisible="{Binding Info.Area.History, Converter={StaticResource Key=valueToVisibility}}" />
+            <Label Text="{Binding Info.Area.History}"
+                   IsVisible="{Binding Info.Area.History, Converter={StaticResource Key=valueToVisibility}}" />
+
             <Label Text="{Binding Source={Static root:Strings.AreaEthics}}"
-                   IsVisible="{Binding Area.Ethics, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Area.Ethics}"
-                   IsVisible="{Binding Area.Ethics, Converter={StaticResource Key=valueToVisibility}}" />
+                   IsVisible="{Binding Info.Area.Ethics, Converter={StaticResource Key=valueToVisibility}}" />
+            <Label Text="{Binding Info.Area.Ethics}"
+                   IsVisible="{Binding Info.Area.Ethics, Converter={StaticResource Key=valueToVisibility}}" />
+
             <Label Text="{Binding Source={Static root:Strings.AreaAccommodations}}"
-                   IsVisible="{Binding Area.Accommodations, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Area.Accommodations}"
-                   IsVisible="{Binding Area.Accommodations, Converter={StaticResource Key=valueToVisibility}}" />
+                   IsVisible="{Binding Info.Area.Accommodations, Converter={StaticResource Key=valueToVisibility}}" />
+            <Label Text="{Binding Info.Area.Accommodations}"
+                   IsVisible="{Binding Info.Area.Accommodations, Converter={StaticResource Key=valueToVisibility}}" />
+
             <Label Text="{Binding Source={Static root:Strings.AreaRestrictions}}"
-                   IsVisible="{Binding Area.Restrictions, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Area.Restrictions}"
-                   IsVisible="{Binding Area.Restrictions, Converter={StaticResource Key=valueToVisibility}}" />
+                   IsVisible="{Binding Info.Area.Restrictions, Converter={StaticResource Key=valueToVisibility}}" />
+            <Label Text="{Binding Info.Area.Restrictions}"
+                   IsVisible="{Binding Info.Area.Restrictions, Converter={StaticResource Key=valueToVisibility}}" />
          </StackLayout>
       </ScrollView>
    </ContentPage>

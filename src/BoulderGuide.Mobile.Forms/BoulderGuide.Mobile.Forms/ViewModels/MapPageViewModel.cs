@@ -18,8 +18,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          locationService.LocationUpdated += LocationService_LocationUpdated;
       }
 
-      public override void Initialize(INavigationParameters parameters) {
-         base.Initialize(parameters);
+      public override async Task InitializeAsync(INavigationParameters parameters) {
+         await base.InitializeAsync(parameters);
 
          if (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo routeInfo)) {
             // route mode
@@ -30,14 +30,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Map = locationService.GetMap(areaInfo);
             Title = areaInfo.Name;
          } else {
-            NavigationService.GoBackAsync();
+            await GoBackAsync();
          }
-         Task.Run(async () => await InitializeAsync());
+         await InitializeAsync();
       }
 
       public override void Destroy() {
          base.Destroy();
-         Task.Run(async () => await locationService.StopLocationPollingAsync());
+         RunAsync(locationService.StopLocationPollingAsync);
       }
 
       private void LocationService_LocationUpdated(object sender, LocationUpdatedEventArgs e) {

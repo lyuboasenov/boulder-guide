@@ -1,25 +1,28 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
-   public abstract class FileBasedEntity {
+   public abstract class FileBasedEntity : INotifyPropertyChanged {
       protected string relativePath;
-      public IDownloadService DownloadService { get; }
+
+      public event PropertyChangedEventHandler PropertyChanged;
+      protected IDownloadService DownloadService { get; }
 
       protected FileBasedEntity(
-         IDownloadService downloadService,
          string relativePath,
          string remoteRootPath,
          string localRootPath) {
 
-         DownloadService = downloadService ?? throw new ArgumentNullException(nameof(downloadService));
+         DownloadService = (IDownloadService) Prism.PrismApplicationBase.Current.Container.CurrentScope.Resolve(typeof(IDownloadService));
          this.relativePath = relativePath ?? throw new ArgumentNullException(nameof(relativePath));
          RemoteRootPath = remoteRootPath ?? throw new ArgumentNullException(nameof(remoteRootPath));
          LocalRootPath = localRootPath ?? throw new ArgumentNullException(nameof(localRootPath));
 
-         if (!Directory.Exists(localRootPath)) {
-            Directory.CreateDirectory(localRootPath);
+         var dir = Directory.GetParent(LocalPath);
+         if (!dir.Exists) {
+            dir.Create();
          }
       }
 
@@ -32,8 +35,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       public string RemoteRootPath { get; }
       public string LocalRootPath { get; }
 
-      public virtual Task DownloadAsync() {
-         return DownloadService.DownloadFile(RemotePath, LocalPath);
+      public virtual Task DownloadAsync(bool force = false) {
+         if (!ExistsLocally || force) {
+            return DownloadService.DownloadFile(RemotePath, LocalPath);
+         } else {
+            return Task.CompletedTask;
+         }
       }
 
       protected string GetRemotePath(string relativePath) {

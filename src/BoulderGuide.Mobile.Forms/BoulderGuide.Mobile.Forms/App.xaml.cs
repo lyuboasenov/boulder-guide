@@ -34,6 +34,7 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
          containerRegistry.RegisterSingleton<IPreferences, PreferencesImplementation>();
          containerRegistry.RegisterSingleton<IVersionTracking, VersionTrackingImplementation>();
+         containerRegistry.RegisterSingleton<IMainThread, MainThreadImplementation>();
 
          containerRegistry.RegisterSingleton<IErrorService, ErrorService>();
          containerRegistry.RegisterSingleton<IDataService, DataService>();

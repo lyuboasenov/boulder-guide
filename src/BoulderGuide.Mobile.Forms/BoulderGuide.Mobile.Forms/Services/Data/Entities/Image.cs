@@ -4,7 +4,6 @@
 
       public Image(Region region, string relativePath) :
          base (
-            region.DownloadService,
             relativePath,
             region.RemoteRootPath,
             region.LocalRootPath) {

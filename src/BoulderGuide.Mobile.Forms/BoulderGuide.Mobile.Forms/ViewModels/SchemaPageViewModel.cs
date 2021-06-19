@@ -9,14 +9,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public RouteInfo Info { get; set; }
       public Schema Schema { get; set; }
 
-      public override void Initialize(INavigationParameters parameters) {
-         base.Initialize(parameters);
+      public override async Task InitializeAsync(INavigationParameters parameters) {
+         await base.InitializeAsync(parameters);
          if (parameters.TryGetValue(nameof(Info), out RouteInfo info) &&
             parameters.TryGetValue(nameof(Schema), out Schema schema)) {
             Info = info;
             Schema = schema;
          } else {
-            Task.Run(async () => await NavigationService.GoBackAsync());
+            await GoBackAsync();
          }
       }
 

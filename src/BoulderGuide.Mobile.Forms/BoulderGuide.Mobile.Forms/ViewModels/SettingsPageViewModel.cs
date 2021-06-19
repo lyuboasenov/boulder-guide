@@ -37,16 +37,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          SettingsTappedCommand = new Command(async () => await SettingsTapped());
       }
 
-      public override void Initialize(INavigationParameters parameters) {
-         base.Initialize(parameters);
+      public override async Task InitializeAsync(INavigationParameters parameters) {
+         await base.InitializeAsync(parameters);
 
          Version = versionTracking.CurrentVersion;
          GpsPollingIntervalList = new[] { 1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 40, 50, 60 };
          SelectedGpsPollingInterval = preferences.GPSPollIntervalInSeconds;
-         Task.Run(async () => {
 
-            LocalStorageSizeInMB = await dataService.GetLocalStorageSizeInMB();
-         });
+         await dataService.GetLocalStorageSizeInMB();
       }
 
       private async Task SettingsTapped() {

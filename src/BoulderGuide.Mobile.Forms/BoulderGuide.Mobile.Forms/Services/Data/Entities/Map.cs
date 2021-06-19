@@ -5,7 +5,6 @@
 
       public Map(Region region, string map) :
          base(
-            region.DownloadService,
             map,
             region.RemoteRootPath,
             region.LocalRootPath) {

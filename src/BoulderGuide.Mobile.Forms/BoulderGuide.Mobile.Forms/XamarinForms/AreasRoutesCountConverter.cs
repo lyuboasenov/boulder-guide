@@ -8,7 +8,7 @@ namespace BoulderGuide.Mobile.Forms.XamarinForms {
    public class AreasRoutesCountConverter : IValueConverter {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
          if (value is AreaInfo info) {
-            return $"{info.Areas?.Count()} / {info.Routes?.Count()}";
+            return $"{info.Areas?.Count() ?? 0} / {info.Routes?.Count() ?? 0}";
          } else {
             return value;
          }

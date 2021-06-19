@@ -1,5 +1,4 @@
-﻿using BoulderGuide.Mobile.Forms.Services.Location;
-using BoulderGuide.Mobile.Forms.Views;
+﻿using BoulderGuide.Mobile.Forms.Services.Errors;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -7,11 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
-   public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible {
-      private ILocationService locationService;
+   public class ViewModelBase :
+      BindableBase,
+      IInitialize,
+      IInitializeAsync,
+      INavigationAware,
+      IDestructible,
+      IConfirmNavigation,
+      IConfirmNavigationAsync {
+      private IErrorService errorService;
+      private IMainThread mainThread;
       protected INavigationService NavigationService { get; }
       protected IDialogService DialogService { get; }
 
@@ -25,11 +32,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          var container = Prism.PrismApplicationBase.Current.Container.CurrentScope;
          NavigationService = (INavigationService) container.Resolve(typeof(INavigationService));
          DialogService = (IDialogService) container.Resolve(typeof(IDialogService));
-         locationService = (ILocationService) container.Resolve(typeof(ILocationService));
-      }
-
-      public virtual void Initialize(INavigationParameters parameters) {
-
+         errorService = (IErrorService) container.Resolve(typeof(IErrorService));
+         mainThread = (IMainThread) container.Resolve(typeof(IMainThread));
       }
 
       public virtual void OnNavigatedFrom(INavigationParameters parameters) {
@@ -44,7 +48,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       }
 
-      public Task<INavigationResult> NavigateAsync(string title, string path, INavigationParameters parameters = null, string glyph = "") {
+      public Task NavigateAsync(string title, string path, INavigationParameters parameters = null, string glyph = "") {
          var lastItem = Breadcrumbs.Items.LastOrDefault();
          if (lastItem is null ||
             lastItem.Glyph != glyph ||
@@ -59,10 +63,15 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             });
          }
 
-         return NavigationService.NavigateAsync(path, parameters);
+         return RunOnMainThreadAsync(async () => {
+            var result = await NavigationService.NavigateAsync(path, parameters);
+            if (!result.Success) {
+               HandleException(result.Exception);
+            }
+         });
       }
 
-      public Task<INavigationResult> GoBackAsync() {
+      public Task GoBackAsync() {
          var lastItem = Breadcrumbs.Items.LastOrDefault();
          if (lastItem != null) {
             Breadcrumbs.Items.Remove(lastItem);
@@ -76,15 +85,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return NavigateAsync(lastItem.Title, lastItem.Path, lastItem.Parameters, lastItem.Glyph);
       }
 
-      public Task HandleExceptionAsync(Exception ex) {
-         var dialogParams = new DialogParameters();
-         dialogParams.Add(
-            DialogPageViewModel.ParameterKeys.Message, ex.Message);
-         dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
-
-         Device.BeginInvokeOnMainThread(async () => { await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams); });
-
-         return Task.CompletedTask;
+      public void HandleException(Exception ex) {
+         errorService.HandleError(ex);
       }
 
       protected static NavigationParameters InitializeParameters(string name, object value) {
@@ -97,6 +99,34 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             parameters.Add(kv.Key, kv.Value);
          }
          return parameters;
+      }
+
+      public virtual Task InitializeAsync(INavigationParameters parameters) {
+         return Task.CompletedTask;
+      }
+
+      public virtual void Initialize(INavigationParameters parameters) {
+
+      }
+
+      protected Task RunOnMainThreadAsync(Action action) {
+         return mainThread.InvokeOnMainThreadAsync(action);
+      }
+
+      protected Task RunOnMainThreadAsync(Func<Task> func) {
+         return mainThread.InvokeOnMainThreadAsync(func);
+      }
+
+      protected Task RunAsync(Func<Task> func) {
+         return Task.Run(func);
+      }
+
+      public virtual bool CanNavigate(INavigationParameters parameters) {
+         return true;
+      }
+
+      public virtual Task<bool> CanNavigateAsync(INavigationParameters parameters) {
+         return Task.FromResult(true);
       }
    }
 }
