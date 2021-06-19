@@ -7,13 +7,12 @@
              xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
              xmlns:viewModels="clr-namespace:BoulderGuide.Mobile.Forms.ViewModels"
              xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
-             x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage">
-   <ContentPage.Title>
-      <MultiBinding StringFormat="{}{0} ({1})">
-         <Binding Path="Info.Name" />
-         <Binding Path="Route.Grade" />
-      </MultiBinding>
-   </ContentPage.Title>
+             xmlns:xamarinforms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
+             x:Class="BoulderGuide.Mobile.Forms.Views.RoutePage"
+             Title="{Binding Info, Converter={StaticResource Key=RouteInfoToTitleConverter}}">
+   <ContentPage.Resources>
+      <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
+   </ContentPage.Resources>
 
    <ContentPage.ToolbarItems>
       <ToolbarItem

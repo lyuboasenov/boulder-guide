@@ -1,0 +1,36 @@
+﻿using BoulderGuide.Mobile.Forms.Services.Errors;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BoulderGuide.Mobile.Forms.Services.Data {
+   public class DownloadService : IDownloadService {
+
+      private readonly IErrorService errorService;
+      private readonly HttpClient httpClient = new HttpClient();
+
+      public DownloadService(IErrorService errorService) {
+         this.errorService = errorService;
+      }
+
+      public async Task DownloadFile(string remotePath, string localPath) {
+         try {
+            using (var response = await httpClient.GetAsync(remotePath)) {
+               response.EnsureSuccessStatusCode();
+
+               using (var stream = File.Open(localPath, FileMode.Create)) {
+                  await response.Content.CopyToAsync(stream);
+               }
+            }
+         } catch (Exception ex) {
+            errorService.HandleError(new DownloadFileException("", ex) {
+               Address = remotePath
+            });
+         }
+
+      }
+   }
+}

@@ -1,5 +1,6 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
@@ -25,10 +26,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
       public ICommand FilterCommand { get; }
       public ICommand OrderCommand { get; }
-      public Area Area { get; set; }
       public AreaInfo Info { get; set; }
-      public Info SelectedChild { get; set; }
-      public ObservableCollection<Info> Children { get; set; } = new ObservableCollection<Info>();
+      public object SelectedChild { get; set; }
+      public ObservableCollection<object> Children { get; set; } = new ObservableCollection<object>();
 
       public AreaDetailsPageViewModel(
          IDataService dataService,
@@ -43,7 +43,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          DownloadCommand = new Command(async () => await Download());
          FilterCommand = new Command(async () => await Filter());
          OrderCommand = new Command(async () => await Order());
-         MapCommand = new Command(async () => await Map(), CanShowMap);
+         MapCommand = new Command(async () => await Map());
       }
 
       private async Task Order() {
@@ -56,15 +56,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          await InitializeAsync(Info);
       }
 
-      private bool CanShowMap() {
-         return Area != null && Info != null;
-      }
-
       private async Task Map() {
          await NavigateAsync(
-            Area.Name,
+            Info.Name,
             $"/MainPage/NavigationPage/{nameof(MapPage)}",
-            MapPageViewModel.InitializeParameters(Area, Info),
+            MapPageViewModel.InitializeParameters(Info),
             Icons.MaterialIconFont.Map);
       }
 
@@ -89,7 +85,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             NavigateAsync(
                $"{routeInfo.Name} ({new Grade(routeInfo.Difficulty)})",
                $"/MainPage/NavigationPage/{nameof(RoutePage)}",
-               RoutePageViewModel.InitializeParameters(routeInfo, Info),
+               RoutePageViewModel.InitializeParameters(routeInfo),
                Icons.MaterialIconFont.Moving);
          }
       }
@@ -104,8 +100,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          Info = info;
 
          try {
-            Area = await dataService.GetArea(Info);
-
             var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
             var minDifficulty = preferences.FilterMinDifficulty;
             var maxDifficulty = preferences.FilterMaxDifficulty;
@@ -118,6 +112,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                    ?? Enumerable.Empty<AreaInfo>()) {
                Children.Add(area);
             }
+
+            // TODO route order
+
             foreach (var route in info.Routes?.Where(r =>
                   (string.IsNullOrEmpty(searchTerm) || r.Name.ToLowerInvariant().Contains(searchTerm)) &&
                   minDifficulty <= r.Difficulty && r.Difficulty <= maxDifficulty) ?? Enumerable.Empty<RouteInfo>()) {
@@ -137,7 +134,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
          if (connectivity.NetworkAccess == NetworkAccess.Internet) {
             await activityIndicationService.StartLoadingAsync();
-            await dataService.DownloadArea(Info);
+            await Info.DownloadAsync();
             await activityIndicationService.FinishLoadingAsync();
          } else {
             var dialogParams = new DialogParameters();

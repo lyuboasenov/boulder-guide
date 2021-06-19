@@ -1,7 +1,9 @@
 ﻿using BoulderGuide.DTOs;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
-   public class RouteInfo : Info {
+   public class RouteInfoDTO {
+      public string Name { get; set; }
+      public string Index { get; set; }
       public string[] Images { get; set; }
       public double Difficulty { get; set; }
 

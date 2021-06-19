@@ -44,7 +44,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private object InitializeArea() {
-         var result = new Area() {
+         var result = new AreaDTO() {
             Id = txtId.Text,
             Name = txtName.Text,
             Info = txtInfo.Text,
@@ -86,7 +86,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private void LoadArea() {
-         Area area = JsonConvert.DeserializeObject<Area>(File.ReadAllText(path));
+         AreaDTO area = JsonConvert.DeserializeObject<AreaDTO>(File.ReadAllText(path));
          txtId.Text = area.Id;
          txtName.Text = area.Name;
          txtInfo.Text = area.Info;

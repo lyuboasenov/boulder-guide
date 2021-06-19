@@ -1,6 +1,7 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.ImageUtils;
 using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using SkiaSharp.Views.Forms;
 using System.Linq;
 using Xamarin.Forms;
@@ -48,9 +49,12 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void SetImageLocalPath() {
-         if (Schema != null && RouteInfo != null) {
-            var relativePath = RouteInfo.Images.First(i => i.EndsWith("/" + Schema.Id));
-            imageLocalPath = RouteInfo.GetImageLocalPath(relativePath);
+         if (Schema != null) {
+            imageLocalPath = RouteInfo?.
+               Route?.
+               Images?.
+               Select(i => i.LocalPath)?.
+               FirstOrDefault(i => i.EndsWith("/" + Schema.Id));
          }
       }
    }

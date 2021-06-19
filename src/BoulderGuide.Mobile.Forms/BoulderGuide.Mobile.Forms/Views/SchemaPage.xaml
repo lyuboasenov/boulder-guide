@@ -2,15 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+             xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views" xmlns:xamarinforms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="BoulderGuide.Mobile.Forms.Views.SchemaPage">
-   <ContentPage.Title>
-      <MultiBinding StringFormat="{}{0} ({1})">
-         <Binding Path="Info.Name" />
-         <Binding Path="Route.Grade" />
-      </MultiBinding>
-   </ContentPage.Title>
+             x:Class="BoulderGuide.Mobile.Forms.Views.SchemaPage"
+             Title="{Binding Info, Converter={StaticResource Key=RouteInfoToTitleConverter}}">
+   <ContentPage.Resources>
+      <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
+   </ContentPage.Resources>
 
    <views:PinchToZoomContainer>
       <views:SchemaView

@@ -1,5 +1,6 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -14,63 +15,51 @@ using Xamarin.Forms;
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class RoutePageViewModel : ViewModelBase {
 
-      private readonly IDataService dataService;
-      private readonly IConnectivity connectivity;
-
-      public Route Route { get; set; }
       public RouteInfo Info { get; set; }
-      public AreaInfo AreaInfo { get; set; }
       public ICommand MapCommand { get; }
       public ICommand ViewSchemaCommand { get; }
 
-      public RoutePageViewModel(
-         IDataService dataService,
-         IConnectivity connectivity) {
-         this.dataService = dataService;
-         this.connectivity = connectivity;
+      public RoutePageViewModel() {
          MapCommand = new Command(async () => await Map(), CanShowMap);
          ViewSchemaCommand = new Command(async (obj) => await ViewSchema(obj as Schema));
       }
 
-      public override void OnNavigatedTo(INavigationParameters parameters) {
-         base.OnNavigatedTo(parameters);
-
-         if (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo info) &&
-            parameters.TryGetValue(nameof(AreaInfo), out AreaInfo areaInfo)) {
-            Task.Run(async () => await InitializeAsync(info, areaInfo));
+      public override void Initialize(INavigationParameters parameters) {
+         base.Initialize(parameters);
+         if (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo info)) {
+            Task.Run(async () => await InitializeAsync(info));
          } else {
             Task.Run(async () => await NavigationService.GoBackAsync());
          }
       }
 
       private bool CanShowMap() {
-         return Route != null && Info != null;
+         return Info.Route != null;
       }
 
       private async Task Map() {
          await NavigateAsync(
-            $"{Route.Name} ({Route.Grade})",
+            $"{Info.Name} ({new Grade(Info.Difficulty)})",
             $"/MainPage/NavigationPage/{nameof(MapPage)}",
-            MapPageViewModel.InitializeParameters(Route, AreaInfo),
+            MapPageViewModel.InitializeParameters(Info),
             Icons.MaterialIconFont.Place);
       }
 
       private async Task ViewSchema(Schema schema) {
          if (null != schema) {
             await NavigateAsync(
-               $"{Route.Name} ({Route.Grade})",
+               $"{Info.Name} ({new Grade(Info.Difficulty)})",
                $"/MainPage/NavigationPage/{nameof(SchemaPage)}",
-               SchemaPageViewModel.InitializeParameters(Route, Info, schema),
+               SchemaPageViewModel.InitializeParameters(Info, schema),
                Icons.MaterialIconFont.Moving);
          }
       }
 
-      private async Task InitializeAsync(RouteInfo info, AreaInfo areaInfo) {
+      private async Task InitializeAsync(RouteInfo info) {
          Info = info;
-         AreaInfo = areaInfo;
 
          try {
-            Route = await dataService.GetRoute(Info);
+            await info.LoadRouteAsync();
 
             Device.BeginInvokeOnMainThread(() => {
                (MapCommand as Command)?.ChangeCanExecute();
@@ -80,10 +69,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
       }
 
-      public static NavigationParameters InitializeParameters(RouteInfo routeInfo, AreaInfo areaInfo) {
-         return InitializeParameters(
-            new KeyValuePair<string, object>(nameof(RouteInfo), routeInfo),
-            new KeyValuePair<string, object>(nameof(AreaInfo), areaInfo));
+      public static NavigationParameters InitializeParameters(RouteInfo routeInfo) {
+         return InitializeParameters(nameof(RouteInfo), routeInfo);
       }
    }
 }

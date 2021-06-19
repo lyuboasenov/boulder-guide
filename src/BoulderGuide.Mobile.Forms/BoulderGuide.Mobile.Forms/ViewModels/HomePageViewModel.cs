@@ -1,4 +1,6 @@
 ﻿using BoulderGuide.Mobile.Forms.Services.Data;
+using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Commands;
@@ -20,6 +22,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IDataService dataService;
       private readonly IPermissions permissions;
       private readonly IActivityIndicationService activityIndicationService;
+      private readonly IErrorService errorService;
 
       public ICommand ReloadCommand { get; }
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
@@ -27,11 +30,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public HomePageViewModel(
          IDataService dataService,
          IPermissions permissions,
-         IActivityIndicationService activityIndicationService) {
+         IActivityIndicationService activityIndicationService,
+         IErrorService errorService) {
 
          this.dataService = dataService;
          this.permissions = permissions;
          this.activityIndicationService = activityIndicationService;
+         this.errorService = errorService;
 
          ReloadCommand = new Command(async (f) => await Reload((bool) f));
 
@@ -47,12 +52,29 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public void OnSelectedAreaInfoChanged() {
-         NavigateAsync(
-            SelectedAreaInfo.Name,
-            $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
-            AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo),
-            Icons.MaterialIconFont.Terrain);
+         Task.Run(async () => await NavigateToAreaAsync());
       }
+
+      private async Task NavigateToAreaAsync() {
+         try {
+            if (!SelectedAreaInfo.Area.ExistsLocally) {
+               await activityIndicationService.StartLoadingAsync();
+
+               await SelectedAreaInfo.Area.DownloadAsync();
+
+               await activityIndicationService.StartLoadingAsync();
+            }
+
+            await NavigateAsync(
+               SelectedAreaInfo.Name,
+               $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
+               AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo),
+               Icons.MaterialIconFont.Terrain);
+         } catch (Exception ex) {
+            errorService.HandleError(ex);
+         }
+      }
+
       private async Task InitializeAsync() {
          var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
          if (status != PermissionStatus.Granted) {
@@ -74,6 +96,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
             AreaInfos.Add(area);
          }
+
          await activityIndicationService.FinishLoadingAsync();
       }
    }

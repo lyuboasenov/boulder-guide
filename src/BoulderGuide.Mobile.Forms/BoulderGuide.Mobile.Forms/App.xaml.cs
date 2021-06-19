@@ -37,6 +37,7 @@ namespace BoulderGuide.Mobile.Forms {
 
          containerRegistry.RegisterSingleton<IErrorService, ErrorService>();
          containerRegistry.RegisterSingleton<IDataService, DataService>();
+         containerRegistry.RegisterSingleton<IDownloadService, DownloadService>();
          containerRegistry.RegisterSingleton<ILocationService, LocationService>();
          containerRegistry.RegisterSingleton<Services.Preferences.IPreferences, Services.Preferences.Preferences> ();
          containerRegistry.RegisterSingleton<IActivityIndicationService, ActivityIndicationService> ();

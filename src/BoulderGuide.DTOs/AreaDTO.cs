@@ -1,5 +1,5 @@
 ﻿namespace BoulderGuide.DTOs {
-   public class Area {
+   public class AreaDTO {
       public string Id { get; set; }
       public string Name { get; set; }
       public string Info { get; set; }

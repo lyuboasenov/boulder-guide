@@ -34,7 +34,7 @@ namespace BoulderGuide.Wpf {
 
          var fi = new FileInfo(path);
 
-         var route = JsonConvert.DeserializeObject<Route>(File.ReadAllText(path), Shape.StandardJsonConverter);
+         var route = JsonConvert.DeserializeObject<RouteDTO>(File.ReadAllText(path), Shape.StandardJsonConverter);
 
          txtId.Text = route.Id;
          txtName.Text = route.Name;
@@ -79,7 +79,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private void SaveRoute(DirectoryInfo saveDirectory) {
-         var result = new Route() {
+         var result = new RouteDTO() {
             Id = txtId.Text,
             Name = txtName.Text,
             Info = txtInfo.Text,

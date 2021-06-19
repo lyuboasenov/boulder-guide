@@ -1,6 +1,4 @@
 ﻿using BruTile.MbTiles;
-using BoulderGuide.Mobile.Forms.Services.Data;
-using Mapsui;
 using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Projection;
@@ -17,6 +15,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using BoulderGuide.DTOs;
+using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 
 namespace BoulderGuide.Mobile.Forms.Services.Location {
    public class LocationService : ILocationService {
@@ -70,11 +69,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          return Task.CompletedTask;
       }
 
-      public Mapsui.Map GetMap(Area area, AreaInfo info) {
-         var map = GetMap(info);
+      public Mapsui.Map GetMap(AreaInfo info) {
+         var map = GetBaseMap(info);
 
          // Add area outline
-         var polygonLayer = CreateOutlineLayer(area);
+         var polygonLayer = CreateOutlineLayer(info.Area);
          map.Layers.Add(polygonLayer);
          map.Home = n =>
             n.NavigateTo(
@@ -82,17 +81,17 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
                10);
 
          // Add area routes
-         if ((info.Routes?.Length ?? 0) > 0) {
+         if (info.Routes?.Any() ?? false) {
             map.Layers.Add(CreateRoutesLayer(info));
          }
 
          return map;
       }
 
-      public Mapsui.Map GetMap(Route route, AreaInfo info) {
-         var map = GetMap(info);
+      public Mapsui.Map GetMap(RouteInfo info) {
+         var map = GetBaseMap(info.Parent);
 
-         var routeLayer = CreateRouteLayer(route);
+         var routeLayer = CreateRouteLayer(info);
          map.Layers.Add(routeLayer);
          map.Home = n =>
             n.NavigateTo(
@@ -101,7 +100,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          return map;
       }
 
-      private ILayer CreateRouteLayer(Route route) {
+      private ILayer CreateRouteLayer(RouteInfo route) {
 
          var feature = new Feature() {
             Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
@@ -116,20 +115,27 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          };
       }
 
-      private Mapsui.Map GetMap(AreaInfo info) {
+      private Mapsui.Map GetBaseMap(AreaInfo info) {
          var map = new Mapsui.Map {
             CRS = "EPSG:3857",
             Transformation = new MinimalTransformation()
          };
 
-         if (connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet) {
+         if (connectivity.NetworkAccess == NetworkAccess.Internet) {
             map.Layers.Add(OpenStreetMap.CreateTileLayer());
-         } else if (File.Exists(info.MapLocalPath)) {
-            var mbTilesTileSource =
+         } else {
+
+            while (info != null && (!info.Map?.ExistsLocally ?? true)) {
+               info = info.Parent;
+            }
+
+            if (info?.Map?.ExistsLocally ?? false) {
+               var mbTilesTileSource =
                new MbTilesTileSource(
-                  new SQLiteConnectionString(info.MapLocalPath, true),
+                  new SQLiteConnectionString(info.Map.LocalPath, true),
                   type: MbTilesType.BaseLayer);
-            map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
+               map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
+            }
          }
 
          return map;

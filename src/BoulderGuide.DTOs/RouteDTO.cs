@@ -1,5 +1,5 @@
 ﻿namespace BoulderGuide.DTOs {
-   public class Route {
+   public class RouteDTO {
       public string Id { get; set; }
       public Location Location { get; set; } = new Location();
       public double Difficulty { get; set; }
