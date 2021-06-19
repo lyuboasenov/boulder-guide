@@ -1,15 +1,16 @@
-﻿using System;
+﻿using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+using System;
 using System.Globalization;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.XamarinForms {
-   public class LengthConverter : IValueConverter {
+   public class AreasRoutesCountConverter : IValueConverter {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-         if (value is null) {
-            return 0;
+         if (value is AreaInfo info) {
+            return $"{info.Areas?.Count()} / {info.Routes?.Count()}";
          } else {
-            var pi = value.GetType().GetProperty("Length");
-            return pi?.GetValue(value) ?? 0;
+            return value;
          }
       }
 

@@ -57,14 +57,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private async Task NavigateToAreaAsync() {
          try {
-            if (!SelectedAreaInfo.Area.ExistsLocally) {
-               await activityIndicationService.StartLoadingAsync();
-
-               await SelectedAreaInfo.Area.DownloadAsync();
-
-               await activityIndicationService.StartLoadingAsync();
-            }
-
             await NavigateAsync(
                SelectedAreaInfo.Name,
                $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",

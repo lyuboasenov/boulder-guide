@@ -103,8 +103,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          var result = new List<AreaInfo>();
          foreach (var region in regions ?? Enumerable.Empty<Region>()) {
-            if (region.Access == RegionAccess.@public ||
-               (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
+            // ||
+            // (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)
+            if (region.Access == RegionAccess.@public) {
 
                if (!region.ExistsLocally || download && force) {
                   await region.DownloadAsync();

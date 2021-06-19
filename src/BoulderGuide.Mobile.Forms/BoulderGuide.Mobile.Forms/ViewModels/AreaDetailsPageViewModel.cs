@@ -43,7 +43,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          DownloadCommand = new Command(async () => await Download());
          FilterCommand = new Command(async () => await Filter());
          OrderCommand = new Command(async () => await Order());
-         MapCommand = new Command(async () => await Map());
+         MapCommand = new Command(async () => await Map(), CanShowMap);
       }
 
       private async Task Order() {
@@ -64,8 +64,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Icons.MaterialIconFont.Map);
       }
 
-      public override void OnNavigatedTo(INavigationParameters parameters) {
-         base.OnNavigatedTo(parameters);
+      private bool CanShowMap() {
+         return null != Info.Area;
+      }
+
+      public override void Initialize(INavigationParameters parameters) {
+         base.Initialize(parameters);
 
          if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo info)) {
             Task.Run(async () => await InitializeAsync(info));
@@ -100,6 +104,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          Info = info;
 
          try {
+            await Info.LoadAreaAsync();
+
             var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
             var minDifficulty = preferences.FilterMinDifficulty;
             var maxDifficulty = preferences.FilterMaxDifficulty;

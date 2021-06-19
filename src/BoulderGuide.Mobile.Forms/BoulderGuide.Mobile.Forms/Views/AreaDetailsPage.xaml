@@ -12,7 +12,7 @@
 
    <TabbedPage.Resources>
       <xamForms:ValueToVisibilityConverter x:Key="valueToVisibility" />
-      <xamForms:LengthConverter x:Key="lengthConverter" />
+      <xamForms:AreasRoutesCountConverter x:Key="AreasRoutesCountConverter" />
 
       <DataTemplate x:Key="areaDataTemplate">
          <ViewCell>
@@ -37,20 +37,11 @@
                   VerticalOptions="CenterAndExpand"
                   Margin="5, 0, 0, 0"/>
 
-               <StackLayout Grid.Column="3" Orientation="Horizontal">
-                  <Label
-                     Text="{Binding Areas, Converter={StaticResource Key=lengthConverter}}"
-                     VerticalOptions="CenterAndExpand"
-                     FontSize="Micro" />
-                  <Label
-                     Text="/"
-                     VerticalOptions="CenterAndExpand"
-                     FontSize="Micro" />
-                  <Label
-                     Text="{Binding Routes, Converter={StaticResource Key=lengthConverter}}"
-                     VerticalOptions="CenterAndExpand"
-                     FontSize="Micro" />
-               </StackLayout>
+               <Label
+                  Grid.Column="3"
+                  Text="{Binding ., Converter={StaticResource Key=AreasRoutesCountConverter}}"
+                  VerticalOptions="CenterAndExpand"
+                  FontSize="Micro" />
 
                <Label
                   Grid.Column="4"
@@ -165,12 +156,6 @@
 
       <ScrollView>
          <StackLayout>
-            <ActivityIndicator
-               IsRunning="{Binding IsLoading}"
-               IsVisible="{Binding IsLoading}"
-               HorizontalOptions="Center"
-               VerticalOptions="Center"
-               Color="Gray"/>
             <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
             <Label Text="{Binding Area.Info}" />
 

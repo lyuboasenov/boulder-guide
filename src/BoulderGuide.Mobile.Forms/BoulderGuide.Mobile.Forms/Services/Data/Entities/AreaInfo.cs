@@ -66,8 +66,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public async Task LoadAreaAsync() {
          if (Area is null) {
-            Area = new Area(region, Index);
-            await Area.DownloadAsync();
+            var area = new Area(region, Index);
+            await area.DownloadAsync();
+            Area = area;
          }
       }
 

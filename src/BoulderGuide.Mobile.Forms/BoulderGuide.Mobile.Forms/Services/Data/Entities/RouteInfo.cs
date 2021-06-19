@@ -27,8 +27,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public async Task LoadRouteAsync() {
          if (Route is null) {
-            Route = new Route(region, dto.Index);
-            await Route.DownloadAsync();
+            var route = new Route(region, dto.Index);
+            await route.DownloadAsync();
+            Route = route;
          }
       }
    }
