@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
    public class RouteInfo : FileBasedEntity {
@@ -11,15 +9,17 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
          base(
             "index.json",
             region.RemoteRootPath,
-            region.LocalRootPath) {
+            region.LocalRootPath,
+            region.Access == RegionAccess.@private) {
          this.region = region;
          this.dto = dto;
          Parent = parent;
       }
 
-      public string Name => dto.Name;
-      public double Difficulty => dto.Difficulty;
-      public DTOs.Location Location => dto.Location;
+      public string Name => dto?.Name;
+      public double Difficulty => dto?.Difficulty ?? 0;
+      public DTOs.Location Location => dto?.Location;
+      public string Grade => dto?.Grade;
 
       public AreaInfo Parent { get; }
       public Route Route { get; private set; }

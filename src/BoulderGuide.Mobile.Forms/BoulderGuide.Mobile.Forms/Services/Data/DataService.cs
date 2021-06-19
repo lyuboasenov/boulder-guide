@@ -22,16 +22,19 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       private readonly IConnectivity connectivity;
       private readonly IErrorService errorService;
       private readonly IDownloadService downloadService;
+      private readonly Preferences.IPreferences preferences;
 
       public DataService(
          IFileSystem fileSystem,
          IConnectivity connectivity,
          IErrorService errorService,
-         IDownloadService downloadService) {
+         IDownloadService downloadService,
+         Preferences.IPreferences preferences) {
          this.fileSystem = fileSystem;
          this.connectivity = connectivity;
          this.errorService = errorService;
          this.downloadService = downloadService;
+         this.preferences = preferences;
       }
 
       public Task ClearLocalStorage() {
@@ -99,7 +102,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          foreach (var region in regions ?? Enumerable.Empty<Region>()) {
             // ||
             // (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)
-            if (region.Access == RegionAccess.@public) {
+            if (region.Access == RegionAccess.@public ||
+               (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
 
                if (!region.ExistsLocally || download && force) {
                   await region.DownloadAsync();
@@ -111,29 +115,5 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          return result;
       }
-
-      //private void OrderAreasRoutes(AreaInfoDTO index) {
-
-      //   if (index.Areas?.Any() ?? false) {
-      //      foreach (var area in index.Areas ?? Enumerable.Empty<AreaInfoDTO>()) {
-      //         OrderAreasRoutes(area);
-      //      }
-      //      index.Areas = index.
-      //         Areas.OrderBy(a => a.Name).ToArray();
-      //   }
-
-      //   if (index.Routes?.Any() ?? false) {
-      //      var setting = preferences.RouteOrderByProperty;
-      //      if (setting == Preferences.RouteOrderBy.Difficulty) {
-      //         index.Routes = index.Routes.OrderBy(r => r.Difficulty).ToArray();
-      //      } else if (setting == Preferences.RouteOrderBy.DifficultyDesc) {
-      //         index.Routes = index.Routes.OrderByDescending(r => r.Difficulty).ToArray();
-      //      } else if (setting == Preferences.RouteOrderBy.NameDesc) {
-      //         index.Routes = index.Routes.OrderByDescending(r => r.Name).ToArray();
-      //      } else {
-      //         index.Routes = index.Routes.OrderBy(r => r.Name).ToArray();
-      //      }
-      //   }
-      //}
    }
 }

@@ -10,8 +10,8 @@ namespace BoulderGuide.Mobile.Forms.XamarinForms {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
          if (value is AreaInfo info && (info.Images?.Any() ?? false)) {
             var index = random.Next(0, info.Images.Count());
-            var path = info.Images.ElementAt(index).LocalPath;
-            return ImageSource.FromFile(path);
+
+            return ImageSource.FromStream(() => info.Images.ElementAt(index).GetStream());
          }
 
          return null;

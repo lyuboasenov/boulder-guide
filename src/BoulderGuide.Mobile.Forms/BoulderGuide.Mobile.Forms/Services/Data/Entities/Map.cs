@@ -7,7 +7,8 @@
          base(
             map,
             region.RemoteRootPath,
-            region.LocalRootPath) {
+            region.LocalRootPath,
+            region.Access == RegionAccess.@private) {
          this.region = region;
          this.map = map;
       }

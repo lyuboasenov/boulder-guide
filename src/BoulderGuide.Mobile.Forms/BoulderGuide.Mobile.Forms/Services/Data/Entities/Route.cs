@@ -13,7 +13,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
          base (
             index,
             region.RemoteRootPath,
-            region.LocalRootPath) {
+            region.LocalRootPath,
+            region.Access == RegionAccess.@private) {
 
          this.region = region;
       }

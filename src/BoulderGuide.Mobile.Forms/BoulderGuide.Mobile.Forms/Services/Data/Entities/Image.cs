@@ -1,4 +1,6 @@
-﻿namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+﻿using System.IO;
+
+namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
    public class Image : FileBasedEntity {
       private Region region;
 
@@ -6,8 +8,13 @@
          base (
             relativePath,
             region.RemoteRootPath,
-            region.LocalRootPath) {
+            region.LocalRootPath,
+            region.Access == RegionAccess.@private) {
          this.region = region;
+      }
+
+      public new Stream GetStream() {
+         return base.GetStream();
       }
    }
 }

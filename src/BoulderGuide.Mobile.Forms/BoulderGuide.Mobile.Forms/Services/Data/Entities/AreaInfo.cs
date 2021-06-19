@@ -12,7 +12,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
          base (
             "index.json",
             region.RemoteRootPath,
-            region.LocalRootPath) {
+            region.LocalRootPath,
+            region.Access == RegionAccess.@private) {
 
          this.region = region ?? throw new ArgumentNullException(nameof(region));
          Parent = parent;

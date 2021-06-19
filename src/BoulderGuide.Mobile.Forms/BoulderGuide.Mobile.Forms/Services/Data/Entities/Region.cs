@@ -12,7 +12,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
          base(
             "index.json",
             dto?.Url?.TrimEnd('/'),
-            localPath) {
+            localPath,
+            dto.Access == RegionAccess.@private) {
          this.dto = dto ?? throw new ArgumentNullException(nameof(dto));
       }
 
