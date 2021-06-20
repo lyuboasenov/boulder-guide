@@ -183,6 +183,9 @@
   <data name="Order" xml:space="preserve">
     <value>Подредба</value>
   </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Повече ...</value>
+  </data>
   <data name="Reload" xml:space="preserve">
     <value>Презареди</value>
   </data>

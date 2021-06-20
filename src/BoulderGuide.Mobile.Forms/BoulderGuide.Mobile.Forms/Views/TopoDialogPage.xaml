@@ -5,13 +5,8 @@
        xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
        prism:ViewModelLocator.AutowireViewModel="True"
        xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
-       HasShadow="True"
-       BorderColor="LightGray"
-       BackgroundColor="white"
-       CornerRadius="5"
-       prism:DialogLayout.RelativeWidthRequest="0.9"
-       prism:DialogLayout.RelativeHeightRequest="0.9"
-       x:Class="BoulderGuide.Mobile.Forms.Views.TopoDialogPage">
+       x:Class="BoulderGuide.Mobile.Forms.Views.TopoDialogPage"
+       Style="{StaticResource Key=DialogFrameStyle}">
 
    <Grid>
       <views:PinchToZoomContainer
@@ -41,9 +36,9 @@
             Style="{StaticResource Key=RoundImageButton}">
             <ImageButton.Source>
                <FontImageSource
-               Color="{StaticResource Key=Accent}"
-               Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
-               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  Color="{StaticResource Key=Accent}"
+                  Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}" />
             </ImageButton.Source>
          </ImageButton>
       </StackLayout>

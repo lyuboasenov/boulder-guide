@@ -4,7 +4,7 @@
             xmlns:prism="http://prismlibrary.com"
             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
             xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
-            xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+            xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons" xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
             prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="BoulderGuide.Mobile.Forms.Views.AreaDetailsPage"
             BarBackgroundColor="{StaticResource Primary}"
@@ -161,33 +161,37 @@
 
       <ScrollView>
          <StackLayout>
-            <Label Text="{Binding Source={Static root:Strings.AreaInfo}}" />
-            <Label Text="{Binding Info.Area.Info}" />
 
-            <Label Text="{Binding Source={Static root:Strings.AreaAccess}}"
-                   IsVisible="{Binding Info.Area.Access, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Info.Area.Access}"
-                   IsVisible="{Binding Info.Area.Access, Converter={StaticResource Key=valueToVisibility}}" />
+            <views:TextView
+               Title="{Static root:Strings.AreaInfo}"
+               Text="{Binding Info.Area.Info}"
+               InvisibleIfNoText="True" />
 
-            <Label Text="{Binding Source={Static root:Strings.AreaHistory}}"
-                   IsVisible="{Binding Info.Area.History, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Info.Area.History}"
-                   IsVisible="{Binding Info.Area.History, Converter={StaticResource Key=valueToVisibility}}" />
+            <views:TextView
+               Title="{Static root:Strings.AreaAccess}"
+               Text="{Binding Info.Area.Access}"
+               InvisibleIfNoText="True" />
 
-            <Label Text="{Binding Source={Static root:Strings.AreaEthics}}"
-                   IsVisible="{Binding Info.Area.Ethics, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Info.Area.Ethics}"
-                   IsVisible="{Binding Info.Area.Ethics, Converter={StaticResource Key=valueToVisibility}}" />
+            <views:TextView
+               Title="{Static root:Strings.AreaEthics}"
+               Text="{Binding Info.Area.Ethics}"
+               InvisibleIfNoText="True" />
 
-            <Label Text="{Binding Source={Static root:Strings.AreaAccommodations}}"
-                   IsVisible="{Binding Info.Area.Accommodations, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Info.Area.Accommodations}"
-                   IsVisible="{Binding Info.Area.Accommodations, Converter={StaticResource Key=valueToVisibility}}" />
+            <views:TextView
+               Title="{Static root:Strings.AreaHistory}"
+               Text="{Binding Info.Area.History}"
+               InvisibleIfNoText="True" />
 
-            <Label Text="{Binding Source={Static root:Strings.AreaRestrictions}}"
-                   IsVisible="{Binding Info.Area.Restrictions, Converter={StaticResource Key=valueToVisibility}}" />
-            <Label Text="{Binding Info.Area.Restrictions}"
-                   IsVisible="{Binding Info.Area.Restrictions, Converter={StaticResource Key=valueToVisibility}}" />
+            <views:TextView
+               Title="{Static root:Strings.AreaAccommodations}"
+               Text="{Binding Info.Area.Accommodations}"
+               InvisibleIfNoText="True" />
+
+            <views:TextView
+               Title="{Static root:Strings.AreaRestrictions}"
+               Text="{Binding Info.Area.Restrictions}"
+               InvisibleIfNoText="True" />
+
          </StackLayout>
       </ScrollView>
    </ContentPage>

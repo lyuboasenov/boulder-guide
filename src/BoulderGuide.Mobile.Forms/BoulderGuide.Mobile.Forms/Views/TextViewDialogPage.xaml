@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:prism="http://prismlibrary.com"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       prism:ViewModelLocator.AutowireViewModel="True"
+       x:Class="BoulderGuide.Mobile.Forms.Views.TextViewDialogPage"
+       Style="{StaticResource Key=DialogFrameStyle}">
+
+   <StackLayout>
+      <Label
+         Text="{Binding Title}"
+         HorizontalOptions="Start"
+         FontSize="Medium"
+         FontAttributes="Bold" />
+
+      <BoxView
+         HorizontalOptions="Fill"
+         HeightRequest="2"
+         Color="{StaticResource Key=Accent}" />
+
+      <ScrollView
+         VerticalOptions="StartAndExpand">
+         <Label
+            Text="{Binding Text}"
+            LineBreakMode="WordWrap"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+      </ScrollView>
+
+      <ImageButton
+         HorizontalOptions="End"
+         Command="{Binding CloseCommand}"
+         Style="{StaticResource Key=RoundImageButton}">
+         <ImageButton.Source>
+            <FontImageSource
+                  Glyph="{Static icons:MaterialIconFont.Close}"
+                  Color="{StaticResource Key=Accent}"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}" />
+         </ImageButton.Source>
+      </ImageButton>
+   </StackLayout>
+</Frame>

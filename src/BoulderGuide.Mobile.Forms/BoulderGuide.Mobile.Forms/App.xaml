@@ -33,6 +33,15 @@
             <Setter Property="CornerRadius" Value="20" />
             <Setter Property="Padding" Value="5" />
          </Style>
+
+         <Style x:Key="DialogFrameStyle" TargetType="Frame">
+            <Setter Property="HasShadow" Value="True" />
+            <Setter Property="BorderColor" Value="LightGray" />
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="prism:DialogLayout.RelativeWidthRequest" Value="0.9" />
+            <Setter Property="prism:DialogLayout.RelativeHeightRequest" Value="0.9" />
+         </Style>
       </ResourceDictionary>
 
    </Application.Resources>
