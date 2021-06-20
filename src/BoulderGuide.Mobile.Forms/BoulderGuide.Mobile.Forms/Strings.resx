@@ -168,6 +168,9 @@
   <data name="Home" xml:space="preserve">
     <value>Начало</value>
   </data>
+  <data name="HomeAreaInfoCountsFormat" xml:space="preserve">
+    <value>{0} маршрута в {1} сектора</value>
+  </data>
   <data name="Info" xml:space="preserve">
     <value>Информация</value>
   </data>

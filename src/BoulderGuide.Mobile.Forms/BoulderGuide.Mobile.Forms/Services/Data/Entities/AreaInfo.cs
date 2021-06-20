@@ -64,6 +64,20 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public Area Area { get; private set; }
 
+      public int TotalAreaCount {
+         get {
+            return (Areas?.Count() ?? 0) +
+               (Areas?.Sum(a => a.TotalAreaCount) ?? 0);
+         }
+      }
+
+      public int TotalRouteCount {
+         get {
+            return (Routes?.Count() ?? 0) +
+               (Areas?.Sum(a => a.TotalRouteCount) ?? 0);
+         }
+      }
+
       public async Task LoadAreaAsync(bool force = false) {
          if (Area is null) {
             var area = new Area(region, Index);

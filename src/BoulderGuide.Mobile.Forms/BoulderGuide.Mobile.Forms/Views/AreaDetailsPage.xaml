@@ -12,11 +12,10 @@
 
    <TabbedPage.Resources>
       <xamForms:ValueToVisibilityConverter x:Key="valueToVisibility" />
-      <xamForms:AreasRoutesCountConverter x:Key="AreasRoutesCountConverter" />
 
       <DataTemplate x:Key="areaDataTemplate">
          <ViewCell>
-            <Grid>
+            <Grid BackgroundColor="White">
                <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="Auto" />
@@ -39,9 +38,15 @@
 
                <Label
                   Grid.Column="3"
-                  Text="{Binding ., Converter={StaticResource Key=AreasRoutesCountConverter}}"
                   VerticalOptions="CenterAndExpand"
-                  FontSize="Micro" />
+                  FontSize="Micro">
+                  <Label.Text>
+                     <MultiBinding StringFormat="{}{1} / {0}">
+                        <Binding Path="TotalRouteCount" />
+                        <Binding Path="TotalAreaCount" />
+                     </MultiBinding>
+                  </Label.Text>
+               </Label>
 
                <Label
                   Grid.Column="4"
@@ -68,7 +73,7 @@
 
       <DataTemplate x:Key="routeTemplate">
          <ViewCell>
-            <Grid>
+            <Grid BackgroundColor="White">
                <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="Auto" />

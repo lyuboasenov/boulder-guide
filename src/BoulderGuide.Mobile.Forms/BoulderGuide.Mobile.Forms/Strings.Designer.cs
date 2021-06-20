@@ -214,6 +214,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} маршрута в {1} сектора.
+        /// </summary>
+        internal static string HomeAreaInfoCountsFormat {
+            get {
+                return ResourceManager.GetString("HomeAreaInfoCountsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Информация.
         /// </summary>
         internal static string Info {
