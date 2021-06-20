@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:prism="http://prismlibrary.com"
+       xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+       prism:ViewModelLocator.AutowireViewModel="True"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       HasShadow="True"
+       BorderColor="LightGray"
+       BackgroundColor="white"
+       CornerRadius="5"
+       prism:DialogLayout.RelativeWidthRequest="0.9"
+       prism:DialogLayout.RelativeHeightRequest="0.9"
+       x:Class="BoulderGuide.Mobile.Forms.Views.TopoDialogPage">
+
+   <Grid>
+      <views:PinchToZoomContainer
+            ContentScale="{Binding Scale, Mode=TwoWay}">
+            <views:SchemaView
+            Schema="{Binding Schema}"
+            RouteInfo="{Binding Info}" />
+      </views:PinchToZoomContainer>
+
+      <StackLayout
+         Orientation="Horizontal"
+         HorizontalOptions="End"
+         VerticalOptions="End">
+         <ImageButton
+            Command="{Binding ResetZoomCommand}"
+            Style="{StaticResource Key=RoundImageButton}">
+            <ImageButton.Source>
+               <FontImageSource
+               Color="{StaticResource Key=Accent}"
+               Glyph="{Static icons:MaterialIconFont.Image}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+            </ImageButton.Source>
+         </ImageButton>
+
+         <ImageButton
+            Command="{Binding CloseCommand}"
+            Style="{StaticResource Key=RoundImageButton}">
+            <ImageButton.Source>
+               <FontImageSource
+               Color="{StaticResource Key=Accent}"
+               Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+            </ImageButton.Source>
+         </ImageButton>
+      </StackLayout>
+
+   </Grid>
+
+</Frame>

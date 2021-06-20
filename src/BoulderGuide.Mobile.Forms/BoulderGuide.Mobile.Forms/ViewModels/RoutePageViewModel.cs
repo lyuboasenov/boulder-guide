@@ -47,11 +47,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private async Task ViewSchema(Schema schema) {
          if (null != schema) {
-            await NavigateAsync(
-               $"{Info.Name} ({new Grade(Info.Difficulty)})",
-               $"/MainPage/NavigationPage/{nameof(SchemaPage)}",
-               SchemaPageViewModel.InitializeParameters(Info, schema),
-               Icons.MaterialIconFont.Moving);
+            await ShowDialogAsync(
+               nameof(TopoDialogPage),
+               TopoDialogPageViewModel.InitializeParameters(Info, schema)).
+               ConfigureAwait(false);
          }
       }
 

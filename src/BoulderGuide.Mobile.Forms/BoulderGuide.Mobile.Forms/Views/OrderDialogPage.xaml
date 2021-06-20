@@ -12,14 +12,10 @@
        CornerRadius="5"
        HorizontalOptions="Center">
 
-   <StackLayout>
-
-      <ListView
-         HeightRequest="178"
-         WidthRequest="150"
-         ItemsSource="{Binding OrderOptions}"
-         SelectedItem="{Binding SelectedOrderOption}"
-         SelectionMode="Single" />
-
-   </StackLayout>
+   <ListView
+      HeightRequest="178"
+      WidthRequest="150"
+      ItemsSource="{Binding OrderOptions}"
+      SelectedItem="{Binding SelectedOrderOption}"
+      SelectionMode="Single" />
 </Frame>

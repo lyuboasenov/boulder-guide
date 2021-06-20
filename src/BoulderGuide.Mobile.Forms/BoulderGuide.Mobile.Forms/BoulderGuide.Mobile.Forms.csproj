@@ -50,7 +50,7 @@
     <EmbeddedResource Update="Views\RoutePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SchemaPage.xaml">
+    <EmbeddedResource Update="Views\TopoDialogPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
@@ -76,6 +76,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TopoDialogPage.xaml.cs">
+      <DependentUpon>TopoDialogPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

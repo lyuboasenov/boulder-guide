@@ -54,25 +54,19 @@
                         RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
                         />
 
-                     <AbsoluteLayout
+                     <ImageButton
                         AbsoluteLayout.LayoutFlags="PositionProportional"
-                        AbsoluteLayout.LayoutBounds="1, 0">
-                        <ImageButton
-                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=ViewSchemaCommand}"
-                           CommandParameter="{Binding}"
-                           WidthRequest="60"
-                           HeightRequest="60"
-                           VerticalOptions="Start"
-                           BackgroundColor="#11000000"
-                           CornerRadius="10">
-                           <ImageButton.Source>
-                              <FontImageSource
-                              Color="Gray"
+                        AbsoluteLayout.LayoutBounds="1, 1"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=ViewSchemaCommand}"
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource Key=RoundImageButton}">
+                        <ImageButton.Source>
+                           <FontImageSource
+                              Color="{StaticResource Key=Accent}"
                               Glyph="{Static icons:MaterialIconFont.Fullscreen}"
                               FontFamily="{StaticResource Key=MaterialFontFamily}" />
-                           </ImageButton.Source>
-                        </ImageButton>
-                     </AbsoluteLayout>
+                        </ImageButton.Source>
+                     </ImageButton>
 
                   </AbsoluteLayout>
 

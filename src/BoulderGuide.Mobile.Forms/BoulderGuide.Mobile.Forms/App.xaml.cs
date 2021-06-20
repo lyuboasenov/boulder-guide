@@ -51,12 +51,12 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterDialog<FilterDialogPage, FilterDialogPageViewModel>();
          containerRegistry.RegisterDialog<OrderDialogPage, OrderDialogPageViewModel>();
          containerRegistry.RegisterDialog<EnterPasswordDialogPage, EnterPasswordDialogPageViewModel>();
+         containerRegistry.RegisterDialog<TopoDialogPage, TopoDialogPageViewModel>();
 
          containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
          containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
          containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
          containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
-         containerRegistry.RegisterForNavigation<SchemaPage, SchemaPageViewModel>();
       }
    }
 }

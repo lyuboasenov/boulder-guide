@@ -1,8 +1,8 @@
 ﻿using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.Views {
-   public partial class SchemaPage : ContentPage {
-      public SchemaPage() {
+   public partial class TopoDialogPage : Frame {
+      public TopoDialogPage() {
          InitializeComponent();
       }
    }

@@ -25,6 +25,14 @@
             <Setter Property="UnselectedTabColor" Value="{StaticResource Primary}" />
             <Setter Property="BarTextColor" Value="White" />
          </Style>
+
+         <Style x:Key="RoundImageButton" TargetType="ImageButton">
+            <Setter Property="BackgroundColor" Value="#88449bc9" />
+            <Setter Property="WidthRequest" Value="40" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="5" />
+         </Style>
       </ResourceDictionary>
 
    </Application.Resources>

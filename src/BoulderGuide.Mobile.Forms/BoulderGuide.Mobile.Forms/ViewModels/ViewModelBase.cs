@@ -85,6 +85,17 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return NavigateAsync(lastItem.Title, lastItem.Path, lastItem.Parameters, lastItem.Glyph);
       }
 
+      public async Task ShowDialogAsync(string path, IDialogParameters parameters) {
+         var result = await DialogService.ShowDialogAsync(
+               path,
+               parameters).
+               ConfigureAwait(false);
+
+         if (result.Exception != null) {
+            HandleException(result.Exception);
+         }
+      }
+
       public void HandleException(Exception ex) {
          errorService.HandleError(ex);
       }

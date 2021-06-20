@@ -4,10 +4,29 @@ using Xamarin.Forms.Internals;
 
 namespace BoulderGuide.Mobile.Forms.Views {
    public class PinchToZoomContainer : ContentView {
-      double currentScale = 1;
-      double startScale = 1;
-      double xOffset = 0;
-      double yOffset = 0;
+
+      public static readonly BindableProperty ContentScaleProperty =
+         BindableProperty.Create(
+            nameof(ContentScale),
+            typeof(double),
+            typeof(double),
+            1d,
+            propertyChanged: (bindable, _, __) => {
+               var control = bindable as PinchToZoomContainer;
+
+               control.Content.Scale = control.ContentScale;
+               control.Content.TranslationX = (control.Width - control.Content.Width * control.ContentScale) / 2;
+               control.Content.TranslationY = (control.Height - control.Content.Height * control.ContentScale) / 2;
+            });
+
+      public double ContentScale {
+         get { return (double) GetValue(ContentScaleProperty); }
+         set { SetValue(ContentScaleProperty, value); }
+      }
+
+      private double startScale = 1;
+      private double xOffset = 0;
+      private double yOffset = 0;
       private double lastX;
       private double lastY;
 
@@ -19,21 +38,23 @@ namespace BoulderGuide.Mobile.Forms.Views {
          var pan = new PanGestureRecognizer();
          pan.PanUpdated += OnPanUpdated;
          GestureRecognizers.Add(pan);
+
+         IsClippedToBounds = true;
       }
 
       private void OnPanUpdated(object sender, PanUpdatedEventArgs e) {
-         if (currentScale > 1) {
+         if (ContentScale > 1) {
             switch (e.StatusType) {
                case GestureStatus.Started:
                   lastX = Content.TranslationX;
                   lastY = Content.TranslationY;
                   break;
                case GestureStatus.Running:
-                  double targetX = lastX + e.TotalX * currentScale;
-                  double targetY = lastY + e.TotalY * currentScale;
+                  double targetX = lastX + e.TotalX * ContentScale;
+                  double targetY = lastY + e.TotalY * ContentScale;
 
-                  Content.TranslationX = targetX.Clamp(-Content.Width * (currentScale - 1), 0);
-                  Content.TranslationY = targetY.Clamp(-Content.Height * (currentScale - 1), 0);
+                  Content.TranslationX = targetX.Clamp(-Content.Width * (ContentScale - 1), 0);
+                  Content.TranslationY = targetY.Clamp(-Content.Height * (ContentScale - 1), 0);
                   break;
             }
          }
@@ -49,8 +70,8 @@ namespace BoulderGuide.Mobile.Forms.Views {
          }
          if (e.Status == GestureStatus.Running) {
             // Calculate the scale factor to be applied.
-            currentScale += (e.Scale - 1) * startScale;
-            currentScale = Math.Max(1, currentScale);
+            ContentScale += (e.Scale - 1) * startScale;
+            ContentScale = Math.Max(1, ContentScale);
 
             // The ScaleOrigin is in relative coordinates to the wrapped user interface element,
             // so get the X pixel coordinate.
@@ -67,15 +88,15 @@ namespace BoulderGuide.Mobile.Forms.Views {
             double originY = (e.ScaleOrigin.Y - deltaY) * deltaHeight;
 
             // Calculate the transformed element pixel coordinates.
-            double targetX = xOffset - (originX * Content.Width) * (currentScale - startScale);
-            double targetY = yOffset - (originY * Content.Height) * (currentScale - startScale);
+            double targetX = xOffset - (originX * Content.Width) * (ContentScale - startScale);
+            double targetY = yOffset - (originY * Content.Height) * (ContentScale - startScale);
 
             // Apply translation based on the change in origin.
-            Content.TranslationX = targetX.Clamp(-Content.Width * (currentScale - 1), 0);
-            Content.TranslationY = targetY.Clamp(-Content.Height * (currentScale - 1), 0);
+            Content.TranslationX = targetX.Clamp(-Content.Width * (ContentScale - 1), 0);
+            Content.TranslationY = targetY.Clamp(-Content.Height * (ContentScale - 1), 0);
 
             // Apply scale factor
-            Content.Scale = currentScale;
+            Content.Scale = ContentScale;
          }
          if (e.Status == GestureStatus.Completed) {
             // Store the translation delta's of the wrapped user interface element.
