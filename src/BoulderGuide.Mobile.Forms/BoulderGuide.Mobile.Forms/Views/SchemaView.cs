@@ -1,6 +1,5 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.ImageUtils;
-using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using SkiaSharp.Views.Forms;
 using System.Linq;
@@ -40,21 +39,22 @@ namespace BoulderGuide.Mobile.Forms.Views {
          set { SetValue(SchemaProperty, value); }
       }
 
-      private string imageLocalPath;
+      private Services.Data.Entities.Image image;
 
       protected override void OnPaintSurface(SKPaintSurfaceEventArgs e) {
          base.OnPaintSurface(e);
 
-         e.Surface.Canvas.DrawSchema(imageLocalPath, Schema?.Shapes ?? Enumerable.Empty<Shape>());
+         using (var imageStream = image?.GetStream()) {
+            e.Surface.Canvas.DrawTopo(imageStream, Schema?.Shapes ?? Enumerable.Empty<Shape>());
+         }
       }
 
       private void SetImageLocalPath() {
          if (Schema != null) {
-            imageLocalPath = RouteInfo?.
+            image = RouteInfo?.
                Route?.
                Images?.
-               Select(i => i.LocalPath)?.
-               FirstOrDefault(i => i.EndsWith("/" + Schema.Id));
+               FirstOrDefault(i => i.LocalPath.EndsWith("/" + Schema.Id));
          }
       }
    }

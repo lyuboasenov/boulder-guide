@@ -7,7 +7,6 @@ using Mapsui.Styles;
 using Mapsui.Utilities;
 using SQLite;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Xamarin.Essentials.Interfaces;
 using System;
@@ -130,6 +129,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             }
 
             if (info?.Map?.ExistsLocally ?? false) {
+               // todo: decrypt map before use
                var mbTilesTileSource =
                new MbTilesTileSource(
                   new SQLiteConnectionString(info.Map.LocalPath, true),

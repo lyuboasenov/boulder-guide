@@ -62,31 +62,41 @@ namespace BoulderGuide.ImageUtils {
          return bitmap;
       }
 
-      public static SKBitmap LoadBitmap(string bitmapPath, double width, double height) {
-         using (var input = File.OpenRead(bitmapPath))               // load the file
-         using (var inputStream = new SKManagedStream(input))    // create a stream SkiaSharp uses
-         using (var codec = SKCodec.Create(inputStream)) {             // get the decoder
+      public static SKBitmap LoadBitmap(Stream stream, double width, double height) {
+         using (var memStream = new MemoryStream()) {
+            stream.CopyTo(memStream);
+            memStream.Seek(0, SeekOrigin.Begin);
 
-            var bitmap = SKBitmap.Decode(codec).HandleOrientation(
-               codec.EncodedOrigin);
+            using (var inputStream = new SKManagedStream(memStream))    // create a stream SkiaSharp uses
+            using (var codec = SKCodec.Create(inputStream)) {             // get the decoder
 
-            // Determine scaling factor
-            double factor = Math.Min(width / bitmap.Width, height / bitmap.Height);
+               var bitmap = SKBitmap.Decode(codec).HandleOrientation(
+                  codec.EncodedOrigin);
 
-            var info = new SKImageInfo((int) (bitmap.Width * factor), (int) (bitmap.Height * factor));
-            bitmap = bitmap.Resize(info, SKFilterQuality.High);
+               // Determine scaling factor
+               double factor = Math.Min(width / bitmap.Width, height / bitmap.Height);
 
-            return bitmap;
+               var info = new SKImageInfo((int) (bitmap.Width * factor), (int) (bitmap.Height * factor));
+               bitmap = bitmap.Resize(info, SKFilterQuality.High);
+
+               return bitmap;
+            }
          }
       }
 
-      public static void DrawSchema(this SKCanvas canvas, string imagePath, IEnumerable<Shape> shapes) {
-         if (File.Exists(imagePath ?? "")) {
+      public static SKBitmap LoadBitmap(string bitmapPath, double width, double height) {
+         using (var input = File.OpenRead(bitmapPath)) {
+            return LoadBitmap(input, width, height);
+         }
+      }
+
+      public static void DrawTopo(this SKCanvas canvas, Stream imageStream, IEnumerable<Shape> shapes) {
+         if (imageStream != null) {
             var canvasSize = new Size(
                canvas.DeviceClipBounds.Width,
                canvas.DeviceClipBounds.Height);
             using (var bitmap = LoadBitmap(
-               imagePath,
+               imageStream,
                canvasSize.Width,
                canvasSize.Height))
             using (var paint = new SKPaint {
@@ -133,7 +143,6 @@ namespace BoulderGuide.ImageUtils {
       /// </summary>
       /// <param name="p1"></param>
       /// <param name="p2"></param>
-      /// <returns></returns>
       public static double Distance(this SKPoint p1, SKPoint p2) {
          return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
       }
@@ -162,10 +171,6 @@ namespace BoulderGuide.ImageUtils {
          var originX = originPoint?.X ?? 0;
          var originY = originPoint?.Y ?? 0;
          return new SKPoint((float) ((point.X - originX) * scaleFactor), (float) ((point.Y - originY) * scaleFactor));
-      }
-
-      public static ImagePoint ToPoint(this SKPoint self) {
-         return new ImagePoint() { X = self.X, Y = self.Y };
       }
 
       /// <summary>
