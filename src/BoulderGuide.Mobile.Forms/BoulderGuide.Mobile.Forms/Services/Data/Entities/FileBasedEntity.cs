@@ -8,7 +8,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
    public abstract class FileBasedEntity : INotifyPropertyChanged {
       protected string relativePath;
       private readonly bool isPrivateUseKey;
-      private static Tuple<byte[], byte[], byte[]> key;
+      private static Tuple<string, string> key;
 
       public event PropertyChangedEventHandler PropertyChanged;
       protected IDownloadService DownloadService { get; }
@@ -34,9 +34,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             var preferences = (Preferences.IPreferences) Prism.PrismApplicationBase.Current.Container.CurrentScope.Resolve(typeof(Preferences.IPreferences));
             var parts = preferences.PrivateRegionsKey.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             key = Tuple.Create(
-               StringToByteArray(parts[0]),
-               StringToByteArray(parts[1]),
-               StringToByteArray(parts[2]));
+               parts[0],
+               parts[1]);
          }
       }
 
@@ -74,93 +73,110 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public string GetAllText() {
          if (isPrivateUseKey) {
-            return DecryptAsText(File.ReadAllBytes(LocalPath));
+            return DecryptAsText(File.OpenRead(LocalPath));
          } else {
             return File.ReadAllText(LocalPath);
          }
       }
 
-      protected byte[] GetAllBytes() {
-         if (isPrivateUseKey) {
-            return DecryptAsBytes(File.ReadAllBytes(LocalPath));
-         } else {
-            return File.ReadAllBytes(LocalPath);
-         }
-      }
-
       protected Stream GetStream() {
          if (isPrivateUseKey) {
-            return DecryptStringFromBytesAes(
-               File.ReadAllBytes(LocalPath),
+            return new DecryptingStream(
+               File.OpenRead(LocalPath),
                key.Item1,
-               key.Item2,
-               key.Item3);
+               key.Item2);
          } else {
             return File.OpenRead(LocalPath);
          }
       }
 
-      private byte[] DecryptAsBytes(byte[] cipher) {
-         using (var stream =
-            DecryptStringFromBytesAes(cipher, key.Item1, key.Item2, key.Item3)) {
-            return stream.ToArray();
-         }
-      }
-
-      private string DecryptAsText(byte[] cipher) {
-         using (var stream =
-            DecryptStringFromBytesAes(cipher, key.Item1, key.Item2, key.Item3)) {
+      private string DecryptAsText(Stream source) {
+         using (var stream = new DecryptingStream(source, key.Item1, key.Item2)) {
             using (StreamReader sr = new StreamReader(stream)) {
                return sr.ReadToEnd();
             }
          }
       }
 
-      private static MemoryStream DecryptStringFromBytesAes(byte[] cipherText, byte[] key, byte[] iv, byte[] salt) {
-         // Check arguments.
-         if (cipherText == null || cipherText.Length <= 0)
-            throw new ArgumentNullException("cipherText");
-         if (key == null || key.Length <= 0)
-            throw new ArgumentNullException("key");
-         if (iv == null || iv.Length <= 0)
-            throw new ArgumentNullException("iv");
-         if (salt == null || salt.Length <= 0)
-            throw new ArgumentNullException("salt");           // Declare the RijndaelManaged object
-                                                                        // used to decrypt the data.
-         RijndaelManaged aesAlg = null;                                 // Declare the string used to hold
-                                                                        // the decrypted text.
+      private class DecryptingStream : Stream {
 
-         byte[] encryptedBytes = new byte[cipherText.Length - salt.Length - 8];
-         Buffer.BlockCopy(cipherText, 8, salt, 0, salt.Length);
-         Buffer.BlockCopy(cipherText, salt.Length + 8, encryptedBytes, 0, encryptedBytes.Length);
+         private Stream stream;
+         private bool disposedValue;
+         private readonly Stream cypherStream;
+         private RijndaelManaged aesAlg;
 
-         MemoryStream result = new MemoryStream();
-         try {
-            // Create a RijndaelManaged object
-            // with the specified key and IV.
-            aesAlg = new RijndaelManaged { Mode = CipherMode.CBC, KeySize = 256, BlockSize = 128, Key = key, IV = iv };                // Create a decrytor to perform the stream transform.
-            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-            // Create the streams used for decryption.
-            using (MemoryStream msDecrypt = new MemoryStream(cipherText)) {
-               using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read)) {
-                  csDecrypt.CopyTo(result);
-               }
+         public DecryptingStream(Stream cypherStream, string key, string iv) {
+            if (string.IsNullOrEmpty(key)) {
+               throw new ArgumentException($"'{nameof(key)}' cannot be null or empty.", nameof(key));
             }
-         } finally {
-            // Clear the RijndaelManaged object.
-            if (aesAlg != null)
-               aesAlg.Clear();
-         }
-         result.Seek(0, SeekOrigin.Begin);
-         return result;
-      }
 
-      private  static byte[] StringToByteArray(String hex) {
-         int NumberChars = hex.Length;
-         byte[] bytes = new byte[NumberChars / 2];
-         for (int i = 0; i < NumberChars; i += 2)
-            bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
-         return bytes;
+            if (string.IsNullOrEmpty(iv)) {
+               throw new ArgumentException($"'{nameof(iv)}' cannot be null or empty.", nameof(iv));
+            }
+
+            this.cypherStream = cypherStream ?? throw new ArgumentNullException(nameof(cypherStream));
+
+            aesAlg = new RijndaelManaged {
+               Mode = CipherMode.CBC,
+               KeySize = 256,
+               BlockSize = 128,
+               Key = HexStringToBytes(key),
+               IV = HexStringToBytes(iv)
+            };
+            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+
+            stream = new CryptoStream(cypherStream, decryptor, CryptoStreamMode.Read);
+         }
+
+         public override void Flush() {
+            stream.Flush();
+         }
+
+         public override int Read(byte[] buffer, int offset, int count) {
+            return stream.Read(buffer, offset, count);
+         }
+
+         public override long Seek(long offset, SeekOrigin origin) {
+            return stream.Seek(offset, origin);
+         }
+
+         public override void SetLength(long value) {
+            stream.SetLength(value);
+         }
+
+         public override void Write(byte[] buffer, int offset, int count) {
+            stream.Write(buffer, offset, count);
+         }
+
+         public override bool CanRead => stream.CanRead;
+         public override bool CanSeek => stream.CanSeek;
+         public override bool CanWrite => stream.CanWrite;
+         public override long Length => stream.Length;
+         public override long Position { get { return stream.Position; } set { stream.Position = value; } }
+
+
+         protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
+
+            if (!disposedValue) {
+               if (disposing) {
+                  aesAlg.Dispose();
+                  stream.Dispose();
+                  cypherStream.Dispose();
+               }
+
+               disposedValue = true;
+            }
+         }
+
+         private static byte[] HexStringToBytes(String hex) {
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+               bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
+         }
       }
    }
 }
