@@ -32,6 +32,11 @@
             <Setter Property="HeightRequest" Value="40" />
             <Setter Property="CornerRadius" Value="20" />
             <Setter Property="Padding" Value="5" />
+            <Style.Triggers>
+               <Trigger Property="IsEnabled" Value="False" TargetType="ImageButton">
+                  <Setter Property="Opacity" Value="0.25" />
+               </Trigger>
+            </Style.Triggers>
          </Style>
 
          <Style x:Key="DialogFrameStyle" TargetType="Frame">

@@ -5,43 +5,70 @@
        xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
        prism:ViewModelLocator.AutowireViewModel="True"
        xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       xmlns:xamarinforms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
        x:Class="BoulderGuide.Mobile.Forms.Views.TopoDialogPage"
        Style="{StaticResource Key=DialogFrameStyle}">
 
+   <Frame.Resources>
+      <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
+   </Frame.Resources>
+
    <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+         <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Label
+         Text="{Binding Info, Converter={StaticResource Key=RouteInfoToTitleConverter}}"
+         HorizontalOptions="Start"
+         FontSize="Medium"
+         FontAttributes="Bold" />
+
+      <BoxView
+         Grid.Row="1"
+         HorizontalOptions="Fill"
+         HeightRequest="2"
+         Color="{StaticResource Key=Accent}" />
+
+
       <views:PinchToZoomContainer
+         Grid.Row="2"
          ContentScale="{Binding Scale, Mode=TwoWay}">
          <views:TopoView
             Topo="{Binding Topo}"
             RouteInfo="{Binding Info}" />
       </views:PinchToZoomContainer>
 
-      <StackLayout
-         Orientation="Horizontal"
+      <ImageButton
+         Grid.Row="2"
          HorizontalOptions="End"
-         VerticalOptions="End">
-         <ImageButton
-            Command="{Binding ResetZoomCommand}"
-            Style="{StaticResource Key=RoundImageButton}">
-            <ImageButton.Source>
-               <FontImageSource
+         VerticalOptions="Start"
+         Margin="0, 5, 5, 0"
+         Command="{Binding ResetZoomCommand}"
+         Style="{StaticResource Key=RoundImageButton}">
+         <ImageButton.Source>
+            <FontImageSource
                Color="{StaticResource Key=Accent}"
                Glyph="{Static icons:MaterialIconFont.Image}"
                FontFamily="{StaticResource Key=MaterialFontFamily}" />
-            </ImageButton.Source>
-         </ImageButton>
+         </ImageButton.Source>
+      </ImageButton>
 
-         <ImageButton
-            Command="{Binding CloseCommand}"
-            Style="{StaticResource Key=RoundImageButton}">
-            <ImageButton.Source>
-               <FontImageSource
+      <ImageButton
+         Grid.Row="3"
+         HorizontalOptions="End"
+         Command="{Binding CloseCommand}"
+         Style="{StaticResource Key=RoundImageButton}">
+         <ImageButton.Source>
+            <FontImageSource
                   Color="{StaticResource Key=Accent}"
                   Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
                   FontFamily="{StaticResource Key=MaterialFontFamily}" />
-            </ImageButton.Source>
-         </ImageButton>
-      </StackLayout>
+         </ImageButton.Source>
+      </ImageButton>
 
    </Grid>
 

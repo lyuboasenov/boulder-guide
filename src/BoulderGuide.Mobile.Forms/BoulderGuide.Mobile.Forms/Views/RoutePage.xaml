@@ -49,19 +49,19 @@
                      CornerRadius="5"
                      HorizontalOptions="Center"
                      VerticalOptions="CenterAndExpand">
-
-                  <AbsoluteLayout>
+                  <Grid>
 
                      <localViews:TopoView
-                        AbsoluteLayout.LayoutFlags="All"
-                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Fill"
                         Topo="{Binding}"
                         RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
                         />
 
                      <ImageButton
-                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                        AbsoluteLayout.LayoutBounds="1, 1"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Margin="0, 5, 5, 0"
                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=ViewTopoCommand}"
                         CommandParameter="{Binding}"
                         Style="{StaticResource Key=RoundImageButton}">
@@ -73,7 +73,7 @@
                         </ImageButton.Source>
                      </ImageButton>
 
-                  </AbsoluteLayout>
+                  </Grid>
 
                </Frame>
             </DataTemplate>

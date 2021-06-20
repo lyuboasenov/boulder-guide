@@ -51,8 +51,8 @@
                            Padding="3"
                            Margin="9"
                            CornerRadius="2"
-                           BackgroundColor="{StaticResource Key=Accent}"
-                           BorderColor="{StaticResource Key=Accent}">
+                           BackgroundColor="{StaticResource Key=Primary}"
+                           BorderColor="{StaticResource Key=Primary}">
                            <Image
                               HeightRequest="120"
                               WidthRequest="120"
