@@ -12,11 +12,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public RouteInfo Info { get; set; }
       public ICommand MapCommand { get; }
-      public ICommand ViewSchemaCommand { get; }
+      public ICommand ViewTopoCommand { get; }
 
       public RoutePageViewModel() {
          MapCommand = new AsyncCommand(Map, CanShowMap);
-         ViewSchemaCommand = new AsyncCommand<Schema>(ViewSchema);
+         ViewTopoCommand = new AsyncCommand<Topo>(ViewTopo);
       }
 
       public override bool CanNavigate(INavigationParameters parameters) {
@@ -45,11 +45,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Icons.MaterialIconFont.Place);
       }
 
-      private async Task ViewSchema(Schema schema) {
-         if (null != schema) {
+      private async Task ViewTopo(Topo topo) {
+         if (null != topo) {
             await ShowDialogAsync(
                nameof(TopoDialogPage),
-               TopoDialogPageViewModel.InitializeParameters(Info, schema)).
+               TopoDialogPageViewModel.InitializeParameters(Info, topo)).
                ConfigureAwait(false);
          }
       }

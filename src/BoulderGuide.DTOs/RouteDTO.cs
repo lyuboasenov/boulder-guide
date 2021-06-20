@@ -8,6 +8,7 @@
       public string Info { get; set; }
       public string[] Tags { get; set; } = new string[0];
       public string[] Links { get; set; } = new string[0];
-      public Schema[] Schemas { get; set; } = new Schema[0];
+      [Newtonsoft.Json.JsonProperty(PropertyName = "Schemas")]
+      public Topo[] Topos { get; set; } = new Topo[0];
    }
 }

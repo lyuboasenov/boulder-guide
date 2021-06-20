@@ -21,7 +21,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public IEnumerable<Image> Images { get; private set; }
       public string Info => dto?.Info;
-      public IEnumerable<Schema> Schemas => dto?.Schemas;
+      public IEnumerable<Topo> Topos => dto?.Topos;
 
 
       public override async Task DownloadAsync(bool force = false) {
@@ -30,7 +30,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
          dto = JsonConvert.DeserializeObject<RouteDTO>(GetAllText(), Shape.StandardJsonConverter);
          var relativePathNoFile = relativePath.Substring(0, relativePath.LastIndexOf('/'));
 
-         Images = dto.Schemas?.Select(s => new Image(region, $"{relativePathNoFile}/{s.Id}"));
+         Images = dto.Topos?.Select(s => new Image(region, $"{relativePathNoFile}/{s.Id}"));
 
          var list = new List<Task>();
          foreach (var image in Images ?? Enumerable.Empty<Image>()) {

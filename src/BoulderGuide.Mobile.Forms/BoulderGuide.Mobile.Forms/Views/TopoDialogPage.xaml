@@ -15,9 +15,9 @@
 
    <Grid>
       <views:PinchToZoomContainer
-            ContentScale="{Binding Scale, Mode=TwoWay}">
-            <views:SchemaView
-            Schema="{Binding Schema}"
+         ContentScale="{Binding Scale, Mode=TwoWay}">
+         <views:TopoView
+            Topo="{Binding Topo}"
             RouteInfo="{Binding Info}" />
       </views:PinchToZoomContainer>
 

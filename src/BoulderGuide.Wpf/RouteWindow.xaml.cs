@@ -17,8 +17,8 @@ namespace BoulderGuide.Wpf {
    /// </summary>
    public partial class RouteWindow : Window {
       private string path;
-      private Schema selectedSchemas;
-      private readonly List<Schema> schemas = new List<Schema>();
+      private Topo selectedSchemas;
+      private readonly List<Topo> schemas = new List<Topo>();
       private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
       private Size currentImageSize;
@@ -49,7 +49,7 @@ namespace BoulderGuide.Wpf {
 
          txtLocation.Text = route.Location?.ToString();
 
-         foreach (var schema in route.Schemas) {
+         foreach (var schema in route.Topos) {
             schema.Id = System.IO.Path.Combine(fi.Directory.FullName, schema.Id);
             schemas.Add(schema);
          }
@@ -97,7 +97,7 @@ namespace BoulderGuide.Wpf {
          var name = result.Id.Substring(result.Id.LastIndexOf('/') + 1).ToLowerInvariant();
          int counter = 0;
 
-         var schemaList = new List<Schema>();
+         var schemaList = new List<Topo>();
          foreach (var schema in schemas) {
             var fi = new FileInfo(schema.Id);
             string id = $"{name}_{counter++}{fi.Extension.ToLowerInvariant()}";
@@ -116,20 +116,20 @@ namespace BoulderGuide.Wpf {
                }
             }
 
-            schemaList.Add(new Schema() {
+            schemaList.Add(new Topo() {
                Id = id,
                Shapes = schema.Shapes.ToArray()
             });
          }
 
-         result.Schemas = schemaList.ToArray();
+         result.Topos = schemaList.ToArray();
 
          File.WriteAllText(System.IO.Path.Combine(saveDirectory.FullName, $"{name}.json"), JsonConvert.SerializeObject(result, Formatting.Indented));
       }
 
       private void lstImages_SelectionChanged(object sender, SelectionChangedEventArgs e) {
          // Load schema
-         selectedSchemas = lstImages.SelectedItem as Schema;
+         selectedSchemas = lstImages.SelectedItem as Topo;
          btnRemoveImage.IsEnabled = true;
          InitializeShapeList();
          skCanvas.InvalidateVisual();
@@ -143,7 +143,7 @@ namespace BoulderGuide.Wpf {
          // Launch OpenFileDialog by calling ShowDialog method
          Nullable<bool> result = saveFileDlg.ShowDialog();
          if (result == true) {
-            schemas.Add(new Schema() {
+            schemas.Add(new Topo() {
                Id = saveFileDlg.FileName
             });
             InitializeImageList();
@@ -151,7 +151,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private void btnRemoveImage_Click(object sender, RoutedEventArgs e) {
-         if (lstImages.SelectedItem is Schema schema) {
+         if (lstImages.SelectedItem is Topo schema) {
             schemas.Remove(schema);
             selectedSchemas = null;
             btnRemoveImage.IsEnabled = false;

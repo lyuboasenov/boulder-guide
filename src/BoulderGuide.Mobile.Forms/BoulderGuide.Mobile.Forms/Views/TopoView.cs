@@ -6,21 +6,21 @@ using System.Linq;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.Views {
-   public class SchemaView : SKCanvasView {
-      public static readonly BindableProperty SchemaProperty =
+   public class TopoView : SKCanvasView {
+      public static readonly BindableProperty TopoProperty =
          BindableProperty.Create(
-            nameof(Schema),
-            typeof(Schema),
-            typeof(Schema),
+            nameof(Topo),
+            typeof(Topo),
+            typeof(Topo),
             null,
             propertyChanged: (bindable, _, __) => {
-               (bindable as SchemaView)?.SetImageLocalPath();
-               (bindable as SchemaView)?.InvalidateSurface();
+               (bindable as TopoView)?.SetImageLocalPath();
+               (bindable as TopoView)?.InvalidateSurface();
             });
 
-      public Schema Schema {
-         get { return (Schema) GetValue(SchemaProperty); }
-         set { SetValue(SchemaProperty, value); }
+      public Topo Topo {
+         get { return (Topo) GetValue(TopoProperty); }
+         set { SetValue(TopoProperty, value); }
       }
 
       public static readonly BindableProperty RouteInfoProperty =
@@ -30,13 +30,13 @@ namespace BoulderGuide.Mobile.Forms.Views {
             typeof(RouteInfo),
             null,
             propertyChanged: (bindable, _, __) => {
-               (bindable as SchemaView)?.SetImageLocalPath();
-               (bindable as SchemaView)?.InvalidateSurface();
+               (bindable as TopoView)?.SetImageLocalPath();
+               (bindable as TopoView)?.InvalidateSurface();
             });
 
       public RouteInfo RouteInfo {
          get { return (RouteInfo) GetValue(RouteInfoProperty); }
-         set { SetValue(SchemaProperty, value); }
+         set { SetValue(TopoProperty, value); }
       }
 
       private Services.Data.Entities.Image image;
@@ -45,16 +45,16 @@ namespace BoulderGuide.Mobile.Forms.Views {
          base.OnPaintSurface(e);
 
          using (var imageStream = image?.GetStream()) {
-            e.Surface.Canvas.DrawTopo(imageStream, Schema?.Shapes ?? Enumerable.Empty<Shape>());
+            e.Surface.Canvas.DrawTopo(imageStream, Topo?.Shapes ?? Enumerable.Empty<Shape>());
          }
       }
 
       private void SetImageLocalPath() {
-         if (Schema != null) {
+         if (Topo != null) {
             image = RouteInfo?.
                Route?.
                Images?.
-               FirstOrDefault(i => i.LocalPath.EndsWith("/" + Schema.Id));
+               FirstOrDefault(i => i.LocalPath.EndsWith("/" + Topo.Id));
          }
       }
    }

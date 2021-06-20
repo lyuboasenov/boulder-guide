@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class TopoDialogPageViewModel : BindableBase, IDialogAware {
       public RouteInfo Info { get; set; }
-      public Schema Schema { get; set; }
+      public Topo Topo { get; set; }
 
       public double Scale { get; set; } = 1;
 
@@ -27,9 +27,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public void OnDialogOpened(IDialogParameters parameters) {
          if (parameters.TryGetValue(nameof(Info), out RouteInfo info) &&
-            parameters.TryGetValue(nameof(Schema), out Schema schema)) {
+            parameters.TryGetValue(nameof(Topo), out Topo topo)) {
             Info = info;
-            Schema = schema;
+            Topo = topo;
          } else {
             RequestClose?.Invoke(null);
          }
@@ -41,10 +41,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          (ResetZoomCommand as Command)?.ChangeCanExecute();
       }
 
-      internal static IDialogParameters InitializeParameters(RouteInfo info, Schema schema) {
+      internal static IDialogParameters InitializeParameters(RouteInfo info, Topo topo) {
          return new DialogParameters() {
             { nameof(Info), info },
-            { nameof(Schema), schema }
+            { nameof(Topo), topo }
          };
       }
    }
