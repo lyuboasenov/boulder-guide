@@ -39,7 +39,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public Task ClearLocalStorage() {
          try {
-            var reposDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
+            var reposDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
             Directory.Delete(reposDir, true);
 
             return Task.CompletedTask;
@@ -51,7 +51,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public Task<int> GetLocalStorageSizeInMB() {
          try {
-            var repoDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
+            var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
             DirectoryInfo info = new DirectoryInfo(repoDir);
             long size = 0;
             if (info.Exists) {
@@ -82,12 +82,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
 
-         var repositoriesDir = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
+         var repositoriesDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
          if (!Directory.Exists(repositoriesDir)) {
             Directory.CreateDirectory(repositoriesDir);
          }
 
-         var masterIndexLocalPath = System.IO.Path.Combine(repositoriesDir, "index-v2.json");
+         var masterIndexLocalPath = Path.Combine(repositoriesDir, "index-v2.json");
          if (!File.Exists(masterIndexLocalPath) || download && force) {
             await downloadService.DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
@@ -98,20 +98,18 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                Select(dto =>
                   new Region(
                      dto,
-                     System.IO.Path.Combine(repositoriesDir, dto.Name)))?.ToArray();
+                     Path.Combine(repositoriesDir, dto.Name)))?.ToArray();
 
          var result = new List<AreaInfo>();
          foreach (var region in regions ?? Enumerable.Empty<Region>()) {
-            // ||
-            // (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)
             if (region.Access == RegionAccess.@public ||
                (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
 
                if (!region.ExistsLocally || download && force) {
-                  await region.DownloadAsync();
+                  await region.DownloadAsync().ConfigureAwait(false);
                }
 
-               result.Add(await region.GetIndexAsync());
+               result.Add(await region.GetIndexAsync().ConfigureAwait(false));
             }
          }
 

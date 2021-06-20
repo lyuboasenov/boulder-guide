@@ -124,8 +124,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                Children.Add(area);
             }
 
-            // TODO route order
-
             foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
                Children.Add(route);
             }
