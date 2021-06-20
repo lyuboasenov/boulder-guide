@@ -32,10 +32,18 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          if (isPrivateUseKey && key is null) {
             var preferences = (Preferences.IPreferences) Prism.PrismApplicationBase.Current.Container.CurrentScope.Resolve(typeof(Preferences.IPreferences));
-            var parts = preferences.PrivateRegionsKey.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            key = Tuple.Create(
-               parts[0],
-               parts[1]);
+            if (preferences.ShowPrivateRegions) {
+               var parts = preferences.PrivateRegionsKey.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+               if (parts.Length > 1) {
+                  key = Tuple.Create(
+                     parts[0],
+                     parts[1]);
+               } else {
+                  preferences.PrivateRegionsKey = string.Empty;
+                  preferences.ShowPrivateRegions = false;
+               }
+
+            }
          }
       }
 
