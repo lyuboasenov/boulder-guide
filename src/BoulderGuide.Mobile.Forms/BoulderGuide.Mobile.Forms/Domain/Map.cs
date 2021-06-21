@@ -1,6 +1,7 @@
-﻿using System.IO;
+﻿using BoulderGuide.Mobile.Forms.Domain.DTOs;
+using System.IO;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class Map : FileBasedEntity {
       private Region region;
       private string map;

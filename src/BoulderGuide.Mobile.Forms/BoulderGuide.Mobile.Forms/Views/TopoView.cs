@@ -1,6 +1,6 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.ImageUtils;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+using BoulderGuide.Mobile.Forms.Domain;
 using SkiaSharp.Views.Forms;
 using System.Linq;
 using Xamarin.Forms;
@@ -39,7 +39,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
          set { SetValue(TopoProperty, value); }
       }
 
-      private Services.Data.Entities.Image image;
+      private Domain.Image image;
 
       protected override void OnPaintSurface(SKPaintSurfaceEventArgs e) {
          base.OnPaintSurface(e);

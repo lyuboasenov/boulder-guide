@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using BoulderGuide.DTOs;
+using BoulderGuide.Mobile.Forms.Domain.DTOs;
+using System.Threading.Tasks;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class RouteInfo : FileBasedEntity {
       private Region region;
       private RouteInfoDTO dto;
@@ -18,7 +20,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public string Name => dto?.Name;
       public double Difficulty => dto?.Difficulty ?? 0;
-      public DTOs.Location Location => dto?.Location;
+      public Location Location => dto?.Location;
       public string Grade => dto?.Grade;
 
       public AreaInfo Parent { get; }

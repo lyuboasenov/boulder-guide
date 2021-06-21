@@ -1,5 +1,5 @@
-﻿using BoulderGuide.Mobile.Forms.Services.Data;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+﻿using BoulderGuide.Mobile.Forms.Domain;
+using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;

@@ -1,5 +1,5 @@
 ﻿using BoulderGuide.DTOs;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+using BoulderGuide.Mobile.Forms.Domain;
 using BoulderGuide.Mobile.Forms.Services.Location;
 using Prism.Navigation;
 using System;

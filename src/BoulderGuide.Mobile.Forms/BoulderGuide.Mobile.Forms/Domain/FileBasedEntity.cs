@@ -1,16 +1,20 @@
-﻿using System;
+﻿using BoulderGuide.Mobile.Forms.Services.Data;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public abstract class FileBasedEntity : INotifyPropertyChanged {
       protected string relativePath;
       private readonly bool isPrivateUseKey;
       private static Tuple<string, string> key;
 
+#pragma warning disable 0067
       public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 0067
+
       protected IDownloadService DownloadService { get; }
 
       protected FileBasedEntity(
@@ -31,7 +35,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
 
          if (isPrivateUseKey && key is null) {
-            var preferences = (Preferences.IPreferences) Prism.PrismApplicationBase.Current.Container.CurrentScope.Resolve(typeof(Preferences.IPreferences));
+            var preferences = (Services.Preferences.IPreferences) Prism.PrismApplicationBase.Current.Container.CurrentScope.Resolve(typeof(Services.Preferences.IPreferences));
             if (preferences.ShowPrivateRegions) {
                var parts = preferences.PrivateRegionsKey.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                if (parts.Length > 1) {
@@ -110,7 +114,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       private string DecryptAsText(Stream source) {
          using (var stream = new DecryptingStream(source, key.Item1, key.Item2)) {
-            using (StreamReader sr = new StreamReader(stream)) {
+            using (var sr = new StreamReader(stream)) {
                return sr.ReadToEnd();
             }
          }
@@ -188,10 +192,10 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             }
          }
 
-         private static byte[] HexStringToBytes(String hex) {
-            int NumberChars = hex.Length;
-            byte[] bytes = new byte[NumberChars / 2];
-            for (int i = 0; i < NumberChars; i += 2)
+         private static byte[] HexStringToBytes(string hex) {
+            var NumberChars = hex.Length;
+            var bytes = new byte[NumberChars / 2];
+            for (var i = 0; i < NumberChars; i += 2)
                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             return bytes;
          }

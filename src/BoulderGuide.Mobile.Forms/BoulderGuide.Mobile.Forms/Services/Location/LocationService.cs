@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using BoulderGuide.DTOs;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+using BoulderGuide.Mobile.Forms.Domain;
 
 namespace BoulderGuide.Mobile.Forms.Services.Location {
    public class LocationService : ILocationService {

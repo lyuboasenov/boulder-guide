@@ -1,16 +1,17 @@
 ﻿using BoulderGuide.DTOs;
+using BoulderGuide.Mobile.Forms.Domain.DTOs;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class Route : FileBasedEntity {
       private Region region;
       private RouteDTO dto;
 
       public Route(Region region, string index) :
-         base (
+         base(
             index,
             region.RemoteRootPath,
             region.LocalRootPath,

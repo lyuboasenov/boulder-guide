@@ -1,4 +1,4 @@
-﻿namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+﻿namespace BoulderGuide.Mobile.Forms.Domain.DTOs {
    public class AreaInfoDTO {
 
       public string Name { get; set; }

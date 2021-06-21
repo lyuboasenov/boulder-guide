@@ -1,4 +1,4 @@
-﻿using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+﻿using BoulderGuide.Mobile.Forms.Domain;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.XamarinForms {

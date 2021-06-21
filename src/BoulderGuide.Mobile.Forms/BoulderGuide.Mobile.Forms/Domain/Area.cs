@@ -1,15 +1,16 @@
 ﻿using BoulderGuide.DTOs;
+using BoulderGuide.Mobile.Forms.Domain.DTOs;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class Area : FileBasedEntity {
       private readonly Region region;
       private AreaDTO dto;
 
       public Area(Region region, string index) :
-         base (
+         base(
             index,
             region.RemoteRootPath,
             region.LocalRootPath,
@@ -17,7 +18,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
          this.region = region;
       }
 
-      public IEnumerable<DTOs.Location> Location => dto?.Location;
+      public IEnumerable<Location> Location => dto?.Location;
       public string Info => dto?.Info;
       public string Access => dto?.Access;
       public string Accommodations => dto?.Accommodations;

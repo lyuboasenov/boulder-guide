@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using BoulderGuide.Mobile.Forms.Domain.DTOs;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class Region : FileBasedEntity {
       private RegionDTO dto;
 

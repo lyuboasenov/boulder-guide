@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using BoulderGuide.Mobile.Forms.Domain.DTOs;
+using System.IO;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class Image : FileBasedEntity {
       private Region region;
 
       public Image(Region region, string relativePath) :
-         base (
+         base(
             relativePath,
             region.RemoteRootPath,
             region.LocalRootPath,

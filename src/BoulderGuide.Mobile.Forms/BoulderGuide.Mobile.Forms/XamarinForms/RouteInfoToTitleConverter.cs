@@ -1,5 +1,5 @@
 ﻿using BoulderGuide.DTOs;
-using BoulderGuide.Mobile.Forms.Services.Data.Entities;
+using BoulderGuide.Mobile.Forms.Domain;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

@@ -1,15 +1,16 @@
-﻿using System;
+﻿using BoulderGuide.Mobile.Forms.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+namespace BoulderGuide.Mobile.Forms.Domain {
    public class AreaInfo : FileBasedEntity {
       private readonly AreaInfoDTO dto;
       private readonly Region region;
 
       public AreaInfo(Region region, AreaInfo parent, AreaInfoDTO dto) :
-         base (
+         base(
             "index.json",
             region.RemoteRootPath,
             region.LocalRootPath,
@@ -36,7 +37,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
 
       public bool IsOffline {
          get {
-            bool result = true;
+            var result = true;
 
             if (!ExistsLocally) {
                result = false;
