@@ -129,10 +129,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             }
 
             if (info?.Map?.ExistsLocally ?? false) {
-               // todo: decrypt map before use
                var mbTilesTileSource =
                new MbTilesTileSource(
-                  new SQLiteConnectionString(info.Map.LocalPath, true),
+                  new SQLiteConnectionString(info.Map.GetMapLocalFilePath(), true),
                   type: MbTilesType.BaseLayer);
                map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
             }

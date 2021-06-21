@@ -52,6 +52,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
       public virtual string LocalPath => GetLocalPath(relativePath);
 
       public bool ExistsLocally => File.Exists(LocalPath);
+      public bool IsPrivate => isPrivateUseKey;
 
       public string RemoteRootPath { get; }
       public string LocalRootPath { get; }

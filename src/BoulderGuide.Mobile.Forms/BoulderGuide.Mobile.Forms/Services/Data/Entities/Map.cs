@@ -1,4 +1,6 @@
-﻿namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
+﻿using System.IO;
+
+namespace BoulderGuide.Mobile.Forms.Services.Data.Entities {
    public class Map : FileBasedEntity {
       private Region region;
       private string map;
@@ -11,6 +13,20 @@
             region.Access == RegionAccess.@private) {
          this.region = region;
          this.map = map;
+      }
+
+      public string GetMapLocalFilePath() {
+         if (IsPrivate) {
+            var decryptedFileLocalPath = LocalPath + ".decrypted";
+            using (var fileStream = File.Open(decryptedFileLocalPath, FileMode.Create))
+            using (var decryptedStream = GetStream()) {
+               decryptedStream.CopyTo(fileStream);
+            }
+
+            return decryptedFileLocalPath;
+         } else {
+            return LocalPath;
+         }
       }
    }
 }
