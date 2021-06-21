@@ -48,13 +48,16 @@ namespace BoulderGuide.Mobile.Forms.Views {
                case GestureStatus.Started:
                   lastX = Content.TranslationX;
                   lastY = Content.TranslationY;
+
+                  Content.AnchorX = 0;
+                  Content.AnchorY = 0;
                   break;
                case GestureStatus.Running:
                   double targetX = lastX + e.TotalX;
                   double targetY = lastY + e.TotalY;
 
-                  Content.TranslationX = targetX.Clamp(-Content.Width * (ContentScale - 1), 0);
-                  Content.TranslationY = targetY.Clamp(-Content.Height * (ContentScale - 1), 0);
+                  Content.TranslationX = targetX.Clamp(-Width * (ContentScale - 1), 0);
+                  Content.TranslationY = targetY.Clamp(-Height * (ContentScale - 1), 0);
                   break;
             }
          }

@@ -3,6 +3,7 @@ using BoulderGuide.Mobile.Forms.Domain;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -11,6 +12,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class RoutePageViewModel : ViewModelBase {
 
       public RouteInfo Info { get; set; }
+      public int DisplayedTopoIndex { get; set; }
       public ICommand MapCommand { get; }
       public ICommand ViewTopoCommand { get; }
 
@@ -18,7 +20,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public RoutePageViewModel() {
          MapCommand = new AsyncCommand(Map, CanShowMap);
-         ViewTopoCommand = new AsyncCommand<Topo>(ViewTopo);
+         ViewTopoCommand = new AsyncCommand(ViewTopo, CanViewTopo);
          GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
@@ -36,6 +38,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
       }
 
+      public void OnDisplayedTopoIndex() {
+         RunOnMainThreadAsync(() => (ViewTopoCommand as AsyncCommand)?.RaiseCanExecuteChanged());
+      }
+
       private bool CanShowMap() {
          return Info?.Route != null;
       }
@@ -48,19 +54,24 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             Icons.MaterialIconFont.Place);
       }
 
-      private async Task ViewTopo(Topo topo) {
-         if (null != topo) {
-            await ShowDialogAsync(
-               nameof(TopoDialogPage),
-               TopoDialogPageViewModel.InitializeParameters(Info, topo)).
-               ConfigureAwait(false);
-         }
+      private async Task ViewTopo() {
+         await ShowDialogAsync(
+            nameof(TopoDialogPage),
+            TopoDialogPageViewModel.InitializeParameters(Info, Info.Route.Topos.ElementAt(DisplayedTopoIndex))).
+            ConfigureAwait(false);
+      }
+
+      private bool CanViewTopo() {
+         return DisplayedTopoIndex < (Info?.Route?.Topos?.Count() ?? 0);
       }
 
       private async Task InitializeAsync() {
          try {
             await Info.LoadRouteAsync().ConfigureAwait(false);
-            await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute());
+            await RunOnMainThreadAsync(() => {
+               (MapCommand as AsyncCommand)?.RaiseCanExecuteChanged();
+               (ViewTopoCommand as AsyncCommand)?.RaiseCanExecuteChanged();
+            });
          } catch (Exception ex) {
             HandleException(ex);
          }

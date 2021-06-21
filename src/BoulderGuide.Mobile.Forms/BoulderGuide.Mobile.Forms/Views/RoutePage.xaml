@@ -28,6 +28,8 @@
       <CarouselView ItemsSource="{Binding Info.Route.Topos}"
                     PeekAreaInsets="10"
                     Margin="0, 0, 0, 5"
+                    Loop="False"
+                    Position="{Binding DisplayedTopoIndex, Mode=OneWayToSource}"
                     HorizontalOptions="Fill"
                     VerticalOptions="CenterAndExpand">
          <CarouselView.ItemTemplate>
@@ -38,31 +40,13 @@
                      CornerRadius="5"
                      HorizontalOptions="Center"
                      VerticalOptions="CenterAndExpand">
-                  <Grid>
 
-                     <localViews:TopoView
-                        VerticalOptions="Fill"
-                        HorizontalOptions="Fill"
-                        Topo="{Binding}"
-                        RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
-                        />
-
-                     <ImageButton
-                        HorizontalOptions="End"
-                        VerticalOptions="Start"
-                        Margin="0, 5, 5, 0"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=ViewTopoCommand}"
-                        CommandParameter="{Binding}"
-                        Style="{StaticResource Key=RoundAccentImageButton}">
-                        <ImageButton.Source>
-                           <FontImageSource
-                              Color="{StaticResource Key=Accent}"
-                              Glyph="{Static icons:MaterialIconFont.Fullscreen}"
-                              FontFamily="{StaticResource Key=MaterialFontFamily}" />
-                        </ImageButton.Source>
-                     </ImageButton>
-
-                  </Grid>
+                  <localViews:TopoView
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"
+                     Topo="{Binding}"
+                     RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
+                     />
 
                </Frame>
             </DataTemplate>
@@ -84,6 +68,17 @@
                         Color="{StaticResource Key=Accent}"
                         Glyph="{Static icons:MaterialIconFont.List}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ViewTopoCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.Fullscreen}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
             </ImageButton>
 

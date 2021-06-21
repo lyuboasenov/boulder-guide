@@ -35,33 +35,62 @@
             RouteInfo="{Binding Info}" />
       </views:PinchToZoomContainer>
 
-      <ImageButton
-         Grid.Row="2"
-         HorizontalOptions="End"
-         VerticalOptions="Start"
-         Margin="0, 5, 5, 0"
-         Command="{Binding ResetZoomCommand}"
-         Style="{StaticResource Key=RoundAccentImageButton}">
-         <ImageButton.Source>
-            <FontImageSource
-               Color="{StaticResource Key=Accent}"
-               Glyph="{Static icons:MaterialIconFont.Image}"
-               FontFamily="{StaticResource Key=MaterialFontFamily}" />
-         </ImageButton.Source>
-      </ImageButton>
-
-      <ImageButton
+      <Frame
          Grid.Row="3"
-         HorizontalOptions="End"
-         Command="{Binding CloseCommand}"
-         Style="{StaticResource Key=RoundAccentImageButton}">
-         <ImageButton.Source>
-            <FontImageSource
-                  Color="{StaticResource Key=Accent}"
-                  Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
-                  FontFamily="{StaticResource Key=MaterialFontFamily}" />
-         </ImageButton.Source>
-      </ImageButton>
+         HorizontalOptions="Center"
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+            Orientation="Horizontal"
+            Spacing="1">
+
+            <ImageButton
+               Command="{Binding ResetZoomCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomOutMap}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomInCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomIn}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomOutCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomOut}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding CloseCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+         </StackLayout>
+
+      </Frame>
 
    </Grid>
 
