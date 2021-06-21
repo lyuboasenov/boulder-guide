@@ -70,12 +70,7 @@
       </CarouselView>
 
       <Frame
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            IsClippedToBounds="True"
-            CornerRadius="20"
-            Padding="0"
-            Margin="10">
+         Style="{StaticResource RoundedButtonListContainer}">
 
          <StackLayout
                Orientation="Horizontal"

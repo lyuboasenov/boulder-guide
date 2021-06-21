@@ -122,12 +122,8 @@
                      ItemTemplate="{StaticResource areaRouteDataTemplateSelector}" />
 
          <Frame
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            IsClippedToBounds="True"
-            CornerRadius="20"
-            Padding="0"
-            Margin="10">
+            Style="{StaticResource RoundedButtonListContainer}">
+
             <StackLayout
                Orientation="Horizontal"
                Spacing="1">
@@ -240,12 +236,7 @@
          </ScrollView>
 
          <Frame
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            IsClippedToBounds="True"
-            CornerRadius="20"
-            Padding="0"
-            Margin="10">
+            Style="{StaticResource RoundedButtonListContainer}">
             <StackLayout
                Orientation="Horizontal"
                Spacing="1">

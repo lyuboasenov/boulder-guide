@@ -21,13 +21,13 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
       private void OnBindableMapChanged() {
          if (BindableMap is null) {
-            this.Map.Layers.Clear();
-            this.Map.ClearCache();
-            this.Map = new Map();
+            Map.Layers.Clear();
+            Map.ClearCache();
+            Map = new Map();
          } else {
-            this.Map = BindableMap;
+            Map = BindableMap;
          }
-         this.BindableMyLocationLayer = this.MyLocationLayer;
+         BindableMyLocationLayer = MyLocationLayer;
       }
 
       public static readonly BindableProperty BindableMyLocationLayerProperty =
@@ -40,6 +40,56 @@ namespace BoulderGuide.Mobile.Forms.Views {
       public Mapsui.UI.Objects.MyLocationLayer BindableMyLocationLayer {
          get { return (Mapsui.UI.Objects.MyLocationLayer) GetValue(BindableMyLocationLayerProperty); }
          private set { SetValue(BindableMyLocationLayerProperty, value); }
+      }
+
+      public static readonly BindableProperty ResolutionProperty =
+         BindableProperty.Create(
+            nameof(Resolution),
+            typeof(double),
+            typeof(BindableMapView),
+            0d,
+            propertyChanged: (b, _, __) => {
+               ((BindableMapView) b).OnResolutionChanged();
+            });
+
+      public double Resolution {
+         get { return (double) GetValue(ResolutionProperty); }
+         set { SetValue(ResolutionProperty, value); }
+      }
+
+      private void OnResolutionChanged() {
+         Navigator.ZoomTo(Resolution);
+      }
+
+      public static new readonly BindableProperty RotationProperty =
+         BindableProperty.Create(
+            nameof(Rotation),
+            typeof(double),
+            typeof(BindableMapView),
+            0d,
+            propertyChanged: (b, _, __) => {
+               ((BindableMapView) b).OnRotationChanged();
+            });
+
+      public new double Rotation {
+         get { return (double) GetValue(RotationProperty); }
+         set { SetValue(RotationProperty, value); }
+      }
+
+      private void OnRotationChanged() {
+         Navigator.RotateTo(Rotation);
+      }
+
+      public BindableMapView() {
+         Viewport.ViewportChanged += Viewport_ViewportChanged;
+      }
+
+      private void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+         if (e.PropertyName == nameof(Resolution)) {
+            Resolution = Viewport.Resolution;
+         } else if (e.PropertyName == nameof(Rotation)) {
+            Rotation = Viewport.Rotation;
+         }
       }
    }
 }

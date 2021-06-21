@@ -9,25 +9,82 @@
              Title="{Binding Title}">
    <Grid>
       <localViews:BindableMapView
+         IsMyLocationButtonVisible="False"
+         IsNorthingButtonVisible="False"
+         RotationLock="True"
          IsZoomButtonVisible="False"
          BindableMap="{Binding Map}"
          BindableMyLocationLayer="{Binding MyLocationLayer, Mode=OneWayToSource}"
-         VerticalOptions="FillAndExpand"
-         HorizontalOptions="Fill"
-         BackgroundColor="Gray" />
+         MyLocationFollow="{Binding FollowMyLocation, Mode=TwoWay}"
+         BackgroundColor="Gray"
+         Resolution="{Binding MapResolution, Mode=TwoWay}"
+         Rotation="{Binding MapRotation, Mode=TwoWay}"/>
 
-      <ImageButton
-         HorizontalOptions="Center"
-         VerticalOptions="End"
-         Margin="0, 0, 0, 10"
-         Command="{Binding GoBackCommand}"
-         Style="{StaticResource Key=RoundAccentImageButton}">
-         <ImageButton.Source>
-            <FontImageSource
-               Glyph="{Static icons:MaterialIconFont.Close}"
-               Color="{StaticResource Key=Accent}"
-               FontFamily="{StaticResource Key=MaterialFontFamily}" />
-         </ImageButton.Source>
-      </ImageButton>
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+            Orientation="Horizontal"
+            Spacing="1">
+
+            <ImageButton
+               Command="{Binding GoToMyLocationCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.MyLocation}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding NorthCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.North}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomInCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomIn}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomOutCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomOut}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding GoBackCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.Close}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+         </StackLayout>
+      </Frame>
+
+
    </Grid>
 </ContentPage>

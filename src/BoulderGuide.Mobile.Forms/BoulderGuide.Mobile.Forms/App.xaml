@@ -71,6 +71,15 @@
             <Setter Property="FontSize" Value="Medium" />
             <Setter Property="FontAttributes" Value="Bold" />
          </Style>
+
+         <Style x:Key="RoundedButtonListContainer" TargetType="Frame">
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="End" />
+            <Setter Property="IsClippedToBounds" Value="True" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="10" />
+         </Style>
       </ResourceDictionary>
 
    </Application.Resources>

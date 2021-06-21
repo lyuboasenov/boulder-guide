@@ -74,10 +74,10 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          // Add area outline
          var polygonLayer = CreateOutlineLayer(info.Area);
          map.Layers.Add(polygonLayer);
+
          map.Home = n =>
             n.NavigateTo(
-               polygonLayer.Envelope.Centroid,
-               10);
+               polygonLayer.Envelope);
 
          // Add area routes
          if (info.Routes?.Any() ?? false) {
