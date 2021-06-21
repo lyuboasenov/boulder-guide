@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
+             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.SettingsPage"
              Title="{Binding Source={Static root:Strings.Settings}}">
    <ScrollView>
       <StackLayout Padding="10">
 
-         <StackLayout>
+         <StackLayout Margin="0, 10, 0, 10">
             <StackLayout Orientation="Horizontal">
 
                <Label
@@ -24,19 +25,26 @@
 
             </StackLayout>
 
-
-            <Button
-               Text="{Binding Source={Static root:Strings.ClearLocalData}}"
+            <ImageButton
+               HorizontalOptions="End"
                Command="{Binding ClearLocalDataCommand}"
-               Margin="0, 10, 0, 0"/>
+               Style="{StaticResource Key=RoundAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.DeleteSweep}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
          </StackLayout>
 
          <BoxView Style="{StaticResource Separator}" />
 
-         <StackLayout>
+         <StackLayout Margin="0, 10, 0, 10" Orientation="Horizontal">
             <Label
                Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
-               Margin="0, 10, 0, 0" />
+               HorizontalOptions="StartAndExpand"
+               />
             <Picker
                SelectedItem="{Binding SelectedGpsPollingInterval}"
                ItemsSource="{Binding GpsPollingIntervalList}" />
@@ -44,24 +52,15 @@
 
          <BoxView Style="{StaticResource Separator}" />
 
-         <StackLayout>
-            <Label
-               Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
-               Margin="0, 10, 0, 0" />
-            <Picker
-               SelectedItem="{Binding RouteOrderByProperty}"
-               ItemsSource="{Binding RouteOrderByPropertyList}" />
-         </StackLayout>
-
-         <BoxView Style="{StaticResource Separator}" />
-
-         <StackLayout Orientation="Horizontal">
+         <StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" >
             <StackLayout.GestureRecognizers>
                <TapGestureRecognizer Command="{Binding SettingsTappedCommand}" />
             </StackLayout.GestureRecognizers>
             <Label Text="{Binding Source={Static root:Strings.Version}}" HorizontalOptions="StartAndExpand" />
             <Label Text="{Binding Version}" HorizontalOptions="End" />
          </StackLayout>
+
+         <BoxView Style="{StaticResource Separator}" />
 
       </StackLayout>
    </ScrollView>

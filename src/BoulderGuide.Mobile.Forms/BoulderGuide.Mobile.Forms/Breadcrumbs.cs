@@ -6,7 +6,7 @@ namespace BoulderGuide.Mobile.Forms {
       public static ObservableCollection<Item> Items { get; } = new ObservableCollection<Item>(new[] {
          new Item() {
             Glyph = Icons.MaterialIconFont.Home,
-            Title = Strings.Home,
+            Title = Strings.ClimbingAreas,
             Path = "/MainPage/NavigationPage/HomePage"
          }});
 
