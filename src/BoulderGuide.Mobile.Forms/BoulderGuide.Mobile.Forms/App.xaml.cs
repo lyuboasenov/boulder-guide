@@ -47,7 +47,6 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
          containerRegistry.RegisterForNavigation<AreaPage, AreaPageViewModel>();
 
-         containerRegistry.RegisterDialog<DialogPage, DialogPageViewModel>();
          containerRegistry.RegisterDialog<FilterDialogPage, FilterDialogPageViewModel>();
          containerRegistry.RegisterDialog<OrderDialogPage, OrderDialogPageViewModel>();
          containerRegistry.RegisterDialog<KeyDialogPage, KeyDialogPageViewModel>();

@@ -179,19 +179,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task Download() {
-
          if (connectivity.NetworkAccess == NetworkAccess.Internet) {
             await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
             await Info.DownloadAsync().ConfigureAwait(false);
             await activityIndicationService.FinishLoadingAsync().ConfigureAwait(false);
-         } else {
-            var dialogParams = new DialogParameters();
-            dialogParams.Add(
-               DialogPageViewModel.ParameterKeys.Message,
-               Strings.UnableToDownloadEntireArea);
-            dialogParams.Add(DialogPageViewModel.ParameterKeys.Severity, DialogPageViewModel.Severity.Error);
-
-            await DialogService.ShowDialogAsync(nameof(DialogPage), dialogParams);
          }
       }
    }
