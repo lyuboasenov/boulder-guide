@@ -2,10 +2,10 @@
 
 namespace BoulderGuide.Mobile.Forms.Services.UI {
    public interface IActivityIndicationService {
-      Task StartLoadingAsync();
+      Task<LoadingHandle> StartLoadingAsync();
       Task FinishLoadingAsync();
 
-      void StartLoading();
+      LoadingHandle StartLoading();
       void FinishLoading();
    }
 }

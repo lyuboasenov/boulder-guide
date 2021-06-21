@@ -110,33 +110,31 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task InitializeAsync() {
-         await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
+         using (var handle = await activityIndicationService.StartLoadingAsync().ConfigureAwait(false)) {
+            try {
+               await Info.LoadAreaAsync().ConfigureAwait(false);
 
-         try {
-            await Info.LoadAreaAsync().ConfigureAwait(false);
+               var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
+               var minDifficulty = preferences.FilterMinDifficulty;
+               var maxDifficulty = preferences.FilterMaxDifficulty;
+               var setting = preferences.RouteOrderByProperty;
 
-            var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
-            var minDifficulty = preferences.FilterMinDifficulty;
-            var maxDifficulty = preferences.FilterMaxDifficulty;
-            var setting = preferences.RouteOrderByProperty;
+               Children.Clear();
 
-            Children.Clear();
+               foreach (var area in OrderAreas(FilterAreas(searchTerm), setting)) {
+                  Children.Add(area);
+               }
 
-            foreach (var area in OrderAreas(FilterAreas(searchTerm), setting)) {
-               Children.Add(area);
+               foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
+                  Children.Add(route);
+               }
+
+               Children.Add(new object());
+
+               await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
+            } catch (Exception ex) {
+               HandleException(ex);
             }
-
-            foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
-               Children.Add(route);
-            }
-
-            Children.Add(new object());
-
-            await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
-         } catch (Exception ex) {
-            HandleException(ex);
-         } finally {
-            await activityIndicationService.FinishLoadingAsync().ConfigureAwait(false);
          }
       }
 
@@ -180,9 +178,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private async Task Download() {
          if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-            await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
-            await Info.DownloadAsync().ConfigureAwait(false);
-            await activityIndicationService.FinishLoadingAsync().ConfigureAwait(false);
+            using (var handle = await activityIndicationService.StartLoadingAsync().ConfigureAwait(false)) {
+               await Info.DownloadAsync().ConfigureAwait(false);
+            }
          }
       }
    }

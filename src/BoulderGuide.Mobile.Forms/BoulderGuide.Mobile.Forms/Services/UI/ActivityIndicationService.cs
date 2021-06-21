@@ -2,7 +2,6 @@
 using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
 using Xamarin.Essentials.Interfaces;
-using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.Services.UI {
    internal class ActivityIndicationService : IActivityIndicationService {
@@ -15,10 +14,8 @@ namespace BoulderGuide.Mobile.Forms.Services.UI {
          this.mainThread = mainThread;
       }
 
-      public Task StartLoadingAsync() {
-         StartLoading();
-
-         return Task.CompletedTask;
+      public Task<LoadingHandle> StartLoadingAsync() {
+         return Task.FromResult(StartLoading());
       }
 
       public Task FinishLoadingAsync() {
@@ -27,12 +24,14 @@ namespace BoulderGuide.Mobile.Forms.Services.UI {
          return Task.CompletedTask;
       }
 
-      public void StartLoading() {
+      public LoadingHandle StartLoading() {
          lock (_lock) {
             _loadingCounter++;
 
             UpdateActivityIndicationPopup();
          }
+
+         return new LoadingHandle(this);
       }
 
       public void FinishLoading() {
