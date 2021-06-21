@@ -9,7 +9,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       protected override bool OnBackButtonPressed() {
-         if (this.BindingContext is MainPageViewModel vm) {
+         if (BindingContext is MainPageViewModel vm) {
             vm.GoBackAsync();
          }
          return true;
