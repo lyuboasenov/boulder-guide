@@ -81,7 +81,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       public string GetAllText() {
          if (isPrivateUseKey) {
-            return DecryptAsText(File.OpenRead(LocalPath));
+            if (null != key) {
+               return DecryptAsText(File.OpenRead(LocalPath));
+            } else {
+               return null;
+            }
          } else {
             return File.ReadAllText(LocalPath);
          }
@@ -89,10 +93,15 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
       protected Stream GetStream() {
          if (isPrivateUseKey) {
-            return new DecryptingStream(
-               File.OpenRead(LocalPath),
-               key.Item1,
-               key.Item2);
+            if (null != key) {
+               return new DecryptingStream(
+                  File.OpenRead(LocalPath),
+                  key.Item1,
+                  key.Item2);
+            } else {
+               return null;
+            }
+
          } else {
             return File.OpenRead(LocalPath);
          }

@@ -7,7 +7,7 @@
        xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
        xmlns:xamarinforms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
        x:Class="BoulderGuide.Mobile.Forms.Views.TopoDialogPage"
-       Style="{StaticResource Key=DialogFrameStyle}">
+       Style="{StaticResource Key=FullScreenDialogFrameStyle}">
 
    <Frame.Resources>
       <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
@@ -23,16 +23,9 @@
 
       <Label
          Text="{Binding Info, Converter={StaticResource Key=RouteInfoToTitleConverter}}"
-         HorizontalOptions="Start"
-         FontSize="Medium"
-         FontAttributes="Bold" />
+         Style="{StaticResource DialogTitle}" />
 
-      <BoxView
-         Grid.Row="1"
-         HorizontalOptions="Fill"
-         HeightRequest="2"
-         Color="{StaticResource Key=Accent}" />
-
+      <BoxView Grid.Row="1" Style="{StaticResource Separator}" />
 
       <views:PinchToZoomContainer
          Grid.Row="2"
@@ -48,7 +41,7 @@
          VerticalOptions="Start"
          Margin="0, 5, 5, 0"
          Command="{Binding ResetZoomCommand}"
-         Style="{StaticResource Key=RoundImageButton}">
+         Style="{StaticResource Key=RoundAccentImageButton}">
          <ImageButton.Source>
             <FontImageSource
                Color="{StaticResource Key=Accent}"
@@ -61,7 +54,7 @@
          Grid.Row="3"
          HorizontalOptions="End"
          Command="{Binding CloseCommand}"
-         Style="{StaticResource Key=RoundImageButton}">
+         Style="{StaticResource Key=RoundAccentImageButton}">
          <ImageButton.Source>
             <FontImageSource
                   Color="{StaticResource Key=Accent}"

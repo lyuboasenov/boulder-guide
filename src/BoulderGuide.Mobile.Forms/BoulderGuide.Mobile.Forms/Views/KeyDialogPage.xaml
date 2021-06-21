@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame
+   xmlns="http://xamarin.com/schemas/2014/forms"
+   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:prism="http://prismlibrary.com"
+   prism:ViewModelLocator.AutowireViewModel="True"
+   xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+   xmlns:roots="clr-namespace:BoulderGuide.Mobile.Forms"
+   x:Class="BoulderGuide.Mobile.Forms.Views.KeyDialogPage"
+   Style="{StaticResource Key=FitToContentDialogFrameStyle}">
+
+   <StackLayout>
+
+      <Label
+         Text="{Static roots:Strings.Key}"
+         Style="{StaticResource DialogTitle}" />
+
+      <BoxView Style="{StaticResource Separator}" />
+
+      <Editor
+         Text="{Binding Key}"
+         VerticalOptions="StartAndExpand"
+         HeightRequest="200" />
+
+      <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+         <ImageButton
+            Command="{Binding UnlockCommand}"
+            Style="{StaticResource Key=RoundAccentImageButton}">
+            <ImageButton.Source>
+               <FontImageSource
+                  Glyph="{Static icons:MaterialIconFont.LockOpen}"
+                  Color="{StaticResource Key=Accent}"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}" />
+            </ImageButton.Source>
+         </ImageButton>
+
+         <ImageButton
+            Command="{Binding LockCommand}"
+            Style="{StaticResource Key=RoundAccentImageButton}">
+            <ImageButton.Source>
+               <FontImageSource
+                  Glyph="{Static icons:MaterialIconFont.Lock}"
+                  Color="{StaticResource Key=Accent}"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}" />
+            </ImageButton.Source>
+         </ImageButton>
+      </StackLayout>
+
+   </StackLayout>
+
+</Frame>

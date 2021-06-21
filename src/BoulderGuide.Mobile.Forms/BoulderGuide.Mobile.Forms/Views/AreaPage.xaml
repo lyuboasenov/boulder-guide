@@ -6,7 +6,7 @@
             xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons" xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
             prism:ViewModelLocator.AutowireViewModel="True"
-            x:Class="BoulderGuide.Mobile.Forms.Views.AreaDetailsPage"
+            x:Class="BoulderGuide.Mobile.Forms.Views.AreaPage"
             BarBackgroundColor="{StaticResource Primary}"
             Title="{Binding Info.Name}">
 
@@ -141,14 +141,83 @@
             FontFamily="{StaticResource Key=MaterialFontFamily}" />
       </ContentPage.IconImageSource>
 
-      <StackLayout>
+      <Grid>
 
          <ListView ItemsSource="{Binding Children}"
                      SelectedItem="{Binding SelectedChild}"
                      Margin="10"
                      ItemTemplate="{StaticResource areaRouteDataTemplateSelector}" />
 
-      </StackLayout>
+         <Frame
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            IsClippedToBounds="True"
+            CornerRadius="20"
+            Padding="0"
+            Margin="10">
+            <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+
+               <ImageButton
+                  Command="{Binding GoBackCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.List}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding DownloadCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.CloudDownload}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding FilterCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.FilterList}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding OrderCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.Sort}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding MapCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.Place}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+            </StackLayout>
+         </Frame>
+
+      </Grid>
 
    </ContentPage>
 

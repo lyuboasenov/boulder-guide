@@ -2,20 +2,52 @@
 <Frame xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:prism="http://prismlibrary.com"
+       xmlns:roots="clr-namespace:BoulderGuide.Mobile.Forms"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
        prism:ViewModelLocator.AutowireViewModel="True"
        x:Class="BoulderGuide.Mobile.Forms.Views.OrderDialogPage"
-       Margin="20"
-       HasShadow="True"
-       BorderColor="LightGray"
-       BackgroundColor="white"
-       Padding="10"
-       CornerRadius="5"
-       HorizontalOptions="Center">
+       Style="{StaticResource Key=FitToContentDialogFrameStyle}">
 
-   <ListView
-      HeightRequest="178"
-      WidthRequest="150"
-      ItemsSource="{Binding OrderOptions}"
-      SelectedItem="{Binding SelectedOrderOption}"
-      SelectionMode="Single" />
+   <StackLayout>
+
+      <Label
+         Text="{Static roots:Strings.Order}"
+         Style="{StaticResource DialogTitle}" />
+
+      <BoxView Style="{StaticResource Separator}" />
+
+      <CollectionView
+         HeightRequest="200"
+         ItemsSource="{Binding OrderOptions}"
+         SelectedItem="{Binding SelectedOrderOption}"
+         SelectionMode="Single">
+         <CollectionView.ItemTemplate>
+            <DataTemplate>
+               <Grid
+                  BackgroundColor="White"
+                  HeightRequest="40">
+                  <Label
+                     Text="{Binding}"
+                     TextColor="{StaticResource Accent}"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     FontSize="Medium" />
+               </Grid>
+            </DataTemplate>
+         </CollectionView.ItemTemplate>
+      </CollectionView>
+
+      <ImageButton
+         HorizontalOptions="End"
+         Command="{Binding CloseCommand}"
+         Style="{StaticResource Key=RoundAccentImageButton}">
+         <ImageButton.Source>
+            <FontImageSource
+               Glyph="{Static icons:MaterialIconFont.Close}"
+               Color="{StaticResource Key=Accent}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+         </ImageButton.Source>
+      </ImageButton>
+
+   </StackLayout>
 </Frame>

@@ -16,7 +16,7 @@ using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
-   public class AreaDetailsPageViewModel : ViewModelBase {
+   public class AreaPageViewModel : ViewModelBase {
 
       private readonly IDataService dataService;
       private readonly IConnectivity connectivity;
@@ -27,11 +27,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
       public ICommand FilterCommand { get; }
       public ICommand OrderCommand { get; }
+      public ICommand GoBackCommand { get; }
       public AreaInfo Info { get; set; }
       public object SelectedChild { get; set; }
       public ObservableCollection<object> Children { get; set; } = new ObservableCollection<object>();
 
-      public AreaDetailsPageViewModel(
+      public AreaPageViewModel(
          IDataService dataService,
          IConnectivity connectivity,
          IActivityIndicationService activityIndicationService,
@@ -45,6 +46,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          FilterCommand = new AsyncCommand(Filter);
          OrderCommand = new AsyncCommand(Order);
          MapCommand = new AsyncCommand(Map, CanShowMap);
+         GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
       private async Task Order() {
@@ -91,7 +93,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          if (SelectedChild is AreaInfo areaInfo) {
             await NavigateAsync(
                areaInfo.Name,
-               $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
+               $"/MainPage/NavigationPage/{nameof(AreaPage)}",
                InitializeParameters(areaInfo),
                Icons.MaterialIconFont.Terrain).ConfigureAwait(false);
          } else if (SelectedChild is RouteInfo routeInfo) {
@@ -127,6 +129,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
                Children.Add(route);
             }
+
+            Children.Add(new object());
 
             await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
          } catch (Exception ex) {

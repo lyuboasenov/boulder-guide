@@ -5,19 +5,14 @@
        xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
        prism:ViewModelLocator.AutowireViewModel="True"
        x:Class="BoulderGuide.Mobile.Forms.Views.TextViewDialogPage"
-       Style="{StaticResource Key=DialogFrameStyle}">
+       Style="{StaticResource Key=FullScreenDialogFrameStyle}">
 
    <StackLayout>
       <Label
          Text="{Binding Title}"
-         HorizontalOptions="Start"
-         FontSize="Medium"
-         FontAttributes="Bold" />
+         Style="{StaticResource DialogTitle}" />
 
-      <BoxView
-         HorizontalOptions="Fill"
-         HeightRequest="2"
-         Color="{StaticResource Key=Accent}" />
+      <BoxView Style="{StaticResource Separator}" />
 
       <ScrollView
          VerticalOptions="StartAndExpand">
@@ -31,7 +26,7 @@
       <ImageButton
          HorizontalOptions="End"
          Command="{Binding CloseCommand}"
-         Style="{StaticResource Key=RoundImageButton}">
+         Style="{StaticResource Key=RoundAccentImageButton}">
          <ImageButton.Source>
             <FontImageSource
                   Glyph="{Static icons:MaterialIconFont.Close}"

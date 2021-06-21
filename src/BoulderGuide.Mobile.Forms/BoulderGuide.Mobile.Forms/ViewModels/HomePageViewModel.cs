@@ -4,7 +4,6 @@ using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -48,8 +47,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private async Task NavigateToAreaAsync() {
          await NavigateAsync(
             SelectedAreaInfo.Name,
-            $"/MainPage/NavigationPage/{nameof(AreaDetailsPage)}",
-            AreaDetailsPageViewModel.InitializeParameters(SelectedAreaInfo),
+            $"/MainPage/NavigationPage/{nameof(AreaPage)}",
+            AreaPageViewModel.InitializeParameters(SelectedAreaInfo),
             Icons.MaterialIconFont.Terrain);
       }
 

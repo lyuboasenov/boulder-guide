@@ -1,19 +1,12 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
-   public class FilterDialogPageViewModel : BindableBase, IDialogAware {
+   public class FilterDialogPageViewModel : DialogViewModelBase {
       private readonly Services.Preferences.IPreferences preferences;
 
       public ICommand DoneCommand { get; }
-      public ICommand CloseCommand { get; }
 
       public string SearchTerm { get; set; }
       public int MinDifficulty { get; set; }
@@ -24,21 +17,18 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.preferences = preferences;
 
          DoneCommand = new Command(async () => await Done());
-         CloseCommand = new Command(async () => await Close());
 
          SearchTerm = preferences.FilterSearchTerm;
          MinDifficulty = preferences.FilterMinDifficulty;
          MaxDifficulty = preferences.FilterMaxDifficulty;
       }
 
-      private Task Close() {
+      protected override void Close() {
          preferences.FilterSearchTerm = string.Empty;
          preferences.FilterMinDifficulty = 0;
          preferences.FilterMaxDifficulty = 150;
 
-         RequestClose?.Invoke(null);
-
-         return Task.CompletedTask;
+         base.Close();
       }
 
       private Task Done() {
@@ -47,20 +37,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          preferences.FilterMinDifficulty = MinDifficulty;
          preferences.FilterMaxDifficulty = MaxDifficulty;
 
-         RequestClose?.Invoke(null);
+         Close();
 
          return Task.CompletedTask;
       }
-
-      public bool CanCloseDialog() => true;
-
-      public void OnDialogClosed() { }
-
-      public void OnDialogOpened(IDialogParameters parameters) {
-
-      }
-
-      public event Action<IDialogParameters> RequestClose;
-
    }
 }

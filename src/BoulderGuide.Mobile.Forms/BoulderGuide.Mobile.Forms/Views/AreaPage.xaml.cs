@@ -1,8 +1,8 @@
 ﻿using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.Views {
-   public partial class AreaDetailsPage : TabbedPage {
-      public AreaDetailsPage() {
+   public partial class AreaPage : TabbedPage {
+      public AreaPage() {
          InitializeComponent();
       }
    }

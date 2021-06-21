@@ -26,11 +26,10 @@
             <Setter Property="BarTextColor" Value="White" />
          </Style>
 
-         <Style x:Key="RoundImageButton" TargetType="ImageButton">
+         <Style x:Key="AccentImageButton" TargetType="ImageButton">
             <Setter Property="BackgroundColor" Value="#88449bc9" />
             <Setter Property="WidthRequest" Value="40" />
             <Setter Property="HeightRequest" Value="40" />
-            <Setter Property="CornerRadius" Value="20" />
             <Setter Property="Padding" Value="5" />
             <Style.Triggers>
                <Trigger Property="IsEnabled" Value="False" TargetType="ImageButton">
@@ -39,13 +38,38 @@
             </Style.Triggers>
          </Style>
 
-         <Style x:Key="DialogFrameStyle" TargetType="Frame">
+         <Style x:Key="RoundAccentImageButton" TargetType="ImageButton" BasedOn="{StaticResource Key=AccentImageButton}">
+            <Setter Property="CornerRadius" Value="20" />
+         </Style>
+
+         <Style x:Key="ListAccentImageButton" TargetType="ImageButton" BasedOn="{StaticResource Key=AccentImageButton}">
+            <Setter Property="CornerRadius" Value="0" />
+         </Style>
+
+         <Style x:Key="BaseFullScreenDialogFrameStyle" TargetType="Frame">
             <Setter Property="HasShadow" Value="True" />
             <Setter Property="BorderColor" Value="LightGray" />
             <Setter Property="BackgroundColor" Value="White" />
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="prism:DialogLayout.RelativeWidthRequest" Value="0.9" />
+         </Style>
+
+         <Style x:Key="FullScreenDialogFrameStyle" TargetType="Frame" BasedOn="{StaticResource BaseFullScreenDialogFrameStyle}">
             <Setter Property="prism:DialogLayout.RelativeHeightRequest" Value="0.9" />
+         </Style>
+
+         <Style x:Key="FitToContentDialogFrameStyle" TargetType="Frame" BasedOn="{StaticResource BaseFullScreenDialogFrameStyle}" />
+
+         <Style x:Key="Separator" TargetType="BoxView">
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="HeightRequest" Value="2" />
+            <Setter Property="Color" Value="{StaticResource Key=Accent}" />
+         </Style>
+
+         <Style x:Key="DialogTitle" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="FontAttributes" Value="Bold" />
          </Style>
       </ResourceDictionary>
 

@@ -7,62 +7,62 @@
              x:Class="BoulderGuide.Mobile.Forms.Views.SettingsPage"
              Title="{Binding Source={Static root:Strings.Settings}}">
    <ScrollView>
-      <StackLayout>
+      <StackLayout Padding="10">
 
-         <Frame BorderColor="Gray" HasShadow="False" Margin="5" Padding="5">
-            <StackLayout>
-               <StackLayout Orientation="Horizontal">
-
-                  <Label
-                     Text="{Binding Source={Static root:Strings.LocalStorageSizeInMB}}"
-                     HorizontalOptions="StartAndExpand"
-                     />
-
-                  <Label
-                     Text="{Binding LocalStorageSizeInMB, StringFormat='{0} MB' }"
-                     HorizontalOptions="End"
-                   />
-
-               </StackLayout>
-
-
-               <Button Text="{Binding Source={Static root:Strings.ClearLocalData}}"
-                  Command="{Binding ClearLocalDataCommand}"
-                  Margin="0, 10, 0, 0"/>
-            </StackLayout>
-         </Frame>
-
-         <Frame BorderColor="Gray" HasShadow="False" Margin="5, 0, 5, 5" Padding="5">
-            <StackLayout>
-               <Label
-                  Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
-                  Margin="0, 10, 0, 0" />
-               <Picker
-                  SelectedItem="{Binding SelectedGpsPollingInterval}"
-                  ItemsSource="{Binding GpsPollingIntervalList}" />
-            </StackLayout>
-         </Frame>
-
-         <Frame BorderColor="Gray" HasShadow="False" Margin="5, 0, 5, 5" Padding="5">
-            <StackLayout>
-               <Label
-                  Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
-                  Margin="0, 10, 0, 0" />
-               <Picker
-                  SelectedItem="{Binding RouteOrderByProperty}"
-                  ItemsSource="{Binding RouteOrderByPropertyList}" />
-            </StackLayout>
-         </Frame>
-
-         <Frame BorderColor="Gray" HasShadow="False" Margin="5, 0, 5, 5" Padding="5">
-            <Frame.GestureRecognizers>
-               <TapGestureRecognizer Command="{Binding SettingsTappedCommand}" />
-            </Frame.GestureRecognizers>
+         <StackLayout>
             <StackLayout Orientation="Horizontal">
-               <Label Text="{Binding Source={Static root:Strings.Version}}" HorizontalOptions="StartAndExpand" />
-               <Label Text="{Binding Version}" HorizontalOptions="End" />
+
+               <Label
+                  Text="{Binding Source={Static root:Strings.LocalStorageSizeInMB}}"
+                  HorizontalOptions="StartAndExpand"
+                  />
+
+               <Label
+                  Text="{Binding LocalStorageSizeInMB, StringFormat='{0} MB' }"
+                  HorizontalOptions="End"
+                  />
+
             </StackLayout>
-         </Frame>
+
+
+            <Button
+               Text="{Binding Source={Static root:Strings.ClearLocalData}}"
+               Command="{Binding ClearLocalDataCommand}"
+               Margin="0, 10, 0, 0"/>
+         </StackLayout>
+
+         <BoxView Style="{StaticResource Separator}" />
+
+         <StackLayout>
+            <Label
+               Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
+               Margin="0, 10, 0, 0" />
+            <Picker
+               SelectedItem="{Binding SelectedGpsPollingInterval}"
+               ItemsSource="{Binding GpsPollingIntervalList}" />
+         </StackLayout>
+
+         <BoxView Style="{StaticResource Separator}" />
+
+         <StackLayout>
+            <Label
+               Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
+               Margin="0, 10, 0, 0" />
+            <Picker
+               SelectedItem="{Binding RouteOrderByProperty}"
+               ItemsSource="{Binding RouteOrderByPropertyList}" />
+         </StackLayout>
+
+         <BoxView Style="{StaticResource Separator}" />
+
+         <StackLayout Orientation="Horizontal">
+            <StackLayout.GestureRecognizers>
+               <TapGestureRecognizer Command="{Binding SettingsTappedCommand}" />
+            </StackLayout.GestureRecognizers>
+            <Label Text="{Binding Source={Static root:Strings.Version}}" HorizontalOptions="StartAndExpand" />
+            <Label Text="{Binding Version}" HorizontalOptions="End" />
+         </StackLayout>
+
       </StackLayout>
    </ScrollView>
 </ContentPage>

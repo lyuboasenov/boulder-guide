@@ -48,10 +48,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task SettingsTapped() {
-         if (DateTime.Now.Subtract(lastTapped).TotalSeconds <= 2) {
+         if (DateTime.Now.Subtract(lastTapped).TotalSeconds <= 1) {
             tapCounter++;
-            if (tapCounter >= 9) {
-               await DialogService.ShowDialogAsync(nameof(EnterPasswordDialogPage));
+            if (tapCounter == 9) {
+               await DialogService.ShowDialogAsync(nameof(KeyDialogPage)).ConfigureAwait(false);
                tapCounter = 0;
             }
          } else {

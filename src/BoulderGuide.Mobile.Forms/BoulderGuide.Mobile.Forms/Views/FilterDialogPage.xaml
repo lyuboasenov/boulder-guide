@@ -8,17 +8,19 @@
        xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
        xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
        x:Class="BoulderGuide.Mobile.Forms.Views.FilterDialogPage"
-       Margin="20"
-       HasShadow="True"
-       BorderColor="LightGray"
-       BackgroundColor="white"
-       Padding="10"
-       CornerRadius="5"
-       HorizontalOptions="Center">
+       Style="{StaticResource Key=FitToContentDialogFrameStyle}">
+
    <Frame.Resources>
       <xamForms:DifficultyToGradeConverter x:Key="difficultyToGradeConverter" />
    </Frame.Resources>
-   <StackLayout IsVisible="{Binding IsFilterVisible}">
+
+   <StackLayout>
+
+      <Label
+         Text="{Static roots:Strings.Filter}"
+         Style="{StaticResource DialogTitle}" />
+
+      <BoxView Style="{StaticResource Separator}" />
 
       <Frame
          Padding="0"
@@ -32,7 +34,7 @@
             SearchCommand="{Binding DoneCommand}" />
       </Frame>
 
-      <Grid>
+      <Grid VerticalOptions="CenterAndExpand">
          <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="*" />
@@ -70,26 +72,22 @@
 
          <ImageButton
             Command="{Binding DoneCommand}"
-            BackgroundColor="Transparent"
-            WidthRequest="40"
-            HeightRequest="40">
+            Style="{StaticResource Key=RoundAccentImageButton}">
             <ImageButton.Source>
                <FontImageSource
-                        Glyph="{Static icons:MaterialIconFont.Done}"
-                        Color="Gray"
+                        Glyph="{Static icons:MaterialIconFont.FilterList}"
+                        Color="{StaticResource Key=Accent}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
             </ImageButton.Source>
          </ImageButton>
 
          <ImageButton
             Command="{Binding CloseCommand}"
-            BackgroundColor="Transparent"
-            WidthRequest="40"
-            HeightRequest="40">
+            Style="{StaticResource Key=RoundAccentImageButton}">
             <ImageButton.Source>
                <FontImageSource
                         Glyph="{Static icons:MaterialIconFont.Close}"
-                        Color="Gray"
+                        Color="{StaticResource Key=Accent}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
             </ImageButton.Source>
          </ImageButton>

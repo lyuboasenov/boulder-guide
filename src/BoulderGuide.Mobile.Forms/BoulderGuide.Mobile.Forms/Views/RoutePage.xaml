@@ -64,7 +64,7 @@
                         Margin="0, 5, 5, 0"
                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=ViewTopoCommand}"
                         CommandParameter="{Binding}"
-                        Style="{StaticResource Key=RoundImageButton}">
+                        Style="{StaticResource Key=RoundAccentImageButton}">
                         <ImageButton.Source>
                            <FontImageSource
                               Color="{StaticResource Key=Accent}"

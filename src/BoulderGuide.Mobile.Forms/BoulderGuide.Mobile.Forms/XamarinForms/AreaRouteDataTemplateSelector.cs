@@ -11,9 +11,15 @@ namespace BoulderGuide.Mobile.Forms.XamarinForms {
             return AreaTemplate;
          } else if (item is RouteInfo) {
             return RouteTemplate;
+         } else {
+            return new DataTemplate(() => {
+               return new ViewCell {
+                  View = new Grid() {
+                     BackgroundColor = Color.White
+                  }
+               };
+            });
          }
-
-         return null;
       }
    }
 }
