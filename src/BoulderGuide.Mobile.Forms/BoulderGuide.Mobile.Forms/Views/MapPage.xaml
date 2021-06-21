@@ -2,15 +2,32 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
              xmlns:localViews="clr-namespace:BoulderGuide.Mobile.Forms.Views"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.MapPage"
              Title="{Binding Title}">
-   <localViews:BindableMapView
-      IsZoomButtonVisible="False"
+   <Grid>
+      <localViews:BindableMapView
+         IsZoomButtonVisible="False"
          BindableMap="{Binding Map}"
          BindableMyLocationLayer="{Binding MyLocationLayer, Mode=OneWayToSource}"
          VerticalOptions="FillAndExpand"
          HorizontalOptions="Fill"
          BackgroundColor="Gray" />
+
+      <ImageButton
+         HorizontalOptions="Center"
+         VerticalOptions="End"
+         Margin="0, 0, 0, 10"
+         Command="{Binding GoBackCommand}"
+         Style="{StaticResource Key=RoundAccentImageButton}">
+         <ImageButton.Source>
+            <FontImageSource
+               Glyph="{Static icons:MaterialIconFont.Close}"
+               Color="{StaticResource Key=Accent}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+         </ImageButton.Source>
+      </ImageButton>
+   </Grid>
 </ContentPage>

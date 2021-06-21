@@ -14,9 +14,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
       public ICommand ViewTopoCommand { get; }
 
+      public ICommand GoBackCommand { get; }
+
       public RoutePageViewModel() {
          MapCommand = new AsyncCommand(Map, CanShowMap);
          ViewTopoCommand = new AsyncCommand<Topo>(ViewTopo);
+         GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
       public override bool CanNavigate(INavigationParameters parameters) {

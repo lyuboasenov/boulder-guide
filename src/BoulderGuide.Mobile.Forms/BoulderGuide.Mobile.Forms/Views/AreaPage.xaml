@@ -107,33 +107,6 @@
          RouteTemplate="{StaticResource Key=routeTemplate}"/>
    </TabbedPage.Resources>
 
-   <TabbedPage.ToolbarItems>
-      <ToolbarItem
-         Command="{Binding MapCommand}">
-         <ToolbarItem.IconImageSource>
-            <FontImageSource
-               Glyph="{Static icons:MaterialIconFont.Place}"
-               FontFamily="{StaticResource Key=MaterialFontFamily}"/>
-         </ToolbarItem.IconImageSource>
-      </ToolbarItem>
-
-      <ToolbarItem
-         Text="{Static root:Strings.Download}"
-         Order="Secondary"
-         Command="{Binding DownloadCommand}"/>
-
-      <ToolbarItem
-         Text="{Static root:Strings.Filter}"
-         Order="Secondary"
-         Command="{Binding FilterCommand}" />
-
-      <ToolbarItem
-         Text="{Static root:Strings.Order}"
-         Order="Secondary"
-         Command="{Binding OrderCommand}"/>
-
-   </TabbedPage.ToolbarItems>
-
    <ContentPage>
       <ContentPage.IconImageSource>
          <FontImageSource
@@ -228,41 +201,92 @@
             FontFamily="{StaticResource Key=MaterialFontFamily}" />
       </ContentPage.IconImageSource>
 
-      <ScrollView>
-         <StackLayout>
+      <Grid>
 
-            <views:TextView
+         <ScrollView>
+            <StackLayout>
+
+               <views:TextView
                Title="{Static root:Strings.AreaInfo}"
                Text="{Binding Info.Area.Info}"
                InvisibleIfNoText="True" />
 
-            <views:TextView
+               <views:TextView
                Title="{Static root:Strings.AreaAccess}"
                Text="{Binding Info.Area.Access}"
                InvisibleIfNoText="True" />
 
-            <views:TextView
+               <views:TextView
                Title="{Static root:Strings.AreaEthics}"
                Text="{Binding Info.Area.Ethics}"
                InvisibleIfNoText="True" />
 
-            <views:TextView
+               <views:TextView
                Title="{Static root:Strings.AreaHistory}"
                Text="{Binding Info.Area.History}"
                InvisibleIfNoText="True" />
 
-            <views:TextView
+               <views:TextView
                Title="{Static root:Strings.AreaAccommodations}"
                Text="{Binding Info.Area.Accommodations}"
                InvisibleIfNoText="True" />
 
-            <views:TextView
+               <views:TextView
                Title="{Static root:Strings.AreaRestrictions}"
                Text="{Binding Info.Area.Restrictions}"
                InvisibleIfNoText="True" />
 
-         </StackLayout>
-      </ScrollView>
+            </StackLayout>
+         </ScrollView>
+
+         <Frame
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            IsClippedToBounds="True"
+            CornerRadius="20"
+            Padding="0"
+            Margin="10">
+            <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+
+               <ImageButton
+                  Command="{Binding GoBackCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.List}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding DownloadCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.CloudDownload}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding MapCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.Place}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+            </StackLayout>
+         </Frame>
+
+      </Grid>
    </ContentPage>
 
 </TabbedPage>

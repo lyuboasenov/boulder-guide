@@ -3,6 +3,8 @@ using BoulderGuide.Mobile.Forms.Services.Data.Entities;
 using BoulderGuide.Mobile.Forms.Services.Location;
 using Prism.Navigation;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class MapPageViewModel : ViewModelBase {
@@ -11,9 +13,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public Mapsui.Map Map { get; set; }
       public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
+      public ICommand GoBackCommand { get; }
       public MapPageViewModel(
          ILocationService locationService) {
          this.locationService = locationService;
+         GoBackCommand = new AsyncCommand(GoBackAsync);
 
          locationService.LocationUpdated += LocationService_LocationUpdated;
       }
