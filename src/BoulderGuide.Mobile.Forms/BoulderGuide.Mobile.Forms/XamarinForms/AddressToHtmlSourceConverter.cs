@@ -9,18 +9,18 @@ namespace BoulderGuide.Mobile.Forms.XamarinForms {
             !string.IsNullOrEmpty(address)) {
 
             string html;
-            if (address.IndexOf("instagram", StringComparison.InvariantCultureIgnoreCase) >= 0) {
+            if (Uri.TryCreate(address, UriKind.Absolute, out Uri _)) {
                html = $@"
 <html>
    <body>
-      {address}
+      <iframe src=""{address}"" frameborder=""0"" allow=""accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"" style=""width:100%;height:100%;"" allowfullscreen ></iframe>
    </body>
 </html>";
             } else {
                html = $@"
 <html>
    <body>
-      <iframe src=""{address}"" frameborder=""0"" allow=""accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"" style=""width:100%;height:100%;"" allowfullscreen ></iframe>
+      {address}
    </body>
 </html>";
             }
