@@ -15,12 +15,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public int DisplayedTopoIndex { get; set; }
       public ICommand MapCommand { get; }
       public ICommand ViewTopoCommand { get; }
-
+      public ICommand VideosCommand { get; }
       public ICommand GoBackCommand { get; }
 
       public RoutePageViewModel() {
          MapCommand = new AsyncCommand(Map, CanShowMap);
          ViewTopoCommand = new AsyncCommand(ViewTopo, CanViewTopo);
+         VideosCommand = new AsyncCommand(Videos, CanVideos);
          GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
@@ -44,6 +45,17 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private bool CanShowMap() {
          return Info?.Route != null;
+      }
+
+      private bool CanVideos() {
+         return Info?.Route?.Videos?.Any() ?? false;
+      }
+
+      private async Task Videos() {
+         await ShowDialogAsync(
+            nameof(VideosDialogPage),
+            VideosDialogPageViewModel.InitializeParameters(Info)).
+            ConfigureAwait(false);
       }
 
       private async Task Map() {
@@ -71,6 +83,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             await RunOnMainThreadAsync(() => {
                (MapCommand as AsyncCommand)?.RaiseCanExecuteChanged();
                (ViewTopoCommand as AsyncCommand)?.RaiseCanExecuteChanged();
+               (VideosCommand as AsyncCommand)?.RaiseCanExecuteChanged();
             });
          } catch (Exception ex) {
             HandleException(ex);

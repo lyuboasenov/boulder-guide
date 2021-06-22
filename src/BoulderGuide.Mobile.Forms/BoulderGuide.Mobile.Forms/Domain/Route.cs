@@ -23,6 +23,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public IEnumerable<Image> Images { get; private set; }
       public string Info => dto?.Info;
       public IEnumerable<Topo> Topos => dto?.Topos;
+      public IEnumerable<string> Videos => dto?.Videos;
 
 
       public override async Task DownloadAsync(bool force = false) {

@@ -22,7 +22,7 @@ namespace BoulderGuide.Wpf {
       private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
       private Size currentImageSize;
-      private Size currentCanvasControlSize;
+      private RouteDTO route;
 
       public RouteWindow() {
          InitializeComponent();
@@ -34,12 +34,13 @@ namespace BoulderGuide.Wpf {
 
          var fi = new FileInfo(path);
 
-         var route = JsonConvert.DeserializeObject<RouteDTO>(File.ReadAllText(path), Shape.StandardJsonConverter);
+         route = JsonConvert.DeserializeObject<RouteDTO>(File.ReadAllText(path), Shape.StandardJsonConverter);
 
          txtId.Text = route.Id;
          txtName.Text = route.Name;
          txtInfo.Text = route.Info;
          txtTags.Text = string.Join(',', route.Tags);
+         txtVideos.Text = string.Join(Environment.NewLine, route.Videos);
          foreach (var item in lstGrade.Items) {
             if (item is ComboBoxItem ci &&
                double.Parse(ci.DataContext.ToString()) == route.Difficulty) {
@@ -79,14 +80,13 @@ namespace BoulderGuide.Wpf {
       }
 
       private void SaveRoute(DirectoryInfo saveDirectory) {
-         var result = new RouteDTO() {
-            Id = txtId.Text,
-            Name = txtName.Text,
-            Info = txtInfo.Text,
-            Difficulty = double.Parse((lstGrade.SelectedItem as ComboBoxItem).DataContext.ToString()),
-            Tags = txtTags.Text.Split(',', StringSplitOptions.RemoveEmptyEntries)
-         };
-
+         var result = route ?? new RouteDTO();
+         result.Id = txtId.Text;
+         result.Name = txtName.Text;
+         result.Info = txtInfo.Text;
+         result.Difficulty = double.Parse((lstGrade.SelectedItem as ComboBoxItem).DataContext.ToString());
+         result.Tags = txtTags.Text.Split(',', StringSplitOptions.RemoveEmptyEntries);
+         result.Videos = txtVideos.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
          if (txtLocation.Text.Length > 0) {
             result.Location = new Location(txtLocation.Text);
@@ -169,7 +169,6 @@ namespace BoulderGuide.Wpf {
 
       private void skCanvas_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e) {
          currentImageSize = new Size();
-         currentCanvasControlSize = new Size();
 
          if (!string.IsNullOrEmpty(selectedSchemas?.Id)) {
             using (var bitmap = SkiaSharpExtensions.LoadBitmap(selectedSchemas?.Id, skCanvas.CanvasSize.Width, skCanvas.CanvasSize.Height))

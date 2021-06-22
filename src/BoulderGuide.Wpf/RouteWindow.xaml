@@ -27,11 +27,10 @@
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
                   <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
                </Grid.RowDefinitions>
 
                <TextBlock Grid.Row="0" Text="Id" />
@@ -79,6 +78,8 @@
                <TextBlock Grid.Row="5" Text="Location" />
                <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation" />
 
+               <TextBlock Grid.Row="6" Text="Videos" />
+               <TextBox Grid.Row="6" Grid.Column="1" Name="txtVideos" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
             </Grid>
          </TabItem>
          <TabItem Header="Schema" Name="tabSchema">

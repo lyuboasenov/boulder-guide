@@ -37,9 +37,9 @@
                <Frame HasShadow="True"
                       BorderColor="LightGray"
                       Padding="5"
-                     CornerRadius="5"
-                     HorizontalOptions="Center"
-                     VerticalOptions="CenterAndExpand">
+                      CornerRadius="5"
+                      HorizontalOptions="Center"
+                      VerticalOptions="CenterAndExpand">
 
                   <localViews:TopoView
                      VerticalOptions="Fill"
@@ -89,6 +89,17 @@
                   <FontImageSource
                         Color="{StaticResource Key=Accent}"
                         Glyph="{Static icons:MaterialIconFont.Place}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+                  Command="{Binding VideosCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.VideoLibrary}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
             </ImageButton>

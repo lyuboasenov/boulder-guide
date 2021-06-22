@@ -12,6 +12,7 @@ namespace BoulderGuide.Wpf {
    /// </summary>
    public partial class AreaWindow : Window {
       private string path;
+      private AreaDTO area;
 
       public AreaWindow() {
          InitializeComponent();
@@ -44,17 +45,16 @@ namespace BoulderGuide.Wpf {
       }
 
       private object InitializeArea() {
-         var result = new AreaDTO() {
-            Id = txtId.Text,
-            Name = txtName.Text,
-            Info = txtInfo.Text,
-            Access = txtAccess.Text,
-            Accommodations = txtAccommodations.Text,
-            Ethics = txtEthics.Text,
-            History = txtHistory.Text,
-            Restrictions = txtRestrictions.Text,
-            Tags = txtTags.Text.Split(',', StringSplitOptions.RemoveEmptyEntries)
-         };
+         var result = area ?? new AreaDTO();
+         result.Id = txtId.Text;
+         result.Name = txtName.Text;
+         result.Info = txtInfo.Text;
+         result.Access = txtAccess.Text;
+         result.Accommodations = txtAccommodations.Text;
+         result.Ethics = txtEthics.Text;
+         result.History = txtHistory.Text;
+         result.Restrictions = txtRestrictions.Text;
+         result.Tags = txtTags.Text.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
          var locations = new List<Location>();
          if (!string.IsNullOrEmpty(txtLocation1.Text)) {
@@ -86,7 +86,7 @@ namespace BoulderGuide.Wpf {
       }
 
       private void LoadArea() {
-         AreaDTO area = JsonConvert.DeserializeObject<AreaDTO>(File.ReadAllText(path));
+         area = JsonConvert.DeserializeObject<AreaDTO>(File.ReadAllText(path));
          txtId.Text = area.Id;
          txtName.Text = area.Name;
          txtInfo.Text = area.Info;
