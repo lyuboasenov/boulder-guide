@@ -36,7 +36,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
       public RouteInfo RouteInfo {
          get { return (RouteInfo) GetValue(RouteInfoProperty); }
-         set { SetValue(TopoProperty, value); }
+         set { SetValue(RouteInfoProperty, value); }
       }
 
       private Domain.Image image;
