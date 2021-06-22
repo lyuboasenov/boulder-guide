@@ -23,6 +23,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public int LocalStorageSizeInMB { get; set; }
       public ICommand ClearLocalDataCommand { get; }
       public ICommand SettingsTappedCommand { get; }
+      public ICommand GoBackCommand { get; }
       public string Version { get; set; }
 
       public SettingsPageViewModel(
@@ -35,6 +36,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
          ClearLocalDataCommand = new Command(async () => await ClearLocalData());
          SettingsTappedCommand = new Command(async () => await SettingsTapped());
+         GoBackCommand = new Command(async () => await GoBackAsync());
       }
 
       public override async Task InitializeAsync(INavigationParameters parameters) {

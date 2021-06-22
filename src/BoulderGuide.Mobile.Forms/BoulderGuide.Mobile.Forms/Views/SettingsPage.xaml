@@ -7,61 +7,82 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.SettingsPage"
              Title="{Binding Source={Static root:Strings.Settings}}">
-   <ScrollView>
-      <StackLayout Padding="10">
+   <Grid>
+      <ScrollView Margin="0, 0, 0, 40">
+         <StackLayout Padding="10">
 
-         <StackLayout Margin="0, 10, 0, 10">
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Margin="0, 10, 0, 10">
+               <StackLayout Orientation="Horizontal">
 
-               <Label
-                  Text="{Binding Source={Static root:Strings.LocalStorageSizeInMB}}"
-                  HorizontalOptions="StartAndExpand"
-                  />
+                  <Label
+                     Text="{Binding Source={Static root:Strings.LocalStorageSizeInMB}}"
+                     HorizontalOptions="StartAndExpand"
+                     />
 
-               <Label
-                  Text="{Binding LocalStorageSizeInMB, StringFormat='{0} MB' }"
+                  <Label
+                     Text="{Binding LocalStorageSizeInMB, StringFormat='{0} MB' }"
+                     HorizontalOptions="End"
+                     />
+
+               </StackLayout>
+
+               <ImageButton
                   HorizontalOptions="End"
-                  />
-
+                  Command="{Binding ClearLocalDataCommand}"
+                  Style="{StaticResource Key=RoundAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Glyph="{Static icons:MaterialIconFont.DeleteSweep}"
+                        Color="{StaticResource Key=Accent}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
             </StackLayout>
 
+            <BoxView Style="{StaticResource Separator}" />
+
+            <StackLayout Margin="0, 10, 0, 10" Orientation="Horizontal">
+               <Label
+                  Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
+                  HorizontalOptions="StartAndExpand"
+                  />
+               <Picker
+                  SelectedItem="{Binding SelectedGpsPollingInterval}"
+                  ItemsSource="{Binding GpsPollingIntervalList}" />
+            </StackLayout>
+
+            <BoxView Style="{StaticResource Separator}" />
+
+            <StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" >
+               <StackLayout.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding SettingsTappedCommand}" />
+               </StackLayout.GestureRecognizers>
+               <Label Text="{Binding Source={Static root:Strings.Version}}" HorizontalOptions="StartAndExpand" />
+               <Label Text="{Binding Version}" HorizontalOptions="End" />
+            </StackLayout>
+
+            <BoxView Style="{StaticResource Separator}" />
+
+         </StackLayout>
+      </ScrollView>
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+
             <ImageButton
-               HorizontalOptions="End"
-               Command="{Binding ClearLocalDataCommand}"
-               Style="{StaticResource Key=RoundAccentImageButton}">
+                  Command="{Binding GoBackCommand}"
+                  Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
                   <FontImageSource
-                     Glyph="{Static icons:MaterialIconFont.DeleteSweep}"
-                     Color="{StaticResource Key=Accent}"
-                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                        Color="{StaticResource Key=Accent}"
+                        Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
             </ImageButton>
          </StackLayout>
-
-         <BoxView Style="{StaticResource Separator}" />
-
-         <StackLayout Margin="0, 10, 0, 10" Orientation="Horizontal">
-            <Label
-               Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
-               HorizontalOptions="StartAndExpand"
-               />
-            <Picker
-               SelectedItem="{Binding SelectedGpsPollingInterval}"
-               ItemsSource="{Binding GpsPollingIntervalList}" />
-         </StackLayout>
-
-         <BoxView Style="{StaticResource Separator}" />
-
-         <StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" >
-            <StackLayout.GestureRecognizers>
-               <TapGestureRecognizer Command="{Binding SettingsTappedCommand}" />
-            </StackLayout.GestureRecognizers>
-            <Label Text="{Binding Source={Static root:Strings.Version}}" HorizontalOptions="StartAndExpand" />
-            <Label Text="{Binding Version}" HorizontalOptions="End" />
-         </StackLayout>
-
-         <BoxView Style="{StaticResource Separator}" />
-
-      </StackLayout>
-   </ScrollView>
+      </Frame>
+   </Grid>
 </ContentPage>

@@ -37,17 +37,25 @@
          </CollectionView.ItemTemplate>
       </CollectionView>
 
-      <ImageButton
-         HorizontalOptions="End"
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+
+            <ImageButton
          Command="{Binding CloseCommand}"
-         Style="{StaticResource Key=RoundAccentImageButton}">
-         <ImageButton.Source>
-            <FontImageSource
+         Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
                Glyph="{Static icons:MaterialIconFont.Close}"
                Color="{StaticResource Key=Accent}"
                FontFamily="{StaticResource Key=MaterialFontFamily}" />
-         </ImageButton.Source>
-      </ImageButton>
+               </ImageButton.Source>
+            </ImageButton>
+         </StackLayout>
+      </Frame>
 
    </StackLayout>
 </Frame>

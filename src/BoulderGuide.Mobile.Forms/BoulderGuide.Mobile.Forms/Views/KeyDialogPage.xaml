@@ -22,29 +22,35 @@
          VerticalOptions="StartAndExpand"
          HeightRequest="200" />
 
-      <StackLayout Orientation="Horizontal" HorizontalOptions="End">
-         <ImageButton
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+            <ImageButton
             Command="{Binding UnlockCommand}"
-            Style="{StaticResource Key=RoundAccentImageButton}">
-            <ImageButton.Source>
-               <FontImageSource
+            Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
                   Glyph="{Static icons:MaterialIconFont.LockOpen}"
                   Color="{StaticResource Key=Accent}"
                   FontFamily="{StaticResource Key=MaterialFontFamily}" />
-            </ImageButton.Source>
-         </ImageButton>
+               </ImageButton.Source>
+            </ImageButton>
 
-         <ImageButton
+            <ImageButton
             Command="{Binding LockCommand}"
-            Style="{StaticResource Key=RoundAccentImageButton}">
-            <ImageButton.Source>
-               <FontImageSource
+            Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
                   Glyph="{Static icons:MaterialIconFont.Lock}"
                   Color="{StaticResource Key=Accent}"
                   FontFamily="{StaticResource Key=MaterialFontFamily}" />
-            </ImageButton.Source>
-         </ImageButton>
-      </StackLayout>
+               </ImageButton.Source>
+            </ImageButton>
+         </StackLayout>
+      </Frame>
 
    </StackLayout>
 

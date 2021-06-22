@@ -68,30 +68,36 @@
             HorizontalOptions="End"/>
       </Grid>
 
-      <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
 
-         <ImageButton
+         <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+
+            <ImageButton
             Command="{Binding DoneCommand}"
-            Style="{StaticResource Key=RoundAccentImageButton}">
-            <ImageButton.Source>
-               <FontImageSource
+            Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
                         Glyph="{Static icons:MaterialIconFont.FilterList}"
                         Color="{StaticResource Key=Accent}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
-            </ImageButton.Source>
-         </ImageButton>
+               </ImageButton.Source>
+            </ImageButton>
 
-         <ImageButton
+            <ImageButton
             Command="{Binding CloseCommand}"
-            Style="{StaticResource Key=RoundAccentImageButton}">
-            <ImageButton.Source>
-               <FontImageSource
+            Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
                         Glyph="{Static icons:MaterialIconFont.Close}"
                         Color="{StaticResource Key=Accent}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
-            </ImageButton.Source>
-         </ImageButton>
+               </ImageButton.Source>
+            </ImageButton>
 
-      </StackLayout>
+         </StackLayout>
+      </Frame>
    </StackLayout>
 </Frame>
