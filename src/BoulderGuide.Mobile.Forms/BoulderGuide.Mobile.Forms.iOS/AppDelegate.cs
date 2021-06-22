@@ -1,5 +1,4 @@
 ﻿using Foundation;
-using Plugin.Toasts;
 using Prism;
 using Prism.Ioc;
 using UIKit;
@@ -22,7 +21,6 @@ namespace BoulderGuide.Mobile.Forms.iOS {
          Rg.Plugins.Popup.Popup.Init();
          global::Xamarin.Forms.Forms.Init();
 
-         ToastNotification.Init();
          LoadApplication(new App(new iOSInitializer()));
 
          if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0)) {
@@ -46,7 +44,6 @@ namespace BoulderGuide.Mobile.Forms.iOS {
    public class iOSInitializer : IPlatformInitializer {
       public void RegisterTypes(IContainerRegistry containerRegistry) {
          // Register any platform specific implementations
-         containerRegistry.RegisterSingleton<IToastNotificator, ToastNotification>();
       }
    }
 }

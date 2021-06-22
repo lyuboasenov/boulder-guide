@@ -5,19 +5,31 @@ using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class MapPageViewModel : ViewModelBase {
 
       private readonly ILocationService locationService;
 
+      public string Title { get; set; }
       public Mapsui.Map Map { get; set; }
       public double MapResolution { get; set; }
+
+      public void OnMapResolutionChanged() {
+         RunOnMainThreadAsync(() => {
+            (ZoomInCommand as Command)?.ChangeCanExecute();
+            (ZoomOutCommand as Command)?.ChangeCanExecute();
+         });
+      }
       public double MapRotation { get; set; }
+      public void OnMapRotationChanged() {
+         RunOnMainThreadAsync(() => {
+            (NorthCommand as Command)?.ChangeCanExecute();
+         });
+      }
       public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
       public bool FollowMyLocation { get; set; }
-      public ICommand GoBackCommand { get; }
       public ICommand GoToMyLocationCommand { get; }
       public ICommand ZoomInCommand { get; }
       public ICommand ZoomOutCommand { get; }
@@ -25,30 +37,38 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public MapPageViewModel(
          ILocationService locationService) {
          this.locationService = locationService;
-         GoBackCommand = new AsyncCommand(GoBackAsync);
-         GoToMyLocationCommand = new AsyncCommand(GoToMyLocation);
-         ZoomInCommand = new AsyncCommand(ZoomIn, CanZoomIn);
-         ZoomOutCommand = new AsyncCommand(ZoomOut, CanZoomOut);
-         NorthCommand = new AsyncCommand(North, CanNorth);
+         GoToMyLocationCommand = new Command(GoToMyLocation);
+         ZoomInCommand = new Command(ZoomIn, CanZoomIn);
+         ZoomOutCommand = new Command(ZoomOut, CanZoomOut);
+         NorthCommand = new Command(North, CanNorth);
 
          locationService.LocationUpdated += LocationService_LocationUpdated;
       }
 
-      public override async Task InitializeAsync(INavigationParameters parameters) {
-         await base.InitializeAsync(parameters);
+      public override bool CanNavigate(INavigationParameters parameters) {
+         return base.CanNavigate(parameters) &&
+            (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo _) ||
+            parameters.TryGetValue(nameof(AreaInfo), out AreaInfo __));
+      }
 
-         if (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo routeInfo)) {
-            // route mode
-            Map = locationService.GetMap(routeInfo);
-            Title = $"{routeInfo.Name} ({new Grade(routeInfo.Difficulty)})";
-         } else if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo areaInfo)) {
-            // area mode
-            Map = locationService.GetMap(areaInfo);
-            Title = areaInfo.Name;
-         } else {
-            await GoBackAsync();
+      public override async Task InitializeAsync(INavigationParameters parameters) {
+         try {
+            await base.InitializeAsync(parameters);
+
+            if (parameters.TryGetValue(nameof(RouteInfo), out RouteInfo routeInfo)) {
+               // route mode
+               Map = locationService.GetMap(routeInfo);
+               Title = $"{routeInfo.Name} ({new Grade(routeInfo.Difficulty)})";
+            } else if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo areaInfo)) {
+               // area mode
+               Map = locationService.GetMap(areaInfo);
+               Title = areaInfo.Name;
+            }
+
+            await locationService.StartLocationPollingAsync();
+         } catch (Exception ex) {
+            HandleOperationException(ex, Strings.UnableToInitializeMap);
          }
-         await InitializeAsync();
       }
 
       public override void Destroy() {
@@ -56,28 +76,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          RunAsync(locationService.StopLocationPollingAsync);
       }
 
-      public void OnMapResolutionChanged() {
-         RunOnMainThreadAsync(() => {
-            (ZoomInCommand as AsyncCommand)?.RaiseCanExecuteChanged();
-            (ZoomOutCommand as AsyncCommand)?.RaiseCanExecuteChanged();
-         });
-      }
 
-      public void OnMapRotationChanged() {
-         RunOnMainThreadAsync(() => {
-            (NorthCommand as AsyncCommand)?.RaiseCanExecuteChanged();
-         });
-      }
-
-
-      private bool CanNorth(object arg) {
+      private bool CanNorth() {
          return MapRotation != 0;
       }
 
-      private Task North() {
+      private void North() {
          MapRotation = 0;
-
-         return Task.CompletedTask;
       }
 
       private void LocationService_LocationUpdated(object sender, LocationUpdatedEventArgs e) {
@@ -85,31 +90,24 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             new Mapsui.UI.Forms.Position(e.Latitude, e.Longitude));
       }
 
-      private Task InitializeAsync() {
-         return locationService.StartLocationPollingAsync();
-      }
-      private Task GoToMyLocation() {
+      private void GoToMyLocation() {
          FollowMyLocation = true;
-
-         return Task.CompletedTask;
       }
 
-      private bool CanZoomOut(object arg) {
+      private bool CanZoomOut() {
          return MapResolution < 20000;
       }
 
-      private Task ZoomOut() {
+      private void ZoomOut() {
          MapResolution *= 1.6;
-         return Task.CompletedTask;
       }
 
-      private bool CanZoomIn(object arg) {
+      private bool CanZoomIn() {
          return MapResolution > 0.2;
       }
 
-      private Task ZoomIn() {
+      private void ZoomIn() {
          MapResolution /= 1.6;
-         return Task.CompletedTask;
       }
 
       public static NavigationParameters InitializeParameters(RouteInfo routeInfo) {

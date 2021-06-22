@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
@@ -17,16 +19,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       IDestructible,
       IConfirmNavigation,
       IConfirmNavigationAsync {
+
       private IErrorService errorService;
       private IMainThread mainThread;
-      protected INavigationService NavigationService { get; }
-      protected IDialogService DialogService { get; }
+      private INavigationService NavigationService { get; }
+      private IDialogService DialogService { get; }
 
-      private string _title;
-      public string Title {
-         get { return _title; }
-         set { SetProperty(ref _title, value); }
-      }
+      public ICommand GoBackCommand { get; }
 
       public ViewModelBase() {
          var container = Prism.PrismApplicationBase.Current.Container.CurrentScope;
@@ -34,6 +33,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          DialogService = (IDialogService) container.Resolve(typeof(IDialogService));
          errorService = (IErrorService) container.Resolve(typeof(IErrorService));
          mainThread = (IMainThread) container.Resolve(typeof(IMainThread));
+
+         GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
       public virtual void OnNavigatedFrom(INavigationParameters parameters) {
@@ -66,7 +67,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return RunOnMainThreadAsync(async () => {
             var result = await NavigationService.NavigateAsync(path, parameters);
             if (!result.Success) {
-               HandleException(result.Exception);
+               HandleOperationException(result.Exception, string.Format(Strings.UnableToNavigateFormat, title));
             }
          });
       }
@@ -85,19 +86,27 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return NavigateAsync(lastItem.Title, lastItem.Path, lastItem.Parameters, lastItem.Glyph);
       }
 
-      public async Task ShowDialogAsync(string path, IDialogParameters parameters) {
+      public async Task ShowDialogAsync(string path, IDialogParameters parameters = null) {
          var result = await DialogService.ShowDialogAsync(
                path,
                parameters).
                ConfigureAwait(false);
 
          if (result.Exception != null) {
-            HandleException(result.Exception);
+            HandleOperationException(result.Exception, Strings.UnableToOpenDialog);
          }
       }
 
       public void HandleException(Exception ex) {
          errorService.HandleError(ex);
+      }
+
+      public void HandleException(Exception ex, string message) {
+         errorService.HandleError(ex, message);
+      }
+
+      public void HandleOperationException(Exception ex, string operation) {
+         errorService.HandleError(ex, string.Format(Strings.OperationExceptionFormat, operation));
       }
 
       protected static NavigationParameters InitializeParameters(string name, object value) {

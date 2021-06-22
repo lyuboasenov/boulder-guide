@@ -16,13 +16,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
       public ICommand ViewTopoCommand { get; }
       public ICommand VideosCommand { get; }
-      public ICommand GoBackCommand { get; }
 
       public RoutePageViewModel() {
          MapCommand = new AsyncCommand(Map, CanShowMap);
          ViewTopoCommand = new AsyncCommand(ViewTopo, CanViewTopo);
          VideosCommand = new AsyncCommand(Videos, CanVideos);
-         GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
       public override bool CanNavigate(INavigationParameters parameters) {

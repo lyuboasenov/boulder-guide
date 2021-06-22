@@ -4,14 +4,15 @@ using BoulderGuide.Mobile.Forms.Services.Errors;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
-using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class HomePageViewModel : ViewModelBase {
@@ -35,9 +36,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.activityIndicationService = activityIndicationService;
          this.errorService = errorService;
 
-         ReloadCommand = new Command(async (f) => await Reload((bool) f));
-
-         Title = Strings.ClimbingAreas;
+         ReloadCommand = new AsyncCommand<bool>(Reload);
       }
 
       public void OnSelectedAreaInfoChanged() {
@@ -59,20 +58,23 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task Reload(bool force) {
-
-         var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-         if (status != PermissionStatus.Granted) {
-            await permissions.RequestAsync<Permissions.LocationWhenInUse>();
-         }
-
-         using (activityIndicationService.StartLoading()) {
-            AreaInfos.Clear();
-
-            IEnumerable<AreaInfo> areas = await dataService.GetIndexAreas(force);
-
-            foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
-               AreaInfos.Add(area);
+         try {
+            var status = await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status != PermissionStatus.Granted) {
+               await permissions.RequestAsync<Permissions.LocationWhenInUse>();
             }
+
+            using (activityIndicationService.StartLoading()) {
+               AreaInfos.Clear();
+
+               IEnumerable<AreaInfo> areas = await dataService.GetIndexAreas(force);
+
+               foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
+                  AreaInfos.Add(area);
+               }
+            }
+         } catch (Exception ex) {
+            HandleOperationException(ex, Strings.UnableToReloadClimbingRegions);
          }
       }
    }

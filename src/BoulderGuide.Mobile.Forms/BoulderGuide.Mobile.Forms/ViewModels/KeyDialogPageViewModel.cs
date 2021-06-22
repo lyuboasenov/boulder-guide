@@ -1,7 +1,6 @@
-﻿using Prism.Commands;
-using Prism.Services.Dialogs;
-using System.Threading.Tasks;
+﻿using Prism.Services.Dialogs;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class KeyDialogPageViewModel : DialogViewModelBase {
@@ -12,8 +11,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly Services.Preferences.IPreferences preferences;
 
       public KeyDialogPageViewModel(Services.Preferences.IPreferences preferences) {
-         LockCommand = new DelegateCommand(async () => await Lock());
-         UnlockCommand = new DelegateCommand(async () => await Unlock(), CanUnlock);
+         LockCommand = new Command(Lock);
+         UnlockCommand = new Command(Unlock, CanUnlock);
 
          this.preferences = preferences;
       }
@@ -24,30 +23,26 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          Key = preferences.PrivateRegionsKey;
       }
 
-      private Task Unlock() {
+      private void Unlock() {
          preferences.PrivateRegionsKey = Key;
          preferences.ShowPrivateRegions = true;
 
          Close();
-
-         return Task.CompletedTask;
       }
 
       private bool CanUnlock() {
          return !string.IsNullOrEmpty(Key);
       }
 
-      private Task Lock() {
+      private void Lock() {
          preferences.PrivateRegionsKey = string.Empty;
          preferences.ShowPrivateRegions = false;
 
          Close();
-
-         return Task.CompletedTask;
       }
 
       public void OnKeyChanged() {
-         (UnlockCommand as DelegateCommand)?.RaiseCanExecuteChanged();
+         (UnlockCommand as Command)?.ChangeCanExecute();
       }
    }
 }

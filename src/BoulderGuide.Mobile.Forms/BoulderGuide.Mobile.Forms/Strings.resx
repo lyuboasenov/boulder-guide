@@ -159,6 +159,12 @@
   <data name="Filter" xml:space="preserve">
     <value>Филтър</value>
   </data>
+  <data name="GenericExceptionMessage" xml:space="preserve">
+    <value>Възникна неочаквана грешка. Моля да ни извините.</value>
+  </data>
+  <data name="GenericExceptionTitle" xml:space="preserve">
+    <value>Грешка</value>
+  </data>
   <data name="GpsPollingInterval" xml:space="preserve">
     <value>Интервал на опресняване на локацията (в секунди)</value>
   </data>
@@ -182,6 +188,13 @@
   </data>
   <data name="Map" xml:space="preserve">
     <value>Карта</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Добре</value>
+  </data>
+  <data name="OperationExceptionFormat" xml:space="preserve">
+    <value>Възникна грешка при опита да се {0}. 
+Моля опитайте отново по-късно.</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Подредба</value>
@@ -213,6 +226,9 @@
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="UnableToClearLocalData" xml:space="preserve">
+    <value>изчистят локалните данни</value>
+  </data>
   <data name="UnableToDownloadArea" xml:space="preserve">
     <value>Избраният сектор не е запазен на устройството.
 Няма интернет свързаност и той не може да бъде свален.
@@ -222,10 +238,40 @@
     <value>Няма интернет свързаност и секторът не може да бъде свален.
 Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка.</value>
   </data>
+  <data name="UnableToDownloadFormat" xml:space="preserve">
+    <value>свали локално сектор {0}</value>
+  </data>
   <data name="UnableToDownloadRoute" xml:space="preserve">
     <value>Избраният маршрут не е запазен на устройството.
 Няма интернет свързаност и той не може да бъде свален.
 Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка.</value>
+  </data>
+  <data name="UnableToEnterKey" xml:space="preserve">
+    <value>въведе ключът.</value>
+  </data>
+  <data name="UnableToFilter" xml:space="preserve">
+    <value>филтрират секторите и маршрутите</value>
+  </data>
+  <data name="UnableToInitializeAreaFormat" xml:space="preserve">
+    <value>зареди сектор {0}</value>
+  </data>
+  <data name="UnableToInitializeMap" xml:space="preserve">
+    <value>зареди картата</value>
+  </data>
+  <data name="UnableToInitializeSettings" xml:space="preserve">
+    <value>отвори екрана с настройките</value>
+  </data>
+  <data name="UnableToNavigateFormat" xml:space="preserve">
+    <value>отвори екрана {0}</value>
+  </data>
+  <data name="UnableToOpenDialog" xml:space="preserve">
+    <value>отвори диалоговия прозорец</value>
+  </data>
+  <data name="UnableToReloadClimbingRegions" xml:space="preserve">
+    <value>презаред информацията за катерачните обекти</value>
+  </data>
+  <data name="UnableToSort" xml:space="preserve">
+    <value>сортират секторите и маршрутите</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Версия</value>

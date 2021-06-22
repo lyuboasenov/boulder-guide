@@ -27,9 +27,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand MapCommand { get; }
       public ICommand FilterCommand { get; }
       public ICommand OrderCommand { get; }
-      public ICommand GoBackCommand { get; }
       public AreaInfo Info { get; set; }
       public object SelectedChild { get; set; }
+      public void OnSelectedChildChanged() {
+         RunAsync(NavigateAsync);
+      }
       public ObservableCollection<object> Children { get; set; } = new ObservableCollection<object>();
 
       public AreaPageViewModel(
@@ -46,17 +48,28 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          FilterCommand = new AsyncCommand(Filter);
          OrderCommand = new AsyncCommand(Order);
          MapCommand = new AsyncCommand(Map, CanShowMap);
-         GoBackCommand = new AsyncCommand(GoBackAsync);
       }
 
       private async Task Order() {
-         await DialogService.ShowDialogAsync(nameof(OrderDialogPage)).ConfigureAwait(false);
-         await InitializeAsync().ConfigureAwait(false);
+         try {
+            await ShowDialogAsync(nameof(OrderDialogPage)).
+               ConfigureAwait(false);
+            await InitializeAsync().
+               ConfigureAwait(false);
+         } catch (Exception ex) {
+            HandleOperationException(ex, Strings.UnableToSort);
+         }
       }
 
       private async Task Filter() {
-         await DialogService.ShowDialogAsync(nameof(FilterDialogPage)).ConfigureAwait(false);
-         await InitializeAsync().ConfigureAwait(false);
+         try {
+            await ShowDialogAsync(nameof(FilterDialogPage)).
+               ConfigureAwait(false);
+            await InitializeAsync().
+               ConfigureAwait(false);
+         } catch (Exception ex) {
+            HandleOperationException(ex, Strings.UnableToFilter);
+         }
       }
 
       private async Task Map() {
@@ -85,10 +98,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             parameters.TryGetValue(nameof(AreaInfo), out AreaInfo _);
       }
 
-      public void OnSelectedChildChanged() {
-         RunAsync(NavigateAsync);
-      }
-
       private async Task NavigateAsync() {
          if (SelectedChild is AreaInfo areaInfo) {
             await NavigateAsync(
@@ -110,31 +119,36 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task InitializeAsync() {
-         using (var handle = await activityIndicationService.StartLoadingAsync().ConfigureAwait(false)) {
-            try {
-               await Info.LoadAreaAsync().ConfigureAwait(false);
+         var handle =
+            await activityIndicationService.
+               StartLoadingAsync().
+               ConfigureAwait(false);
+         try {
+            await Info.LoadAreaAsync().ConfigureAwait(false);
 
-               var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
-               var minDifficulty = preferences.FilterMinDifficulty;
-               var maxDifficulty = preferences.FilterMaxDifficulty;
-               var setting = preferences.RouteOrderByProperty;
+            var searchTerm = preferences.FilterSearchTerm.ToLowerInvariant();
+            var minDifficulty = preferences.FilterMinDifficulty;
+            var maxDifficulty = preferences.FilterMaxDifficulty;
+            var setting = preferences.RouteOrderByProperty;
 
-               Children.Clear();
+            Children.Clear();
 
-               foreach (var area in OrderAreas(FilterAreas(searchTerm), setting)) {
-                  Children.Add(area);
-               }
-
-               foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
-                  Children.Add(route);
-               }
-
-               Children.Add(new object());
-
-               await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
-            } catch (Exception ex) {
-               HandleException(ex);
+            foreach (var area in OrderAreas(FilterAreas(searchTerm), setting)) {
+               Children.Add(area);
             }
+
+            foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
+               Children.Add(route);
+            }
+
+            Children.Add(new object());
+
+            await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
+         } catch (Exception ex) {
+            HandleOperationException(ex, string.Format(Strings.UnableToInitializeAreaFormat, Info?.Name));
+         }
+         finally {
+            handle.Dispose();
          }
       }
 
@@ -177,10 +191,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private async Task Download() {
-         if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-            using (var handle = await activityIndicationService.StartLoadingAsync().ConfigureAwait(false)) {
-               await Info.DownloadAsync().ConfigureAwait(false);
-            }
+         var handle = await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
+         try {
+            await Info.DownloadAsync().ConfigureAwait(false);
+         } catch (Exception ex) {
+            HandleOperationException(ex, string.Format(Strings.UnableToDownloadFormat, Info?.Name));
+         } finally {
+            handle.Dispose();
          }
       }
    }

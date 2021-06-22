@@ -40,7 +40,7 @@ namespace BoulderGuide.Wpf {
          txtName.Text = route.Name;
          txtInfo.Text = route.Info;
          txtTags.Text = string.Join(',', route.Tags);
-         txtVideos.Text = string.Join(Environment.NewLine, route.Videos);
+         txtVideos.Text = string.Join(Environment.NewLine + Environment.NewLine, route.Videos);
          foreach (var item in lstGrade.Items) {
             if (item is ComboBoxItem ci &&
                double.Parse(ci.DataContext.ToString()) == route.Difficulty) {

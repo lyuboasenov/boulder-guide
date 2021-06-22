@@ -1,6 +1,5 @@
 ﻿using BoulderGuide.Mobile.Forms.Domain;
 using Prism.Services.Dialogs;
-using System.Collections.Generic;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class VideosDialogPageViewModel : DialogViewModelBase {

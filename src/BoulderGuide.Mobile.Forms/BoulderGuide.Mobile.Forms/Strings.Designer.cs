@@ -187,6 +187,24 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Възникна неочаквана грешка. Моля да ни извините..
+        /// </summary>
+        internal static string GenericExceptionMessage {
+            get {
+                return ResourceManager.GetString("GenericExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Грешка.
+        /// </summary>
+        internal static string GenericExceptionTitle {
+            get {
+                return ResourceManager.GetString("GenericExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Интервал на опресняване на локацията (в секунди).
         /// </summary>
         internal static string GpsPollingInterval {
@@ -255,6 +273,25 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string Map {
             get {
                 return ResourceManager.GetString("Map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Добре.
+        /// </summary>
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Възникна грешка при опита да се {0}. 
+        ///Моля опитайте отново по-късно..
+        /// </summary>
+        internal static string OperationExceptionFormat {
+            get {
+                return ResourceManager.GetString("OperationExceptionFormat", resourceCulture);
             }
         }
         
@@ -349,6 +386,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to изчистят локалните данни.
+        /// </summary>
+        internal static string UnableToClearLocalData {
+            get {
+                return ResourceManager.GetString("UnableToClearLocalData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Избраният сектор не е запазен на устройството.
         ///Няма интернет свързаност и той не може да бъде свален.
         ///Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка..
@@ -370,6 +416,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to свали локално сектор {0}.
+        /// </summary>
+        internal static string UnableToDownloadFormat {
+            get {
+                return ResourceManager.GetString("UnableToDownloadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Избраният маршрут не е запазен на устройството.
         ///Няма интернет свързаност и той не може да бъде свален.
         ///Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка..
@@ -377,6 +432,87 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string UnableToDownloadRoute {
             get {
                 return ResourceManager.GetString("UnableToDownloadRoute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to въведе ключът..
+        /// </summary>
+        internal static string UnableToEnterKey {
+            get {
+                return ResourceManager.GetString("UnableToEnterKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to филтрират секторите и маршрутите.
+        /// </summary>
+        internal static string UnableToFilter {
+            get {
+                return ResourceManager.GetString("UnableToFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to зареди сектор {0}.
+        /// </summary>
+        internal static string UnableToInitializeAreaFormat {
+            get {
+                return ResourceManager.GetString("UnableToInitializeAreaFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to зареди картата.
+        /// </summary>
+        internal static string UnableToInitializeMap {
+            get {
+                return ResourceManager.GetString("UnableToInitializeMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to отвори екрана с настройките.
+        /// </summary>
+        internal static string UnableToInitializeSettings {
+            get {
+                return ResourceManager.GetString("UnableToInitializeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to отвори екрана {0}.
+        /// </summary>
+        internal static string UnableToNavigateFormat {
+            get {
+                return ResourceManager.GetString("UnableToNavigateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to отвори диалоговия прозорец.
+        /// </summary>
+        internal static string UnableToOpenDialog {
+            get {
+                return ResourceManager.GetString("UnableToOpenDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to презаред информацията за катерачните обекти.
+        /// </summary>
+        internal static string UnableToReloadClimbingRegions {
+            get {
+                return ResourceManager.GetString("UnableToReloadClimbingRegions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to сортират секторите и маршрутите.
+        /// </summary>
+        internal static string UnableToSort {
+            get {
+                return ResourceManager.GetString("UnableToSort", resourceCulture);
             }
         }
         

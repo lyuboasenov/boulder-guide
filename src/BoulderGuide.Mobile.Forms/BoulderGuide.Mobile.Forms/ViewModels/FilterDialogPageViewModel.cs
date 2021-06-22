@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
@@ -7,7 +6,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly Services.Preferences.IPreferences preferences;
 
       public ICommand DoneCommand { get; }
-
       public string SearchTerm { get; set; }
       public int MinDifficulty { get; set; }
       public int MaxDifficulty { get; set; }
@@ -16,7 +14,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public FilterDialogPageViewModel(Services.Preferences.IPreferences preferences) {
          this.preferences = preferences;
 
-         DoneCommand = new Command(async () => await Done());
+         DoneCommand = new Command(Done);
 
          SearchTerm = preferences.FilterSearchTerm;
          MinDifficulty = preferences.FilterMinDifficulty;
@@ -31,15 +29,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          base.Close();
       }
 
-      private Task Done() {
-
+      private void Done() {
          preferences.FilterSearchTerm = SearchTerm;
          preferences.FilterMinDifficulty = MinDifficulty;
          preferences.FilterMaxDifficulty = MaxDifficulty;
 
          Close();
-
-         return Task.CompletedTask;
       }
    }
 }

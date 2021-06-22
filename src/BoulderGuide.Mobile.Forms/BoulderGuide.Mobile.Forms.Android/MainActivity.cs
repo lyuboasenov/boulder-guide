@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Plugin.Toasts;
 using Prism;
 using Prism.Ioc;
 
@@ -17,8 +16,6 @@ namespace BoulderGuide.Mobile.Forms.Droid {
          base.OnCreate(savedInstanceState);
          global::Xamarin.Forms.Forms.SetFlags("CarouselView_Experimental");
          global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-
-         ToastNotification.Init(this);
 
          LoadApplication(new App(new AndroidInitializer()));
       }
@@ -37,7 +34,6 @@ namespace BoulderGuide.Mobile.Forms.Droid {
    public class AndroidInitializer : IPlatformInitializer {
       public void RegisterTypes(IContainerRegistry containerRegistry) {
          // Register any platform specific implementations
-         containerRegistry.RegisterSingleton<IToastNotificator, ToastNotification>();
       }
    }
 }

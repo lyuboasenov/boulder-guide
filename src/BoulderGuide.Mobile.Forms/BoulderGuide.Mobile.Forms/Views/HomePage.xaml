@@ -8,7 +8,7 @@
              xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.HomePage"
-             Title="{Binding Title}">
+             Title="{Static root:Strings.ClimbingAreas}">
    <ContentPage.Resources>
       <xamForms:AreaInfoToImageConverter x:Key="areaInfoToImageConverter" />
       <system:Boolean x:Key="true">True</system:Boolean>
