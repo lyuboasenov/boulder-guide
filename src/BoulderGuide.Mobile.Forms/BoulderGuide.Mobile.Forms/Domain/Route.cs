@@ -24,6 +24,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public string Info => dto?.Info;
       public IEnumerable<Topo> Topos => dto?.Topos;
       public IEnumerable<string> Videos => dto?.Videos;
+      public bool IsInitialized => dto != null;
 
 
       public override async Task DownloadAsync(bool force = false) {

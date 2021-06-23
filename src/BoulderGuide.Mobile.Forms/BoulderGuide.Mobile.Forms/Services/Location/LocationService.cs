@@ -177,11 +177,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
       private IEnumerable<IGeometry> CreatePolygon(Area area) {
          var result = new List<Polygon>();
 
-         // Fails
-         result.Add(
-            new Polygon(
-               new LinearRing(
-                  area.Location.Select(p => SphericalMercator.FromLonLat(p.Longitude, p.Latitude)))));
+         if (area?.Location?.Any() ?? false) {
+            // Fails
+            result.Add(
+               new Polygon(
+                  new LinearRing(
+                     area?.Location?.Select(p => SphericalMercator.FromLonLat(p.Longitude, p.Latitude)))));
+         }
 
          return result;
       }

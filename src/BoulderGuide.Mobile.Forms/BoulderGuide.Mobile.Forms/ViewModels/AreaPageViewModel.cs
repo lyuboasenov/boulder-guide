@@ -81,7 +81,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private bool CanShowMap() {
-         return null != Info?.Area;
+         return null != Info?.Area?.IsInitialized;
       }
 
       public override void OnNavigatedTo(INavigationParameters parameters) {
@@ -193,7 +193,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private async Task Download() {
          var handle = await activityIndicationService.StartLoadingAsync().ConfigureAwait(false);
          try {
-            await Info.DownloadAsync().ConfigureAwait(false);
+            await Info.DownloadAsync(true).ConfigureAwait(false);
          } catch (Exception ex) {
             HandleOperationException(ex, string.Format(Strings.UnableToDownloadFormat, Info?.Name));
          } finally {

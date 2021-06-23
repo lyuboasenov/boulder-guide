@@ -1,5 +1,6 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Domain.DTOs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Domain {
@@ -16,6 +17,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          this.region = region;
          this.dto = dto;
          Parent = parent;
+         Route = new Route(region, dto.Index);
       }
 
       public string Name => dto?.Name;
@@ -24,14 +26,16 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public string Grade => dto?.Grade;
 
       public AreaInfo Parent { get; }
-      public Route Route { get; private set; }
+      public Route Route { get; }
 
-      public async Task LoadRouteAsync() {
-         if (Route is null) {
-            var route = new Route(region, dto.Index);
-            await route.DownloadAsync();
-            Route = route;
-         }
+      public Task LoadRouteAsync(bool force = false) {
+         return Route.DownloadAsync(force);
+      }
+
+      public override async Task DownloadAsync(bool force = false) {
+         var tasks = new List<Task>();
+         await base.DownloadAsync(force).ConfigureAwait(false);
+         await LoadRouteAsync(force).ConfigureAwait(false);
       }
    }
 }

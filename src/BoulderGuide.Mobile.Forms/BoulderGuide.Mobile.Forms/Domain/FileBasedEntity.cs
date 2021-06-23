@@ -11,9 +11,11 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       private readonly bool isPrivateUseKey;
       private static Tuple<string, string> key;
 
-#pragma warning disable 0067
       public event PropertyChangedEventHandler PropertyChanged;
-#pragma warning restore 0067
+
+      protected void OnPropertyChanged(string propertyName) {
+         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+      }
 
       protected IDownloadService DownloadService { get; }
 

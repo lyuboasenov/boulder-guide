@@ -20,6 +20,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          Parent = parent;
          this.dto = dto ?? throw new ArgumentNullException(nameof(dto));
 
+         Area = new Area(region, Index);
          Areas = dto.Areas?.Select(a => new AreaInfo(region, this, a));
          Routes = dto.Routes?.Select(r => new RouteInfo(region, this, r));
          Images = dto.Images?.Select(i => new Image(region, i));
@@ -63,7 +64,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          }
       }
 
-      public Area Area { get; private set; }
+      public Area Area { get; }
 
       public int TotalAreaCount {
          get {
@@ -79,12 +80,8 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          }
       }
 
-      public async Task LoadAreaAsync(bool force = false) {
-         if (Area is null) {
-            var area = new Area(region, Index);
-            await area.DownloadAsync(force).ConfigureAwait(false);
-            Area = area;
-         }
+      public Task LoadAreaAsync(bool force = false) {
+         return Area.DownloadAsync(force);
       }
 
       public async Task DownloadMapAsync(bool force = false) {
@@ -116,6 +113,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          }
 
          await Task.WhenAll(tasks);
+         OnPropertyChanged(nameof(IsOffline));
       }
 
       public override string ToString() {

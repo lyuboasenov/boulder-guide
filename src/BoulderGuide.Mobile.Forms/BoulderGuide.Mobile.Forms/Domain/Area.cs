@@ -25,6 +25,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public string Ethics => dto?.Ethics;
       public string History => dto?.History;
       public string Restrictions => dto?.Restrictions;
+      public bool IsInitialized => dto != null;
 
       public override async Task DownloadAsync(bool force = false) {
          await base.DownloadAsync(force);
