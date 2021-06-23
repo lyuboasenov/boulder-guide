@@ -72,39 +72,38 @@
                <Grid.RowDefinitions>
                   <RowDefinition Height="Auto"/>
                   <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
                </Grid.RowDefinitions>
 
                <Label
-                  Text="{Static icons:MaterialIconFont.CodeOff}"
-                  FontSize="40"
-                  FontFamily="{StaticResource Key=MaterialFontFamily}">
-                  <Label.Triggers>
-                     <DataTrigger TargetType="Label"
-                        Binding="{Binding IsDeveloperEnabled}"
-                        Value="true">
-                        <Setter Property="Text" Value="{Static icons:MaterialIconFont.Code}" />
-                     </DataTrigger>
-                  </Label.Triggers>
-               </Label>
+                  Text="{Static root:Strings.AdvancedOptions}" />
 
                <Switch
+                  Grid.Row="0"
                   Grid.Column="1"
                   HorizontalOptions="End"
-                  IsToggled="{Binding IsDeveloperEnabled}"  />
+                  IsToggled="{Binding IsAdvancedModeEnabled, Mode=TwoWay}"  />
 
-               <ImageButton
+               <Label
+                  Grid.Row="1"
+                  Text="{Static root:Strings.DeveloperTools}" />
+
+               <Switch
                   Grid.Row="1"
                   Grid.Column="1"
                   HorizontalOptions="End"
-                  Command="{Binding EnterKeyCommand}"
-                  Style="{StaticResource Key=RoundAccentImageButton}">
-                  <ImageButton.Source>
-                     <FontImageSource
-                        Glyph="{Static icons:MaterialIconFont.LockOpen}"
-                        Color="{StaticResource Key=Accent}"
-                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
-                  </ImageButton.Source>
-               </ImageButton>
+                  IsToggled="{Binding IsDeveloperEnabled, Mode=TwoWay}"  />
+
+               <Label
+                  Grid.Row="2"
+                  Text="{Static root:Strings.PrivateAreas}" />
+
+               <Switch
+                  Grid.Row="2"
+                  Grid.Column="1"
+                  HorizontalOptions="End"
+                  IsToggled="{Binding ShowPrivateAreas, Mode=TwoWay}"  />
+
             </Grid>
 
             <BoxView Style="{StaticResource Separator}" IsVisible="{Binding IsAdvancedModeEnabled}"/>

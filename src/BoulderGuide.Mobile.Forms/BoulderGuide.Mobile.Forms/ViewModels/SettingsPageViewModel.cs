@@ -2,7 +2,6 @@
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services;
-using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,15 +24,38 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          preferences.GPSPollIntervalInSeconds = SelectedGpsPollingInterval;
       }
       public int LocalStorageSizeInMB { get; set; }
+
+      private bool initialized;
+
       public ICommand ClearLocalDataCommand { get; }
       public ICommand SettingsTappedCommand { get; }
-      public ICommand EnterKeyCommand { get; }
       public string Version { get; set; }
       public bool IsAdvancedModeEnabled { get; set; }
+      public void OnIsAdvancedModeEnabledChanged() {
+         if (!IsAdvancedModeEnabled) {
+            preferences.IsAdvancedModeEnabled = false;
+            preferences.ShowPrivateRegions = false;
+            preferences.PrivateRegionsKey = string.Empty;
+            preferences.IsDeveloperEnabled = false;
+
+            dialogService.
+               DisplayAlertAsync(
+                  Strings.Settings,
+                  Strings.AdvancedModeDisabled,
+                  Strings.Ok).ConfigureAwait(false);
+         }
+      }
       public bool IsDeveloperEnabled { get; set; }
 
       public void OnIsDeveloperEnabledChanged() {
          preferences.IsDeveloperEnabled = IsDeveloperEnabled;
+      }
+      public bool ShowPrivateAreas { get; set; }
+
+      public void OnShowPrivateAreasChanged() {
+         if (initialized) {
+            RunOnMainThreadAsync(LockUnlock);
+         }
       }
 
       public SettingsPageViewModel(
@@ -48,7 +70,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
          ClearLocalDataCommand = new AsyncCommand(ClearLocalData);
          SettingsTappedCommand = new AsyncCommand(SettingsTapped);
-         EnterKeyCommand = new AsyncCommand(EnterKey);
       }
 
       public override async Task InitializeAsync(INavigationParameters parameters) {
@@ -60,11 +81,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             SelectedGpsPollingInterval = preferences.GPSPollIntervalInSeconds;
             IsDeveloperEnabled = preferences.IsDeveloperEnabled;
             IsAdvancedModeEnabled = preferences.IsAdvancedModeEnabled;
+            ShowPrivateAreas = preferences.ShowPrivateRegions;
 
             LocalStorageSizeInMB =
                await dataService.
                   GetLocalStorageSizeInMB().
                   ConfigureAwait(false);
+
+            initialized = true;
          } catch (Exception ex) {
             HandleOperationException(ex, Strings.UnableToInitializeSettings);
          }
@@ -75,27 +99,15 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             if (DateTime.Now.Subtract(lastTapped).TotalSeconds <= 1) {
                tapCounter++;
                if (tapCounter == 9) {
-                  IsAdvancedModeEnabled = !IsAdvancedModeEnabled;
-                  preferences.IsAdvancedModeEnabled = IsAdvancedModeEnabled;
+                  IsAdvancedModeEnabled = true;
+                  preferences.IsAdvancedModeEnabled = true;
                   tapCounter = 0;
 
-                  if (IsAdvancedModeEnabled) {
-                     await dialogService.
-                        DisplayAlertAsync(
-                           Strings.Settings,
-                           Strings.AdvancedModeEnabled,
-                           Strings.Ok).ConfigureAwait(false);
-                  } else {
-                     preferences.PrivateRegionsKey = string.Empty;
-                     preferences.ShowPrivateRegions = false;
-                     preferences.IsDeveloperEnabled = false;
-
-                     await dialogService.
-                        DisplayAlertAsync(
-                           Strings.Settings,
-                           Strings.AdvancedModeDisabled,
-                           Strings.Ok).ConfigureAwait(false);
-                  }
+                  await dialogService.
+                     DisplayAlertAsync(
+                        Strings.Settings,
+                        Strings.AdvancedModeEnabled,
+                        Strings.Ok).ConfigureAwait(false);
                }
             } else {
                tapCounter = 1;
@@ -106,10 +118,19 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
       }
 
-      private async Task EnterKey() {
+      private async Task LockUnlock() {
          try {
-            await ShowDialogAsync(nameof(KeyDialogPage)).
-               ConfigureAwait(false);
+            if (preferences.ShowPrivateRegions) {
+               // lock
+               preferences.ShowPrivateRegions = false;
+               preferences.PrivateRegionsKey = string.Empty;
+            } else {
+               // unlock
+               await ShowDialogAsync(nameof(KeyDialogPage)).
+                  ConfigureAwait(false);
+            }
+
+            ShowPrivateAreas = preferences.ShowPrivateRegions;
          } catch (Exception ex) {
             HandleOperationException(ex, Strings.UnableToEnterKey);
          }

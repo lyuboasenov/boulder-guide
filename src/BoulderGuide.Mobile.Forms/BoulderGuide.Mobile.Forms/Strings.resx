@@ -123,6 +123,9 @@
   <data name="AdvancedModeEnabled" xml:space="preserve">
     <value>Вие успешно активирахте разширеният режим.</value>
   </data>
+  <data name="AdvancedOptions" xml:space="preserve">
+    <value>Разширени настройки</value>
+  </data>
   <data name="AreaAccess" xml:space="preserve">
     <value>Достъп</value>
   </data>
@@ -158,6 +161,9 @@
   </data>
   <data name="CloseDialog" xml:space="preserve">
     <value>Добре</value>
+  </data>
+  <data name="DeveloperTools" xml:space="preserve">
+    <value>Инструменти на разработчика</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Свали</value>
@@ -204,6 +210,9 @@
   </data>
   <data name="Order" xml:space="preserve">
     <value>Подредба</value>
+  </data>
+  <data name="PrivateAreas" xml:space="preserve">
+    <value>Скрити региони</value>
   </data>
   <data name="ReadMore" xml:space="preserve">
     <value>Повече ...</value>

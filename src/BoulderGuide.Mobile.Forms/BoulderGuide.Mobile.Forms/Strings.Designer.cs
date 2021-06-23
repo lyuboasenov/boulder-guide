@@ -79,6 +79,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Разширени настройки.
+        /// </summary>
+        internal static string AdvancedOptions {
+            get {
+                return ResourceManager.GetString("AdvancedOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Достъп.
         /// </summary>
         internal static string AreaAccess {
@@ -183,6 +192,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string CloseDialog {
             get {
                 return ResourceManager.GetString("CloseDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Инструменти на разработчика.
+        /// </summary>
+        internal static string DeveloperTools {
+            get {
+                return ResourceManager.GetString("DeveloperTools", resourceCulture);
             }
         }
         
@@ -319,6 +337,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string Order {
             get {
                 return ResourceManager.GetString("Order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Скрити региони.
+        /// </summary>
+        internal static string PrivateAreas {
+            get {
+                return ResourceManager.GetString("PrivateAreas", resourceCulture);
             }
         }
         

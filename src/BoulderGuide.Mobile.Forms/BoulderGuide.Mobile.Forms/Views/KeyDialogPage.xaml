@@ -44,7 +44,7 @@
             Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
                   <FontImageSource
-                  Glyph="{Static icons:MaterialIconFont.Lock}"
+                  Glyph="{Static icons:MaterialIconFont.Close}"
                   Color="{StaticResource Key=Accent}"
                   FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
