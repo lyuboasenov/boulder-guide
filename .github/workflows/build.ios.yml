@@ -24,8 +24,5 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
-    - name: Install dependencies
-      run: nuget restore ${{ github.workspace }}/src/BoulderGuide.sln
-
-    - name: Build
-      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.iOS/BoulderGuide.Mobile.Forms.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
+    - name: Restore & Build
+      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.iOS/BoulderGuide.Mobile.Forms.iOS.csproj /t:build /restore /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
