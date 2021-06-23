@@ -1,7 +1,9 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.ImageUtils;
 using BoulderGuide.Mobile.Forms.Domain;
+using BoulderGuide.Mobile.Forms.Services.Errors;
 using SkiaSharp.Views.Forms;
+using System;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -44,8 +46,14 @@ namespace BoulderGuide.Mobile.Forms.Views {
       protected override void OnPaintSurface(SKPaintSurfaceEventArgs e) {
          base.OnPaintSurface(e);
 
-         using (var imageStream = image?.GetStream()) {
-            e.Surface.Canvas.DrawTopo(imageStream, Topo?.Shapes ?? Enumerable.Empty<Shape>());
+         try {
+            using (var imageStream = image?.GetStream()) {
+               e.Surface.Canvas.DrawTopo(imageStream, Topo?.Shapes ?? Enumerable.Empty<Shape>());
+            }
+         } catch (Exception ex) {
+            var errorService =
+               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
+            errorService?.HandleError(ex);
          }
       }
 
@@ -54,7 +62,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
             image = RouteInfo?.
                Route?.
                Images?.
-               FirstOrDefault(i => i.LocalPath.EndsWith("/" + Topo.Id));
+               FirstOrDefault(i => i?.LocalPath?.EndsWith("/" + Topo.Id) ?? false);
          }
       }
    }

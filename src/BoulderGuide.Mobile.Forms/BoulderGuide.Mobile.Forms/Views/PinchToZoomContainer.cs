@@ -12,12 +12,16 @@ namespace BoulderGuide.Mobile.Forms.Views {
             typeof(double),
             1d,
             propertyChanged: (bindable, _, __) => {
-               var control = bindable as PinchToZoomContainer;
-
-               control.Content.Scale = control.ContentScale;
-               control.Content.TranslationX = (control.Width - control.Content.Width * control.ContentScale) / 2;
-               control.Content.TranslationY = (control.Height - control.Content.Height * control.ContentScale) / 2;
+               (bindable as PinchToZoomContainer)?.ContentScaleChanged();
             });
+
+      private void ContentScaleChanged() {
+         if (Content != null) {
+            Content.Scale = ContentScale;
+            Content.TranslationX = (Width - Content.Width * ContentScale) / 2;
+            Content.TranslationY = (Height - Content.Height * ContentScale) / 2;
+         }
+      }
 
       public double ContentScale {
          get { return (double) GetValue(ContentScaleProperty); }
@@ -58,6 +62,10 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
                   Content.TranslationX = targetX.Clamp(-Width * (ContentScale - 1), 0);
                   Content.TranslationY = targetY.Clamp(-Height * (ContentScale - 1), 0);
+                  break;
+               case GestureStatus.Completed:
+                  xOffset = Content.TranslationX;
+                  yOffset = Content.TranslationY;
                   break;
             }
          }

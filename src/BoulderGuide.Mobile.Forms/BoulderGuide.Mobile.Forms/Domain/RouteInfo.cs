@@ -28,8 +28,9 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public AreaInfo Parent { get; }
       public Route Route { get; }
 
-      public Task LoadRouteAsync(bool force = false) {
-         return Route.DownloadAsync(force);
+      public async Task LoadRouteAsync(bool force = false) {
+         await Route.DownloadAsync(force).ConfigureAwait(false);
+         OnPropertyChanged(nameof(Route));
       }
 
       public override async Task DownloadAsync(bool force = false) {

@@ -1,4 +1,6 @@
-﻿using Mapsui;
+﻿using BoulderGuide.Mobile.Forms.Services.Errors;
+using Mapsui;
+using System;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.Views {
@@ -20,14 +22,20 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void OnBindableMapChanged() {
-         if (BindableMap is null) {
-            Map.Layers.Clear();
-            Map.ClearCache();
-            Map = new Map();
-         } else {
-            Map = BindableMap;
+         try {
+            if (BindableMap is null) {
+               Map.Layers.Clear();
+               Map.ClearCache();
+               Map = new Map();
+            } else {
+               Map = BindableMap;
+            }
+            BindableMyLocationLayer = MyLocationLayer;
+         } catch (Exception ex) {
+            var errorService =
+               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
+            errorService?.HandleError(ex);
          }
-         BindableMyLocationLayer = MyLocationLayer;
       }
 
       public static readonly BindableProperty BindableMyLocationLayerProperty =
@@ -58,7 +66,13 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void OnResolutionChanged() {
-         Navigator.ZoomTo(Resolution);
+         try {
+            Navigator.ZoomTo(Resolution);
+         } catch (Exception ex) {
+            var errorService =
+               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
+            errorService?.HandleError(ex);
+         }
       }
 
       public static new readonly BindableProperty RotationProperty =
@@ -77,7 +91,13 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void OnRotationChanged() {
-         Navigator.RotateTo(Rotation);
+         try {
+            Navigator.RotateTo(Rotation);
+         } catch (Exception ex) {
+            var errorService =
+               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
+            errorService?.HandleError(ex);
+         }
       }
 
       public BindableMapView() {
