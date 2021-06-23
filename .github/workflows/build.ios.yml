@@ -15,7 +15,7 @@ jobs:
 
     - name: Set default Xcode 12.4
       run: |
-        XCODE_ROOT=/Applications/Xcode_12.4.0.app
+        XCODE_ROOT=/Applications/Xcode_12.4.app
         echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
         sudo xcode-select -s $XCODE_ROOT
 
