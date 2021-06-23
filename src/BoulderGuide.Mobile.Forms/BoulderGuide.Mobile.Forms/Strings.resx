@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>За приложението</value>
+  </data>
+  <data name="AboutInfo" xml:space="preserve">
+    <value>Обща информация за приложението...</value>
+  </data>
   <data name="AdvancedModeDisabled" xml:space="preserve">
     <value>Вие успешно деактивирахте разширеният режим.</value>
   </data>
@@ -162,6 +168,19 @@
   <data name="CloseDialog" xml:space="preserve">
     <value>Добре</value>
   </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>За контакти</value>
+  </data>
+  <data name="DefaultEmailBody" xml:space="preserve">
+    <value>Привет от приложението Boulder Guide,
+
+...</value>
+  </data>
+  <data name="DefaultEmailSubject" xml:space="preserve">
+    <value>Привет от приложението Boulder Guide,
+
+...</value>
+  </data>
   <data name="DeveloperTools" xml:space="preserve">
     <value>Инструменти на разработчика</value>
   </data>
@@ -203,6 +222,9 @@
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Добре</value>
+  </data>
+  <data name="OnError" xml:space="preserve">
+    <value>При грешки</value>
   </data>
   <data name="OperationExceptionFormat" xml:space="preserve">
     <value>Възникна грешка при опита да се {0}. 
@@ -282,8 +304,14 @@
   <data name="UnableToNavigateFormat" xml:space="preserve">
     <value>отвори екрана {0}</value>
   </data>
+  <data name="UnableToOpenBrowserFormat" xml:space="preserve">
+    <value>отвори браузър с адрес '{0}'</value>
+  </data>
   <data name="UnableToOpenDialog" xml:space="preserve">
     <value>отвори диалоговия прозорец</value>
+  </data>
+  <data name="UnableToOpenEmailClient" xml:space="preserve">
+    <value>стартира е-мейл клиентът</value>
   </data>
   <data name="UnableToReloadClimbingRegions" xml:space="preserve">
     <value>презаред информацията за катерачните обекти</value>
@@ -293,5 +321,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Версия</value>
+  </data>
+  <data name="WebSite" xml:space="preserve">
+    <value>Уеб сайт</value>
   </data>
 </root>

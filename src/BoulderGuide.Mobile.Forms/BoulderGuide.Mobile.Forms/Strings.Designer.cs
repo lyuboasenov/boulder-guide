@@ -61,6 +61,24 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to За приложението.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обща информация за приложението....
+        /// </summary>
+        internal static string AboutInfo {
+            get {
+                return ResourceManager.GetString("AboutInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вие успешно деактивирахте разширеният режим..
         /// </summary>
         internal static string AdvancedModeDisabled {
@@ -196,6 +214,37 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to За контакти.
+        /// </summary>
+        internal static string Contacts {
+            get {
+                return ResourceManager.GetString("Contacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Привет от приложението Boulder Guide,
+        ///
+        ///....
+        /// </summary>
+        internal static string DefaultEmailBody {
+            get {
+                return ResourceManager.GetString("DefaultEmailBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Привет от приложението Boulder Guide,
+        ///
+        ///....
+        /// </summary>
+        internal static string DefaultEmailSubject {
+            get {
+                return ResourceManager.GetString("DefaultEmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Инструменти на разработчика.
         /// </summary>
         internal static string DeveloperTools {
@@ -318,6 +367,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При грешки.
+        /// </summary>
+        internal static string OnError {
+            get {
+                return ResourceManager.GetString("OnError", resourceCulture);
             }
         }
         
@@ -544,11 +602,29 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to отвори браузър с адрес &apos;{0}&apos;.
+        /// </summary>
+        internal static string UnableToOpenBrowserFormat {
+            get {
+                return ResourceManager.GetString("UnableToOpenBrowserFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to отвори диалоговия прозорец.
         /// </summary>
         internal static string UnableToOpenDialog {
             get {
                 return ResourceManager.GetString("UnableToOpenDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to стартира е-мейл клиентът.
+        /// </summary>
+        internal static string UnableToOpenEmailClient {
+            get {
+                return ResourceManager.GetString("UnableToOpenEmailClient", resourceCulture);
             }
         }
         
@@ -576,6 +652,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Уеб сайт.
+        /// </summary>
+        internal static string WebSite {
+            get {
+                return ResourceManager.GetString("WebSite", resourceCulture);
             }
         }
     }

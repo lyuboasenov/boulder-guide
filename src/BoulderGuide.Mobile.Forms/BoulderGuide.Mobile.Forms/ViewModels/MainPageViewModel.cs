@@ -21,13 +21,22 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
       }
       public ICommand SettingsCommand { get; }
+      public ICommand InfoCommand { get; }
 
       public MainPageViewModel() {
          SettingsCommand = new AsyncCommand(Settings);
+         InfoCommand = new AsyncCommand(Info);
       }
 
-      private async Task Settings() {
-         await NavigateAsync(
+      private Task Info() {
+         return NavigateAsync(
+            Strings.About,
+            "/MainPage/NavigationPage/AboutPage",
+            glyph: Icons.MaterialIconFont.Info);
+      }
+
+      private Task Settings() {
+         return NavigateAsync(
             Strings.Settings,
             "/MainPage/NavigationPage/SettingsPage",
             glyph:Icons.MaterialIconFont.Settings);

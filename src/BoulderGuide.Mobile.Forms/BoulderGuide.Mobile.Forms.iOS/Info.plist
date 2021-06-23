@@ -20,6 +20,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+	</array>
 	<key>MinimumOSVersion</key>
 	<string>10.0</string>
 	<key>UILaunchStoryboardName</key>

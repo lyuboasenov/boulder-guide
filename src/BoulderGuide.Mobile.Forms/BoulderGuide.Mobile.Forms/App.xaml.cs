@@ -35,6 +35,8 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterSingleton<IPreferences, PreferencesImplementation>();
          containerRegistry.RegisterSingleton<IVersionTracking, VersionTrackingImplementation>();
          containerRegistry.RegisterSingleton<IMainThread, MainThreadImplementation>();
+         containerRegistry.RegisterSingleton<IBrowser, BrowserImplementation>();
+         containerRegistry.RegisterSingleton<IEmail, EmailImplementation>();
 
          containerRegistry.RegisterSingleton<IErrorService, ErrorService>();
          containerRegistry.RegisterSingleton<IDataService, DataService>();
@@ -59,6 +61,7 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
          containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
 
+         containerRegistry.RegisterForNavigation<AboutPage, AboutPageViewModel>();
       }
    }
 }

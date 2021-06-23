@@ -6,7 +6,7 @@
              xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BoulderGuide.Mobile.Forms.Views.SettingsPage"
-             Title="{Binding Source={Static root:Strings.Settings}}">
+             Title="{Static root:Strings.Settings}">
    <Grid>
       <ScrollView Margin="0, 0, 0, 40">
          <StackLayout Padding="10">
