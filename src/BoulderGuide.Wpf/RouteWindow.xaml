@@ -27,10 +27,9 @@
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
+                  <RowDefinition Height="3*" />
                   <RowDefinition Height="*" />
                   <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
                </Grid.RowDefinitions>
 
                <TextBlock Grid.Row="0" Text="Id" />
@@ -77,9 +76,6 @@
 
                <TextBlock Grid.Row="5" Text="Location" />
                <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation" />
-
-               <TextBlock Grid.Row="6" Text="Videos" />
-               <TextBox Grid.Row="6" Grid.Column="1" Name="txtVideos" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
             </Grid>
          </TabItem>
          <TabItem Header="Schema" Name="tabSchema">
@@ -185,6 +181,27 @@
                   PaintSurface="skCanvas_PaintSurface" />
 
             </Grid>
+         </TabItem>
+         <TabItem Header="Videos">
+            <StackPanel>
+               <ListView
+                  Name="lstVideos"
+                  SelectionChanged="lstVideos_SelectionChanged"
+                  VerticalAlignment="Stretch">
+                  <ListView.ItemTemplate>
+                     <DataTemplate>
+                        <TextBlock Text="{Binding Id}" />
+                     </DataTemplate>
+                  </ListView.ItemTemplate>
+               </ListView>
+               <StackPanel Orientation="Horizontal">
+                  <Button Name="btnAddVideo" Content=" Add " Click="btnAddVideo_Click" />
+                  <Button Name="btnEditVideo" IsEnabled="False" Content=" Edit " Click="btnEditVideo_Click" />
+                  <Button Name="btnRemoveVideo" IsEnabled="False" Content=" Remove " Click="btnRemoveVideo_Click" />
+                  <Button Name="btnOpenInBrowser" IsEnabled="False" Content="&lt;/&gt;" Click="btnOpenInBrowser_Click"/>
+               </StackPanel>
+
+            </StackPanel>
          </TabItem>
       </TabControl>
    </Grid>

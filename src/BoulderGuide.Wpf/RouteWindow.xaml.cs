@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -19,6 +20,7 @@ namespace BoulderGuide.Wpf {
       private string path;
       private Topo selectedSchemas;
       private readonly List<Topo> schemas = new List<Topo>();
+      private readonly List<Video> videos = new List<Video>();
       private readonly List<RelativePoint> currentPath = new List<RelativePoint>();
       private Shape currentShape;
       private Size currentImageSize;
@@ -40,7 +42,6 @@ namespace BoulderGuide.Wpf {
          txtName.Text = route.Name;
          txtInfo.Text = route.Info;
          txtTags.Text = string.Join(',', route.Tags);
-         txtVideos.Text = string.Join(Environment.NewLine + Environment.NewLine, route.Videos);
          foreach (var item in lstGrade.Items) {
             if (item is ComboBoxItem ci &&
                double.Parse(ci.DataContext.ToString()) == route.Difficulty) {
@@ -54,8 +55,13 @@ namespace BoulderGuide.Wpf {
             schema.Id = System.IO.Path.Combine(fi.Directory.FullName, schema.Id);
             schemas.Add(schema);
          }
+         videos.Clear();
+         if (route.Videos?.Any() ?? false) {
+            videos.AddRange(route.Videos);
+         }
          InitializeImageList();
          InitializeShapeList();
+         InitializeVideoList();
       }
 
       private void btnSave_Click(object sender, RoutedEventArgs e) {
@@ -86,7 +92,6 @@ namespace BoulderGuide.Wpf {
          result.Info = txtInfo.Text;
          result.Difficulty = double.Parse((lstGrade.SelectedItem as ComboBoxItem).DataContext.ToString());
          result.Tags = txtTags.Text.Split(',', StringSplitOptions.RemoveEmptyEntries);
-         result.Videos = txtVideos.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
          if (txtLocation.Text.Length > 0) {
             result.Location = new Location(txtLocation.Text);
@@ -123,6 +128,7 @@ namespace BoulderGuide.Wpf {
          }
 
          result.Topos = schemaList.ToArray();
+         result.Videos = videos.ToArray();
 
          File.WriteAllText(System.IO.Path.Combine(saveDirectory.FullName, $"{name}.json"), JsonConvert.SerializeObject(result, Formatting.Indented));
       }
@@ -301,6 +307,69 @@ namespace BoulderGuide.Wpf {
          lstShapes.Items.Clear();
          foreach (var shape in selectedSchemas?.Shapes ?? Enumerable.Empty<Shape>()) {
             lstShapes.Items.Add(shape);
+         }
+      }
+
+      private void InitializeVideoList() {
+         lstVideos.Items.Clear();
+         foreach (var video in videos ?? Enumerable.Empty<Video>()) {
+            lstVideos.Items.Add(video);
+         }
+      }
+
+      private void btnAddVideo_Click(object sender, RoutedEventArgs e) {
+         VideoWindow videoWindow = new VideoWindow();
+         if (videoWindow.ShowDialog() ?? false) {
+            videos.Add(new Video() {
+               Id = videoWindow.Id,
+               Url = videoWindow.Url,
+               EmbedCode = videoWindow.EmbedCode
+            });
+            InitializeVideoList();
+         }
+      }
+
+      private void btnRemoveVideo_Click(object sender, RoutedEventArgs e) {
+         if (lstVideos.SelectedItem is Video video) {
+            videos.Remove(video);
+            InitializeVideoList();
+         }
+      }
+
+      private void lstVideos_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+         if (lstVideos.SelectedItem != null) {
+            btnEditVideo.IsEnabled = true;
+            btnRemoveVideo.IsEnabled = true;
+            btnOpenInBrowser.IsEnabled = true;
+         } else {
+            btnEditVideo.IsEnabled = false;
+            btnRemoveVideo.IsEnabled = false;
+            btnOpenInBrowser.IsEnabled = false;
+         }
+      }
+
+      private void btnEditVideo_Click(object sender, RoutedEventArgs e) {
+         if (lstVideos.SelectedItem is Video video) {
+            VideoWindow videoWindow = new VideoWindow() {
+               Id = video.Id,
+               Url = video.Url,
+               EmbedCode = video.EmbedCode
+            };
+            if (videoWindow.ShowDialog() ?? false) {
+               video.Id = videoWindow.Id;
+               video.Url = videoWindow.Url;
+               video.EmbedCode = videoWindow.EmbedCode;
+               InitializeVideoList();
+            }
+         }
+      }
+
+      private void btnOpenInBrowser_Click(object sender, RoutedEventArgs e) {
+         if (lstVideos.SelectedItem is Video video) {
+            Process.Start(new ProcessStartInfo {
+               FileName = video.Url,
+               UseShellExecute = true
+            });
          }
       }
    }

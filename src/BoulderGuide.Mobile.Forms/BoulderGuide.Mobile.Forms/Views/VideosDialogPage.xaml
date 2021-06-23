@@ -10,7 +10,7 @@
 
    <Frame.Resources>
       <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
-      <xamarinforms:AddressToHtmlSourceConverter x:Key="AddressToHtmlSourceConverter" />
+      <xamarinforms:VideoToHtmlSourceConverter x:Key="VideoToHtmlSourceConverter" />
    </Frame.Resources>
 
    <StackLayout>
@@ -40,7 +40,7 @@
                   <WebView
                      VerticalOptions="FillAndExpand"
                      HorizontalOptions="CenterAndExpand"
-                     Source="{Binding ., Converter={StaticResource AddressToHtmlSourceConverter}}">
+                     Source="{Binding ., Converter={StaticResource VideoToHtmlSourceConverter}}">
                   </WebView>
                </Frame>
             </DataTemplate>
