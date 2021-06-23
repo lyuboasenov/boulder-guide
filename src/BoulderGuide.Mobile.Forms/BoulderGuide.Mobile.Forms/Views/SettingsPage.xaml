@@ -63,6 +63,52 @@
 
             <BoxView Style="{StaticResource Separator}" />
 
+            <Grid Margin="0, 10, 0, 10" IsVisible="{Binding IsAdvancedModeEnabled}">
+
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+               </Grid.ColumnDefinitions>
+               <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+               </Grid.RowDefinitions>
+
+               <Label
+                  Text="{Static icons:MaterialIconFont.CodeOff}"
+                  FontSize="40"
+                  FontFamily="{StaticResource Key=MaterialFontFamily}">
+                  <Label.Triggers>
+                     <DataTrigger TargetType="Label"
+                        Binding="{Binding IsDeveloperEnabled}"
+                        Value="true">
+                        <Setter Property="Text" Value="{Static icons:MaterialIconFont.Code}" />
+                     </DataTrigger>
+                  </Label.Triggers>
+               </Label>
+
+               <Switch
+                  Grid.Column="1"
+                  HorizontalOptions="End"
+                  IsToggled="{Binding IsDeveloperEnabled}"  />
+
+               <ImageButton
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  HorizontalOptions="End"
+                  Command="{Binding EnterKeyCommand}"
+                  Style="{StaticResource Key=RoundAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                        Glyph="{Static icons:MaterialIconFont.LockOpen}"
+                        Color="{StaticResource Key=Accent}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+            </Grid>
+
+            <BoxView Style="{StaticResource Separator}" IsVisible="{Binding IsAdvancedModeEnabled}"/>
+
          </StackLayout>
       </ScrollView>
       <Frame

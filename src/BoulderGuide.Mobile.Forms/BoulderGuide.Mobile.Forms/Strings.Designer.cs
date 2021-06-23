@@ -61,6 +61,24 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вие успешно деактивирахте разширеният режим..
+        /// </summary>
+        internal static string AdvancedModeDisabled {
+            get {
+                return ResourceManager.GetString("AdvancedModeDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вие успешно активирахте разширеният режим..
+        /// </summary>
+        internal static string AdvancedModeEnabled {
+            get {
+                return ResourceManager.GetString("AdvancedModeEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Достъп.
         /// </summary>
         internal static string AreaAccess {
@@ -432,6 +450,15 @@ namespace BoulderGuide.Mobile.Forms {
         internal static string UnableToDownloadRoute {
             get {
                 return ResourceManager.GetString("UnableToDownloadRoute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to включи ранширеният режим.
+        /// </summary>
+        internal static string UnableToEnableAddvancedMode {
+            get {
+                return ResourceManager.GetString("UnableToEnableAddvancedMode", resourceCulture);
             }
         }
         

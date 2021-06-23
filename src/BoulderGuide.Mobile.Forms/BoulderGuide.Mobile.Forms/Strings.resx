@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdvancedModeDisabled" xml:space="preserve">
+    <value>Вие успешно деактивирахте разширеният режим.</value>
+  </data>
+  <data name="AdvancedModeEnabled" xml:space="preserve">
+    <value>Вие успешно активирахте разширеният режим.</value>
+  </data>
   <data name="AreaAccess" xml:space="preserve">
     <value>Достъп</value>
   </data>
@@ -245,6 +251,9 @@
     <value>Избраният маршрут не е запазен на устройството.
 Няма интернет свързаност и той не може да бъде свален.
 Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка.</value>
+  </data>
+  <data name="UnableToEnableAddvancedMode" xml:space="preserve">
+    <value>включи ранширеният режим</value>
   </data>
   <data name="UnableToEnterKey" xml:space="preserve">
     <value>въведе ключът.</value>

@@ -64,5 +64,22 @@
             preferences.Set(nameof(PrivateRegionsKey), value);
          }
       }
+
+      public bool IsAdvancedModeEnabled {
+         get {
+            return preferences.Get(nameof(IsAdvancedModeEnabled), false);
+         }
+         set {
+            preferences.Set(nameof(IsAdvancedModeEnabled), value);
+         }
+      }
+      public bool IsDeveloperEnabled {
+         get {
+            return preferences.Get(nameof(IsDeveloperEnabled), false);
+         }
+         set {
+            preferences.Set(nameof(IsDeveloperEnabled), value);
+         }
+      }
    }
 }

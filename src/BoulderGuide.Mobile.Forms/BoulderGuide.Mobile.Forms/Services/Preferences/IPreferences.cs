@@ -7,5 +7,7 @@
       bool ShowPrivateRegions { get; set; }
       RouteOrderBy RouteOrderByProperty { get; set; }
       string PrivateRegionsKey { get; set; }
+      bool IsAdvancedModeEnabled { get; set; }
+      bool IsDeveloperEnabled { get; set; }
    }
 }
