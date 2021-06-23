@@ -92,6 +92,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       private void GoToMyLocation() {
          FollowMyLocation = true;
+         FollowMyLocation = false;
       }
 
       private bool CanZoomOut() {

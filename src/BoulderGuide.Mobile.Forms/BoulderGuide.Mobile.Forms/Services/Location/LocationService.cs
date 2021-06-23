@@ -44,7 +44,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          lock (_lock) {
             _locationPollersCount++;
          }
-         System.Threading.Interlocked.Increment(ref _locationPollersCount);
+
          if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
             Device.StartTimer(TimeSpan.FromSeconds(preferences.GPSPollIntervalInSeconds), () => {
                Task.Run(async () => {
