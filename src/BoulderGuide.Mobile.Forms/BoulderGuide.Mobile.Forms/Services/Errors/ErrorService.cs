@@ -1,46 +1,70 @@
 ﻿using Prism.Services;
+using Prism.Services.Dialogs;
 using System;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Errors {
    internal class ErrorService : IErrorService {
-      private readonly IPageDialogService dialogService;
+      private readonly IPageDialogService pageDialogService;
+      private readonly Preferences.IPreferences preferences;
+      private readonly IDialogService dialogService;
 
-      public ErrorService(IPageDialogService dialogService) {
+      public ErrorService(
+         IPageDialogService pageDialogService,
+         Preferences.IPreferences preferences,
+         IDialogService dialogService) {
+         this.pageDialogService = pageDialogService;
+         this.preferences = preferences;
          this.dialogService = dialogService;
       }
 
       public void HandleError(Exception ex) {
-         dialogService.
-            DisplayAlertAsync(
-               Strings.GenericExceptionTitle,
-               Strings.GenericExceptionMessage,
-               Strings.Ok);
-#if DEBUG
-         PrintException(ex);
-#endif
+         HandleError(ex, Strings.GenericExceptionMessage);
       }
-
-#if DEBUG
-      private void PrintException(Exception ex) {
-         var indent = new string(' ', 6);
-         var json = Newtonsoft.Json.JsonConvert.SerializeObject(ex).Replace(Environment.NewLine, Environment.NewLine + indent);
-         System.Diagnostics.Debug.WriteLine("Exception:");
-         System.Diagnostics.Debug.WriteLine($"   Type: {ex.GetType().Name}");
-
-         System.Diagnostics.Debug.WriteLine($"   JSON:");
-         System.Diagnostics.Debug.WriteLine(indent + json);
-      }
-#endif
 
       public void HandleError(Exception ex, string message) {
-         dialogService.
-            DisplayAlertAsync(
-               Strings.GenericExceptionTitle,
-               message,
-               Strings.Ok);
+
+         if (preferences.IsDeveloperEnabled) {
+            Task.Run(async () => {
+               await pageDialogService.
+                  DisplayAlertAsync(
+                     Strings.GenericExceptionTitle,
+                     message,
+                     Strings.ReadMore,
+                     Strings.Ok);
+               await dialogService.ShowDialogAsync(
+                  nameof(Views.TextViewDialogPage),
+                  new DialogParameters() {
+                     { "Title", Strings.GenericExceptionTitle },
+                     { "Text", FormatException(ex) }
+                  });
+            });
+
+         } else {
+            pageDialogService.
+               DisplayAlertAsync(
+                  Strings.GenericExceptionTitle,
+                  message,
+                  Strings.Ok);
+         }
+
 #if DEBUG
-         PrintException(ex);
+         System.Diagnostics.Debug.WriteLine(FormatException(ex));
 #endif
+      }
+
+      private static string FormatException(Exception ex) {
+         var indent = new string(' ', 6);
+         var json = Newtonsoft.Json.JsonConvert.SerializeObject(ex).Replace(Environment.NewLine, Environment.NewLine + indent);
+         var sb = new StringBuilder();
+         sb.AppendLine("Exception:");
+         sb.AppendLine($"   Type: {ex.GetType().Name}");
+
+         sb.AppendLine($"   JSON:");
+         sb.AppendLine(indent + json);
+
+         return sb.ToString();
       }
    }
 }
