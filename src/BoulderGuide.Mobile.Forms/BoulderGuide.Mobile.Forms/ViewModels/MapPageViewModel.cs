@@ -11,6 +11,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class MapPageViewModel : ViewModelBase {
 
       private readonly ILocationService locationService;
+      private readonly Services.Preferences.IPreferences preferences;
 
       public string Title { get; set; }
       public Mapsui.Map Map { get; set; }
@@ -36,13 +37,19 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand ZoomInCommand { get; }
       public ICommand ZoomOutCommand { get; }
       public ICommand NorthCommand { get; }
+
       public MapPageViewModel(
-         ILocationService locationService) {
+         ILocationService locationService,
+         Services.Preferences.IPreferences preferences) {
          this.locationService = locationService;
+         this.preferences = preferences;
+
          GoToMyLocationCommand = new Command(GoToMyLocation);
          ZoomInCommand = new Command(ZoomIn, CanZoomIn);
          ZoomOutCommand = new Command(ZoomOut, CanZoomOut);
          NorthCommand = new Command(North, CanNorth);
+
+         FollowMyLocation = preferences.IsTrackMyLocationEnabled;
 
          locationService.LocationUpdated += LocationService_LocationUpdated;
       }
@@ -93,8 +100,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private void GoToMyLocation() {
-         FollowMyLocation = true;
-         FollowMyLocation = false;
+         FollowMyLocation = !FollowMyLocation;
+         preferences.IsTrackMyLocationEnabled = FollowMyLocation;
       }
 
       private bool CanZoomOut() {

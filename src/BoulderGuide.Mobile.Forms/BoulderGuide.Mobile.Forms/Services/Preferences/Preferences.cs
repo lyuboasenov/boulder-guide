@@ -81,5 +81,14 @@
             preferences.Set(nameof(IsDeveloperEnabled), value);
          }
       }
+
+      public bool IsTrackMyLocationEnabled {
+         get {
+            return preferences.Get(nameof(IsTrackMyLocationEnabled), false);
+         }
+         set {
+            preferences.Set(nameof(IsTrackMyLocationEnabled), value);
+         }
+      }
    }
 }

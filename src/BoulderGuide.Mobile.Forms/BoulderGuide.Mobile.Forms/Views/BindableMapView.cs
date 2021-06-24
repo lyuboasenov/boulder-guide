@@ -59,6 +59,13 @@ namespace BoulderGuide.Mobile.Forms.Views {
                ((BindableMapView) b).OnRotationChanged();
             });
 
+      public static readonly BindableProperty TrackMyLocationProperty =
+         BindableProperty.Create(
+            nameof(TrackMyLocation),
+            typeof(bool),
+            typeof(BindableMapView),
+            false,
+            propertyChanged: (b, _, __) => (b as BindableMapView)?.ONTrackMyLocationChanged());
 
       public Map BindableMap {
          get { return (Map) GetValue(BindableMapProperty); }
@@ -90,12 +97,20 @@ namespace BoulderGuide.Mobile.Forms.Views {
          set { SetValue(RotationProperty, value); }
       }
 
+      public bool TrackMyLocation {
+         get { return (bool) GetValue(TrackMyLocationProperty); }
+         set { SetValue(TrackMyLocationProperty, value); }
+      }
+
       public BindableMapView() {
          Viewport.ViewportChanged += Viewport_ViewportChanged;
       }
 
       private void OnMyLocationChanged() {
          MyLocationLayer.UpdateMyLocation(MyLocation);
+         if (TrackMyLocation) {
+            GoToMyLocation();
+         }
       }
 
       private void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -168,6 +183,17 @@ namespace BoulderGuide.Mobile.Forms.Views {
          }
 
          return false;
+      }
+
+      private void ONTrackMyLocationChanged() {
+         if (TrackMyLocation) {
+            GoToMyLocation();
+         }
+      }
+
+      private void GoToMyLocation() {
+         MyLocationFollow = true;
+         MyLocationFollow = false;
       }
    }
 }
