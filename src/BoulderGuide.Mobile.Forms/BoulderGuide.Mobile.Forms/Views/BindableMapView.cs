@@ -74,7 +74,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
       public Mapsui.UI.Forms.Position MyLocation {
          get { return (Mapsui.UI.Forms.Position) GetValue(MyLocationProperty); }
-         private set { SetValue(MyLocationProperty, value); }
+         set { SetValue(MyLocationProperty, value); }
       }
 
       public double Resolution {
@@ -186,14 +186,12 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void ONTrackMyLocationChanged() {
-         if (TrackMyLocation) {
-            GoToMyLocation();
-         }
+         MyLocationFollow = TrackMyLocation;
       }
 
       private void GoToMyLocation() {
-         MyLocationFollow = true;
          MyLocationFollow = false;
+         MyLocationFollow = true;
       }
    }
 }

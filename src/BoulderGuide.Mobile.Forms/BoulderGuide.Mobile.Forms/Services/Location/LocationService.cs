@@ -1,212 +1,165 @@
-﻿using BruTile.MbTiles;
-using Mapsui.Geometries;
-using Mapsui.Layers;
-using Mapsui.Projection;
-using Mapsui.Providers;
-using Mapsui.Styles;
-using Mapsui.Utilities;
-using SQLite;
-using System.Collections.Generic;
-using System.Linq;
-using Xamarin.Essentials.Interfaces;
+﻿using Xamarin.Essentials.Interfaces;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Xamarin.Forms;
-using BoulderGuide.DTOs;
-using BoulderGuide.Mobile.Forms.Domain;
 using BoulderGuide.Mobile.Forms.Services.Errors;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace BoulderGuide.Mobile.Forms.Services.Location {
-   public class LocationService : ILocationService {
-      private readonly IConnectivity connectivity;
-      private int _locationPollersCount;
+   public class LocationService : ILocationService, IDisposable {
+
+      private readonly Task task;
+      private CancellationTokenSource cts;
+      private CancellationToken token;
+      private readonly int backgoundLoopMillisecondDelay = 500;
+      private int pollPeriodInMilliseconds = 5 * 60 * 1000; // Defaults to 5 minutes
+      private int millisecondsFromLastPoll = 5 * 60 * 1000;
+
       private readonly object _lock = new object();
+      private bool disposedValue;
+      private bool shouldBuildAccurancy = true;
+
       private readonly IPermissions permissions;
       private readonly Preferences.IPreferences preferences;
       private readonly IGeolocation geolocation;
-      private static readonly GeolocationRequest locationRequest = new GeolocationRequest(GeolocationAccuracy.Best);
+      private readonly IErrorService errorService;
 
-
-      public event EventHandler<LocationUpdatedEventArgs> LocationUpdated;
+      private Xamarin.Essentials.Location lastKnownLocation;
 
       public LocationService(
-         IConnectivity connectivity,
          IPermissions permissions,
          Preferences.IPreferences preferences,
          IGeolocation geolocation,
          IErrorService errorService) {
-         this.connectivity = connectivity;
          this.permissions = permissions;
          this.preferences = preferences;
          this.geolocation = geolocation;
          this.errorService = errorService;
+
+         cts = new CancellationTokenSource();
+         token = cts.Token;
+         task = Task.Run(BackgroundLoopAsync, token);
       }
 
-      public async Task StartLocationPollingAsync() {
-         lock (_lock) {
-            _locationPollersCount++;
-         }
+      private async Task BackgroundLoopAsync() {
+         while(!token.IsCancellationRequested) {
+            try {
+               if (millisecondsFromLastPoll >= pollPeriodInMilliseconds) {
+                  await PollLocationAsync();
+                  millisecondsFromLastPoll = 0;
+               }
 
-         if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
-            Device.StartTimer(TimeSpan.FromSeconds(preferences.GPSPollIntervalInSeconds), () => {
-               Task.Run(async () => {
-                  try {
-                     if (_locationPollersCount > 0) {
-
-                        if (lastKnownLocation is null) {
-                           lastKnownLocation = await geolocation.GetLastKnownLocationAsync();
-                        }
-
-                        if (null != lastKnownLocation) {
-                           LocationUpdated?.Invoke(this, new LocationUpdatedEventArgs(lastKnownLocation.Latitude, lastKnownLocation.Longitude));
-                        }
-
-                        lastKnownLocation =
-                           await geolocation.GetLocationAsync(locationRequest).ConfigureAwait(false);
-
-                        if (null != lastKnownLocation) {
-                           LocationUpdated?.Invoke(this, new LocationUpdatedEventArgs(lastKnownLocation.Latitude, lastKnownLocation.Longitude));
-                        }
-                     }
-                  } catch (Exception ex) {
-                     await errorService.HandleErrorAsync(ex, true);
-                  }
-               });
-
-               return _locationPollersCount > 0;
-            });
+               await Task.Delay(backgoundLoopMillisecondDelay, token);
+               millisecondsFromLastPoll += backgoundLoopMillisecondDelay;
+            } catch (Exception ex) {
+               await errorService.HandleErrorAsync(ex, true);
+            }
          }
       }
 
-      private Xamarin.Essentials.Location lastKnownLocation;
-      private readonly IErrorService errorService;
+      private async Task PollLocationAsync() {
+         if (await HasPermissionsAsync()) {
+            if (shouldBuildAccurancy) {
+               lastKnownLocation = await geolocation.GetLastKnownLocationAsync().ConfigureAwait(false);
+               await NotifySubscibersAsync().ConfigureAwait(false);
 
-      public Task StopLocationPollingAsync() {
-         lock(_lock) {
-            _locationPollersCount = Math.Max(0, _locationPollersCount - 1);
+               for (int i = 1; i < 5; i++) {
+                  await PollLocationAsync((GeolocationAccuracy) i).ConfigureAwait(false);
+               }
+
+               shouldBuildAccurancy = false;
+            }
+
+            await PollLocationAsync(GeolocationAccuracy.Best).ConfigureAwait(false);
+         }
+      }
+
+      private async Task PollLocationAsync(GeolocationAccuracy geolocationAccuracy) {
+         lastKnownLocation = await geolocation.
+            GetLocationAsync(new GeolocationRequest(geolocationAccuracy), token).
+            ConfigureAwait(false);
+
+         await NotifySubscibersAsync();
+      }
+
+      private Task NotifySubscibersAsync() {
+         if (null != lastKnownLocation) {
+            lock(_lock) {
+               foreach (var observer in observers) {
+                  observer.OnLocationChanged(
+                     new DTOs.Location(
+                        lastKnownLocation.Latitude,
+                        lastKnownLocation.Longitude));
+               }
+            }
          }
          return Task.CompletedTask;
       }
 
-      public Mapsui.Map GetMap(AreaInfo info) {
-         var map = GetBaseMap(info);
-
-         // Add area outline
-         var polygonLayer = CreateOutlineLayer(info.Area);
-         map.Layers.Add(polygonLayer);
-
-         map.Home = n =>
-            n.NavigateTo(
-               polygonLayer.Envelope);
-
-         // Add area routes
-         if (info.Routes?.Any() ?? false) {
-            map.Layers.Add(CreateRoutesLayer(info));
-         }
-
-         return map;
+      private async Task<bool> HasPermissionsAsync() {
+         return await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
       }
 
-      public Mapsui.Map GetMap(RouteInfo info) {
-         var map = GetBaseMap(info.Parent);
-
-         var routeLayer = CreateRouteLayer(info);
-         map.Layers.Add(routeLayer);
-         map.Home = n =>
-            n.NavigateTo(
-               routeLayer.Envelope.Centroid, 1);
-
-         return map;
-      }
-
-      private ILayer CreateRouteLayer(RouteInfo route) {
-
-         var feature = new Feature() {
-            Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
-         };
-         feature.Styles.Add(new LabelStyle() {
-            Text = $"{route.Name} ({new Grade(route.Difficulty)})",
-            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left
-         });
-
-         return new Layer("Routes layer") {
-            DataSource = new MemoryProvider(new[] { feature })
-         };
-      }
-
-      private Mapsui.Map GetBaseMap(AreaInfo info) {
-         var map = new Mapsui.Map {
-            CRS = "EPSG:3857",
-            Transformation = new MinimalTransformation()
-         };
-
-         if (connectivity.NetworkAccess == NetworkAccess.Internet) {
-            map.Layers.Add(OpenStreetMap.CreateTileLayer());
-         } else {
-
-            while (info != null && (!info.Map?.ExistsLocally ?? true)) {
-               info = info.Parent;
+      protected virtual void Dispose(bool disposing) {
+         if (!disposedValue) {
+            if (disposing) {
+               cts.Cancel();
             }
 
-            if (info?.Map?.ExistsLocally ?? false) {
-               var mbTilesTileSource =
-               new MbTilesTileSource(
-                  new SQLiteConnectionString(info.Map.GetMapLocalFilePath(), true),
-                  type: MbTilesType.BaseLayer);
-               map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
+            disposedValue = true;
+         }
+      }
+
+      public void Dispose() {
+         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+         Dispose(disposing: true);
+         GC.SuppressFinalize(this);
+      }
+
+      private List<ILocationObserver> observers = new List<ILocationObserver>();
+
+      public IDisposable Subscribe(ILocationObserver observer) {
+         lock(_lock) {
+            observers.Add(observer);
+            pollPeriodInMilliseconds = preferences.GPSPollIntervalInSeconds * 1000;
+         }
+
+         return new LocationObserverHandle(this, observer);
+      }
+
+      public void Unsubscribe(ILocationObserver observer) {
+         lock(_lock) {
+            observers.Remove(observer);
+            if (observers.Count == 0) {
+               // back to default poll period
+               pollPeriodInMilliseconds = 5 * 60 * 1000;
             }
          }
-
-         return map;
       }
 
-      private ILayer CreateRoutesLayer(AreaInfo info) {
-         var features = new List<IFeature>();
+      private class LocationObserverHandle : IDisposable {
+         private readonly ILocationService locationService;
+         private readonly ILocationObserver observer;
 
-         foreach (var route in info.Routes ?? Enumerable.Empty<RouteInfo>()) {
-            var feature = new Feature() {
-               Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
-            };
-            feature.Styles.Add(new LabelStyle() {
-               Text = $"{route.Name} ({new Grade(route.Difficulty)})",
-               HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left
-            });
-            features.Add(feature);
+         public LocationObserverHandle(
+            ILocationService locationService,
+            ILocationObserver observer) {
+            this.locationService = locationService;
+            this.observer = observer;
          }
 
-         return new Layer("Routes layer") {
-            DataSource = new MemoryProvider(features)
-         };
-      }
-
-      private ILayer CreateOutlineLayer(Area area) {
-         return new Layer("Outline layer") {
-            DataSource = new MemoryProvider(CreatePolygon(area)),
-            Style = new VectorStyle {
-               Fill = new Mapsui.Styles.Brush(new Mapsui.Styles.Color(150, 150, 30, 64)),
-               Outline = new Pen {
-                  Color = Mapsui.Styles.Color.Orange,
-                  Width = 2,
-                  PenStyle = PenStyle.Solid,
-                  PenStrokeCap = PenStrokeCap.Round
-               }
-            }
-         };
-      }
-
-      private IEnumerable<IGeometry> CreatePolygon(Area area) {
-         var result = new List<Polygon>();
-
-         if (area?.Location?.Any() ?? false) {
-            // Fails
-            result.Add(
-               new Polygon(
-                  new LinearRing(
-                     area?.Location?.Select(p => SphericalMercator.FromLonLat(p.Longitude, p.Latitude)))));
+         public void Dispose() {
+            locationService.Unsubscribe(observer);
          }
+      }
 
-         return result;
+      public void Initialize() {
+         // do some dummy work here
+         if (task.IsCompleted) {
+            // this should not happen
+            pollPeriodInMilliseconds = 5 * 60 * 1000;
+         }
       }
    }
 }

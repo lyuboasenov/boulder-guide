@@ -23,6 +23,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
          this.preferences = preferences;
          this.dialogService = dialogService;
          this.mainThread = mainThread;
+
+         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
       }
 
       public Task HandleErrorAsync(Exception ex, bool isDevelopersOnly = false) {
@@ -96,6 +98,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
 #if DEBUG
          System.Diagnostics.Debug.WriteLine(FormatException(ex));
 #endif
+      }
+
+      private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e) {
+         HandleError(e.Exception);
+         e.SetObserved();
       }
 
       private static string FormatException(Exception ex) {

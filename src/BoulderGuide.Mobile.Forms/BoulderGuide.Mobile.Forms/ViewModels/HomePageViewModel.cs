@@ -1,6 +1,7 @@
 ﻿using BoulderGuide.Mobile.Forms.Domain;
 using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.Errors;
+using BoulderGuide.Mobile.Forms.Services.Location;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
@@ -20,7 +21,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IDataService dataService;
       private readonly IPermissions permissions;
       private readonly IActivityIndicationService activityIndicationService;
-      private readonly IErrorService errorService;
 
       public ICommand ReloadCommand { get; }
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
@@ -29,12 +29,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          IDataService dataService,
          IPermissions permissions,
          IActivityIndicationService activityIndicationService,
-         IErrorService errorService) {
+         ILocationService locationService) {
 
          this.dataService = dataService;
          this.permissions = permissions;
          this.activityIndicationService = activityIndicationService;
-         this.errorService = errorService;
+         // dummy call to start the location polling
+         locationService.Initialize();
 
          ReloadCommand = new AsyncCommand<bool>(Reload);
       }

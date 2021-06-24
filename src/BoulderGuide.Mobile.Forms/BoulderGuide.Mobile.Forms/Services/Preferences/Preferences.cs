@@ -8,7 +8,7 @@
 
       public int GPSPollIntervalInSeconds {
          get {
-            return preferences.Get(nameof(GPSPollIntervalInSeconds), 5);
+            return preferences.Get(nameof(GPSPollIntervalInSeconds), 1);
          }
          set {
             preferences.Set(nameof(GPSPollIntervalInSeconds), value);

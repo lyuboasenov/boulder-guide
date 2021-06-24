@@ -1,14 +1,10 @@
-﻿using BoulderGuide.Mobile.Forms.Domain;
-using System;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace BoulderGuide.Mobile.Forms.Services.Location {
    public interface ILocationService {
-      event EventHandler<LocationUpdatedEventArgs> LocationUpdated;
-      Mapsui.Map GetMap(AreaInfo info);
-      Mapsui.Map GetMap(RouteInfo info);
 
-      Task StartLocationPollingAsync();
-      Task StopLocationPollingAsync();
+      void Initialize();
+      IDisposable Subscribe(ILocationObserver observer);
+      void Unsubscribe(ILocationObserver observer);
    }
 }
