@@ -76,22 +76,22 @@
                Spacing="1">
 
             <ImageButton
-            Command="{Binding DoneCommand}"
-            Style="{StaticResource Key=ListAccentImageButton}">
+               Command="{Binding CloseCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
                   <FontImageSource
-                        Glyph="{Static icons:MaterialIconFont.FilterList}"
+                        Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
                         Color="{StaticResource Key=Accent}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
             </ImageButton>
 
             <ImageButton
-            Command="{Binding CloseCommand}"
-            Style="{StaticResource Key=ListAccentImageButton}">
+               Command="{Binding DoneCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
                   <FontImageSource
-                        Glyph="{Static icons:MaterialIconFont.Close}"
+                        Glyph="{Static icons:MaterialIconFont.FilterList}"
                         Color="{StaticResource Key=Accent}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>

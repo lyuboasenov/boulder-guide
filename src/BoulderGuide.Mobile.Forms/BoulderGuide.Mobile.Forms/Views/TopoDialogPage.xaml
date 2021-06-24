@@ -45,6 +45,17 @@
             Spacing="1">
 
             <ImageButton
+               Command="{Binding CloseCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
                Command="{Binding ResetZoomCommand}"
                Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
@@ -72,17 +83,6 @@
                <ImageButton.Source>
                   <FontImageSource
                      Glyph="{Static icons:MaterialIconFont.ZoomOut}"
-                     Color="{StaticResource Key=Accent}"
-                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
-               </ImageButton.Source>
-            </ImageButton>
-
-            <ImageButton
-               Command="{Binding CloseCommand}"
-               Style="{StaticResource Key=ListAccentImageButton}">
-               <ImageButton.Source>
-                  <FontImageSource
-                     Glyph="{Static icons:MaterialIconFont.FullscreenExit}"
                      Color="{StaticResource Key=Accent}"
                      FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>

@@ -60,7 +60,7 @@
                Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
                   <FontImageSource
-                     Glyph="{Static icons:MaterialIconFont.Close}"
+                     Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
                      Color="{StaticResource Key=Accent}"
                      FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>

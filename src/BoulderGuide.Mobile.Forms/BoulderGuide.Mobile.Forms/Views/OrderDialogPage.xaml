@@ -45,11 +45,11 @@
                Spacing="1">
 
             <ImageButton
-         Command="{Binding CloseCommand}"
-         Style="{StaticResource Key=ListAccentImageButton}">
+               Command="{Binding CloseCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
                   <FontImageSource
-               Glyph="{Static icons:MaterialIconFont.Close}"
+               Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
                Color="{StaticResource Key=Accent}"
                FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>

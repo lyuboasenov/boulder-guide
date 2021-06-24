@@ -30,6 +30,17 @@
             Spacing="1">
 
             <ImageButton
+               Command="{Binding GoBackCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
                Command="{Binding GoToMyLocationCommand}"
                Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>
@@ -68,17 +79,6 @@
                <ImageButton.Source>
                   <FontImageSource
                      Glyph="{Static icons:MaterialIconFont.ZoomOut}"
-                     Color="{StaticResource Key=Accent}"
-                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
-               </ImageButton.Source>
-            </ImageButton>
-
-            <ImageButton
-               Command="{Binding GoBackCommand}"
-               Style="{StaticResource Key=ListAccentImageButton}">
-               <ImageButton.Source>
-                  <FontImageSource
-                     Glyph="{Static icons:MaterialIconFont.Close}"
                      Color="{StaticResource Key=Accent}"
                      FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
