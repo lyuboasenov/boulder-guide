@@ -34,7 +34,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          preferences.FilterMinDifficulty = MinDifficulty;
          preferences.FilterMaxDifficulty = MaxDifficulty;
 
-         Close();
+         base.Close();
       }
    }
 }
