@@ -15,6 +15,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Domain;
+using BoulderGuide.Mobile.Forms.Services.Errors;
 
 namespace BoulderGuide.Mobile.Forms.Services.Location {
    public class LocationService : ILocationService {
@@ -33,11 +34,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          IConnectivity connectivity,
          IPermissions permissions,
          Preferences.IPreferences preferences,
-         IGeolocation geolocation) {
+         IGeolocation geolocation,
+         IErrorService errorService) {
          this.connectivity = connectivity;
          this.permissions = permissions;
          this.preferences = preferences;
          this.geolocation = geolocation;
+         this.errorService = errorService;
       }
 
       public async Task StartLocationPollingAsync() {
@@ -48,11 +51,26 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          if (await permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted) {
             Device.StartTimer(TimeSpan.FromSeconds(preferences.GPSPollIntervalInSeconds), () => {
                Task.Run(async () => {
-                  if (_locationPollersCount > 0) {
-                     var currentLocation =
-                        await geolocation.GetLocationAsync(locationRequest).ConfigureAwait(false);
+                  try {
+                     if (_locationPollersCount > 0) {
 
-                     LocationUpdated?.Invoke(this, new LocationUpdatedEventArgs(currentLocation.Latitude, currentLocation.Longitude));
+                        if (lastKnownLocation is null) {
+                           lastKnownLocation = await geolocation.GetLastKnownLocationAsync();
+                        }
+
+                        if (null != lastKnownLocation) {
+                           LocationUpdated?.Invoke(this, new LocationUpdatedEventArgs(lastKnownLocation.Latitude, lastKnownLocation.Longitude));
+                        }
+
+                        lastKnownLocation =
+                           await geolocation.GetLocationAsync(locationRequest).ConfigureAwait(false);
+
+                        if (null != lastKnownLocation) {
+                           LocationUpdated?.Invoke(this, new LocationUpdatedEventArgs(lastKnownLocation.Latitude, lastKnownLocation.Longitude));
+                        }
+                     }
+                  } catch (Exception ex) {
+                     await errorService.HandleErrorAsync(ex, true);
                   }
                });
 
@@ -60,6 +78,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             });
          }
       }
+
+      private Xamarin.Essentials.Location lastKnownLocation;
+      private readonly IErrorService errorService;
 
       public Task StopLocationPollingAsync() {
          lock(_lock) {

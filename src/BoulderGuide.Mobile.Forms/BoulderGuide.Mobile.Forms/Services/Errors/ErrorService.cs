@@ -25,11 +25,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
          this.mainThread = mainThread;
       }
 
-      public Task HandleErrorAsync(Exception ex) {
-         return HandleErrorAsync(ex, Strings.GenericExceptionMessage);
+      public Task HandleErrorAsync(Exception ex, bool isDevelopersOnly = false) {
+         return HandleErrorAsync(ex, Strings.GenericExceptionMessage, isDevelopersOnly);
       }
 
-      public async Task HandleErrorAsync(Exception ex, string message) {
+      public async Task HandleErrorAsync(Exception ex, string message, bool isDevelopersOnly = false) {
          if (preferences.IsDeveloperEnabled) {
             await mainThread.InvokeOnMainThreadAsync(async () => {
                if (await pageDialogService.
@@ -47,7 +47,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
                }
             });
 
-         } else {
+         } else if (!isDevelopersOnly) {
             await mainThread.InvokeOnMainThreadAsync(async () =>
                await pageDialogService.
                   DisplayAlertAsync(

@@ -24,6 +24,8 @@
 	<array>
 		<string>mailto</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need to read your location to show you relative to the boulders.</string>
 	<key>MinimumOSVersion</key>
 	<string>10.0</string>
 	<key>UILaunchStoryboardName</key>
