@@ -1,6 +1,8 @@
 ﻿using Prism.Services;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials.Interfaces;
@@ -98,7 +100,27 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
 
       private static string FormatException(Exception ex) {
          var indent = new string(' ', 6);
-         var json = Newtonsoft.Json.JsonConvert.SerializeObject(ex).Replace(Environment.NewLine, Environment.NewLine + indent);
+         var settings = new Newtonsoft.Json.JsonSerializerSettings() {
+            Formatting = Newtonsoft.Json.Formatting.Indented,
+            MaxDepth = 10,
+            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize,
+            PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects,
+            Error = delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+            {
+               // silence errors
+               args.ErrorContext.Handled = true;
+            },
+            ContractResolver = new GetExceptionPropertiesResolver()
+         };
+
+         var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault(settings);
+         var jb = new StringBuilder();
+         using (var tw = new System.IO.StringWriter(jb))
+         using (var jw = new Newtonsoft.Json.JsonTextWriter(tw)) {
+            serializer.Serialize(jw, ex);
+         }
+
+         var json = jb.ToString().Replace(Environment.NewLine, Environment.NewLine + indent);
          var sb = new StringBuilder();
          sb.AppendLine("Exception:");
          sb.AppendLine($"   Type: {ex.GetType().Name}");
@@ -107,6 +129,16 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
          sb.AppendLine(indent + json);
 
          return sb.ToString();
+      }
+   }
+
+   public class GetExceptionPropertiesResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
+      protected override IList<Newtonsoft.Json.Serialization.JsonProperty> CreateProperties(Type type, Newtonsoft.Json.MemberSerialization memberSerialization) {
+         var propertyList = new[] { "Message", "InnerException", "StackTrace" };
+         var allProps = base.CreateProperties(type, memberSerialization);
+
+         //Choose the properties you want to serialize/deserialize
+         return allProps.Where(p => propertyList.Any(a => a == p.PropertyName)).ToList();
       }
    }
 }

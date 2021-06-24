@@ -14,9 +14,11 @@
          RotationLock="True"
          IsZoomButtonVisible="False"
          BindableMap="{Binding Map}"
-         BindableMyLocationLayer="{Binding MyLocationLayer, Mode=OneWayToSource}"
+         MyLocation="{Binding MyLocation}"
          MyLocationFollow="{Binding FollowMyLocation, Mode=TwoWay}"
          BackgroundColor="Gray"
+         MinResolution="{Binding MapMinResolution}"
+         MaxResolution="{Binding MapMaxResolution}"
          Resolution="{Binding MapResolution, Mode=TwoWay}"
          Rotation="{Binding MapRotation, Mode=TwoWay}"/>
 

@@ -14,7 +14,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public string Title { get; set; }
       public Mapsui.Map Map { get; set; }
-      public double MapResolution { get; set; }
+      public double MapResolution { get; set; } = 20000;
+      public double MapMinResolution { get; set; } = 0.2;
+      public double MapMaxResolution { get; set; } = 20000;
 
       public void OnMapResolutionChanged() {
          RunOnMainThreadAsync(() => {
@@ -28,7 +30,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             (NorthCommand as Command)?.ChangeCanExecute();
          });
       }
-      public Mapsui.UI.Objects.MyLocationLayer MyLocationLayer { get; set; }
+      public Mapsui.UI.Forms.Position MyLocation { get; set; }
       public bool FollowMyLocation { get; set; }
       public ICommand GoToMyLocationCommand { get; }
       public ICommand ZoomInCommand { get; }
@@ -86,8 +88,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private void LocationService_LocationUpdated(object sender, LocationUpdatedEventArgs e) {
-         MyLocationLayer?.UpdateMyLocation(
-            new Mapsui.UI.Forms.Position(e.Latitude, e.Longitude));
+         MyLocation =
+            new Mapsui.UI.Forms.Position(e.Latitude, e.Longitude);
       }
 
       private void GoToMyLocation() {
@@ -96,19 +98,19 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private bool CanZoomOut() {
-         return MapResolution < 20000;
+         return MapResolution < MapMaxResolution;
       }
 
       private void ZoomOut() {
-         MapResolution *= 1.6;
+         MapResolution = Math.Min(MapResolution * 1.6, MapMaxResolution);
       }
 
       private bool CanZoomIn() {
-         return MapResolution > 0.2;
+         return MapResolution > MapMinResolution;
       }
 
       private void ZoomIn() {
-         MapResolution /= 1.6;
+         MapResolution = Math.Max(MapResolution / 1.6, MapMinResolution);
       }
 
       public static NavigationParameters InitializeParameters(RouteInfo routeInfo) {
