@@ -50,24 +50,40 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       public Task NavigateAsync(string title, string path, INavigationParameters parameters = null, string glyph = "") {
-         var lastItem = Breadcrumbs.Items.LastOrDefault();
-         if (lastItem is null ||
-            lastItem.Glyph != glyph ||
-            lastItem.Title != title ||
-            lastItem.Path != path ||
-            lastItem.Parameters != parameters) {
-            Breadcrumbs.Items.Add(new Breadcrumbs.Item() {
-               Glyph = glyph,
-               Title = title,
-               Path = path,
-               Parameters = parameters
-            });
+         var target = new Breadcrumbs.Item() {
+            Glyph = glyph,
+            Title = title,
+            Path = path,
+            Parameters = parameters
+         };
+
+         return NavigateAsync(target);
+      }
+
+      public async Task NavigateAsync(Breadcrumbs.Item target) {
+
+         if (Breadcrumbs.Items.Any(i => i.Equals(target))) {
+            // backtrack
+            try {
+               for (int i = Breadcrumbs.Items.Count - 1; i >= 0; i--) {
+                  var current = Breadcrumbs.Items[i];
+                  Breadcrumbs.Items.RemoveAt(i);
+                  if (current.Equals(target)) {
+                     await NavigateAsync(current.Title, current.Path, current.Parameters, current.Glyph);
+                     break;
+                  }
+               }
+            } catch (Exception ex) {
+               await HandleOperationExceptionAsync(ex, string.Format(Strings.UnableToNavigateFormat, target?.Title));
+            }
+         } else {
+            Breadcrumbs.Items.Add(target);
          }
 
-         return RunOnMainThreadAsync(async () => {
-            var result = await NavigationService.NavigateAsync(path, parameters);
+         await RunOnMainThreadAsync(async () => {
+            var result = await NavigationService.NavigateAsync(target.Path, target.Parameters);
             if (!result.Success) {
-               await HandleOperationExceptionAsync (result.Exception, string.Format(Strings.UnableToNavigateFormat, title));
+               await HandleOperationExceptionAsync(result.Exception, string.Format(Strings.UnableToNavigateFormat, target.Title));
             }
          });
       }

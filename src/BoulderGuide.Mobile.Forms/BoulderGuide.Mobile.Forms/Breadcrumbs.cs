@@ -1,4 +1,5 @@
 ﻿using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 
 namespace BoulderGuide.Mobile.Forms {
@@ -10,7 +11,7 @@ namespace BoulderGuide.Mobile.Forms {
             Path = "/MainPage/NavigationPage/HomePage"
          }});
 
-      public class Item {
+      public class Item : IEquatable<Item> {
          public string Offset {
             get {
                return new string(' ', Items.IndexOf(this) * 3);
@@ -23,6 +24,21 @@ namespace BoulderGuide.Mobile.Forms {
 
          public override string ToString() {
             return $"{Title}: {Path}";
+         }
+
+         public override int GetHashCode() {
+            return ToString().GetHashCode();
+         }
+
+         public override bool Equals(object obj) {
+            return (obj is Item i) && Equals(i);
+         }
+
+         public bool Equals(Item i) {
+            return Glyph == i.Glyph &&
+               Title == i.Title &&
+               Path == i.Path &&
+               Parameters == i.Parameters;
          }
       }
    }
