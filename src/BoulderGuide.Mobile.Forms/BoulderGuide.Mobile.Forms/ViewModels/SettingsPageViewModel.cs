@@ -90,7 +90,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             initialized = true;
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToInitializeSettings);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToInitializeSettings);
          }
       }
 
@@ -114,7 +114,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             }
             lastTapped = DateTime.Now;
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToEnableAddvancedMode);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToEnableAddvancedMode);
          }
       }
 
@@ -132,7 +132,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             ShowPrivateAreas = preferences.ShowPrivateRegions;
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToEnterKey);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToEnterKey);
          }
       }
 
@@ -146,7 +146,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                GetLocalStorageSizeInMB().
                ConfigureAwait(false);
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToClearLocalData);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToClearLocalData);
          }
       }
    }

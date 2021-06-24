@@ -84,7 +84,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                (VideosCommand as AsyncCommand)?.RaiseCanExecuteChanged();
             });
          } catch (Exception ex) {
-            HandleException(ex);
+            await HandleExceptionAsync(ex);
          }
       }
 

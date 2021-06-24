@@ -1,9 +1,7 @@
 ﻿using BoulderGuide.Mobile.Forms.Services.Errors;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
@@ -26,7 +24,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                }
             }
          } catch (Exception ex) {
-            errorService.HandleError(new DownloadFileException("", ex) {
+            await errorService.HandleErrorAsync(new DownloadFileException("", ex) {
                Address = remotePath
             });
          }

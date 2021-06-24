@@ -45,12 +45,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
             return Task.CompletedTask;
          } catch (Exception ex) {
-            errorService.HandleError(ex);
-            return Task.CompletedTask;
+            return errorService.HandleErrorAsync(ex);
          }
       }
 
-      public Task<int> GetLocalStorageSizeInMB() {
+      public async Task<int> GetLocalStorageSizeInMB() {
          try {
             var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
             DirectoryInfo info = new DirectoryInfo(repoDir);
@@ -61,23 +60,23 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                }
             }
 
-            return Task.FromResult<int>((int) (size >> 20));
+            return (int) (size >> 20);
          } catch (Exception ex) {
-            errorService.HandleError(ex);
-            return Task.FromResult(0);
+            await errorService.HandleErrorAsync(ex);
+            return 0;
          }
       }
 
-      public Task<IEnumerable<AreaInfo>> GetIndexAreas(bool force) {
+      public async Task<IEnumerable<AreaInfo>> GetIndexAreas(bool force) {
          try {
             if (connectivity.NetworkAccess != NetworkAccess.Internet) {
-               return GetAreas(false, force);
+                return await GetAreas(false, force);
             } else {
-               return GetAreas(true, force);
+               return await GetAreas(true, force);
             }
          } catch (Exception ex) {
-            errorService.HandleError(ex);
-            return Task.FromResult<IEnumerable<AreaInfo>>(null);
+            await errorService.HandleErrorAsync(ex);
+            return null;
          }
       }
 

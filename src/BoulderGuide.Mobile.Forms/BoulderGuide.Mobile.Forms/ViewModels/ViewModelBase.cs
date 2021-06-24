@@ -67,7 +67,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return RunOnMainThreadAsync(async () => {
             var result = await NavigationService.NavigateAsync(path, parameters);
             if (!result.Success) {
-               HandleOperationException(result.Exception, string.Format(Strings.UnableToNavigateFormat, title));
+               await HandleOperationExceptionAsync (result.Exception, string.Format(Strings.UnableToNavigateFormat, title));
             }
          });
       }
@@ -93,16 +93,20 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                ConfigureAwait(false);
 
          if (result.Exception != null) {
-            HandleOperationException(result.Exception, Strings.UnableToOpenDialog);
+            await HandleOperationExceptionAsync(result.Exception, Strings.UnableToOpenDialog);
          }
       }
 
-      public void HandleException(Exception ex) {
-         errorService.HandleError(ex);
+      public Task HandleExceptionAsync(Exception ex) {
+         return errorService.HandleErrorAsync(ex);
       }
 
-      public void HandleException(Exception ex, string message) {
-         errorService.HandleError(ex, message);
+      public Task HandleExceptionAsync(Exception ex, string message) {
+         return errorService.HandleErrorAsync(ex, message);
+      }
+
+      public Task HandleOperationExceptionAsync(Exception ex, string operation) {
+         return HandleExceptionAsync(ex, string.Format(Strings.OperationExceptionFormat, operation));
       }
 
       public void HandleOperationException(Exception ex, string operation) {

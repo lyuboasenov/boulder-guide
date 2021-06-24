@@ -4,7 +4,6 @@ using BoulderGuide.Mobile.Forms.Services.Data;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
-using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
@@ -57,7 +55,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             await InitializeAsync().
                ConfigureAwait(false);
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToSort);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToSort);
          }
       }
 
@@ -68,7 +66,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             await InitializeAsync().
                ConfigureAwait(false);
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToFilter);
+            await HandleOperationExceptionAsync (ex, Strings.UnableToFilter);
          }
       }
 
@@ -145,7 +143,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
          } catch (Exception ex) {
-            HandleOperationException(ex, string.Format(Strings.UnableToInitializeAreaFormat, Info?.Name));
+            await HandleOperationExceptionAsync(ex, string.Format(Strings.UnableToInitializeAreaFormat, Info?.Name));
          }
          finally {
             handle.Dispose();
@@ -195,7 +193,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          try {
             await Info.DownloadAsync(true).ConfigureAwait(false);
          } catch (Exception ex) {
-            HandleOperationException(ex, string.Format(Strings.UnableToDownloadFormat, Info?.Name));
+            await HandleOperationExceptionAsync (ex, string.Format(Strings.UnableToDownloadFormat, Info?.Name));
          } finally {
             handle.Dispose();
          }

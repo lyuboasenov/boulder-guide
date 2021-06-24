@@ -74,7 +74,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                }
             }
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToReloadClimbingRegions);
+            await HandleOperationExceptionAsync (ex, Strings.UnableToReloadClimbingRegions);
          }
       }
    }

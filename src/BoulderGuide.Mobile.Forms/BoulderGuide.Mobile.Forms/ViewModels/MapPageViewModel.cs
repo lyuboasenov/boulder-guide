@@ -67,7 +67,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             await locationService.StartLocationPollingAsync();
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToInitializeMap);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToInitializeMap);
          }
       }
 

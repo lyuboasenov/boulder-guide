@@ -34,7 +34,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
          } catch (Exception ex) {
             var errorService =
                Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleError(ex);
+            errorService?.HandleErrorAsync(ex);
          }
       }
 
@@ -71,7 +71,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
          } catch (Exception ex) {
             var errorService =
                Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleError(ex);
+            errorService?.HandleErrorAsync(ex);
          }
       }
 
@@ -96,7 +96,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
          } catch (Exception ex) {
             var errorService =
                Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleError(ex);
+            errorService?.HandleErrorAsync(ex);
          }
       }
 

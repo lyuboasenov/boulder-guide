@@ -1,5 +1,4 @@
-﻿using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -39,7 +38,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             };
             await email.ComposeAsync(message);
          } catch (Exception ex) {
-            HandleOperationException(ex, Strings.UnableToOpenEmailClient);
+            await HandleOperationExceptionAsync(ex, Strings.UnableToOpenEmailClient);
          }
       }
 
@@ -51,8 +50,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          try {
             return browser.OpenAsync(url);
          } catch (Exception ex) {
-            HandleOperationException(ex, string.Format(Strings.UnableToOpenBrowserFormat, url));
-            return Task.CompletedTask;
+            return HandleOperationExceptionAsync(ex, string.Format(Strings.UnableToOpenBrowserFormat, url));
          }
       }
    }
