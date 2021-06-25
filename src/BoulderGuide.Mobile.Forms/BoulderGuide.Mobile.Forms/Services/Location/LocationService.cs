@@ -22,6 +22,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
 
       private readonly object _lock = new object();
       private List<ILocationObserver> observers = new List<ILocationObserver>();
+      private double myDirection;
 
       private bool disposedValue;
       private bool shouldBuildAccurancy = true;
@@ -30,16 +31,24 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
       private readonly Preferences.IPreferences preferences;
       private readonly IGeolocation geolocation;
       private readonly IErrorService errorService;
+      private readonly ICompass compass;
 
       public LocationService(
          IPermissions permissions,
          Preferences.IPreferences preferences,
          IGeolocation geolocation,
-         IErrorService errorService) {
+         IErrorService errorService,
+         ICompass compass) {
          this.permissions = permissions;
          this.preferences = preferences;
          this.geolocation = geolocation;
          this.errorService = errorService;
+         this.compass = compass;
+         compass.ReadingChanged += Compass_ReadingChanged;
+      }
+
+      private void Compass_ReadingChanged(object sender, CompassChangedEventArgs e) {
+         myDirection = e.Reading.HeadingMagneticNorth;
       }
 
       private async Task BackgroundLoopAsync() {
@@ -92,7 +101,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
                foreach (var observer in observers) {
                   observer.OnLocationChanged(
                      location.Latitude,
-                     location.Longitude);
+                     location.Longitude,
+                     myDirection);
                }
             }
          }
@@ -125,6 +135,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          lock(_lock) {
             observers.Add(observer);
             getPeriodInMs = preferences.GPSPollIntervalInSeconds * 1000;
+            compass.Start(SensorSpeed.Default);
          }
 
          return new LocationObserverHandle(this, observer);
@@ -136,7 +147,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             if (observers.Count == 0) {
                // back to default poll period
                getPeriodInMs = DEFAULT_GET_PERIOD_MS;
-;
+               compass.Stop();;
             }
          }
       }

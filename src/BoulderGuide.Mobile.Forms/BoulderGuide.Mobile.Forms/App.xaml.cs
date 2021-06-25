@@ -37,6 +37,7 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterSingleton<IMainThread, MainThreadImplementation>();
          containerRegistry.RegisterSingleton<IBrowser, BrowserImplementation>();
          containerRegistry.RegisterSingleton<IEmail, EmailImplementation>();
+         containerRegistry.RegisterSingleton<ICompass, CompassImplementation>();
 
          containerRegistry.RegisterSingleton<IErrorService, ErrorService>();
          containerRegistry.RegisterSingleton<IDataService, DataService>();

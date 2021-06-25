@@ -45,6 +45,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          });
       }
       public Mapsui.UI.Forms.Position MyLocation { get; set; }
+      public double MyDirection { get; set; }
       public IEnumerable<Mapsui.UI.Forms.Position> TargetLocation { get; set; }
 
       public Views.FollowMode FollowMode { get; set; }
@@ -292,9 +293,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return InitializeParameters(nameof(AreaInfo), areaInfo);
       }
 
-      public void OnLocationChanged(double latitude, double longitude) {
+      public void OnLocationChanged(double latitude, double longitude, double direction) {
          MyLocation =
             new Mapsui.UI.Forms.Position(latitude, longitude);
+
+         MyDirection = direction;
       }
    }
 }

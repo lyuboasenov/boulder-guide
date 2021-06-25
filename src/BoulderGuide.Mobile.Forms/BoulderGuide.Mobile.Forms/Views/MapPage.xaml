@@ -18,6 +18,7 @@
          Resolution="{Binding MapResolution, Mode=TwoWay}"
          Rotation="{Binding MapRotation, Mode=TwoWay}"
          MyLocation="{Binding MyLocation}"
+         MyDirection="{Binding MyDirection}"
          TargetLocation="{Binding TargetLocation}"
          FollowMode="{Binding FollowMode, Mode=TwoWay}"
          BackgroundColor="Gray" />

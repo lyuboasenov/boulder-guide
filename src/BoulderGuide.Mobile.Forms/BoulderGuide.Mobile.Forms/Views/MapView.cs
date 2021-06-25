@@ -36,7 +36,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
             nameof(MyDirection),
             typeof(double),
             typeof(MapView),
-            0d,
+            -1d,
             propertyChanged: (b, _, __) => (b as MapView)?.OnMyRotationChanged());
 
       public static readonly BindableProperty TargetLocationProperty =
@@ -266,7 +266,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
       private void OnMyRotationChanged() {
          MyLocationLayer.IsMoving = true;
-         MyLocationLayer.Direction = MyDirection;
+         MyLocationLayer.UpdateMyDirection(MyDirection, Rotation);
       }
    }
 
