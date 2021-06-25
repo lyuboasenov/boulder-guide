@@ -2,12 +2,14 @@
 using BoulderGuide.Mobile.Forms.Domain;
 using BoulderGuide.Mobile.Forms.Services.Location;
 using BruTile.MbTiles;
+using Mapsui;
 using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Projection;
 using Mapsui.Providers;
 using Mapsui.Styles;
 using Mapsui.Utilities;
+using Mapsui.Widgets.ScaleBar;
 using Prism.Navigation;
 using SQLite;
 using System;
@@ -233,6 +235,8 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                map.Layers.Add(new TileLayer(mbTilesTileSource) { Name = "MbTiles" });
             }
          }
+
+         map.Widgets.Add(new ScaleBarWidget(map) { ScaleBarMode = ScaleBarMode.Both, MarginX = 10, MarginY = 60 });
 
          return map;
       }
