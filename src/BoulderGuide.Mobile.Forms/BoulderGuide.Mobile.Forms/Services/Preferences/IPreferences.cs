@@ -9,6 +9,7 @@
       string PrivateRegionsKey { get; set; }
       bool IsAdvancedModeEnabled { get; set; }
       bool IsDeveloperEnabled { get; set; }
-      bool IsTrackMyLocationEnabled { get; set; }
+      double LastKnownLatitude { get; set; }
+      double LastKnownLongitude { get; set; }
    }
 }

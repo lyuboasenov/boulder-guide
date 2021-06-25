@@ -9,14 +9,20 @@ using System.Collections.Generic;
 namespace BoulderGuide.Mobile.Forms.Services.Location {
    public class LocationService : ILocationService, IDisposable {
 
-      private readonly Task task;
+      private const int DEFAULT_GET_PERIOD_MS = 300000; // Defaults to 5 minutes
+      private const int BACKGROUND_LOOP_DELAY_MS = 500; // 1/2 second
+
+      private Task task;
       private CancellationTokenSource cts;
       private CancellationToken token;
-      private readonly int backgoundLoopMillisecondDelay = 500;
-      private int pollPeriodInMilliseconds = 5 * 60 * 1000; // Defaults to 5 minutes
-      private int millisecondsFromLastPoll = 5 * 60 * 1000;
+
+
+      private int getPeriodInMs = DEFAULT_GET_PERIOD_MS;
+      private int millisecondsFromLastPoll = DEFAULT_GET_PERIOD_MS;
 
       private readonly object _lock = new object();
+      private List<ILocationObserver> observers = new List<ILocationObserver>();
+
       private bool disposedValue;
       private bool shouldBuildAccurancy = true;
 
@@ -24,8 +30,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
       private readonly Preferences.IPreferences preferences;
       private readonly IGeolocation geolocation;
       private readonly IErrorService errorService;
-
-      private Xamarin.Essentials.Location lastKnownLocation;
 
       public LocationService(
          IPermissions permissions,
@@ -36,60 +40,59 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          this.preferences = preferences;
          this.geolocation = geolocation;
          this.errorService = errorService;
-
-         cts = new CancellationTokenSource();
-         token = cts.Token;
-         task = Task.Run(BackgroundLoopAsync, token);
       }
 
       private async Task BackgroundLoopAsync() {
          while(!token.IsCancellationRequested) {
             try {
-               if (millisecondsFromLastPoll >= pollPeriodInMilliseconds) {
-                  await PollLocationAsync();
+               if (millisecondsFromLastPoll >= getPeriodInMs) {
+                  await GetLocationAndNotifyAsync();
                   millisecondsFromLastPoll = 0;
                }
 
-               await Task.Delay(backgoundLoopMillisecondDelay, token);
-               millisecondsFromLastPoll += backgoundLoopMillisecondDelay;
+               await Task.Delay(BACKGROUND_LOOP_DELAY_MS, token);
+               millisecondsFromLastPoll += BACKGROUND_LOOP_DELAY_MS;
             } catch (Exception ex) {
                await errorService.HandleErrorAsync(ex, true);
             }
          }
       }
 
-      private async Task PollLocationAsync() {
+      private async Task GetLocationAndNotifyAsync() {
          if (await HasPermissionsAsync()) {
             if (shouldBuildAccurancy) {
-               lastKnownLocation = await geolocation.GetLastKnownLocationAsync().ConfigureAwait(false);
-               await NotifySubscibersAsync().ConfigureAwait(false);
+               var location = await geolocation.GetLastKnownLocationAsync().ConfigureAwait(false);
+               await NotifySubscibersAsync(location).ConfigureAwait(false);
 
                for (int i = 1; i < 5; i++) {
-                  await PollLocationAsync((GeolocationAccuracy) i).ConfigureAwait(false);
+                  await GetLocationAndNotifyAsync((GeolocationAccuracy) i).ConfigureAwait(false);
                }
 
                shouldBuildAccurancy = false;
             }
 
-            await PollLocationAsync(GeolocationAccuracy.Best).ConfigureAwait(false);
+            await GetLocationAndNotifyAsync(GeolocationAccuracy.Best).ConfigureAwait(false);
          }
       }
 
-      private async Task PollLocationAsync(GeolocationAccuracy geolocationAccuracy) {
-         lastKnownLocation = await geolocation.
+      private async Task GetLocationAndNotifyAsync(GeolocationAccuracy geolocationAccuracy) {
+         var location = await geolocation.
             GetLocationAsync(new GeolocationRequest(geolocationAccuracy), token).
             ConfigureAwait(false);
 
-         await NotifySubscibersAsync();
+         await NotifySubscibersAsync(location);
       }
 
-      private Task NotifySubscibersAsync() {
-         if (null != lastKnownLocation) {
+      private Task NotifySubscibersAsync(Xamarin.Essentials.Location location) {
+         if (null != location) {
             lock(_lock) {
+               preferences.LastKnownLatitude = location.Latitude;
+               preferences.LastKnownLongitude = location.Longitude;
+
                foreach (var observer in observers) {
                   observer.OnLocationChanged(
-                     lastKnownLocation.Latitude,
-                     lastKnownLocation.Longitude);
+                     location.Latitude,
+                     location.Longitude);
                }
             }
          }
@@ -116,12 +119,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          GC.SuppressFinalize(this);
       }
 
-      private List<ILocationObserver> observers = new List<ILocationObserver>();
-
       public IDisposable Subscribe(ILocationObserver observer) {
+         Run();
+
          lock(_lock) {
             observers.Add(observer);
-            pollPeriodInMilliseconds = preferences.GPSPollIntervalInSeconds * 1000;
+            getPeriodInMs = preferences.GPSPollIntervalInSeconds * 1000;
          }
 
          return new LocationObserverHandle(this, observer);
@@ -132,7 +135,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             observers.Remove(observer);
             if (observers.Count == 0) {
                // back to default poll period
-               pollPeriodInMilliseconds = 5 * 60 * 1000;
+               getPeriodInMs = DEFAULT_GET_PERIOD_MS;
+;
             }
          }
       }
@@ -153,12 +157,17 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          }
       }
 
-      public void Initialize() {
-         // do some dummy work here
-         if (task.IsCompleted) {
-            // this should not happen
-            pollPeriodInMilliseconds = 5 * 60 * 1000;
+      public void Run() {
+         if (!IsRunning) {
+            cts = new CancellationTokenSource();
+            token = cts.Token;
+            task = Task.Run(BackgroundLoopAsync, token);
          }
       }
+
+      public bool IsRunning =>
+         task?.IsCanceled == false &&
+         task?.IsCompleted == false &&
+         task?.IsFaulted == false;
    }
 }

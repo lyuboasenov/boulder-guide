@@ -82,12 +82,21 @@
          }
       }
 
-      public bool IsTrackMyLocationEnabled {
+      public double LastKnownLatitude {
          get {
-            return preferences.Get(nameof(IsTrackMyLocationEnabled), false);
+            return preferences.Get(nameof(LastKnownLatitude), 42.71725);
          }
          set {
-            preferences.Set(nameof(IsTrackMyLocationEnabled), value);
+            preferences.Set(nameof(LastKnownLatitude), value);
+         }
+      }
+
+      public double LastKnownLongitude {
+         get {
+            return preferences.Get(nameof(LastKnownLongitude), 24.91746);
+         }
+         set {
+            preferences.Set(nameof(LastKnownLongitude), value);
          }
       }
    }

@@ -28,7 +28,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public string Title { get; set; }
       public Mapsui.Map Map { get; set; }
-      public double MapResolution { get; set; } = 20000;
+      public double MapResolution { get; set; } = 2;
       public double MapMinResolution { get; set; } = 0.2;
       public double MapMaxResolution { get; set; } = 20000;
 
@@ -45,12 +45,19 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          });
       }
       public Mapsui.UI.Forms.Position MyLocation { get; set; }
-         = new Mapsui.UI.Forms.Position(42.71725, 24.91746); // Default location Botev peak
-      public bool FollowMyLocation { get; set; }
+      public IEnumerable<Mapsui.UI.Forms.Position> TargetLocation { get; set; }
+
+      public Views.FollowMode FollowMode { get; set; }
+
+      public void OnFollowModeChanged() {
+         (GoToMyLocationCommand as Command)?.ChangeCanExecute();
+         (GoToTargetCommand as Command)?.ChangeCanExecute();
+      }
 
       private readonly IDisposable locationPollHandle;
 
       public ICommand GoToMyLocationCommand { get; }
+      public ICommand GoToTargetCommand { get; }
       public ICommand ZoomInCommand { get; }
       public ICommand ZoomOutCommand { get; }
       public ICommand NorthCommand { get; }
@@ -63,13 +70,15 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.preferences = preferences;
          this.connectivity = connectivity;
 
-         GoToMyLocationCommand = new Command(GoToMyLocation);
+         GoToMyLocationCommand = new Command(GoToMyLocation, () => FollowMode != Views.FollowMode.MyLocation);
+         GoToTargetCommand = new Command(GoToTarget, () => FollowMode != Views.FollowMode.TargetLocation);
          ZoomInCommand = new Command(ZoomIn, CanZoomIn);
          ZoomOutCommand = new Command(ZoomOut, CanZoomOut);
          NorthCommand = new Command(North, CanNorth);
 
-         FollowMyLocation = preferences.IsTrackMyLocationEnabled;
          locationPollHandle = locationService.Subscribe(this);
+         MyLocation
+            = new Mapsui.UI.Forms.Position(preferences.LastKnownLatitude, preferences.LastKnownLongitude);
       }
 
       public override bool CanNavigate(INavigationParameters parameters) {
@@ -86,11 +95,27 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                // route mode
                Map = GetMap(routeInfo);
                Title = $"{routeInfo.Name} ({new Grade(routeInfo.Difficulty)})";
+               TargetLocation = new[] { new Mapsui.UI.Forms.Position(routeInfo.Location.Latitude, routeInfo.Location.Longitude) };
             } else if (parameters.TryGetValue(nameof(AreaInfo), out AreaInfo areaInfo)) {
                // area mode
                Map = GetMap(areaInfo);
                Title = areaInfo.Name;
+               TargetLocation = areaInfo.Area.Location.Select(l =>
+                  new Mapsui.UI.Forms.Position(l.Latitude, l.Longitude));
             }
+
+            GoToTargetCommand.Execute(null);
+
+            //if (FollowMyLocation) {
+            //   MapResolution = 2;
+            //   Map.Home = n => n.NavigateTo(
+            //      SphericalMercator.FromLonLat(MyLocation.Longitude, MyLocation.Latitude),
+            //      MapResolution);
+            //} else {
+            //   Map.Home = n => n.NavigateTo(
+            //      new BoundingBox(TargetLocation.Select(l =>
+            //      SphericalMercator.FromLonLat(l.Longitude, l.Latitude))), ScaleMethod.Fit);
+            //}
          } catch (Exception ex) {
             await HandleOperationExceptionAsync(ex, Strings.UnableToInitializeMap);
          }
@@ -111,8 +136,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       }
 
       private void GoToMyLocation() {
-         FollowMyLocation = !FollowMyLocation;
-         preferences.IsTrackMyLocationEnabled = FollowMyLocation;
+         FollowMode = Views.FollowMode.MyLocation;
+      }
+
+      private void GoToTarget() {
+         FollowMode = Views.FollowMode.TargetLocation;
       }
 
       private bool CanZoomOut() {
@@ -156,6 +184,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
          var routeLayer = CreateRouteLayer(info);
          map.Layers.Add(routeLayer);
+
          map.Home = n =>
             n.NavigateTo(
                routeLayer.Envelope.Centroid, 1);
@@ -177,6 +206,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             DataSource = new MemoryProvider(new[] { feature })
          };
       }
+
+      private static readonly BruTile.Attribution OpenStreetMapAttribution = new BruTile.Attribution(
+            "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
 
       private Mapsui.Map GetBaseMap(AreaInfo info) {
          var map = new Mapsui.Map {

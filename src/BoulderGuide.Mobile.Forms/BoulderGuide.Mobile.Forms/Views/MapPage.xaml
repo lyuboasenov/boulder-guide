@@ -8,19 +8,19 @@
              x:Class="BoulderGuide.Mobile.Forms.Views.MapPage"
              Title="{Binding Title}">
    <Grid>
-      <localViews:BindableMapView
+      <localViews:MapView
          IsMyLocationButtonVisible="False"
          IsNorthingButtonVisible="False"
-         RotationLock="True"
          IsZoomButtonVisible="False"
-         BindableMap="{Binding Map}"
-         MyLocation="{Binding MyLocation}"
-         TrackMyLocation="{Binding FollowMyLocation}"
-         BackgroundColor="Gray"
+         Map="{Binding Map}"
          MinResolution="{Binding MapMinResolution}"
          MaxResolution="{Binding MapMaxResolution}"
          Resolution="{Binding MapResolution, Mode=TwoWay}"
-         Rotation="{Binding MapRotation, Mode=TwoWay}"/>
+         Rotation="{Binding MapRotation, Mode=TwoWay}"
+         MyLocation="{Binding MyLocation}"
+         TargetLocation="{Binding TargetLocation}"
+         FollowMode="{Binding FollowMode, Mode=TwoWay}"
+         BackgroundColor="Gray" />
 
       <Frame
          Style="{StaticResource RoundedButtonListContainer}">
@@ -49,21 +49,17 @@
                      Color="{StaticResource Key=Accent}"
                      FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
-               <ImageButton.Triggers>
-                  <DataTrigger
-                     TargetType="ImageButton"
-                     Binding="{Binding FollowMyLocation}"
-                     Value="False">
-                     <Setter Property="Source">
-                        <Setter.Value>
-                           <FontImageSource
-                              Glyph="{Static icons:MaterialIconFont.LocationDisabled}"
-                              Color="{StaticResource Key=Accent}"
-                              FontFamily="{StaticResource Key=MaterialFontFamily}" />
-                        </Setter.Value>
-                     </Setter>
-                  </DataTrigger>
-               </ImageButton.Triggers>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding GoToTargetCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.Place}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
             </ImageButton>
 
             <ImageButton

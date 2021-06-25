@@ -21,6 +21,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IDataService dataService;
       private readonly IPermissions permissions;
       private readonly IActivityIndicationService activityIndicationService;
+      private readonly ILocationService locationService;
 
       public ICommand ReloadCommand { get; }
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
@@ -34,8 +35,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          this.dataService = dataService;
          this.permissions = permissions;
          this.activityIndicationService = activityIndicationService;
-         // dummy call to start the location polling
-         locationService.Initialize();
+         this.locationService = locationService;
 
          ReloadCommand = new AsyncCommand<bool>(Reload);
       }
@@ -74,6 +74,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                   AreaInfos.Add(area);
                }
             }
+
+            locationService.Run();
+
          } catch (Exception ex) {
             await HandleOperationExceptionAsync (ex, Strings.UnableToReloadClimbingRegions);
          }
