@@ -28,6 +28,10 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly Services.Preferences.IPreferences preferences;
       private readonly IConnectivity connectivity;
 
+      private ILayer connectingLayer;
+      private IFeature feature;
+      private LineString line;
+
       public string Title { get; set; }
       public Mapsui.Map Map { get; set; }
       public double MapResolution { get; set; } = 2;
@@ -107,18 +111,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                   new Mapsui.UI.Forms.Position(l.Latitude, l.Longitude));
             }
 
-            GoToTargetCommand.Execute(null);
-
-            //if (FollowMyLocation) {
-            //   MapResolution = 2;
-            //   Map.Home = n => n.NavigateTo(
-            //      SphericalMercator.FromLonLat(MyLocation.Longitude, MyLocation.Latitude),
-            //      MapResolution);
-            //} else {
-            //   Map.Home = n => n.NavigateTo(
-            //      new BoundingBox(TargetLocation.Select(l =>
-            //      SphericalMercator.FromLonLat(l.Longitude, l.Latitude))), ScaleMethod.Fit);
-            //}
+            FollowMode = Views.FollowMode.TargetLocation;
          } catch (Exception ex) {
             await HandleOperationExceptionAsync(ex, Strings.UnableToInitializeMap);
          }
@@ -210,9 +203,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          };
       }
 
-      private static readonly BruTile.Attribution OpenStreetMapAttribution = new BruTile.Attribution(
-            "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
-
       private Mapsui.Map GetBaseMap(AreaInfo info) {
          var map = new Mapsui.Map {
             CRS = "EPSG:3857",
@@ -244,7 +234,36 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                UnitConverter = new MetricBGUnitConverter()
             });
 
+         connectingLayer = CreateConnectingLayer();
+         map.Layers.Add(connectingLayer);
+
          return map;
+      }
+
+      private ILayer CreateConnectingLayer() {
+
+         line = new LineString(new[] {
+                  new Mapsui.Geometries.Point(0, 0),
+                  new Mapsui.Geometries.Point(0, 0)
+            });
+
+         feature = new Feature {
+            Geometry = line,
+            Styles = new[] {
+                  new VectorStyle {
+                      Line = new Pen(Mapsui.Styles.Color.Gray) {
+                         PenStyle = PenStyle.Dash,
+                         PenStrokeCap = PenStrokeCap.Butt,
+                         StrokeJoin = StrokeJoin.Miter
+                      }
+                  },
+               }
+         };
+
+         return new Layer("Connecting layer") {
+            DataSource = new MemoryProvider(new[] { feature }),
+            Style = null
+         };
       }
 
       private ILayer CreateRoutesLayer(AreaInfo info) {
@@ -308,6 +327,21 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             new Mapsui.UI.Forms.Position(latitude, longitude);
 
          MyDirection = direction;
+
+         if (TargetLocation?.Any() == true && null != MyLocation) {
+            // update connecting line
+            var targetBox = new BoundingBox(TargetLocation.Select(p =>
+            SphericalMercator.FromLonLat(p.Longitude, p.Latitude)));
+            var myLocationPoint = SphericalMercator.FromLonLat(MyLocation.Longitude, MyLocation.Latitude);
+
+            line.Vertices.Clear();
+            line.Vertices.Add(targetBox.Centroid);
+            line.Vertices.Add(myLocationPoint);
+
+            feature.RenderedGeometry.Clear();
+
+            connectingLayer.DataHasChanged();
+         }
       }
    }
 
