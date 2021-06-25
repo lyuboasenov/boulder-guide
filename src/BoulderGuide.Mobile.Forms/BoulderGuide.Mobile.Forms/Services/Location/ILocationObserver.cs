@@ -1,5 +1,5 @@
 ﻿namespace BoulderGuide.Mobile.Forms.Services.Location {
    public interface ILocationObserver {
-      void OnLocationChanged(DTOs.Location value);
+      void OnLocationChanged(double latitude, double longitude);
    }
 }

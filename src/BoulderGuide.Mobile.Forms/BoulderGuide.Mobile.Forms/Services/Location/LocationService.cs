@@ -88,9 +88,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             lock(_lock) {
                foreach (var observer in observers) {
                   observer.OnLocationChanged(
-                     new DTOs.Location(
-                        lastKnownLocation.Latitude,
-                        lastKnownLocation.Longitude));
+                     lastKnownLocation.Latitude,
+                     lastKnownLocation.Longitude);
                }
             }
          }

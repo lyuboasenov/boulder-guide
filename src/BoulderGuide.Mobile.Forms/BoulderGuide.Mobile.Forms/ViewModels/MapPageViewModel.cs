@@ -260,9 +260,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          return InitializeParameters(nameof(AreaInfo), areaInfo);
       }
 
-      public void OnLocationChanged(DTOs.Location value) {
+      public void OnLocationChanged(double latitude, double longitude) {
          MyLocation =
-            new Mapsui.UI.Forms.Position(value.Latitude, value.Longitude);
+            new Mapsui.UI.Forms.Position(latitude, longitude);
       }
    }
 }
