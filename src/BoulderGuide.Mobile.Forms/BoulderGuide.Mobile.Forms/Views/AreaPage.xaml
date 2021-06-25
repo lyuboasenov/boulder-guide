@@ -178,7 +178,7 @@
                   <ImageButton.Source>
                      <FontImageSource
                         Color="{StaticResource Key=Accent}"
-                        Glyph="{Static icons:MaterialIconFont.Place}"
+                        Glyph="{Static icons:MaterialIconFont.Map}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
                   </ImageButton.Source>
                </ImageButton>
@@ -269,7 +269,7 @@
                   <ImageButton.Source>
                      <FontImageSource
                         Color="{StaticResource Key=Accent}"
-                        Glyph="{Static icons:MaterialIconFont.Place}"
+                        Glyph="{Static icons:MaterialIconFont.Map}"
                         FontFamily="{StaticResource Key=MaterialFontFamily}" />
                   </ImageButton.Source>
                </ImageButton>
