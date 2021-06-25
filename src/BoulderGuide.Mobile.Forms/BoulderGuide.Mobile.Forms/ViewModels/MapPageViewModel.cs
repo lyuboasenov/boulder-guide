@@ -236,7 +236,13 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             }
          }
 
-         map.Widgets.Add(new ScaleBarWidget(map) { ScaleBarMode = ScaleBarMode.Both, MarginX = 10, MarginY = 60 });
+         map.Widgets.Add(
+            new ScaleBarWidget(map) {
+               ScaleBarMode = ScaleBarMode.Both,
+               MarginX = 10,
+               MarginY = 60,
+               UnitConverter = new MetricBGUnitConverter()
+            });
 
          return map;
       }
@@ -302,6 +308,25 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             new Mapsui.UI.Forms.Position(latitude, longitude);
 
          MyDirection = direction;
+      }
+   }
+
+   internal class MetricBGUnitConverter : IUnitConverter {
+      private static readonly int _oneKilometer = 1000;
+
+      public double MeterRatio => 1;
+
+      public IEnumerable<int> ScaleBarValues { get; } = new[] {
+            10000000, 5000000, 2000000, 1000000, 500000, 200000, 100000, 50000,
+            20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1
+
+        };
+
+      public string GetScaleText(int mapScaleValue) {
+         if (mapScaleValue < _oneKilometer) {
+            return mapScaleValue + " м";
+         }
+         return (mapScaleValue / _oneKilometer) + " км";
       }
    }
 }
