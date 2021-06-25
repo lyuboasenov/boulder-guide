@@ -23,6 +23,14 @@
          FollowMode="{Binding FollowMode, Mode=TwoWay}"
          BackgroundColor="Gray" />
 
+      <Label
+         VerticalOptions="End"
+         HorizontalOptions="End"
+         Margin="0, 0, 10, 60"
+         FontSize="Medium"
+         FontAttributes="Bold"
+         Text="{Binding Distance}" />
+
       <Frame
          Style="{StaticResource RoundedButtonListContainer}">
 

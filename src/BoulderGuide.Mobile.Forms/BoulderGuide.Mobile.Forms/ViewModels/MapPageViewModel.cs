@@ -37,7 +37,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public double MapResolution { get; set; } = 2;
       public double MapMinResolution { get; set; } = 0.2;
       public double MapMaxResolution { get; set; } = 20000;
-
+      public string Distance { get; set; }
       public void OnMapResolutionChanged() {
          RunOnMainThreadAsync(() => {
             (ZoomInCommand as Command)?.ChangeCanExecute();
@@ -231,7 +231,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                ScaleBarMode = ScaleBarMode.Both,
                MarginX = 10,
                MarginY = 60,
-               UnitConverter = new MetricBGUnitConverter()
+               UnitConverter = MetricBGUnitConverter.instance
             });
 
          connectingLayer = CreateConnectingLayer();
@@ -334,6 +334,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             SphericalMercator.FromLonLat(p.Longitude, p.Latitude)));
             var myLocationPoint = SphericalMercator.FromLonLat(MyLocation.Longitude, MyLocation.Latitude);
 
+            Distance = MetricBGUnitConverter.instance.GetScaleText(
+               (int) targetBox.Centroid.Distance(myLocationPoint));
+
             line.Vertices.Clear();
             line.Vertices.Add(targetBox.Centroid);
             line.Vertices.Add(myLocationPoint);
@@ -348,6 +351,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
    internal class MetricBGUnitConverter : IUnitConverter {
       private static readonly int _oneKilometer = 1000;
 
+      internal static IUnitConverter instance = new MetricBGUnitConverter();
       public double MeterRatio => 1;
 
       public IEnumerable<int> ScaleBarValues { get; } = new[] {
