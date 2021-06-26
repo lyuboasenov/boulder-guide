@@ -266,7 +266,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
       private void OnMyRotationChanged() {
          MyLocationLayer.IsMoving = true;
-         MyLocationLayer.UpdateMyDirection(MyDirection, Rotation);
+         MyLocationLayer.UpdateMyDirection(MyDirection, 0);
       }
    }
 
