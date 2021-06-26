@@ -25,12 +25,22 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Restore & Build
-      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/BoulderGuide.Mobile.Forms.Android.csproj /t:build /restore /t:PackageForAndroid /p:Configuration=Release /t:SignAndroidPackage
+      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/BoulderGuide.Mobile.Forms.Android.csproj /t:build /restore /t:PackageForAndroid /p:Configuration=Release
+
+    - uses: r0adkll/sign-android-release@v1
+      name: Sign app APK
+      id: sign_app
+      with:
+        releaseDirectory: ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/bin/Release/
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
 
     - name: Upload Android Release to Play Store
       uses: r0adkll/upload-google-play@v1
       with:
         serviceAccountJsonPlainText: ${{ secrets.GDC_KEY }}
         packageName: com.lyuboasenov.boulder_guide
-        releaseFiles: ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/bin/Release/*-Signed.apk
+        releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
         track: beta
