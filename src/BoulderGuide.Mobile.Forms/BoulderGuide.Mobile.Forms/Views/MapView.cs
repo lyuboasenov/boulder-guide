@@ -12,6 +12,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
 
       private ReadOnlyPoint lastNavigatedToCenter;
       private bool isNavigating = false;
+      private Mapsui.UI.Forms.Position[] missedGoToLocation;
 
       public static readonly BindableProperty MapProperty =
          BindableProperty.Create(
@@ -206,6 +207,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
       private void OnRotationChanged() {
          try {
             Navigator.RotateTo(Rotation);
+            OnMyRotationChanged();
          } catch (Exception ex) {
             var errorService =
                Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
@@ -237,36 +239,48 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void OnFollowModeChanged() {
-         // MyLocationFollow = FollowMode == FollowMode.MyLocation;
          OnMyLocationChanged();
          OnTargetLocationChanged();
       }
 
-      private Mapsui.UI.Forms.Position[] missedGoToLocation;
       private void GoToLocation(params Mapsui.UI.Forms.Position[] location) {
-         if (!Viewport.HasSize) {
-            missedGoToLocation = location;
-            return;
-         }
+         try {
+            if (!Viewport.HasSize) {
+               missedGoToLocation = location;
+               return;
+            }
 
-         isNavigating = true;
-         if (location?.Length == 1) {
-            Navigator.NavigateTo(
-               SphericalMercator.FromLonLat(location[0].Longitude, location[0].Latitude),
-               Resolution);
-         } else if (location?.Length > 1) {
-            BoundingBox boundingBox =
-               new BoundingBox(location.Select(l => SphericalMercator.FromLonLat(l.Longitude, l.Latitude)));
+            isNavigating = true;
+            if (location?.Length == 1) {
+               Navigator.NavigateTo(
+                  SphericalMercator.FromLonLat(location[0].Longitude, location[0].Latitude),
+                  Resolution);
+            } else if (location?.Length > 1) {
+               BoundingBox boundingBox =
+                  new BoundingBox(location.Select(l => SphericalMercator.FromLonLat(l.Longitude, l.Latitude)));
 
-            Navigator.NavigateTo(boundingBox);
+               Navigator.NavigateTo(boundingBox);
+            }
+            lastNavigatedToCenter = Viewport.Center;
+            isNavigating = false;
+         } catch (Exception ex) {
+            var errorService =
+               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
+            errorService?.HandleErrorAsync(ex);
          }
-         lastNavigatedToCenter = Viewport.Center;
-         isNavigating = false;
       }
 
       private void OnMyRotationChanged() {
-         MyLocationLayer.IsMoving = true;
-         MyLocationLayer.UpdateMyDirection(MyDirection, 0);
+         try {
+            MyLocationLayer.IsMoving = true;
+            var adjustedDirection = (MyDirection + Rotation) % 360;
+            MyLocationLayer.UpdateMyDirection(adjustedDirection, 0);
+         } catch (Exception ex) {
+            var errorService =
+               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
+            errorService?.HandleErrorAsync(ex);
+         }
+
       }
    }
 
