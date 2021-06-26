@@ -1,4 +1,4 @@
-name: Build Boulder Guide iOS app
+name: iOS
 
 on: [push, pull_request]
 
