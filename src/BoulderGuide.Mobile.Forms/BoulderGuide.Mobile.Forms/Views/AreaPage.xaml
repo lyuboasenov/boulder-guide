@@ -38,10 +38,10 @@
 
                <Label
                   Grid.Column="3"
-                  VerticalOptions="CenterAndExpand"
+                  VerticalOptions="Center"
                   FontSize="Micro">
                   <Label.Text>
-                     <MultiBinding StringFormat="{}{1} / {0}">
+                     <MultiBinding StringFormat="{}сектори: {1} / маршрути: {0}">
                         <Binding Path="TotalRouteCount" />
                         <Binding Path="TotalAreaCount" />
                      </MultiBinding>
