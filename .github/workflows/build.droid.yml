@@ -8,7 +8,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout source
+      uses: actions/checkout@v2
+
     - name: Set default Xamarin SDK versions
       run: |
         $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --android=11.0
