@@ -24,23 +24,24 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
-    - name: Restore & Build
-      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/BoulderGuide.Mobile.Forms.Android.csproj /t:build /restore /t:PackageForAndroid /p:Configuration=Release
+    - name: Set signing key
+      run: |
+        openssl base64 -d -in env:SIGNING_KEY -out keystore.keystore
+      env:
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
 
-    - uses: r0adkll/sign-android-release@v1
-      name: Sign app APK
-      id: sign_app
-      with:
-        releaseDirectory: ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/bin/Release/
-        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-        alias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
+    - name: Restore & Build
+      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/BoulderGuide.Mobile.Forms.Android.csproj /t:build /restore /t:PackageForAndroid /p:Configuration=Release /p:AndroidKeyStore=True /p:AndroidSigningKeyStore=keystore.keystore /p:AndroidSigningStorePass=env:KEY_STORE_PASSWORD /p:AndroidSigningKeyAlias=env:ALIAS /p:AndroidSigningKeyPass=env:KEY_PASSWORD
+      env:
+       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+       ALIAS: ${{ secrets.ALIAS }}
+
 
     - name: Upload Android Release to Play Store
       uses: r0adkll/upload-google-play@v1
       with:
         serviceAccountJsonPlainText: ${{ secrets.GDC_KEY }}
         packageName: com.lyuboasenov.boulder_guide
-        releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
+        releaseFiles: ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.Android/bin/Release/*-Signed.apk
         track: beta
