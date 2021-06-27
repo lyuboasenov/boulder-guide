@@ -24,6 +24,10 @@
 	<array>
 		<string>mailto</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>materialdesignicons.ttf</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need to read your location to show you relative to the boulders.</string>
 	<key>MinimumOSVersion</key>
@@ -39,8 +43,50 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.lyuboasenov.boulder_guide</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.3.1</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2</string>
+	<string>3</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>youtube.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+            <key>vimeo.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+            <key>instagram.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+            <key>facebook.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+        </dict>
+    </dict>
 </dict>
 </plist>

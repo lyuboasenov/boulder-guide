@@ -135,7 +135,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          lock(_lock) {
             observers.Add(observer);
             getPeriodInMs = preferences.GPSPollIntervalInSeconds * 1000;
-            compass.Start(SensorSpeed.Default);
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) {
+               compass.Start(SensorSpeed.Default);
+            }
          }
 
          return new LocationObserverHandle(this, observer);
@@ -147,7 +149,9 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             if (observers.Count == 0) {
                // back to default poll period
                getPeriodInMs = DEFAULT_GET_PERIOD_MS;
-               compass.Stop();;
+               if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) {
+                  compass.Stop();
+               }               
             }
          }
       }

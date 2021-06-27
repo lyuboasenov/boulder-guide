@@ -24,6 +24,7 @@
 
       <Frame
          Padding="0"
+         HasShadow="False"
          BackgroundColor="LightGray"
          CornerRadius="40">
          <SearchBar

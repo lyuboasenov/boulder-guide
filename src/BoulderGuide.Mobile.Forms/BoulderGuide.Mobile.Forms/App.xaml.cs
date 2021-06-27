@@ -18,6 +18,14 @@ namespace BoulderGuide.Mobile.Forms {
       {
       }
 
+      protected override IContainerExtension CreateContainerExtension() {
+         var container = base.CreateContainerExtension();
+
+         ((container as Prism.Unity.UnityContainerExtension)?.Instance as Unity.UnityContainer)?.AddExtension(new Unity.ForceActivation());
+
+         return container;
+      }
+
       protected override async void OnInitialized()
       {
          InitializeComponent();

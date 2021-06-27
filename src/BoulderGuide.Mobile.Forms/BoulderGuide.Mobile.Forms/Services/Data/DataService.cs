@@ -15,7 +15,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 #if DEBUG
       private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index-v2.debug.json";
 #else
-      private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index.json";
+      private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index-v2.json";
 #endif
       private Region[] regions;
 

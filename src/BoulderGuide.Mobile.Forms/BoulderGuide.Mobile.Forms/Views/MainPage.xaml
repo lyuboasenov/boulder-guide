@@ -8,6 +8,13 @@
    <MasterDetailPage.Master>
       <ContentPage Title="Menu">
          <Grid>
+            <Grid.Margin>
+               <OnPlatform x:TypeArguments="Thickness">
+                  <On Platform="iOS" Value="0, 40, 0, 0" />
+                  <On Platform="Android" Value="0" />
+                  <On Platform="UWP" Value="0" />
+               </OnPlatform>
+            </Grid.Margin>
 
             <CollectionView
                Margin="5, 10, 5, 60"

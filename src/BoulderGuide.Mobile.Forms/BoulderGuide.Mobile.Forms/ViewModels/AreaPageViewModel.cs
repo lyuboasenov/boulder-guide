@@ -129,19 +129,24 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             var maxDifficulty = preferences.FilterMaxDifficulty;
             var setting = preferences.RouteOrderByProperty;
 
-            Children.Clear();
+            var areas = OrderAreas(FilterAreas(searchTerm), setting).ToArray();
+            var routes = OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting).ToArray();
 
-            foreach (var area in OrderAreas(FilterAreas(searchTerm), setting)) {
-               Children.Add(area);
-            }
+            await RunOnMainThreadAsync(() => {
+               Children.Clear();
 
-            foreach (var route in OrderRoutes(FitlerRoutes(searchTerm, minDifficulty, maxDifficulty), setting)) {
-               Children.Add(route);
-            }
+               foreach (var area in areas) {
+                  Children.Add(area);
+               }
 
-            Children.Add(new object());
+               foreach (var route in routes) {
+                  Children.Add(route);
+               }
 
-            await RunOnMainThreadAsync(() => (MapCommand as AsyncCommand)?.ChangeCanExecute()).ConfigureAwait(false);
+               Children.Add(new object());
+
+               (MapCommand as AsyncCommand)?.ChangeCanExecute();
+            }).ConfigureAwait(false);
          } catch (Exception ex) {
             await HandleOperationExceptionAsync(ex, string.Format(Strings.UnableToInitializeAreaFormat, Info?.Name));
          }
