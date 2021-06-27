@@ -34,12 +34,12 @@
                       BorderColor="LightGray"
                       Padding="5"
                       CornerRadius="5"
-                      HorizontalOptions="Center"
+                      HorizontalOptions="CenterAndExpand"
                       VerticalOptions="CenterAndExpand">
 
                   <WebView
                      VerticalOptions="FillAndExpand"
-                     HorizontalOptions="CenterAndExpand"
+                     HorizontalOptions="FillAndExpand"
                      Source="{Binding ., Converter={StaticResource VideoToHtmlSourceConverter}}">
                   </WebView>
                </Frame>

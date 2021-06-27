@@ -1,0 +1,55 @@
+{
+  "images": [
+    {
+      "idiom": "universal"
+    },
+    {
+      "scale": "1x",
+      "idiom": "universal",
+      "filename": "Splash.png"
+    },
+    {
+      "scale": "2x",
+      "idiom": "universal",
+      "filename": "Splash@2x.png"
+    },
+    {
+      "idiom": "iphone"
+    },
+    {
+      "scale": "1x",
+      "idiom": "iphone"
+    },
+    {
+      "scale": "2x",
+      "idiom": "iphone"
+    },
+    {
+      "subtype": "retina4",
+      "scale": "2x",
+      "idiom": "iphone"
+    },
+    {
+      "idiom": "mac"
+    },
+    {
+      "scale": "1x",
+      "idiom": "mac"
+    },
+    {
+      "scale": "2x",
+      "idiom": "mac"
+    },
+    {
+      "idiom": "car"
+    },
+    {
+      "scale": "1x",
+      "idiom": "car"
+    },
+    {
+      "scale": "2x",
+      "idiom": "car"
+    }
+  ]
+}
