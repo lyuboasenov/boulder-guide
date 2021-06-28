@@ -1,6 +1,5 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Domain.DTOs;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Domain {
@@ -33,10 +32,8 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          OnPropertyChanged(nameof(Route));
       }
 
-      public override async Task DownloadAsync(bool force = false) {
-         var tasks = new List<Task>();
-         await base.DownloadAsync(force).ConfigureAwait(false);
-         await LoadRouteAsync(force).ConfigureAwait(false);
+      public override Task DownloadAsync(bool force = false) {
+         return LoadRouteAsync(force);
       }
    }
 }

@@ -30,19 +30,16 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
       private readonly IPermissions permissions;
       private readonly Preferences.IPreferences preferences;
       private readonly IGeolocation geolocation;
-      private readonly IErrorService errorService;
       private readonly ICompass compass;
 
       public LocationService(
          IPermissions permissions,
          Preferences.IPreferences preferences,
          IGeolocation geolocation,
-         IErrorService errorService,
          ICompass compass) {
          this.permissions = permissions;
          this.preferences = preferences;
          this.geolocation = geolocation;
-         this.errorService = errorService;
          this.compass = compass;
          compass.ReadingChanged += Compass_ReadingChanged;
       }
@@ -62,7 +59,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
                await Task.Delay(BACKGROUND_LOOP_DELAY_MS, token);
                millisecondsFromLastPoll += BACKGROUND_LOOP_DELAY_MS;
             } catch (Exception ex) {
-               await errorService.HandleErrorAsync(ex, true);
+               await ex.HandleAsync(true);
             }
          }
       }
@@ -151,7 +148,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
                getPeriodInMs = DEFAULT_GET_PERIOD_MS;
                if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) {
                   compass.Stop();
-               }               
+               }
             }
          }
       }

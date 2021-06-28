@@ -51,9 +51,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
                e.Surface.Canvas.DrawTopo(imageStream, Topo?.Shapes ?? Enumerable.Empty<Shape>());
             }
          } catch (Exception ex) {
-            var errorService =
-               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleErrorAsync(ex);
+            ex.Handle();
          }
       }
 

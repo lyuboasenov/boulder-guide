@@ -188,9 +188,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
                base.Map = Map;
             }
          } catch (Exception ex) {
-            var errorService =
-               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleErrorAsync(ex);
+            ex.Handle();
          }
       }
 
@@ -198,9 +196,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
          try {
             Navigator.ZoomTo(Math.Max(Resolution, 0.2));
          } catch (Exception ex) {
-            var errorService =
-               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleErrorAsync(ex);
+            ex.Handle();
          }
       }
 
@@ -209,9 +205,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
             Navigator.RotateTo(Rotation);
             OnMyRotationChanged();
          } catch (Exception ex) {
-            var errorService =
-               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleErrorAsync(ex);
+            ex.Handle();
          }
       }
 
@@ -264,9 +258,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
             lastNavigatedToCenter = Viewport.Center;
             isNavigating = false;
          } catch (Exception ex) {
-            var errorService =
-               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleErrorAsync(ex);
+            ex.Handle();
          }
       }
 
@@ -276,9 +268,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
             var adjustedDirection = (MyDirection + Rotation) % 360;
             MyLocationLayer.UpdateMyDirection(adjustedDirection, 0);
          } catch (Exception ex) {
-            var errorService =
-               Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
-            errorService?.HandleErrorAsync(ex);
+            ex.Handle();
          }
 
       }

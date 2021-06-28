@@ -141,7 +141,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
 
    public class GetExceptionPropertiesResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
       protected override IList<Newtonsoft.Json.Serialization.JsonProperty> CreateProperties(Type type, Newtonsoft.Json.MemberSerialization memberSerialization) {
-         var propertyList = new[] { "Message", "InnerException", "StackTrace" };
+         var propertyList = new[] { "Message", "InnerException", "InnerExceptions", "StackTrace" };
          var allProps = base.CreateProperties(type, memberSerialization);
 
          //Choose the properties you want to serialize/deserialize

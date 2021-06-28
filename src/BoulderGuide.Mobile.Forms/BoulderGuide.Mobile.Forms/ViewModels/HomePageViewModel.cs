@@ -55,7 +55,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public override void Initialize(INavigationParameters parameters) {
          base.Initialize(parameters);
 
-         ReloadCommand.Execute(false);
+         (ReloadCommand as AsyncCommand<bool>)?.ExecuteAsync(false);
       }
 
       private async Task Reload(bool force) {
@@ -68,7 +68,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             using (activityIndicationService.StartLoading()) {
                AreaInfos.Clear();
 
-               IEnumerable<AreaInfo> areas = await dataService.GetIndexAreas(force);
+               IEnumerable<AreaInfo> areas = await dataService.GetIndexAreasAsync(force);
 
                foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
                   AreaInfos.Add(area);

@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Services.Data {
    public interface IDataService {
-      Task ClearLocalStorage();
-      Task<int> GetLocalStorageSizeInMB();
-      Task<IEnumerable<AreaInfo>> GetIndexAreas(bool force);
+      Task ClearLocalStorageAsync();
+      Task<int> GetLocalStorageSizeInMBAsync();
+      Task<IEnumerable<AreaInfo>> GetIndexAreasAsync(bool force);
    }
 }

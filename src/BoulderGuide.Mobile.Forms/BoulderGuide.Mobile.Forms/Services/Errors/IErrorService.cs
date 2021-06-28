@@ -8,6 +8,5 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
 
       void HandleError(Exception ex);
       void HandleError(Exception ex, string message);
-
    }
 }

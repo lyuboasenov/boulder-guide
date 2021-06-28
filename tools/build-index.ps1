@@ -53,7 +53,7 @@ function getArea ($path) {
       index = (getRelativePath $path 'area.json');
       areas = $areas;
       routes = $routes;
-      map = '/map.mbtiles';
+      map = '';
       images = @()
    }
 }
@@ -101,5 +101,6 @@ Remove-Item -Path $indexLocation -ErrorAction:SilentlyContinue
 
 $area = getArea $rootPath
 $area.images = [string[]]@(Get-ChildItem -Path $rootPath -Filter '*.jpg' | %{ "/$($_.Name)" })
+$area.map = '/map.mbtiles'
 
 $area | ConvertTo-Json -depth 100 | Set-Content -Path $indexLocation -Force

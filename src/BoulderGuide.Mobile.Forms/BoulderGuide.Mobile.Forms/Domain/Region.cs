@@ -22,7 +22,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
 
       public async Task<AreaInfo> GetIndexAsync(bool force = false) {
          var dto = JsonConvert.DeserializeObject<AreaInfoDTO>(GetAllText());
-         var index = new AreaInfo(this, null, dto);
+         var index = new AreaInfo(this, dto);
 
          await index.DownloadImagesAsync(force);
          await index.DownloadMapAsync(force);

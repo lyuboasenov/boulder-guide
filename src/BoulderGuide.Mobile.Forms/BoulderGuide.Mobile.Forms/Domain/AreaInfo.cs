@@ -9,6 +9,9 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       private readonly AreaInfoDTO dto;
       private readonly Region region;
 
+      public AreaInfo(Region region, AreaInfoDTO dto) :
+         this(region, null, dto) { }
+
       public AreaInfo(Region region, AreaInfo parent, AreaInfoDTO dto) :
          base(
             "index.json",
@@ -101,6 +104,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public override async Task DownloadAsync(bool force = false) {
 
          var tasks = new List<Task>();
+
          tasks.Add(DownloadMapAsync(force));
          tasks.Add(DownloadImagesAsync(force));
          tasks.Add(LoadAreaAsync(force));

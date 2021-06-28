@@ -85,7 +85,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             LocalStorageSizeInMB =
                await dataService.
-                  GetLocalStorageSizeInMB().
+                  GetLocalStorageSizeInMBAsync().
                   ConfigureAwait(false);
 
             initialized = true;
@@ -139,11 +139,11 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private async Task ClearLocalData() {
          try {
             await dataService.
-               ClearLocalStorage().
+               ClearLocalStorageAsync().
                ConfigureAwait(false);
             LocalStorageSizeInMB =
                await dataService.
-               GetLocalStorageSizeInMB().
+               GetLocalStorageSizeInMBAsync().
                ConfigureAwait(false);
          } catch (Exception ex) {
             await HandleOperationExceptionAsync(ex, Strings.UnableToClearLocalData);
