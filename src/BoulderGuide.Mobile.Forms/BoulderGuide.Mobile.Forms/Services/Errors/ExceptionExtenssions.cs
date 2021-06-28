@@ -6,7 +6,11 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
       private static IErrorService errorService =
                Prism.PrismApplicationBase.Current?.Container?.CurrentScope?.Resolve(typeof(IErrorService)) as IErrorService;
       public static Task HandleAsync(this Exception ex, bool isDeveloperOnly = false) {
-         return errorService?.HandleErrorAsync(ex, isDeveloperOnly) ?? Task.CompletedTask;
+         if (errorService is null) {
+            return Task.CompletedTask;
+         } else {
+            return errorService.HandleErrorAsync(ex, isDeveloperOnly);
+         }
       }
 
       public static void Handle(this Exception ex) {

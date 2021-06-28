@@ -16,7 +16,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 #else
       private const string masterIndexRemoteLocation = "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index-v2.json";
 #endif
-      private Region[] regions;
+
 
       private readonly IConnectivity connectivity;
       private readonly IDownloadService downloadService;
@@ -72,16 +72,26 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             await downloadService.DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
 
-         regions =
+
+         var errors = new List<Exception>();
+         var regions = new List<Region>();
+
+         var regionDtos =
             JsonConvert.DeserializeObject<RegionDTO[]>(
-               File.ReadAllText(masterIndexLocalPath))?.
-               Select(dto =>
-                  new Region(
+               File.ReadAllText(masterIndexLocalPath));
+
+
+         foreach (var dto in regionDtos) {
+            try {
+               regions.Add(new Region(
                      dto,
-                     Path.Combine(repositoryDirectory, dto.Name)))?.ToArray();
+                     Path.Combine(repositoryDirectory, dto.Name)));
+            } catch (Exception ex) {
+               errors.Add(ex);
+            }
+         }
 
          var result = new List<AreaInfo>();
-         var errors = new List<Exception>();
 
          foreach (var region in regions ?? Enumerable.Empty<Region>()) {
             if (region.Access == RegionAccess.@public ||

@@ -9,7 +9,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
    public abstract class FileBasedEntity : INotifyPropertyChanged {
       protected string relativePath;
       private readonly bool isPrivateUseKey;
-      private static Tuple<string, string> key;
+      private Tuple<string, string> key;
 
       public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,7 +36,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
             dir.Create();
          }
 
-         if (isPrivateUseKey && key is null) {
+         if (isPrivateUseKey) {
             var preferences = (Services.Preferences.IPreferences) Prism.PrismApplicationBase.Current.Container.CurrentScope.Resolve(typeof(Services.Preferences.IPreferences));
             if (preferences.ShowPrivateRegions) {
                var parts = preferences.PrivateRegionsKey.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -44,11 +44,11 @@ namespace BoulderGuide.Mobile.Forms.Domain {
                   key = Tuple.Create(
                      parts[0],
                      parts[1]);
-               } else {
-                  preferences.PrivateRegionsKey = string.Empty;
-                  preferences.ShowPrivateRegions = false;
                }
+            }
 
+            if (key is null) {
+               throw new UnauthorizedAccessException("Key not available.");
             }
          }
       }

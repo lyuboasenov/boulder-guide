@@ -88,8 +88,12 @@ namespace BoulderGuide.Mobile.Forms.Domain {
          OnPropertyChanged(nameof(Area));
       }
 
-      public async Task DownloadMapAsync(bool force = false) {
-         await Map?.DownloadAsync(force);
+      public Task DownloadMapAsync(bool force = false) {
+         if (Map is null) {
+            return Task.CompletedTask;
+         } else {
+            return Map.DownloadAsync(force);
+         }
       }
 
       public async Task DownloadImagesAsync(bool force = false) {
