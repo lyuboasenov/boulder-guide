@@ -1,55 +1,86 @@
 {
-  "images": [
+  "images" : [
     {
-      "idiom": "universal"
+      "idiom" : "universal"
     },
     {
-      "scale": "1x",
-      "idiom": "universal",
-      "filename": "Splash.png"
+      "filename" : "Splash.png",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "scale": "2x",
-      "idiom": "universal",
-      "filename": "Splash@2x.png"
+      "filename" : "Splash@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone"
+      "filename" : "Splash@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "scale": "1x",
-      "idiom": "iphone"
+      "idiom" : "iphone"
     },
     {
-      "scale": "2x",
-      "idiom": "iphone"
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "subtype": "retina4",
-      "scale": "2x",
-      "idiom": "iphone"
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "mac"
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "scale": "1x",
-      "idiom": "mac"
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "subtype" : "retina4"
     },
     {
-      "scale": "2x",
-      "idiom": "mac"
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "subtype" : "retina4"
     },
     {
-      "idiom": "car"
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "subtype" : "retina4"
     },
     {
-      "scale": "1x",
-      "idiom": "car"
+      "idiom" : "car"
     },
     {
-      "scale": "2x",
-      "idiom": "car"
+      "idiom" : "car",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "car",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "mac"
+    },
+    {
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "car",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "mac",
+      "scale" : "3x"
     }
-  ]
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
 }

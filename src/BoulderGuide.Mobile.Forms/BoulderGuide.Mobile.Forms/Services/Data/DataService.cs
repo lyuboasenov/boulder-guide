@@ -83,9 +83,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 
          foreach (var dto in regionDtos) {
             try {
-               regions.Add(new Region(
+               if (dto.Access == RegionAccess.@public ||
+                  (dto.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
+                  regions.Add(new Region(
                      dto,
                      Path.Combine(repositoryDirectory, dto.Name)));
+                  }
             } catch (Exception ex) {
                errors.Add(ex);
             }

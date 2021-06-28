@@ -9,9 +9,9 @@
    id="svg9916"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    sodipodi:docname="logo.svg"
-   inkscape:export-filename="D:\_projects\boulder-guide\src\BoulderGuide.Mobile.Forms\BoulderGuide.Mobile.Forms.iOS\Resources\def.png"
-   inkscape:export-xdpi="91.415184"
-   inkscape:export-ydpi="91.415184"
+   inkscape:export-filename="D:\_projects\boulder-guide\src\BoulderGuide.Mobile.Forms\BoulderGuide.Mobile.Forms.iOS\Resources\Splash.xcassets\Splash.imageset\Splash@3x.png"
+   inkscape:export-xdpi="104.37"
+   inkscape:export-ydpi="104.37"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -61,10 +61,10 @@
          id="feGaussianBlur20762" />
     </filter>
     <filter
-       height="1.3980987"
-       y="-0.19904935"
-       width="1.0458217"
-       x="-0.022910864"
+       height="1.4256017"
+       y="-0.21280084"
+       width="1.0428864"
+       x="-0.02144319"
        id="filter20860"
        style="color-interpolation-filters:sRGB"
        inkscape:collect="always">
@@ -82,17 +82,17 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="-462.85714"
+     inkscape:cx="-461.42857"
      inkscape:cy="207.14286"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g20856"
      showgrid="false"
-     inkscape:window-width="1763"
-     inkscape:window-height="1055"
-     inkscape:window-x="150"
-     inkscape:window-y="-7"
+     inkscape:window-width="1780"
+     inkscape:window-height="1057"
+     inkscape:window-x="132"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:pagecheckerboard="true"
+     inkscape:pagecheckerboard="false"
      inkscape:lockguides="true">
     <inkscape:grid
        type="xygrid"
@@ -135,7 +135,7 @@
      inkscape:label="icon"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true"
      transform="translate(85.739307,-82.148566)">
     <g
@@ -1787,7 +1787,7 @@
      inkscape:label="logo"
      inkscape:groupmode="layer"
      id="g20856"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true"
      transform="translate(85.739307,-82.148566)">
     <g

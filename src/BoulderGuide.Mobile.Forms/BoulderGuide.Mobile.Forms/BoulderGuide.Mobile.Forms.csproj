@@ -67,7 +67,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="FodyWeavers.xsd" />
+    <None Include="FodyWeavers.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
