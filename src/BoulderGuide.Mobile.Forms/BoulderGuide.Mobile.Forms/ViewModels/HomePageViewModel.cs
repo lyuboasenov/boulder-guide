@@ -65,18 +65,19 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                await permissions.RequestAsync<Permissions.LocationWhenInUse>();
             }
 
+            locationService.Run();
+
             using (activityIndicationService.StartLoading()) {
                AreaInfos.Clear();
 
-               IEnumerable<AreaInfo> areas = await dataService.GetIndexAreasAsync(force);
+               var areas = await dataService.GetIndexAreasAsync(force);
 
-               foreach (var area in areas ?? Enumerable.Empty<AreaInfo>()) {
+               foreach (var area in areas.Result ?? Enumerable.Empty<AreaInfo>()) {
                   AreaInfos.Add(area);
                }
+
+               areas.EnsureSuccessful();
             }
-
-            locationService.Run();
-
          } catch (Exception ex) {
             await HandleOperationExceptionAsync (ex, Strings.UnableToReloadClimbingRegions);
          }

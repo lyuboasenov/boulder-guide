@@ -6,6 +6,6 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
    public interface IDataService {
       Task ClearLocalStorageAsync();
       Task<int> GetLocalStorageSizeInMBAsync();
-      Task<IEnumerable<AreaInfo>> GetIndexAreasAsync(bool force);
+      Task<OperationResult<IEnumerable<AreaInfo>>> GetIndexAreasAsync(bool force);
    }
 }

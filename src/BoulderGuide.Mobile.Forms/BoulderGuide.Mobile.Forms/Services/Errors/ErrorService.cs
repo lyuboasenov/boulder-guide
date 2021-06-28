@@ -32,35 +32,39 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
       }
 
       public async Task HandleErrorAsync(Exception ex, string message, bool isDevelopersOnly = false) {
-         if (preferences.IsDeveloperEnabled) {
-            await mainThread.InvokeOnMainThreadAsync(async () => {
-               if (await pageDialogService.
-                  DisplayAlertAsync(
-                     Strings.GenericExceptionTitle,
-                     message,
-                     Strings.ReadMore,
-                     Strings.Ok)) {
-                  await dialogService.ShowDialogAsync(
-                     nameof(Views.TextViewDialogPage),
-                     new DialogParameters() {
+         try {
+            if (preferences.IsDeveloperEnabled) {
+               await mainThread.InvokeOnMainThreadAsync(async () => {
+                  if (await pageDialogService.
+                     DisplayAlertAsync(
+                        Strings.GenericExceptionTitle,
+                        message,
+                        Strings.ReadMore,
+                        Strings.Ok)) {
+                     await dialogService.ShowDialogAsync(
+                        nameof(Views.TextViewDialogPage),
+                        new DialogParameters() {
                      { "Title", Strings.GenericExceptionTitle },
                      { "Text", FormatException(ex) }
-                     });
-               }
-            });
+                        });
+                  }
+               });
 
-         } else if (!isDevelopersOnly) {
-            await mainThread.InvokeOnMainThreadAsync(async () =>
-               await pageDialogService.
-                  DisplayAlertAsync(
-                     Strings.GenericExceptionTitle,
-                     message,
-                     Strings.Ok));
-         }
+            } else if (!isDevelopersOnly) {
+               await mainThread.InvokeOnMainThreadAsync(async () =>
+                  await pageDialogService.
+                     DisplayAlertAsync(
+                        Strings.GenericExceptionTitle,
+                        message ?? "",
+                        Strings.Ok));
+            }
 
 #if DEBUG
-         System.Diagnostics.Debug.WriteLine(FormatException(ex));
+            System.Diagnostics.Debug.WriteLine(FormatException(ex));
 #endif
+         } catch (Exception) {
+            // silence
+         }
       }
 
       public void HandleError(Exception ex) {
@@ -68,36 +72,39 @@ namespace BoulderGuide.Mobile.Forms.Services.Errors {
       }
 
       public void HandleError(Exception ex, string message) {
-
-         if (preferences.IsDeveloperEnabled) {
-            mainThread.InvokeOnMainThreadAsync(async () => {
-               if (await pageDialogService.
-                  DisplayAlertAsync(
-                     Strings.GenericExceptionTitle,
-                     message,
-                     Strings.ReadMore,
-                     Strings.Ok)) {
-                  await dialogService.ShowDialogAsync(
-                     nameof(Views.TextViewDialogPage),
-                     new DialogParameters() {
+         try {
+            if (preferences.IsDeveloperEnabled) {
+               mainThread.InvokeOnMainThreadAsync(async () => {
+                  if (await pageDialogService.
+                     DisplayAlertAsync(
+                        Strings.GenericExceptionTitle,
+                        message,
+                        Strings.ReadMore,
+                        Strings.Ok)) {
+                     await dialogService.ShowDialogAsync(
+                        nameof(Views.TextViewDialogPage),
+                        new DialogParameters() {
                      { "Title", Strings.GenericExceptionTitle },
                      { "Text", FormatException(ex) }
-                     });
-               }
-            });
+                        });
+                  }
+               });
 
-         } else {
-            mainThread.InvokeOnMainThreadAsync(async () =>
-               await pageDialogService.
-                  DisplayAlertAsync(
-                     Strings.GenericExceptionTitle,
-                     message,
-                     Strings.Ok));
-         }
+            } else {
+               mainThread.InvokeOnMainThreadAsync(async () =>
+                  await pageDialogService.
+                     DisplayAlertAsync(
+                        Strings.GenericExceptionTitle,
+                        message,
+                        Strings.Ok));
+            }
 
 #if DEBUG
-         System.Diagnostics.Debug.WriteLine(FormatException(ex));
+            System.Diagnostics.Debug.WriteLine(FormatException(ex));
 #endif
+         } catch (Exception) {
+            // silence
+         }
       }
 
       private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e) {

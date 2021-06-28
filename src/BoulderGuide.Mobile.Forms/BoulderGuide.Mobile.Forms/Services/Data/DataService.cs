@@ -18,32 +18,31 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
 #endif
       private Region[] regions;
 
-      private readonly IFileSystem fileSystem;
       private readonly IConnectivity connectivity;
       private readonly IDownloadService downloadService;
       private readonly Preferences.IPreferences preferences;
+      private string repositoryDirectory;
 
       public DataService(
          IFileSystem fileSystem,
          IConnectivity connectivity,
          IDownloadService downloadService,
          Preferences.IPreferences preferences) {
-         this.fileSystem = fileSystem;
          this.connectivity = connectivity;
          this.downloadService = downloadService;
          this.preferences = preferences;
+
+         repositoryDirectory = Path.Combine(fileSystem.AppDataDirectory, "repositories");
       }
 
       public Task ClearLocalStorageAsync() {
-         var reposDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
-         Directory.Delete(reposDir, true);
+         Directory.Delete(repositoryDirectory, true);
 
          return Task.CompletedTask;
       }
 
       public Task<int> GetLocalStorageSizeInMBAsync() {
-         var repoDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
-         DirectoryInfo info = new DirectoryInfo(repoDir);
+         DirectoryInfo info = new DirectoryInfo(repositoryDirectory);
          long size = 0;
          if (info.Exists) {
             foreach (var file in info.GetFiles("*", SearchOption.AllDirectories)) {
@@ -54,7 +53,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          return Task.FromResult((int) (size >> 20));
       }
 
-      public async Task<IEnumerable<AreaInfo>> GetIndexAreasAsync(bool force) {
+      public async Task<OperationResult<IEnumerable<AreaInfo>>> GetIndexAreasAsync(bool force) {
          if (connectivity.NetworkAccess != NetworkAccess.Internet) {
                return await GetAreas(false, force);
          } else {
@@ -62,14 +61,13 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          }
       }
 
-      private async Task<IEnumerable<AreaInfo>> GetAreas(bool download, bool force) {
+      private async Task<OperationResult<IEnumerable<AreaInfo>>> GetAreas(bool download, bool force) {
 
-         var repositoriesDir = Path.Combine(fileSystem.AppDataDirectory, "repositories");
-         if (!Directory.Exists(repositoriesDir)) {
-            Directory.CreateDirectory(repositoriesDir);
+         if (!Directory.Exists(repositoryDirectory)) {
+            Directory.CreateDirectory(repositoryDirectory);
          }
 
-         var masterIndexLocalPath = Path.Combine(repositoriesDir, "index-v2.json");
+         var masterIndexLocalPath = Path.Combine(repositoryDirectory, "index-v2.json");
          if (!File.Exists(masterIndexLocalPath) || download && force) {
             await downloadService.DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
@@ -80,22 +78,28 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                Select(dto =>
                   new Region(
                      dto,
-                     Path.Combine(repositoriesDir, dto.Name)))?.ToArray();
+                     Path.Combine(repositoryDirectory, dto.Name)))?.ToArray();
 
          var result = new List<AreaInfo>();
+         var errors = new List<Exception>();
+
          foreach (var region in regions ?? Enumerable.Empty<Region>()) {
             if (region.Access == RegionAccess.@public ||
                (region.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
 
-               if (!region.ExistsLocally || download && force) {
-                  await region.DownloadAsync(force).ConfigureAwait(false);
-               }
+               try {
+                  if (!region.ExistsLocally || download && force) {
+                     await region.DownloadAsync(force).ConfigureAwait(false);
+                  }
 
-               result.Add(await region.GetIndexAsync().ConfigureAwait(false));
+                  result.Add(await region.GetIndexAsync().ConfigureAwait(false));
+               } catch (Exception ex) {
+                  errors.Add(ex);
+               }
             }
          }
 
-         return result;
+         return new OperationResult<IEnumerable<AreaInfo>>(result, errors);
       }
    }
 }
