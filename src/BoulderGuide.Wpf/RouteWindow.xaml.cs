@@ -107,7 +107,7 @@ namespace BoulderGuide.Wpf {
             var fi = new FileInfo(schema.Id);
             string id = $"{name}_{counter++}{fi.Extension.ToLowerInvariant()}";
 
-            if (fi.Directory.FullName != saveDirectory.FullName) {
+            // if (fi.Directory.FullName != saveDirectory.FullName) {
                while (true) {
                   try {
                      File.Copy(
@@ -119,7 +119,7 @@ namespace BoulderGuide.Wpf {
                      id = $"{name}_{counter++}{fi.Extension.ToLowerInvariant()}";
                   }
                }
-            }
+            // }
 
             schemaList.Add(new Topo() {
                Id = id,
@@ -130,7 +130,21 @@ namespace BoulderGuide.Wpf {
          result.Topos = schemaList.ToArray();
          result.Videos = videos.ToArray();
 
-         File.WriteAllText(System.IO.Path.Combine(saveDirectory.FullName, $"{name}.json"), JsonConvert.SerializeObject(result, Formatting.Indented));
+         var newPath = System.IO.Path.Combine(saveDirectory.FullName, $"{name}.json");
+         if (!string.IsNullOrEmpty(path) && path != newPath) {
+            if (MessageBox.Show("You've changed the id. Do you want to remove old id artifacts?", "Question", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
+               try {
+                  File.Delete(path);
+                  foreach(var imagePath in Directory.GetFiles(path.Substring(0, path.Length - 5) + "_*")) {
+                     File.Delete(imagePath);
+                  }
+               } catch (Exception) {
+                  MessageBox.Show("Unable to delete old id artifacts.");
+               }
+
+            }
+         }
+         File.WriteAllText(newPath, JsonConvert.SerializeObject(result, Formatting.Indented));
       }
 
       private void lstImages_SelectionChanged(object sender, SelectionChangedEventArgs e) {
