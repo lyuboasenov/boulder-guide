@@ -1,6 +1,4 @@
-﻿using BoulderGuide.DTOs;
-
-namespace BoulderGuide.Mobile.Forms.Domain.DTOs {
+﻿namespace BoulderGuide.DTOs {
    public class RouteInfoDTO {
       public string Name { get; set; }
       public string Index { get; set; }

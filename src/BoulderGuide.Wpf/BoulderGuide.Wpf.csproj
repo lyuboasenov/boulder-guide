@@ -9,12 +9,26 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BoulderGuide.DTOs\BoulderGuide.DTOs.csproj" />
     <ProjectReference Include="..\BoulderGuide.ImageUtils\BoulderGuide.ImageUtils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\VideoWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\VideoWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

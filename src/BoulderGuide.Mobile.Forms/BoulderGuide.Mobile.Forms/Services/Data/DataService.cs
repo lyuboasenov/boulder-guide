@@ -1,5 +1,5 @@
-﻿using BoulderGuide.Mobile.Forms.Domain;
-using BoulderGuide.Mobile.Forms.Domain.DTOs;
+﻿using BoulderGuide.DTOs;
+using BoulderGuide.Mobile.Forms.Domain;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
          this.downloadService = downloadService;
          this.preferences = preferences;
 
-         repositoryDirectory = Path.Combine(fileSystem.AppDataDirectory, "repositories");
+         repositoryDirectory = System.IO.Path.Combine(fileSystem.AppDataDirectory, "repositories");
       }
 
       public Task ClearLocalStorageAsync() {
@@ -67,7 +67,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
             Directory.CreateDirectory(repositoryDirectory);
          }
 
-         var masterIndexLocalPath = Path.Combine(repositoryDirectory, "index-v2.json");
+         var masterIndexLocalPath = System.IO.Path.Combine(repositoryDirectory, "index-v2.json");
          if (!File.Exists(masterIndexLocalPath) || download && force) {
             await downloadService.DownloadFile(masterIndexRemoteLocation, masterIndexLocalPath);
          }
@@ -87,7 +87,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Data {
                   (dto.Access == RegionAccess.@private && preferences.ShowPrivateRegions)) {
                   regions.Add(new Region(
                      dto,
-                     Path.Combine(repositoryDirectory, dto.Name)));
+                     System.IO.Path.Combine(repositoryDirectory, dto.Name)));
                   }
             } catch (Exception ex) {
                errors.Add(ex);

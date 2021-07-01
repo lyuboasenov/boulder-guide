@@ -16,6 +16,15 @@
     <Compile Update="VideoWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AreaView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\InputTextView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RouteView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AreaWindow.xaml">
@@ -28,6 +37,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="VideoWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AreaView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\InputTextView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RouteView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\VideoWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

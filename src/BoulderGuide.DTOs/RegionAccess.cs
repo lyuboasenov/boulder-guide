@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace BoulderGuide.Mobile.Forms.Domain.DTOs {
+namespace BoulderGuide.DTOs {
    [JsonConverter(typeof(StringEnumConverter))]
    public enum RegionAccess {
       @public,

@@ -1,5 +1,4 @@
 ﻿using BoulderGuide.DTOs;
-using BoulderGuide.Mobile.Forms.Domain.DTOs;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Domain {

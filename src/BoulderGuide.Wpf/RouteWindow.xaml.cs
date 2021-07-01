@@ -108,17 +108,21 @@ namespace BoulderGuide.Wpf {
             string id = $"{name}_{counter++}{fi.Extension.ToLowerInvariant()}";
 
             // if (fi.Directory.FullName != saveDirectory.FullName) {
-               while (true) {
-                  try {
-                     File.Copy(
-                        fi.FullName,
-                        System.IO.Path.Combine(saveDirectory.FullName, id));
-                     break;
-                  } catch (IOException) {
-                     // retry if files already exist
-                     id = $"{name}_{counter++}{fi.Extension.ToLowerInvariant()}";
+            while (true) {
+               try {
+                  var imgFilePath = System.IO.Path.Combine(saveDirectory.FullName, id);
+                  if (File.Exists(imgFilePath)) {
+                     File.Delete(imgFilePath);
                   }
+                  File.Copy(
+                     fi.FullName,
+                     System.IO.Path.Combine(saveDirectory.FullName, id));
+                  break;
+               } catch (IOException) {
+                  // retry if files already exist
+                  id = $"{name}_{counter++}{fi.Extension.ToLowerInvariant()}";
                }
+            }
             // }
 
             schemaList.Add(new Topo() {
@@ -135,7 +139,7 @@ namespace BoulderGuide.Wpf {
             if (MessageBox.Show("You've changed the id. Do you want to remove old id artifacts?", "Question", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
                try {
                   File.Delete(path);
-                  foreach(var imagePath in Directory.GetFiles(path.Substring(0, path.Length - 5) + "_*")) {
+                  foreach (var imagePath in Directory.GetFiles(path.Substring(0, path.Length - 5) + "_*")) {
                      File.Delete(imagePath);
                   }
                } catch (Exception) {
@@ -188,29 +192,19 @@ namespace BoulderGuide.Wpf {
       }
 
       private void skCanvas_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e) {
-         currentImageSize = new Size();
-
          if (!string.IsNullOrEmpty(selectedSchemas?.Id)) {
-            using (var bitmap = SkiaSharpExtensions.LoadBitmap(selectedSchemas?.Id, skCanvas.CanvasSize.Width, skCanvas.CanvasSize.Height))
-            using (var paint = new SKPaint {
-               FilterQuality = SKFilterQuality.High, // high quality scaling
-               IsAntialias = true
-            }) {
-               currentImageSize = new Size(bitmap.Width, bitmap.Height);
-               e.Surface.Canvas.DrawBitmap(bitmap, 0, 0, paint);
+
+            var shapes = new List<Shape>();
+            if (null != selectedSchemas?.Shapes) {
+               shapes.AddRange(selectedSchemas.Shapes);
             }
-         }
+            if (null != currentShape) {
+               shapes.Add(currentShape);
+            }
 
-         var shapes = new List<Shape>();
-         if (null != selectedSchemas?.Shapes) {
-            shapes.AddRange(selectedSchemas.Shapes);
-         }
-         if (null != currentShape) {
-            shapes.Add(currentShape);
-         }
-
-         foreach (Shape shape in shapes) {
-            shape.Draw(e.Surface.Canvas, currentImageSize, new Size(0, 0));
+            using (var imgStream = File.Open(selectedSchemas.Id, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+               e.Surface.Canvas.DrawTopo(imgStream, shapes);
+            }
          }
       }
 

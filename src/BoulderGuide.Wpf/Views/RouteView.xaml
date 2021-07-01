@@ -1,24 +1,18 @@
-﻿<Window x:Class="BoulderGuide.Wpf.RouteWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BoulderGuide.Wpf" xmlns:wpf="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
-        mc:Ignorable="d"
-        WindowStartupLocation="CenterOwner"
-        Title="RouteWindow" Height="800" Width="1000">
-   <Window.Resources>
+﻿<UserControl x:Class="BoulderGuide.Wpf.Views.RouteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BoulderGuide.Wpf" xmlns:wpf="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF">
+   <UserControl.Resources>
       <local:StringToBitmapImageConverter x:Key="StringToBitmapImageConverter" />
-   </Window.Resources>
+   </UserControl.Resources>
    <Grid>
       <Grid.RowDefinitions>
          <RowDefinition Height="Auto" />
          <RowDefinition Height="*" />
       </Grid.RowDefinitions>
       <Button
-         Name="btnSave"
          Content="Save"
-         Click="btnSave_Click" />
+         Command="{Binding SaveCommand}" />
       <TabControl Grid.Row="1">
          <TabItem Header="Info">
             <Grid>
@@ -36,49 +30,26 @@
                </Grid.RowDefinitions>
 
                <TextBlock Grid.Row="0" Text="Id" />
-               <TextBox Grid.Row="0" Grid.Column="1" Name="txtId" />
+               <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Route.Id, Mode=TwoWay}"/>
 
                <TextBlock Grid.Row="1" Text="Name" />
-               <TextBox Grid.Row="1" Grid.Column="1" Name="txtName" />
+               <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Route.Name, Mode=TwoWay}" />
 
                <TextBlock Grid.Row="2" Text="Grade" />
-               <ComboBox Grid.Row="2" Grid.Column="1" Name="lstGrade">
-                  <ComboBoxItem DataContext="145" Content="9A" />
-                  <ComboBoxItem DataContext="140" Content="8C+" />
-                  <ComboBoxItem DataContext="135" Content="8C" />
-                  <ComboBoxItem DataContext="130" Content="8B+" />
-                  <ComboBoxItem DataContext="125" Content="8B" />
-                  <ComboBoxItem DataContext="120" Content="8A+" />
-                  <ComboBoxItem DataContext="115" Content="8A" />
-                  <ComboBoxItem DataContext="110" Content="7C+" />
-                  <ComboBoxItem DataContext="105" Content="7C" />
-                  <ComboBoxItem DataContext="100" Content="7B+" />
-                  <ComboBoxItem DataContext="95" Content="7B" />
-                  <ComboBoxItem DataContext="90" Content="7A+" />
-                  <ComboBoxItem DataContext="85" Content="7A" />
-                  <ComboBoxItem DataContext="80" Content="6C+" />
-                  <ComboBoxItem DataContext="75" Content="6C" />
-                  <ComboBoxItem DataContext="70" Content="6B+" />
-                  <ComboBoxItem DataContext="65" Content="6B" />
-                  <ComboBoxItem DataContext="60" Content="6A+" />
-                  <ComboBoxItem DataContext="55" Content="6A" />
-                  <ComboBoxItem DataContext="50" Content="5+" />
-                  <ComboBoxItem DataContext="45" Content="5" />
-                  <ComboBoxItem DataContext="40" Content="5-" />
-                  <ComboBoxItem DataContext="35" Content="4+" />
-                  <ComboBoxItem DataContext="30" Content="4" />
-                  <ComboBoxItem DataContext="25" Content="4-" />
-                  <ComboBoxItem DataContext="20" Content="3" />
-               </ComboBox>
+               <ComboBox Grid.Row="2" Grid.Column="1"
+                         SelectedValuePath="Key"
+                         DisplayMemberPath="Value"
+                         ItemsSource="{Binding Difficulties}"
+                         SelectedValue="{Binding Route.Difficulty, Mode=TwoWay}" />
 
                <TextBlock Grid.Row="3" Text="Info" />
-               <TextBox Grid.Row="3" Grid.Column="1" Name="txtInfo" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+               <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Route.Info, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
 
                <TextBlock Grid.Row="4" Text="Tags" />
-               <TextBox Grid.Row="4" Grid.Column="1" Name="txtTags" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+               <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Route.Tags, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
 
                <TextBlock Grid.Row="5" Text="Location" />
-               <TextBox Grid.Row="5" Grid.Column="1" Name="txtLocation" />
+               <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Route.Location, Mode=TwoWay}" />
             </Grid>
          </TabItem>
          <TabItem Header="Schema" Name="tabSchema">
@@ -99,22 +70,19 @@
 
                   <StackPanel Grid.Column="0">
                      <Button
-                        x:Name="btnAddImage"
                         Content=" + "
-                        Click="btnAddImage_Click"
-                        Margin="10" />
+                        Margin="10"
+                        Command="{Binding AddImageCommand}" />
                      <Button
-                        x:Name="btnRemoveImage"
-                        IsEnabled="False"
                         Content=" - "
-                        Click="btnRemoveImage_Click"
-                        Margin="10, 0, 10, 10"/>
+                        Margin="10, 0, 10, 10"
+                        Command="{Binding RemoveImageCommand}" />
                   </StackPanel>
 
                   <ListView
                      Grid.Column="1"
-                     Name="lstImages"
-                     SelectionChanged="lstImages_SelectionChanged">
+                     ItemsSource="{Binding Route.Topos}"
+                     SelectedItem="{Binding SelectedTopo, Mode=TwoWay}">
                      <ListBox.ItemTemplate>
                         <DataTemplate>
                            <Image Height="50" Width="50" Source="{Binding Id, Converter={StaticResource StringToBitmapImageConverter}}" />
@@ -131,22 +99,25 @@
                      <ToggleButton
                         x:Name="btnAddPath"
                         Content="Add Path"
-                        ToggleButton.Checked="btnAddPath_Checked"
-                        ToggleButton.Unchecked="btnAddPath_Unchecked"
                         Height="50"
-                        Margin="10" />
+                        Margin="10"
+                        IsChecked="{Binding IsAddPathChecked}"
+                        Command="{Binding AddPathToggledCommand}"
+                        CommandParameter="{Binding  IsChecked,RelativeSource={RelativeSource Self}}"/>
                      <ToggleButton
                         x:Name="btnAddEllipse"
                         Content="Add Ellipse"
-                        ToggleButton.Checked="btnAddEllipse_Checked"
-                        ToggleButton.Unchecked="btnAddEllipse_Unchecked"
                         Height="50"
-                        Margin="10"  />
-                     <Button x:Name="btnUndo" Content="Undo" Margin="10, 15, 20, 15" Click="btnUndo_Click" />
+                        Margin="10"
+                        IsChecked="{Binding IsAddEllipseChecked}"
+                        Command="{Binding AddEllipseToggledCommand}"
+                        CommandParameter="{Binding  IsChecked,RelativeSource={RelativeSource Self}}"/>
+                     <Button Content="Undo" Margin="10, 15, 20, 15" Command="{Binding UndoCommand}" />
                   </StackPanel>
 
                   <ListView
-                     x:Name="lstShapes"
+                     ItemsSource="{Binding SelectedTopo.Shapes}"
+                     SelectedItem="{Binding SelectedShape, Mode=TwoWay}"
                      Grid.Column="3">
                      <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -161,13 +132,11 @@
                      </ListView.ItemTemplate>
                   </ListView>
 
-
                   <Button
-                     x:Name="btnRemoveShape"
                      Grid.Column="4"
                      Content="X"
                      Margin="10, 30, 10, 30"
-                     Click="btnRemoveShape_Click" />
+                     Command="{Binding RemoveShapeCommand}" />
 
                </Grid>
 
@@ -184,8 +153,8 @@
          <TabItem Header="Videos">
             <StackPanel>
                <ListView
-                  Name="lstVideos"
-                  SelectionChanged="lstVideos_SelectionChanged"
+                  ItemsSource="{Binding Route.Videos}"
+                  SelectedItem="{Binding SelectedVideo}"
                   VerticalAlignment="Stretch">
                   <ListView.ItemTemplate>
                      <DataTemplate>
@@ -194,14 +163,14 @@
                   </ListView.ItemTemplate>
                </ListView>
                <StackPanel Orientation="Horizontal">
-                  <Button Name="btnAddVideo" Content=" Add " Click="btnAddVideo_Click" />
-                  <Button Name="btnEditVideo" IsEnabled="False" Content=" Edit " Click="btnEditVideo_Click" />
-                  <Button Name="btnRemoveVideo" IsEnabled="False" Content=" Remove " Click="btnRemoveVideo_Click" />
-                  <Button Name="btnOpenInBrowser" IsEnabled="False" Content="&lt;/&gt;" Click="btnOpenInBrowser_Click"/>
+                  <Button Content=" Add " Command="{Binding AddVideoCommand}" />
+                  <Button Content=" Edit " Command="{Binding EditVideoCommand}" />
+                  <Button Content=" Remove " Command="{Binding RemoveVideoCommand}" />
+                  <Button Content="&lt;/&gt;" Command="{Binding GoToVideoCommand}" />
                </StackPanel>
 
             </StackPanel>
          </TabItem>
       </TabControl>
    </Grid>
-</Window>
+</UserControl>

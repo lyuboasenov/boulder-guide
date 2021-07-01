@@ -1,12 +1,30 @@
 ﻿<Window x:Class="BoulderGuide.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BoulderGuide.Wpf"
         WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowState="Maximized"
+        Title="{Binding Title}">
+   <Window.Resources>
+
+      <HierarchicalDataTemplate x:Key="areaDT" ItemsSource="{Binding Items}">
+         <Grid>
+            <Label Content="{Binding Name}" />
+         </Grid>
+      </HierarchicalDataTemplate>
+
+      <DataTemplate x:Key="routeDT">
+         <Grid>
+            <Label Content="{Binding Name}" />
+         </Grid>
+      </DataTemplate>
+
+      <local:AreaRouteDataTemplateSelector
+         x:Key="AreaRouteDataTemplateSelector"
+         AreaTemplate="{StaticResource areaDT}"
+         RouteTemplate="{StaticResource routeDT}" />
+      <local:AreaRouteEditDataTemplateSelector x:Key="AreaRouteEditDataTemplateSelector" />
+   </Window.Resources>
    <Grid>
       <Grid.ColumnDefinitions>
          <ColumnDefinition Width="*" />
@@ -16,6 +34,15 @@
          <RowDefinition Height="*" />
          <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
+      <TreeView
+         ItemsSource="{Binding Items}"
+         local:TreeViewHelper.SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"
+         ItemTemplateSelector="{StaticResource AreaRouteDataTemplateSelector}" />
+
+      <ContentControl
+         Content="{Binding SelectedItem}"
+         Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+         ContentTemplateSelector="{StaticResource AreaRouteEditDataTemplateSelector}" />
 
       <StackPanel
          Grid.Row="1"
@@ -23,25 +50,20 @@
          Orientation="Horizontal">
 
          <Button
-            Name="btnNewArea"
-            Grid.Column="2"
-            Content="New area"
-            Click="btnNewArea_Click" />
+            Content="Reload"
+            Command="{Binding ReloadCommand}" />
+
          <Button
-            Name="btnNewRoute"
-            Grid.Column="2"
-            Content="New route"
-            Click="btnNewRoute_Click" />
+            Content="Add area"
+            Command="{Binding AddAreaCommand}" />
+
          <Button
-            Name="btnLoadArea"
-            Grid.Column="2"
-            Content="Load area"
-            Click="btnLoadArea_Click" />
+            Content="Add route"
+            Command="{Binding AddRouteCommand}" />
+
          <Button
-            Name="btnLoadRoute"
-            Grid.Column="2"
-            Content="Load route"
-            Click="btnLoadRoute_Click" />
+            Content="Copy route"
+            Command="{Binding CopyRouteCommand}" />
 
       </StackPanel>
 

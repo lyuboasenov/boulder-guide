@@ -11,11 +11,11 @@ namespace BoulderGuide.ImageUtils {
 
       private static SKColor defaultColor = SKColors.White;
 
-      public static SKPaint ToSKPaint(this SKColor color) {
+      public static SKPaint ToSKPaint(this SKColor color, int strokeWidth = 5) {
          return new SKPaint {
             Style = SKPaintStyle.Stroke,
             Color = color,
-            StrokeWidth = 5,
+            StrokeWidth = strokeWidth,
             StrokeCap = SKStrokeCap.Round,
             StrokeJoin = SKStrokeJoin.Round
          };
@@ -90,7 +90,7 @@ namespace BoulderGuide.ImageUtils {
          }
       }
 
-      public static void DrawTopo(this SKCanvas canvas, Stream imageStream, IEnumerable<Shape> shapes) {
+      public static Size DrawTopo(this SKCanvas canvas, Stream imageStream, IEnumerable<Shape> shapes, int strokeWidth = 5) {
          if (imageStream != null) {
             var canvasSize = new Size(
                canvas.DeviceClipBounds.Width,
@@ -111,31 +111,37 @@ namespace BoulderGuide.ImageUtils {
                canvas.DrawBitmap(bitmap, (float) offset.Width, (float) offset.Height, paint);
 
                foreach (var shape in shapes ?? Enumerable.Empty<Shape>()) {
-                  shape.Draw(canvas, imageSize, offset);
+                  shape.Draw(canvas, imageSize, offset, strokeWidth: strokeWidth);
                }
+
+               return imageSize;
             }
          }
+
+         return new Size(0, 0);
       }
 
-      public static void DrawPath(this SKCanvas canvas, IEnumerable<ImagePoint> path) {
-         canvas.DrawPath(path, defaultColor);
+      public static void DrawPath(this SKCanvas canvas, IEnumerable<ImagePoint> path, int strokeWidth = 5) {
+         canvas.DrawPath(path, defaultColor, strokeWidth: strokeWidth);
       }
 
-      public static void DrawPath(this SKCanvas canvas, IEnumerable<ImagePoint> path, SKColor color, ImagePoint originPoint = null, double scaleFactor = 1) {
-         canvas.DrawPath(path.ConvertToSKPath(originPoint, scaleFactor), color.ToSKPaint());
+      public static void DrawPath(this SKCanvas canvas, IEnumerable<ImagePoint> path, SKColor color, ImagePoint originPoint = null, double scaleFactor = 1, int strokeWidth = 5) {
+         canvas.DrawPath(
+            path.ConvertToSKPath(originPoint, scaleFactor),
+            color.ToSKPaint(strokeWidth));
       }
 
-      public static void DrawEllipse(this SKCanvas canvas, ImagePoint center, ImagePoint radius) {
-         canvas.DrawEllipse(center, radius, defaultColor);
+      public static void DrawEllipse(this SKCanvas canvas, ImagePoint center, ImagePoint radius, int strokeWidth = 5) {
+         canvas.DrawEllipse(center, radius, defaultColor, strokeWidth: strokeWidth);
       }
 
-      public static void DrawEllipse(this SKCanvas canvas, ImagePoint center, ImagePoint radius, SKColor color) {
+      public static void DrawEllipse(this SKCanvas canvas, ImagePoint center, ImagePoint radius, SKColor color, int strokeWidth = 5) {
          canvas.DrawOval(
             (float) center.X,
             (float) center.Y,
             (float) Math.Abs(center.X - radius.X),
             (float) Math.Abs(center.Y - radius.Y),
-            color.ToSKPaint());
+            color.ToSKPaint(strokeWidth));
       }
 
       /// <summary>

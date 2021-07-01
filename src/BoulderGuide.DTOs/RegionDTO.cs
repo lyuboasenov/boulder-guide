@@ -1,4 +1,4 @@
-﻿namespace BoulderGuide.Mobile.Forms.Domain.DTOs {
+﻿namespace BoulderGuide.DTOs {
    public class RegionDTO {
       [Newtonsoft.Json.JsonProperty(PropertyName = "urn")]
       public string Name { get; set; }
