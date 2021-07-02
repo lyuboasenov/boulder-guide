@@ -29,7 +29,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Id = value;
-            RaisePropertyChanged(nameof(Id));
+            RaisePropertyChanged();
          }
       }
 
@@ -39,7 +39,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Name = value;
-            RaisePropertyChanged(nameof(Name));
+            RaisePropertyChanged();
          }
       }
 
@@ -49,7 +49,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Info = value;
-            RaisePropertyChanged(nameof(Info));
+            RaisePropertyChanged();
          }
       }
 
@@ -59,7 +59,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Access = value;
-            RaisePropertyChanged(nameof(Access));
+            RaisePropertyChanged();
          }
       }
 
@@ -69,7 +69,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Accommodations = value;
-            RaisePropertyChanged(nameof(Accommodations));
+            RaisePropertyChanged();
          }
       }
 
@@ -79,7 +79,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.History = value;
-            RaisePropertyChanged(nameof(History));
+            RaisePropertyChanged();
          }
       }
 
@@ -89,7 +89,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Ethics = value;
-            RaisePropertyChanged(nameof(Ethics));
+            RaisePropertyChanged();
          }
       }
 
@@ -99,7 +99,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Restrictions = value;
-            RaisePropertyChanged(nameof(Restrictions));
+            RaisePropertyChanged();
          }
       }
 
@@ -109,7 +109,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Tags = value.Split(new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries);
-            RaisePropertyChanged(nameof(Tags));
+            RaisePropertyChanged();
          }
       }
 

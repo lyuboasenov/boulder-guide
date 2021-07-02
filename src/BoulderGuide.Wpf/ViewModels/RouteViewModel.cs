@@ -171,8 +171,8 @@ namespace BoulderGuide.Wpf.ViewModels {
             Route.AddTopo(new Topo() {
                Id = path
             });
-            RaisePropertyChanged(nameof(Route));
          }
+         RaisePropertyChanged(nameof(Route));
       }
 
       private void GoToVideo() {
@@ -190,7 +190,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          var vm = new VideoWindowViewModel() {
             Id = SelectedVideo.Id,
             Url = SelectedVideo.Url,
-            Embed = SelectedVideo.EmbedCode
+            EmbededCode = SelectedVideo.EmbedCode
          };
 
          (App.Current as App)?.NavigationService.Show(vm, true);
@@ -198,7 +198,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          if (vm.Result == true) {
             SelectedVideo.Id = vm.Id;
             SelectedVideo.Url = vm.Url;
-            SelectedVideo.EmbedCode = vm.Embed;
+            SelectedVideo.EmbedCode = vm.EmbededCode;
          }
       }
 
@@ -211,7 +211,7 @@ namespace BoulderGuide.Wpf.ViewModels {
             var v = new Video() {
                Id = vm.Id,
                Url = vm.Url,
-               EmbedCode = vm.Embed
+               EmbedCode = vm.EmbededCode
             };
 
             Route.AddVideo(v);

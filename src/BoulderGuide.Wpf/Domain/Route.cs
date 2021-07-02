@@ -15,7 +15,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Id = value;
-            RaisePropertyChanged(nameof(Id));
+            RaisePropertyChanged();
          }
       }
 
@@ -25,7 +25,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Name = value;
-            RaisePropertyChanged(nameof(Name));
+            RaisePropertyChanged();
          }
       }
 
@@ -35,7 +35,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Info = value;
-            RaisePropertyChanged(nameof(Info));
+            RaisePropertyChanged();
          }
       }
 
@@ -45,7 +45,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Tags = value.Split(new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries);
-            RaisePropertyChanged(nameof(Tags));
+            RaisePropertyChanged();
          }
       }
 
@@ -55,7 +55,7 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Location = new Location(value);
-            RaisePropertyChanged(nameof(Location));
+            RaisePropertyChanged();
          }
       }
 
@@ -65,12 +65,12 @@ namespace BoulderGuide.Wpf.Domain {
          }
          set {
             dto.Difficulty = value;
-            RaisePropertyChanged(nameof(Difficulty));
+            RaisePropertyChanged();
          }
       }
 
       public IEnumerable<Video> Videos => dto.Videos;
-      public IEnumerable<Topo> Topos => topos;
+      public IEnumerable<Topo> Topos => dto.Topos;
 
       public Route(string path) {
          this.path = path;
@@ -86,6 +86,8 @@ namespace BoulderGuide.Wpf.Domain {
                Shapes = t.Shapes
             };
          }).ToList();
+
+         dto.Topos = topos.ToArray();
       }
 
       public Route(Area a) {

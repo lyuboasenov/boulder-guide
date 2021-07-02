@@ -27,7 +27,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       public ICommand ReloadCommand { get; }
 
       public object SelectedItem { get; set; }
-      public string Title { get; set; }
+      public string Title { get; set; } = "Initial";
 
       public override void Initialize() {
          base.Initialize();
