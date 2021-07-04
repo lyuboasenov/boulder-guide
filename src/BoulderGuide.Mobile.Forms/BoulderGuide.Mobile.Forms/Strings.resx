@@ -250,6 +250,12 @@
   <data name="Reload" xml:space="preserve">
     <value>Презареди</value>
   </data>
+  <data name="ReloadMessage" xml:space="preserve">
+    <value>Тази операция ще премахне свалените сектори.</value>
+  </data>
+  <data name="ReloadTitle" xml:space="preserve">
+    <value>Презареждане</value>
+  </data>
   <data name="RouteOrderByDifficulty" xml:space="preserve">
     <value>Трудност 6A-8C</value>
   </data>

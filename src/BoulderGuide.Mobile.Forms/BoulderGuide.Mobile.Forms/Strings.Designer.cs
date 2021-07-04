@@ -434,6 +434,24 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Тази операция ще премахне свалените сектори..
+        /// </summary>
+        internal static string ReloadMessage {
+            get {
+                return ResourceManager.GetString("ReloadMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Презареждане.
+        /// </summary>
+        internal static string ReloadTitle {
+            get {
+                return ResourceManager.GetString("ReloadTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Трудност 6A-8C.
         /// </summary>
         internal static string RouteOrderByDifficulty {

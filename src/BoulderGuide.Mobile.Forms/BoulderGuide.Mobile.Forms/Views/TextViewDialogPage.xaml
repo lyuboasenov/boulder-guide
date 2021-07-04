@@ -2,7 +2,7 @@
 <Frame xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:prism="http://prismlibrary.com"
-       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons" xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
        prism:ViewModelLocator.AutowireViewModel="True"
        x:Class="BoulderGuide.Mobile.Forms.Views.TextViewDialogPage"
        Style="{StaticResource Key=FullScreenDialogFrameStyle}">
@@ -16,9 +16,8 @@
 
       <ScrollView
          VerticalOptions="StartAndExpand">
-         <Label
+         <views:LinkContainingTextView
             Text="{Binding Text}"
-            LineBreakMode="WordWrap"
             HorizontalOptions="Fill"
             VerticalOptions="Fill" />
       </ScrollView>

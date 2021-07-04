@@ -35,6 +35,11 @@ namespace BoulderGuide.Wpf.Views {
       private RelativePoint GetImageRelativePosition(MouseEventArgs e) {
          Point position = e.GetPosition(skCanvas);
 
+         var canvasRatio = canvasSize.Width / skCanvas.ActualWidth;
+
+         position.X *= canvasRatio;
+         position.Y *= canvasRatio;
+
          var offset = new ImageUtils.Size(
                   Math.Max((canvasSize.Width - currentImageSize.Width) / 2, 0),
                   Math.Max((canvasSize.Height - currentImageSize.Height) / 2, 0));
@@ -44,12 +49,12 @@ namespace BoulderGuide.Wpf.Views {
 
          // added ratio calculation because canvas control is smaller than
          // the actual canvas
-         double widthRatio = currentImageSize.Width / skCanvas.ActualWidth;
-         double heightRatio = currentImageSize.Height / skCanvas.ActualHeight;
-         var ratio = Math.Max(widthRatio, heightRatio);
+         //double widthRatio = currentImageSize.Width / canvasSize.Width;
+         //double heightRatio = currentImageSize.Height / canvasSize.Height;
+         //var ratio = Math.Max(widthRatio, heightRatio);
 
-         position.X /= currentImageSize.Width / ratio;
-         position.Y /= currentImageSize.Height / ratio;
+         position.X /= currentImageSize.Width;
+         position.Y /= currentImageSize.Height;
 
          return position.ToRelativePoint();
       }

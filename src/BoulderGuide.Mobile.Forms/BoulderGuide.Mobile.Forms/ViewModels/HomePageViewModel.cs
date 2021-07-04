@@ -5,6 +5,7 @@ using BoulderGuide.Mobile.Forms.Services.Location;
 using BoulderGuide.Mobile.Forms.Services.UI;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private readonly IPermissions permissions;
       private readonly IActivityIndicationService activityIndicationService;
       private readonly ILocationService locationService;
+      private readonly IPageDialogService pageDialogService;
 
       public ICommand ReloadCommand { get; }
       public ObservableCollection<AreaInfo> AreaInfos { get; } = new ObservableCollection<AreaInfo>();
@@ -30,13 +32,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          IDataService dataService,
          IPermissions permissions,
          IActivityIndicationService activityIndicationService,
-         ILocationService locationService) {
+         ILocationService locationService,
+         IPageDialogService pageDialogService) {
 
          this.dataService = dataService;
          this.permissions = permissions;
          this.activityIndicationService = activityIndicationService;
          this.locationService = locationService;
-
+         this.pageDialogService = pageDialogService;
          ReloadCommand = new AsyncCommand<bool>(Reload);
       }
 
@@ -67,8 +70,20 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
             locationService.Run();
 
+            if (force) {
+               await pageDialogService.
+                  DisplayAlertAsync(
+                     Strings.ReloadTitle,
+                     Strings.ReloadMessage,
+                     Strings.Ok);
+            }
+
             using (activityIndicationService.StartLoading()) {
                AreaInfos.Clear();
+
+               if (force) {
+                  await dataService.ClearLocalStorageAsync();
+               }
 
                var areas = await dataService.GetIndexAreasAsync(force);
 

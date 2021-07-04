@@ -1,5 +1,7 @@
 ﻿using Prism.Services.Dialogs;
 using System;
+using System.Text;
+using System.Text.RegularExpressions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -35,15 +37,48 @@ namespace BoulderGuide.Mobile.Forms.Views {
       private bool invisibleIfNoText;
 
       private void UpdateText() {
-         if ((Text?.Length ?? 0) > 130) {
-            lblText.Text = Text.Substring(0, 120).Trim(' ', '\r', '\n') + " ...";
+         var cleanText = CleanMarkdown(Text);
+         if ((Text?.Length ?? 0) > 130 || cleanText?.Split(new[] { Environment.NewLine }, StringSplitOptions.None)?.Length > 3) {
+            lblText.Text = cleanText.Substring(0, Math.Min(cleanText.Length, 120)).Trim(' ', '\r', '\n') + " ...";
             lblMore.IsVisible = true;
          } else {
-            lblText.Text = Text;
+            lblText.Text = cleanText;
             lblMore.IsVisible = false;
          }
 
          IsVisible = !(string.IsNullOrEmpty(Text) && InvisibleIfNoText);
+      }
+      private static Regex regex = new Regex(
+         @"\[(?<label>.+)\]\W*\((?<url>https?:.+)\)",
+         RegexOptions.Compiled);
+      private string CleanMarkdown(string text) {
+         if (string.IsNullOrEmpty(text)) {
+            // Happy path
+            return string.Empty;
+         }
+
+         var sb = new StringBuilder();
+         var matches = regex.Matches(text);
+         var index = 0;
+         if (matches.Count > 0) {
+            foreach(Match match in matches) {
+               if (match.Index > index) {
+                  sb.Append(text.Substring(index, match.Index - index));
+                  index = match.Index;
+               }
+
+               sb.Append(match.Groups["label"].Value);
+               index = match.Index + match.Length;
+            }
+
+            if (index < text.Length) {
+               sb.Append(text.Substring(index));
+            }
+         } else {
+            sb.Append(text);
+         }
+
+         return sb.ToString();
       }
 
       public string Text {
