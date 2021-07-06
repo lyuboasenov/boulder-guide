@@ -43,9 +43,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.lyuboasenov.boulder-guide</string>
 	<key>CFBundleVersion</key>
-	<string>0.3.3</string>
+	<string>0.4.1</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.3.3 (5)</string>
+	<string>0.4.1 (7)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
