@@ -32,6 +32,7 @@
          ContentScale="{Binding Scale, Mode=TwoWay}">
          <views:TopoView
             Topo="{Binding Topo}"
+            TopoColor="{Binding TopoColor}"
             RouteInfo="{Binding Info}" />
       </views:PinchToZoomContainer>
 
@@ -51,6 +52,40 @@
                   <FontImageSource
                      Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
                      Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ShowHideTopoCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.InvertColorsOff}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+               <ImageButton.Triggers>
+                  <DataTrigger TargetType="ImageButton" Binding="{Binding ShowTopo}" Value="False">
+                     <Setter Property="Source">
+                        <Setter.Value>
+                           <FontImageSource
+                              Color="{StaticResource Key=Accent}"
+                              Glyph="{Static icons:MaterialIconFont.InvertColorsOn}"
+                              FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                        </Setter.Value>
+                     </Setter>
+                  </DataTrigger>
+               </ImageButton.Triggers>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ChangeColorCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.ColorLens}"
                      FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
             </ImageButton>

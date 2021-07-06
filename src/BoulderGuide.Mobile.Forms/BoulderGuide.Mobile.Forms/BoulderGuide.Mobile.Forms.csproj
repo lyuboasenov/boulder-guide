@@ -89,6 +89,9 @@
     <Compile Update="Views\AreaPage.xaml.cs">
       <DependentUpon>AreaPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\ColorPickerDialogPage.xaml.cs">
+      <DependentUpon>ColorPickerDialogPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\KeyDialogPage.xaml.cs">
       <DependentUpon>KeyDialogPage.xaml</DependentUpon>
     </Compile>

@@ -1,5 +1,6 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Domain;
+using BoulderGuide.Mobile.Forms.Services.Preferences;
 using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using System;
@@ -7,20 +8,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class RoutePageViewModel : ViewModelBase {
+
+      private readonly IPreferences preferences;
 
       public RouteInfo Info { get; set; }
       public int DisplayedTopoIndex { get; set; }
       public ICommand MapCommand { get; }
       public ICommand ViewTopoCommand { get; }
       public ICommand VideosCommand { get; }
+      public ICommand ChangeColorCommand { get; }
+      public Color TopoColor { get; set; }
 
-      public RoutePageViewModel() {
+      public RoutePageViewModel(IPreferences preferences) {
+         this.preferences = preferences;
+
          MapCommand = new AsyncCommand(Map, CanShowMap);
          ViewTopoCommand = new AsyncCommand(ViewTopo, CanViewTopo);
          VideosCommand = new AsyncCommand(Videos, CanVideos);
+         ChangeColorCommand = new AsyncCommand(ChangeColor);
       }
 
       public override bool CanNavigate(INavigationParameters parameters) {
@@ -69,14 +78,24 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             nameof(TopoDialogPage),
             TopoDialogPageViewModel.InitializeParameters(Info, Info.Route.Topos.ElementAt(DisplayedTopoIndex))).
             ConfigureAwait(false);
+
+         TopoColor = Color.FromHex(preferences.TopoColorHex);
       }
 
       private bool CanViewTopo() {
          return DisplayedTopoIndex < (Info?.Route?.Topos?.Count() ?? 0);
       }
 
+      private async Task ChangeColor() {
+         await ShowDialogAsync(
+            nameof(ColorPickerDialogPage));
+
+         TopoColor = Color.FromHex(preferences.TopoColorHex);
+      }
+
       private async Task InitializeAsync() {
          try {
+            TopoColor = Color.FromHex(preferences.TopoColorHex);
             await Info.LoadRouteAsync().ConfigureAwait(false);
             await RunOnMainThreadAsync(() => {
                (MapCommand as AsyncCommand)?.RaiseCanExecuteChanged();

@@ -99,5 +99,14 @@
             preferences.Set(nameof(LastKnownLongitude), value);
          }
       }
+
+      public string TopoColorHex {
+         get {
+            return preferences.Get(nameof(TopoColorHex), "FFFFFF");
+         }
+         set {
+            preferences.Set(nameof(TopoColorHex), value);
+         }
+      }
    }
 }

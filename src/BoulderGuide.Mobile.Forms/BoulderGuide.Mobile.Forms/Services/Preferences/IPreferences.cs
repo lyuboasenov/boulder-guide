@@ -11,5 +11,6 @@
       bool IsDeveloperEnabled { get; set; }
       double LastKnownLatitude { get; set; }
       double LastKnownLongitude { get; set; }
+      string TopoColorHex { get; set; }
    }
 }

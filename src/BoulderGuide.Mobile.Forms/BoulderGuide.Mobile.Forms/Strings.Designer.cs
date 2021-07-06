@@ -407,6 +407,15 @@ namespace BoulderGuide.Mobile.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Избор на цвят.
+        /// </summary>
+        internal static string PickColor {
+            get {
+                return ResourceManager.GetString("PickColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Скрити региони.
         /// </summary>
         internal static string PrivateAreas {

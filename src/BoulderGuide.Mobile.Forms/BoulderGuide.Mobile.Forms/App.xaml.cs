@@ -64,6 +64,7 @@ namespace BoulderGuide.Mobile.Forms {
          containerRegistry.RegisterDialog<TopoDialogPage, TopoDialogPageViewModel>();
          containerRegistry.RegisterDialog<TextViewDialogPage, TextViewDialogPageViewModel>();
          containerRegistry.RegisterDialog<VideosDialogPage, VideosDialogPageViewModel>();
+         containerRegistry.RegisterDialog<ColorPickerDialogPage, ColorPickerDialogPageViewModel>();
 
          containerRegistry.RegisterForNavigation<RoutePage, RoutePageViewModel>();
          containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();

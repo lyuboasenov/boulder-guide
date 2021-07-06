@@ -91,6 +91,10 @@ namespace BoulderGuide.ImageUtils {
       }
 
       public static Size DrawTopo(this SKCanvas canvas, Stream imageStream, IEnumerable<Shape> shapes, int strokeWidth = 5) {
+         return DrawTopo(canvas, imageStream, shapes, defaultColor, strokeWidth);
+      }
+
+      public static Size DrawTopo(this SKCanvas canvas, Stream imageStream, IEnumerable<Shape> shapes, SKColor color, int strokeWidth = 5) {
          if (imageStream != null) {
             var canvasSize = new Size(
                canvas.DeviceClipBounds.Width,
@@ -111,7 +115,7 @@ namespace BoulderGuide.ImageUtils {
                canvas.DrawBitmap(bitmap, (float) offset.Width, (float) offset.Height, paint);
 
                foreach (var shape in shapes ?? Enumerable.Empty<Shape>()) {
-                  shape.Draw(canvas, imageSize, offset, strokeWidth: strokeWidth);
+                  shape.Draw(canvas, imageSize, offset, color, strokeWidth: strokeWidth);
                }
 
                return imageSize;

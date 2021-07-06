@@ -46,6 +46,7 @@
                      HorizontalOptions="Fill"
                      Topo="{Binding}"
                      RouteInfo="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=Info}"
+                     TopoColor="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutePageViewModel}}, Path=TopoColor}"
                      />
 
                </Frame>
@@ -77,7 +78,18 @@
                <ImageButton.Source>
                   <FontImageSource
                      Color="{StaticResource Key=Accent}"
-                     Glyph="{Static icons:MaterialIconFont.Fullscreen}"
+                     Glyph="{Static icons:MaterialIconFont.Launch}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ChangeColorCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.ColorLens}"
                      FontFamily="{StaticResource Key=MaterialFontFamily}" />
                </ImageButton.Source>
             </ImageButton>

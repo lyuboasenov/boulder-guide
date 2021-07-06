@@ -241,6 +241,9 @@
   <data name="Order" xml:space="preserve">
     <value>Подредба</value>
   </data>
+  <data name="PickColor" xml:space="preserve">
+    <value>Избор на цвят</value>
+  </data>
   <data name="PrivateAreas" xml:space="preserve">
     <value>Скрити региони</value>
   </data>
