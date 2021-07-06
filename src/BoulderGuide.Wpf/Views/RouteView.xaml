@@ -30,10 +30,10 @@
                </Grid.RowDefinitions>
 
                <TextBlock Grid.Row="0" Text="Id" />
-               <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Route.Id, Mode=TwoWay}"/>
+               <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Route.Id, Mode=TwoWay}" FontSize="20"/>
 
                <TextBlock Grid.Row="1" Text="Name" />
-               <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Route.Name, Mode=TwoWay}" />
+               <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Route.Name, Mode=TwoWay}" FontSize="20" />
 
                <TextBlock Grid.Row="2" Text="Grade" />
                <ComboBox Grid.Row="2" Grid.Column="1"
@@ -43,13 +43,13 @@
                          SelectedValue="{Binding Route.Difficulty, Mode=TwoWay}" />
 
                <TextBlock Grid.Row="3" Text="Info" />
-               <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Route.Info, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+               <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Route.Info, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
                <TextBlock Grid.Row="4" Text="Tags" />
-               <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Route.Tags, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+               <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Route.Tags, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
                <TextBlock Grid.Row="5" Text="Location" />
-               <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Route.Location, Mode=TwoWay}" />
+               <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Route.Location, Mode=TwoWay}" FontSize="20" />
             </Grid>
          </TabItem>
          <TabItem Header="Schema" Name="tabSchema">

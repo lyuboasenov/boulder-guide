@@ -11,51 +11,53 @@
          Command="{Binding SaveCommand}"/>
       <TabControl Grid.Row="1">
          <TabItem Header="Info">
-            <Grid>
-               <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-               </Grid.ColumnDefinitions>
-               <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-               </Grid.RowDefinitions>
+            <ScrollViewer>
+               <Grid>
+                  <Grid.ColumnDefinitions>
+                     <ColumnDefinition Width="Auto" />
+                     <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                     <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
 
-               <TextBlock Grid.Row="0" Text="Id" />
-               <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Area.Id, Mode=TwoWay}" />
+                  <TextBlock Grid.Row="0" Text="Id" />
+                  <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Area.Id, Mode=TwoWay}" FontSize="20" />
 
-               <TextBlock Grid.Row="1" Text="Name" />
-               <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Area.Name, Mode=TwoWay}" />
+                  <TextBlock Grid.Row="1" Text="Name" />
+                  <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Area.Name, Mode=TwoWay}" FontSize="20" />
 
-               <TextBlock Grid.Row="2" Text="Info" />
-               <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Area.Info, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="2" Text="Info" />
+                  <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Area.Info, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="3" Text="Access" />
-               <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Area.Access, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="3" Text="Access" />
+                  <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Area.Access, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="4" Text="History" />
-               <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Area.History, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="4" Text="History" />
+                  <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Area.History, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="5" Text="Ethics" />
-               <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Area.Ethics, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="5" Text="Ethics" />
+                  <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Area.Ethics, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="6" Text="Accommodations" />
-               <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Area.Accommodations, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="6" Text="Accommodations" />
+                  <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Area.Accommodations, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="7" Text="Restrictions" />
-               <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Area.Restrictions, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="7" Text="Restrictions" />
+                  <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Area.Restrictions, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="8" Text="Tags" />
-               <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Area.Tags, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" />
+                  <TextBlock Grid.Row="8" Text="Tags" />
+                  <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Area.Tags, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-            </Grid>
+               </Grid>
+            </ScrollViewer>
          </TabItem>
          <TabItem Header="Location">
             <Grid>
