@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import * as paths from './path';
-import { RouteDTO } from '../domain/RouteDTO';
+import { Route } from '../domain/Route';
 
 @Component({
    selector: 'topo.view',
@@ -20,7 +20,7 @@ export class TopoViewComponent implements OnInit {
    ellipses: any[] = [];
    imgUrl: string = 'https://storage.googleapis.com/boulder-maps/map-vitosha-dev/main/boyana/myrtva_tyaga_0.jpg';
    url: string = '/api/boulder-maps/map-vitosha-dev/main/boyana/myrtva_tyaga.json';
-   route!: RouteDTO | null;
+   route!: Route | null;
    imgWidth: number = 0;
    imgHeight: number = 0;
 
@@ -72,8 +72,8 @@ export class TopoViewComponent implements OnInit {
       this.paths.push(pathD);
    }
 
-   getRoute() : Observable<RouteDTO> {
-      return this.http.get<RouteDTO>(this.url);
+   getRoute() : Observable<Route> {
+      return this.http.get<Route>(this.url);
    }
 
    onLoad() {

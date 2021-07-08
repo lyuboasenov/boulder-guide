@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  masterIndex: '/master/index-v2.debug.json',
+  apiRootPath: "https://storage.googleapis.com/boulder-maps"
 };
 
 /*

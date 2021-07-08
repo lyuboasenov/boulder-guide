@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { TopoViewComponent } from './topo.view/topo.view.component';
 import { MapComponent } from './map/map.component';
 import { OlMapComponent } from './ol-map/ol-map.component';
+import { Globals } from './globals';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { OlMapComponent } from './ol-map/ol-map.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ Globals ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

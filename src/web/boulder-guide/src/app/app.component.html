@@ -1,11 +1,16 @@
-
-<h1>Angular Router App</h1>
+<h1>Катерачни обекти</h1>
 <!-- This nav gives you links to click, which tells the router which route to use (defined in the routes constant in  AppRoutingModule) -->
 <nav>
-  <ul>
-    <li><a routerLink="/topo" routerLinkActive="active">Topo</a></li>
-    <li><a routerLink="/map" routerLinkActive="active">Map</a></li>
-  </ul>
+   <ul>
+      <li *ngFor="let item of areas">
+         <a routerLink="/topo" routerLinkActive="active">
+            <div>
+               <h2> {{ item.name }}</h2>
+               <img src="{{ item.images[0] }}" />
+            </div>
+         </a>
+      </li>
+   </ul>
 </nav>
 
 <router-outlet></router-outlet>
