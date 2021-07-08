@@ -4,7 +4,6 @@ import { AreaComponent } from './area/area.component';
 import { HomeComponent } from './home/home.component';
 import { MapComponent } from './map/map.component';
 import { RouteComponent } from './route/route.component';
-
 import { TopoViewComponent } from './topo.view/topo.view.component';
 
 const routes: Routes = [

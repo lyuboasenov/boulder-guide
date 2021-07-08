@@ -11,15 +11,18 @@ import { Globals } from './globals';
 import { HomeComponent } from './home/home.component';
 import { AreaComponent } from './area/area.component';
 import { RouteComponent } from './route/route.component';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
+    AppComponent,
     HomeComponent,
     AreaComponent,
     RouteComponent,
     TopoViewComponent,
     MapComponent,
-    OlMapComponent
+    OlMapComponent,
+    AppComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +31,6 @@ import { RouteComponent } from './route/route.component';
     AppRoutingModule
   ],
   providers: [ Globals ],
-  bootstrap: [HomeComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

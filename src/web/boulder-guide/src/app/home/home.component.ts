@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { AreaInfo } from '../domain/AreaInfo';
 import { Region } from '../domain/Region';
 import { RouteInfo } from '../domain/RouteInfo';
