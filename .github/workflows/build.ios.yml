@@ -27,4 +27,4 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Restore & Build
-      run: msbuild ${{ github.workspace }}/src/BoulderGuide.Mobile.Forms/BoulderGuide.Mobile.Forms.iOS/BoulderGuide.Mobile.Forms.iOS.csproj /t:build /restore /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
+      run: msbuild ${{ github.workspace }}/src/mobile/BoulderGuide.Mobile.Forms.iOS/BoulderGuide.Mobile.Forms.iOS.csproj /t:build /restore /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
