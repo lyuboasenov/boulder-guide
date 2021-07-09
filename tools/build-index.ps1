@@ -22,6 +22,7 @@ function getArea ($path) {
          # added by default
       } elseif ($_.Extension -eq '.json') {
          $routeObject = [PSCustomObject]@{
+            id = (getId $path ($_.Name));
             name = (getName $path ($_.Name));
             index = (getRelativePath $path ($_.Name));
             images = [string[]](getImages $path ($_.Name));
@@ -49,6 +50,7 @@ function getArea ($path) {
    }
 
    return [PSCustomObject]@{
+      id = (getId $path 'area.json');
       name = (getName $path 'area.json');
       index = (getRelativePath $path 'area.json');
       areas = $areas;
@@ -62,6 +64,13 @@ function getRelativePath ($path, $file) {
    $filePath = Join-Path $path $file
    $rel = $rootUri.MakeRelativeUri([Uri]::new($filePath)).OriginalString
    return "/$rel"
+}
+
+function getId ($path, $file) {
+   Get-Content (Join-Path $path $file) | `
+   ConvertFrom-Json | `
+   Select-Object -ExpandProperty Id | `
+   Write-Output
 }
 
 function getName ($path, $file) {
