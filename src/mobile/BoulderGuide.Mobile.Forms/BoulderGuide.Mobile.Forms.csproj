@@ -76,8 +76,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BoulderGuide.DTOs\BoulderGuide.DTOs.csproj" />
-    <ProjectReference Include="..\..\BoulderGuide.ImageUtils\BoulderGuide.ImageUtils.csproj" />
+    <ProjectReference Include="..\BoulderGuide.DTOs\BoulderGuide.DTOs.csproj" />
+    <ProjectReference Include="..\BoulderGuide.ImageUtils\BoulderGuide.ImageUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoulderGuide.Mobile.Forms", "BoulderGuide.Mobile.Forms\BoulderGuide.Mobile.Forms\BoulderGuide.Mobile.Forms.csproj", "{71833843-896D-438E-B879-44C7D6BDA1AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoulderGuide.Mobile.Forms", "BoulderGuide.Mobile.Forms\BoulderGuide.Mobile.Forms.csproj", "{71833843-896D-438E-B879-44C7D6BDA1AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoulderGuide.Mobile.Forms.iOS", "BoulderGuide.Mobile.Forms\BoulderGuide.Mobile.Forms.iOS\BoulderGuide.Mobile.Forms.iOS.csproj", "{DB0EEC8A-9CA1-4E54-8C9B-220597C04671}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoulderGuide.Mobile.Forms.iOS", "BoulderGuide.Mobile.Forms.iOS\BoulderGuide.Mobile.Forms.iOS.csproj", "{DB0EEC8A-9CA1-4E54-8C9B-220597C04671}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{66D437E2-C5EE-4FB7-A394-0FE76B681C99}"
 EndProject

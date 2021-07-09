@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <SelectedDevice>pixel_23</SelectedDevice>
-    <ActiveDebugProfile>pixel_23</ActiveDebugProfile>
-    <DefaultDevice>pixel_23</DefaultDevice>
-    <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
-  </PropertyGroup>
-</Project>
