@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { TopoViewComponent } from './topo.view/topo.view.component';
 import { MapComponent } from './map/map.component';
 import { OlMapComponent } from './ol-map/ol-map.component';
-import { Globals } from './globals';
 import { HomeComponent } from './home/home.component';
 import { AreaComponent } from './area/area.component';
 import { RouteComponent } from './route/route.component';
 import { AppComponent } from './app.component';
+import { ViewComponent } from './view/view/view.component';
+import { DataService } from './services/data.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AppComponent } from './app.component';
     TopoViewComponent,
     MapComponent,
     OlMapComponent,
-    AppComponent
+    AppComponent,
+    ViewComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ Globals ],
+  providers: [ DataService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
