@@ -13,8 +13,10 @@ using Mapsui.Widgets.ScaleBar;
 using Prism.Navigation;
 using SQLite;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -31,6 +33,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private ILayer connectingLayer;
       private IFeature feature;
       private LineString line;
+      private static readonly ConcurrentDictionary<string, int> imageCache = new ConcurrentDictionary<string, int>();
 
       public string Title { get; set; }
       public Mapsui.Map Map { get; set; }
@@ -172,6 +175,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             map.Layers.Add(CreateRoutesLayer(info));
          }
 
+         if (info.Area.POIs?.Any() ?? false) {
+            map.Layers.Add(CreatePOIsLayer(info));
+         }
+
+         if (info.Area.Tracks?.Any() ?? false) {
+            // map.Layers.Add(CreateTracksLayer(info));
+         }
+
          return map;
       }
 
@@ -187,6 +198,34 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
          return map;
       }
+
+      private ILayer CreatePOIsLayer(AreaInfo info) {
+
+         var features = new Features();
+
+         foreach (var poi in info.Area.POIs ?? Enumerable.Empty<PointOfInterest>()) {
+            features.Add(CreateSvgFeature(poi));
+         }
+
+         return new Layer("POIs layer") {
+            DataSource = new MemoryProvider(features)
+         };
+      }
+
+      //private ILayer CreateTracksLayer(AreaInfo info) {
+
+      //   var feature = new Feature() {
+      //      Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
+      //   };
+      //   feature.Styles.Add(new LabelStyle() {
+      //      Text = $"{route.Name} ({new Grade(route.Difficulty)})",
+      //      HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left
+      //   });
+
+      //   return new Layer("Tracks layer") {
+      //      DataSource = new MemoryProvider(new[] { feature })
+      //   };
+      //}
 
       private ILayer CreateRouteLayer(RouteInfo route) {
 
@@ -312,6 +351,40 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
 
          return result;
+      }
+
+      private IFeature CreateSvgFeature(PointOfInterest poi) {
+         var point = SphericalMercator.FromLonLat(poi.Location.Longitude, poi.Location.Latitude);
+         string id = "BoulderGuide.Mobile.Forms.Icons.parking.svg";
+         if (poi.Type == "water") {
+            id = "BoulderGuide.Mobile.Forms.Icons.local_drink.svg";
+         }
+         var feature = new Feature { Geometry = point, ["Label"] = poi.Name };
+         feature.Styles.Add(CreateSvgStyle(id));
+
+         return feature;
+      }
+
+      private SymbolStyle CreateSvgStyle(string embeddedResourcePath) {
+         var bitmapId = GetBitmapIdForEmbeddedResource(embeddedResourcePath);
+         var style = new SymbolStyle { BitmapId = bitmapId };
+
+         return style;
+      }
+
+      private int GetBitmapIdForEmbeddedResource(string imagePath) {
+         if (!imageCache.TryGetValue(imagePath, out var id)) {
+            try {
+               var assembly = typeof(MapPageViewModel).GetTypeInfo().Assembly;
+               var image = assembly.GetManifestResourceStream(imagePath);
+               id = BitmapRegistry.Instance.Register(image);
+               imageCache[imagePath] = id;
+            } catch {
+               // Silence
+            }
+         }
+
+         return id;
       }
 
       public static NavigationParameters InitializeParameters(RouteInfo routeInfo) {
