@@ -24,6 +24,8 @@ namespace BoulderGuide.Mobile.Forms.Domain {
       public string Ethics => dto?.Ethics;
       public string History => dto?.History;
       public string Restrictions => dto?.Restrictions;
+      public PointOfInterest[] POIs => dto?.POIs;
+      public Track[] Tracks => dto?.Tracks;
       public bool IsInitialized => dto != null;
 
       public override async Task DownloadAsync(bool force = false) {

@@ -14,6 +14,8 @@ namespace BoulderGuide.Wpf.Domain {
 
       public IEnumerable<object> Items => GetItems();
       public IEnumerable<Location> Locations => dto.Location;
+      public IEnumerable<PointOfInterest> POIs => dto.POIs;
+      public IEnumerable<Track> Tracks => dto.Tracks;
 
       private IEnumerable<object> GetItems() {
          var items = new List<object>();
@@ -138,6 +140,30 @@ namespace BoulderGuide.Wpf.Domain {
          list.Remove(location);
          dto.Location = list.ToArray();
          RaisePropertyChanged(nameof(Locations));
+      }
+
+      public void AddPOI(PointOfInterest poi) {
+         dto.POIs = dto.POIs.Append(poi).ToArray();
+         RaisePropertyChanged(nameof(POIs));
+      }
+
+      public void RemovePOI(PointOfInterest poi) {
+         var list = new List<PointOfInterest>(dto.POIs);
+         list.Remove(poi);
+         dto.POIs = list.ToArray();
+         RaisePropertyChanged(nameof(POIs));
+      }
+
+      public void AddTrack(Track track) {
+         dto.Tracks = dto.Tracks.Append(track).ToArray();
+         RaisePropertyChanged(nameof(Tracks));
+      }
+
+      public void RemoveTrack(Track track) {
+         var list = new List<Track>(dto.Tracks);
+         list.Remove(track);
+         dto.Tracks = list.ToArray();
+         RaisePropertyChanged(nameof(Tracks));
       }
 
       public void Save() {
