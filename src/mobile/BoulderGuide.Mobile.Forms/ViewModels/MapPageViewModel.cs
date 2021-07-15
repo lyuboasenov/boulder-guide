@@ -163,6 +163,14 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private Mapsui.Map GetMap(AreaInfo info) {
          var map = GetBaseMap(info);
 
+         if (info.Area.Tracks?.Any() ?? false) {
+            map.Layers.Add(CreateTracksLayer(info));
+         }
+
+         if (info.Area.POIs?.Any() ?? false) {
+            map.Layers.Add(CreatePOIsLayer(info));
+         }
+
          // Add area outline
          var polygonLayer = CreateOutlineLayer(info.Area);
          map.Layers.Add(polygonLayer);
@@ -174,14 +182,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          // Add area routes
          if (info.Routes?.Any() ?? false) {
             map.Layers.Add(CreateRoutesLayer(info));
-         }
-
-         if (info.Area.POIs?.Any() ?? false) {
-            map.Layers.Add(CreatePOIsLayer(info));
-         }
-
-         if (info.Area.Tracks?.Any() ?? false) {
-            // map.Layers.Add(CreateTracksLayer(info));
          }
 
          return map;
@@ -214,20 +214,27 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          };
       }
 
-      //private ILayer CreateTracksLayer(AreaInfo info) {
+      private ILayer CreateTracksLayer(AreaInfo info) {
+         var features = new List<IFeature>();
+         foreach (var track in info.Area.Tracks ?? Enumerable.Empty<Track>()) {
+            features.Add(
+               new Feature() {
+                  Geometry = new LineString(
+                  track.Locations.Select(
+                     l => SphericalMercator.FromLonLat(l.Longitude, l.Latitude)))
+               });
+         }
 
-      //   var feature = new Feature() {
-      //      Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
-      //   };
-      //   feature.Styles.Add(new LabelStyle() {
-      //      Text = $"{route.Name} ({new Grade(route.Difficulty)})",
-      //      HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left
-      //   });
 
-      //   return new Layer("Tracks layer") {
-      //      DataSource = new MemoryProvider(new[] { feature })
-      //   };
-      //}
+         return new Layer("Tracks layer") {
+            DataSource = new MemoryProvider(features),
+            Style = new VectorStyle {
+               Fill = null,
+               Outline = null,
+               Line = { Color = new Mapsui.Styles.Color(105, 105, 105), Width = 2, PenStyle = PenStyle.DashDot }
+            }
+         };
+      }
 
       private ILayer CreateRouteLayer(RouteInfo route) {
          return CreateRoutesLayer(new[] { GetRouteFeature(
