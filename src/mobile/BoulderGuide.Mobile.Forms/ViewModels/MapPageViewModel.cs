@@ -230,18 +230,9 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       //}
 
       private ILayer CreateRouteLayer(RouteInfo route) {
-
-         var feature = new Feature() {
-            Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
-         };
-         feature.Styles.Add(new LabelStyle() {
-            Text = $"{route.Name} ({new Grade(route.Difficulty)})",
-            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left
-         });
-
-         return new Layer("Routes layer") {
-            DataSource = new MemoryProvider(new[] { feature })
-         };
+         return CreateRoutesLayer(new[] { GetRouteFeature(
+               SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude),
+               $"{route.Name} ({new Grade(route.Difficulty)})") });
       }
 
       private Mapsui.Map GetBaseMap(AreaInfo info) {
@@ -311,26 +302,38 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          var features = new List<IFeature>();
 
          foreach (var gr in info.Routes?.GroupBy(r => r.Location, new LocationComparer()) ?? Enumerable.Empty<IGrouping<DTOs.Location, RouteInfo>>()) {
-            var feature = new Feature() {
-               Geometry = SphericalMercator.FromLonLat(gr.Key.Longitude, gr.Key.Latitude)
-            };
             var sb = new StringBuilder();
             foreach (var route in gr) {
                sb.AppendLine($"{route.Name} ({new Grade(route.Difficulty)})");
             }
-            feature.Styles.Add(new LabelStyle() {
-               Text = sb.ToString().Trim(),
-               HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left,
-               Offset = new Offset(15, 0),
-               BackColor = new Mapsui.Styles.Brush(new Mapsui.Styles.Color(255, 255, 255, 128))
-            });
-            features.Add(feature);
+            features.Add(GetRouteFeature(
+               SphericalMercator.FromLonLat(gr.Key.Longitude, gr.Key.Latitude),
+               sb.ToString().Trim()));
          }
 
+         return CreateRoutesLayer(features);
+      }
+
+      private ILayer CreateRoutesLayer(IEnumerable<IFeature> features) {
          return new Layer("Routes layer") {
             Style = CreateSvgStyle("BoulderGuide.Mobile.Forms.Icons.place.svg"),
             DataSource = new MemoryProvider(features)
          };
+      }
+
+      private IFeature GetRouteFeature(IGeometry geometry, string text) {
+         var feature = new Feature() {
+            Geometry = geometry
+         };
+
+         feature.Styles.Add(new LabelStyle() {
+            Text = text,
+            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left,
+            Offset = new Offset(15, 0),
+            BackColor = new Mapsui.Styles.Brush(new Mapsui.Styles.Color(255, 255, 255, 128))
+         });
+
+         return feature;
       }
 
       private ILayer CreateOutlineLayer(Area area) {
