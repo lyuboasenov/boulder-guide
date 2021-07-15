@@ -17,6 +17,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -208,6 +209,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          }
 
          return new Layer("POIs layer") {
+            Style = null,
             DataSource = new MemoryProvider(features)
          };
       }
@@ -308,18 +310,25 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private ILayer CreateRoutesLayer(AreaInfo info) {
          var features = new List<IFeature>();
 
-         foreach (var route in info.Routes ?? Enumerable.Empty<RouteInfo>()) {
+         foreach (var gr in info.Routes?.GroupBy(r => r.Location, new LocationComparer()) ?? Enumerable.Empty<IGrouping<DTOs.Location, RouteInfo>>()) {
             var feature = new Feature() {
-               Geometry = SphericalMercator.FromLonLat(route.Location.Longitude, route.Location.Latitude)
+               Geometry = SphericalMercator.FromLonLat(gr.Key.Longitude, gr.Key.Latitude)
             };
+            var sb = new StringBuilder();
+            foreach (var route in gr) {
+               sb.AppendLine($"{route.Name} ({new Grade(route.Difficulty)})");
+            }
             feature.Styles.Add(new LabelStyle() {
-               Text = $"{route.Name} ({new Grade(route.Difficulty)})",
-               HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left
+               Text = sb.ToString().Trim(),
+               HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Left,
+               Offset = new Offset(15, 0),
+               BackColor = new Mapsui.Styles.Brush(new Mapsui.Styles.Color(255, 255, 255, 128))
             });
             features.Add(feature);
          }
 
          return new Layer("Routes layer") {
+            Style = CreateSvgStyle("BoulderGuide.Mobile.Forms.Icons.place.svg"),
             DataSource = new MemoryProvider(features)
          };
       }
@@ -359,8 +368,12 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
          if (poi.Type == "water") {
             id = "BoulderGuide.Mobile.Forms.Icons.local_drink.svg";
          }
-         var feature = new Feature { Geometry = point, ["Label"] = poi.Name };
-         feature.Styles.Add(CreateSvgStyle(id));
+         return CreateSvgFeature(point, id, poi.Name);
+      }
+
+      private IFeature CreateSvgFeature(Mapsui.Geometries.Point point, string imageId, string label) {
+         var feature = new Feature { Geometry = point, ["Label"] = label };
+         feature.Styles.Add(CreateSvgStyle(imageId));
 
          return feature;
       }
@@ -438,6 +451,22 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             return mapScaleValue + " м";
          }
          return (mapScaleValue / _oneKilometer) + " км";
+      }
+   }
+
+   public class LocationComparer : EqualityComparer<DTOs.Location> {
+      private const double DELTA = 0.0001;
+      public override bool Equals(DTOs.Location x, DTOs.Location y) {
+         if (x == null && y == null)
+            return true;
+         else if (x == null || y == null)
+            return false;
+
+         return Math.Abs(x.Latitude - y.Latitude) < DELTA && Math.Abs(x.Longitude - y.Longitude) < DELTA;
+      }
+
+      public override int GetHashCode(DTOs.Location obj) {
+         return 1;
       }
    }
 }

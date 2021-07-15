@@ -7,11 +7,13 @@
   <ItemGroup>
     <None Remove="Icons\local_drink.svg" />
     <None Remove="Icons\parking.svg" />
+    <None Remove="Icons\place.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Icons\local_drink.svg" />
     <EmbeddedResource Include="Icons\parking.svg" />
+    <EmbeddedResource Include="Icons\place.svg" />
   </ItemGroup>
 
   <ItemGroup>
