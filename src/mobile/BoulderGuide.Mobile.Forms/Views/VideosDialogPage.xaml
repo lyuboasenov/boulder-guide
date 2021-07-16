@@ -31,7 +31,6 @@
          <CarouselView.ItemTemplate>
             <DataTemplate>
                <Frame HasShadow="True"
-                      BorderColor="LightGray"
                       Padding="5"
                       CornerRadius="5"
                       HorizontalOptions="CenterAndExpand"

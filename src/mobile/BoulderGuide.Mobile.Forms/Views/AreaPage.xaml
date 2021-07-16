@@ -15,9 +15,8 @@
 
       <DataTemplate x:Key="areaDataTemplate">
          <ViewCell>
-            <Grid BackgroundColor="White">
+            <Grid>
                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
@@ -37,7 +36,7 @@
                   Margin="5, 0, 0, 0"/>
 
                <Label
-                  Grid.Column="3"
+                  Grid.Column="2"
                   VerticalOptions="Center"
                   FontSize="Micro">
                   <Label.Text>
@@ -49,14 +48,14 @@
                </Label>
 
                <Label
-                  Grid.Column="4"
+                  Grid.Column="3"
                   Text="{Static icons:MaterialIconFont.DownloadDone}"
                   HorizontalOptions="End"
                   VerticalOptions="Center"
                   FontFamily="{StaticResource Key=MaterialFontFamily}"
                   IsVisible="{Binding IsOffline}"/>
                <Label
-                  Grid.Column="4"
+                  Grid.Column="3"
                   Text="{Static icons:MaterialIconFont.CloudDownload}"
                   HorizontalOptions="End"
                   VerticalOptions="Center"
@@ -73,9 +72,8 @@
 
       <DataTemplate x:Key="routeTemplate">
          <ViewCell>
-            <Grid BackgroundColor="White">
+            <Grid>
                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
@@ -95,7 +93,7 @@
                <Label
                   Text="{Binding Grade, StringFormat='({0})'}"
                   VerticalOptions="CenterAndExpand"
-                  Grid.Column="3"
+                  Grid.Column="2"
                   FontSize="Micro" />
             </Grid>
          </ViewCell>

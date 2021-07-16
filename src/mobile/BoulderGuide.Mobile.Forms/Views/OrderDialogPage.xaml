@@ -24,7 +24,6 @@
          <CollectionView.ItemTemplate>
             <DataTemplate>
                <Grid
-                  BackgroundColor="White"
                   HeightRequest="40">
                   <Label
                      Text="{Binding}"

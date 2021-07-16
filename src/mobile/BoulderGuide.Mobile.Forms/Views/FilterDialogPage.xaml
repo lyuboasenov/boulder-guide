@@ -23,16 +23,25 @@
       <BoxView Style="{StaticResource Separator}" />
 
       <Frame
+         BorderColor="Transparent"
          Padding="0"
          HasShadow="False"
-         BackgroundColor="LightGray"
          CornerRadius="40">
          <SearchBar
             Margin="0"
             Placeholder="{Static roots:Strings.Search}"
             HorizontalOptions="CenterAndExpand"
+            TextColor="{StaticResource TextColor}"
+            PlaceholderColor="{StaticResource TextColor}"
             Text="{Binding SearchTerm}"
-            SearchCommand="{Binding DoneCommand}" />
+            SearchCommand="{Binding DoneCommand}">
+            <SearchBar.BackgroundColor>
+               <OnPlatform x:TypeArguments="Color">
+                  <On Platform="iOS" Value="{StaticResource BackgroundColor}" />
+                  <On Platform="Android, UWP" Value="LightGray" />
+               </OnPlatform>
+            </SearchBar.BackgroundColor>
+         </SearchBar>
       </Frame>
 
       <Grid VerticalOptions="CenterAndExpand">

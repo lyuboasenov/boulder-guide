@@ -15,16 +15,60 @@
          <Color x:Key="Primary">#37464f</Color>
          <Color x:Key="PrimaryDark">#273238</Color>
          <Color x:Key="Accent">#449bc9</Color>
+         <Color x:Key="BackgroundColor">White</Color>
+         <Color x:Key="BorderColor">LightGray</Color>
+         <Color x:Key="TextColor">DimGray</Color>
+
+         <!-- Defaults -->
+
          <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
             <Setter Property="BarTextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
          </Style>
+
          <Style TargetType="TabbedPage">
             <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
             <Setter Property="SelectedTabColor" Value="{StaticResource PrimaryDark}" />
             <Setter Property="UnselectedTabColor" Value="{StaticResource Primary}" />
             <Setter Property="BarTextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
          </Style>
+
+         <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+         </Style>
+
+         <Style TargetType="MasterDetailPage">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+         </Style>
+
+         <Style TargetType="Grid">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+         </Style>
+
+         <Style TargetType="StackLayout">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+         </Style>
+
+         <Style TargetType="CollectionView">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+         </Style>
+
+         <Style TargetType="ListView">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+         </Style>
+
+         <Style TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+            <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
+         </Style>
+
+         <Style TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+         </Style>
+
+         <!-- End Defaults -->
 
          <Style x:Key="AccentImageButton" TargetType="ImageButton">
             <Setter Property="BackgroundColor" Value="#88449bc9" />
@@ -48,8 +92,8 @@
 
          <Style x:Key="BaseFullScreenDialogFrameStyle" TargetType="Frame">
             <Setter Property="HasShadow" Value="True" />
-            <Setter Property="BorderColor" Value="LightGray" />
-            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
+            <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="prism:DialogLayout.RelativeWidthRequest" Value="0.9" />
          </Style>
@@ -63,7 +107,7 @@
          <Style x:Key="Separator" TargetType="BoxView">
             <Setter Property="HorizontalOptions" Value="Fill" />
             <Setter Property="HeightRequest" Value="2" />
-            <Setter Property="Color" Value="{StaticResource Key=Accent}" />
+            <Setter Property="Color" Value="{StaticResource Accent}" />
          </Style>
 
          <Style x:Key="DialogTitle" TargetType="Label">
