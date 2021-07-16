@@ -55,6 +55,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       public event EventHandler UpdateSurface;
 
       public Dictionary<double, string> Difficulties { get; } = new Dictionary<double, string>() {
+         { -1, "Project" },
          { 145, "9A" },
          { 140, "8C+" },
          { 135, "8C" },

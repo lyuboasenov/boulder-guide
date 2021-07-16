@@ -182,7 +182,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private IEnumerable<RouteInfo> FitlerRoutes(string searchTerm, int minDifficulty, int maxDifficulty) {
          return Info.Routes?.Where(r =>
             (string.IsNullOrEmpty(searchTerm) || r.Name.ToLowerInvariant().Contains(searchTerm)) &&
-            minDifficulty <= r.Difficulty && r.Difficulty <= maxDifficulty) ?? Enumerable.Empty<RouteInfo>();
+            minDifficulty <= r.Difficulty && r.Difficulty <= maxDifficulty || r.Difficulty == -1) ?? Enumerable.Empty<RouteInfo>();
       }
 
       private IEnumerable<AreaInfo> FilterAreas(string searchTerm) {

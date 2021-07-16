@@ -5,6 +5,7 @@ using System.Linq;
 namespace BoulderGuide.DTOs {
    public class Grade {
       private static IDictionary<double, string> vGrade = new Dictionary<double, string>() {
+         { -1, Strings.Project },
          { 20, "VB" },
          { 25, "V0-" },
          { 35, "V0" },
@@ -30,6 +31,7 @@ namespace BoulderGuide.DTOs {
          { 145, "V17" },
       };
       private static IDictionary<double, string> fontGrade = new Dictionary<double, string>() {
+         { -1, Strings.Project },
          { 20, "3" },
          { 25, "4-" },
          { 30, "4" },

@@ -1,9 +1,7 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Mobile.Forms.Domain;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.XamarinForms {
