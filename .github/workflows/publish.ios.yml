@@ -56,3 +56,10 @@ jobs:
 
     - name: Restore & Build
       run: msbuild ${{ github.workspace }}/src/mobile/BoulderGuide.Mobile.Forms.iOS/BoulderGuide.Mobile.Forms.iOS.csproj /t:build /restore /p:Configuration=Release /p:Platform=iPhone /t:Rebuild /p:BuildIpa=True /p:IpaPackageDir=${{ github.workspace }}/output /p:IpaPackageName=boulder_guide.ipa
+
+    - name: Upload app to App Store Connect
+      env:
+         APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
+         APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+      run: |
+         xcrun altool --upload-app -t ios -f ${{ github.workspace }}/output/boulder_guide.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
