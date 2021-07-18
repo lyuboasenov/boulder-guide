@@ -10,17 +10,16 @@
    </pages:PopupPage.Animation>
 
    <pages:PopupPage.Content>
-      <Grid>
-         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90*"/>
-         </Grid.ColumnDefinitions>
-         <Frame CornerRadius="5" Padding="5" VerticalOptions="Center"
-                   HeightRequest="200" BackgroundColor="#0000" HasShadow="True" Grid.Column="0" Grid.Row="0" Margin="10,0,10,0">
+      <Grid BackgroundColor="Transparent">
+         <Frame
+            VerticalOptions="Center"
+            HeightRequest="200"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            HasShadow="True"
+            Margin="10,0,10,0">
             <ActivityIndicator
                Color="{StaticResource Key=Accent}"
-               Scale=".5"
-               Grid.Column="0"
-               Grid.Row="0"
                IsVisible="True"
                IsRunning="True"
                IsEnabled="True"
