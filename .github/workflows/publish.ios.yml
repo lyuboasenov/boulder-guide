@@ -23,7 +23,7 @@ jobs:
       run: |
         XCODE_ROOT=/Applications/Xcode_12.4.app
         echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
-        sudo xcode-select -s $XCODE_ROO
+        sudo xcode-select -s $XCODE_ROOT
 
     - name: Setup .NET Core SDK 5.0.x
       uses: actions/setup-dotnet@v1
