@@ -27,6 +27,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          (RemoveImageCommand as Command)?.RaiseCanExecuteChanged();
          (AddPathToggledCommand as Command)?.RaiseCanExecuteChanged();
          (AddEllipseToggledCommand as Command)?.RaiseCanExecuteChanged();
+         (AddRectangleToggledCommand as Command)?.RaiseCanExecuteChanged();
          (UndoCommand as Command)?.RaiseCanExecuteChanged();
       }
 
@@ -40,11 +41,19 @@ namespace BoulderGuide.Wpf.ViewModels {
       public void OnCurrentShapeChanged() {
          (AddPathToggledCommand as Command)?.RaiseCanExecuteChanged();
          (AddEllipseToggledCommand as Command)?.RaiseCanExecuteChanged();
+         (AddRectangleToggledCommand as Command)?.RaiseCanExecuteChanged();
          (UndoCommand as Command)?.RaiseCanExecuteChanged();
          (SaveCommand as Command)?.RaiseCanExecuteChanged();
       }
       public bool IsAddPathChecked { get; set; }
       public bool IsAddEllipseChecked { get; set; }
+      public bool IsAddRectangleChecked { get; set; }
+
+      public void OnIsAddRectangleCheckedChanged() {
+         if (!IsAddRectangleChecked) {
+            CommitCurrentShape();
+         }
+      }
 
       public void OnIsAddEllipseCheckedChanged() {
          if (!IsAddEllipseChecked) {
@@ -94,6 +103,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       public ICommand RemoveShapeCommand { get; }
       public ICommand AddPathToggledCommand { get; }
       public ICommand AddEllipseToggledCommand { get; }
+      public ICommand AddRectangleToggledCommand { get; }
       public ICommand UndoCommand { get; }
 
       public RouteViewModel(Route route) {
@@ -108,6 +118,7 @@ namespace BoulderGuide.Wpf.ViewModels {
 
          AddPathToggledCommand = new Command(AddPath, () => SelectedTopo != null);
          AddEllipseToggledCommand = new Command(AddEllipse, () => SelectedTopo != null);
+         AddRectangleToggledCommand = new Command(AddRectangle, () => SelectedTopo != null);
          UndoCommand = new Command(Undo, () => SelectedTopo != null && CurrentShape is Path && CurrentPath.Count > 0);
          Route = route;
          Route.PropertyChanged += Route_PropertyChanged;
@@ -130,7 +141,18 @@ namespace BoulderGuide.Wpf.ViewModels {
       private void AddEllipse() {
          if (IsAddEllipseChecked) {
             IsAddPathChecked = false;
+            IsAddRectangleChecked = false;
             CurrentShape = new Ellipse() { Center = null };
+         } else {
+            CommitCurrentShape();
+         }
+      }
+
+      private void AddRectangle() {
+         if (IsAddRectangleChecked) {
+            IsAddPathChecked = false;
+            IsAddEllipseChecked = false;
+            CurrentShape = new Rectangle() { Center = null };
          } else {
             CommitCurrentShape();
          }
@@ -139,6 +161,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       private void AddPath() {
          if (IsAddPathChecked) {
             IsAddEllipseChecked = false;
+            IsAddRectangleChecked = false;
             CurrentShape = new Path();
             CurrentPath.Clear();
          } else {

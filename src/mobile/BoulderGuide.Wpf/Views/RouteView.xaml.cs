@@ -47,12 +47,6 @@ namespace BoulderGuide.Wpf.Views {
          position.X -= offset.Width;
          position.Y -= offset.Height;
 
-         // added ratio calculation because canvas control is smaller than
-         // the actual canvas
-         //double widthRatio = currentImageSize.Width / canvasSize.Width;
-         //double heightRatio = currentImageSize.Height / canvasSize.Height;
-         //var ratio = Math.Max(widthRatio, heightRatio);
-
          position.X /= currentImageSize.Width;
          position.Y /= currentImageSize.Height;
 
@@ -71,7 +65,10 @@ namespace BoulderGuide.Wpf.Views {
 
       private void skCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
          try {
-            if (vm?.CurrentShape is Ellipse el) {
+            if (vm?.CurrentShape is Rectangle rect) {
+               rect.Radius = GetImageRelativePosition(e);
+               btnAddRectangle.IsChecked = false;
+            } else if (vm?.CurrentShape is Ellipse el) {
                el.Radius = GetImageRelativePosition(e);
                btnAddEllipse.IsChecked = false;
             } else if (vm?.CurrentShape is Path p) {

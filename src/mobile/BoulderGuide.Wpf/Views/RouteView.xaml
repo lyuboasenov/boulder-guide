@@ -98,7 +98,7 @@
                   <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="20, 0, 0, 0">
                      <ToggleButton
                         x:Name="btnAddPath"
-                        Content="Add Path"
+                        Content="Path"
                         Height="50"
                         Margin="10"
                         IsChecked="{Binding IsAddPathChecked}"
@@ -106,11 +106,19 @@
                         CommandParameter="{Binding  IsChecked,RelativeSource={RelativeSource Self}}"/>
                      <ToggleButton
                         x:Name="btnAddEllipse"
-                        Content="Add Ellipse"
+                        Content="Elli"
                         Height="50"
                         Margin="10"
                         IsChecked="{Binding IsAddEllipseChecked}"
                         Command="{Binding AddEllipseToggledCommand}"
+                        CommandParameter="{Binding  IsChecked,RelativeSource={RelativeSource Self}}"/>
+                     <ToggleButton
+                        x:Name="btnAddRectangle"
+                        Content="Rect"
+                        Height="50"
+                        Margin="10"
+                        IsChecked="{Binding IsAddRectangleChecked}"
+                        Command="{Binding AddRectangleToggledCommand}"
                         CommandParameter="{Binding  IsChecked,RelativeSource={RelativeSource Self}}"/>
                      <Button Content="Undo" Margin="10, 15, 20, 15" Command="{Binding UndoCommand}" />
                   </StackPanel>

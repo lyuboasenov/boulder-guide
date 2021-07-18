@@ -84,12 +84,6 @@ namespace BoulderGuide.ImageUtils {
          }
       }
 
-      public static SKBitmap LoadBitmap(string bitmapPath, double width, double height) {
-         using (var input = File.OpenRead(bitmapPath)) {
-            return LoadBitmap(input, width, height);
-         }
-      }
-
       public static Size DrawTopo(this SKCanvas canvas, Stream imageStream, IEnumerable<Shape> shapes, int strokeWidth = 5) {
          return DrawTopo(canvas, imageStream, shapes, defaultColor, strokeWidth);
       }
@@ -125,18 +119,10 @@ namespace BoulderGuide.ImageUtils {
          return new Size(0, 0);
       }
 
-      public static void DrawPath(this SKCanvas canvas, IEnumerable<ImagePoint> path, int strokeWidth = 5) {
-         canvas.DrawPath(path, defaultColor, strokeWidth: strokeWidth);
-      }
-
       public static void DrawPath(this SKCanvas canvas, IEnumerable<ImagePoint> path, SKColor color, ImagePoint originPoint = null, double scaleFactor = 1, int strokeWidth = 5) {
          canvas.DrawPath(
             path.ConvertToSKPath(originPoint, scaleFactor),
             color.ToSKPaint(strokeWidth));
-      }
-
-      public static void DrawEllipse(this SKCanvas canvas, ImagePoint center, ImagePoint radius, int strokeWidth = 5) {
-         canvas.DrawEllipse(center, radius, defaultColor, strokeWidth: strokeWidth);
       }
 
       public static void DrawEllipse(this SKCanvas canvas, ImagePoint center, ImagePoint radius, SKColor color, int strokeWidth = 5) {
