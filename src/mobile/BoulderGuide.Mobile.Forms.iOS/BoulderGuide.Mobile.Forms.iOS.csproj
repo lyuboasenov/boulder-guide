@@ -74,13 +74,14 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>Apple Distribution: Lyuboslav Asenov (3YTMD38C8L)</CodesignKey>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
-    <CodesignProvision>DESKTOP-T7GP2FK-Distribution</CodesignProvision>
+    <CodesignProvision>github-action</CodesignProvision>
     <BuildIpa>false</BuildIpa>
+    <OptimizePNGs>true</OptimizePNGs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
