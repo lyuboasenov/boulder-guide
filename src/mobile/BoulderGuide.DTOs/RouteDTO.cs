@@ -6,6 +6,7 @@
       public Grade Grade { get { return new Grade(Difficulty); } }
       public string Name { get; set; }
       public string Info { get; set; }
+      public string EightALink { get; set; }
       public string[] Tags { get; set; } = new string[0];
       public string[] Links { get; set; } = new string[0];
       public Video[] Videos { get; set; } = new Video[0];

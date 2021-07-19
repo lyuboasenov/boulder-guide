@@ -48,8 +48,20 @@
                <TextBlock Grid.Row="4" Text="Tags" />
                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Route.Tags, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap" MinLines="5" FontSize="20" />
 
-               <TextBlock Grid.Row="5" Text="Location" />
-               <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Route.Location, Mode=TwoWay}" FontSize="20" />
+               <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                  <Grid.ColumnDefinitions>
+                     <ColumnDefinition Width="Auto" />
+                     <ColumnDefinition Width="*" />
+                     <ColumnDefinition Width="Auto" />
+                     <ColumnDefinition Width="2*" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Location" />
+                  <TextBox Grid.Column="1" Text="{Binding Route.Location, Mode=TwoWay}" FontSize="20" />
+
+                  <TextBlock Grid.Column="2" Text="8a" />
+                  <TextBox Grid.Column="3" Text="{Binding Route.EightALink, Mode=TwoWay}" FontSize="20" />
+               </Grid>
+
             </Grid>
          </TabItem>
          <TabItem Header="Schema" Name="tabSchema">

@@ -69,6 +69,16 @@ namespace BoulderGuide.Wpf.Domain {
          }
       }
 
+      public string EightALink {
+         get {
+            return dto?.EightALink;
+         }
+         set {
+            dto.EightALink = value;
+            RaisePropertyChanged();
+         }
+      }
+
       public IEnumerable<Video> Videos => dto.Videos;
       public IEnumerable<Topo> Topos => dto.Topos;
 

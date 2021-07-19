@@ -72,6 +72,17 @@
             </ImageButton>
 
             <ImageButton
+               Command="{Binding EightACommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.Filter8}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
                Command="{Binding ViewTopoCommand}"
                Style="{StaticResource Key=ListAccentImageButton}">
                <ImageButton.Source>

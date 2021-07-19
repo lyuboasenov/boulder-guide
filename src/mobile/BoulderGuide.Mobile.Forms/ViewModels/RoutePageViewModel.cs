@@ -8,12 +8,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
 namespace BoulderGuide.Mobile.Forms.ViewModels {
    public class RoutePageViewModel : ViewModelBase {
 
-      private readonly IPreferences preferences;
+      private readonly Services.Preferences.IPreferences preferences;
+      private readonly IBrowser browser;
 
       public RouteInfo Info { get; set; }
       public int DisplayedTopoIndex { get; set; }
@@ -21,15 +23,18 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       public ICommand ViewTopoCommand { get; }
       public ICommand VideosCommand { get; }
       public ICommand ChangeColorCommand { get; }
+      public ICommand EightACommand { get; }
       public Color TopoColor { get; set; }
 
-      public RoutePageViewModel(IPreferences preferences) {
+      public RoutePageViewModel(Services.Preferences.IPreferences preferences, IBrowser browser) {
          this.preferences = preferences;
+         this.browser = browser;
 
          MapCommand = new AsyncCommand(Map, CanShowMap);
          ViewTopoCommand = new AsyncCommand(ViewTopo, CanViewTopo);
          VideosCommand = new AsyncCommand(Videos, CanVideos);
          ChangeColorCommand = new AsyncCommand(ChangeColor);
+         EightACommand = new AsyncCommand(EightA, () => !string.IsNullOrEmpty(Info?.Route?.EightALink));
       }
 
       public override bool CanNavigate(INavigationParameters parameters) {
@@ -48,6 +53,15 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
 
       public void OnDisplayedTopoIndex() {
          RunOnMainThreadAsync(() => (ViewTopoCommand as AsyncCommand)?.RaiseCanExecuteChanged());
+      }
+
+      private Task EightA() {
+         try {
+            return browser.OpenAsync(Info.Route.EightALink);
+         } catch (Exception ex) {
+            return HandleOperationExceptionAsync(ex, string.Format(Strings.UnableToOpenBrowserFormat, Info.Route.EightALink));
+         }
+
       }
 
       private bool CanShowMap() {
@@ -101,6 +115,7 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
                (MapCommand as AsyncCommand)?.RaiseCanExecuteChanged();
                (ViewTopoCommand as AsyncCommand)?.RaiseCanExecuteChanged();
                (VideosCommand as AsyncCommand)?.RaiseCanExecuteChanged();
+               (EightACommand as AsyncCommand)?.RaiseCanExecuteChanged();
             });
          } catch (Exception ex) {
             await HandleExceptionAsync(ex);

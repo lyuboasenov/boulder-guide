@@ -21,6 +21,7 @@ namespace BoulderGuide.Mobile.Forms.Domain {
 
       public IEnumerable<Image> Images { get; private set; }
       public string Info => dto?.Info;
+      public string EightALink => dto?.EightALink;
       public IEnumerable<Topo> Topos => dto?.Topos;
       public IEnumerable<Video> Videos => dto?.Videos;
       public bool IsInitialized => dto != null;
