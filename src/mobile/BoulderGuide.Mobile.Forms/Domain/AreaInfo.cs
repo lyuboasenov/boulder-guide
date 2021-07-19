@@ -47,10 +47,10 @@ namespace BoulderGuide.Mobile.Forms.Domain {
                result = false;
             }
 
-            if (result && (Areas?.Any(f => !f.ExistsLocally) ?? false)) {
+            if (result && (Areas?.Any(f => !f.IsOffline) ?? false)) {
                result = false;
             }
-            if (result && (Routes?.Any(f => !f.ExistsLocally) ?? false)) {
+            if (result && (Routes?.Any(f => !f.IsOffline) ?? false)) {
                result = false;
             }
             if (result && (Images?.Any(f => !f.ExistsLocally) ?? false)) {

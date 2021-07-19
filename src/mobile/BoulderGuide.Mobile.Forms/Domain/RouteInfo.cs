@@ -1,4 +1,5 @@
 ﻿using BoulderGuide.DTOs;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BoulderGuide.Mobile.Forms.Domain {
@@ -25,6 +26,25 @@ namespace BoulderGuide.Mobile.Forms.Domain {
 
       public AreaInfo Parent { get; }
       public Route Route { get; }
+
+      public bool IsOffline {
+         get {
+            var result = true;
+
+            if (!ExistsLocally) {
+               result = false;
+            }
+
+            if (result && (Route?.Images?.Any(f => !f.ExistsLocally) ?? false)) {
+               result = false;
+            }
+            if (result && (!Route?.ExistsLocally ?? true)) {
+               result = false;
+            }
+
+            return result;
+         }
+      }
 
       public async Task LoadRouteAsync(bool force = false) {
          await Route.DownloadAsync(force).ConfigureAwait(false);
