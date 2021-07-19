@@ -10,7 +10,8 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
    public class LocationService : ILocationService, IDisposable {
 
       private const int DEFAULT_GET_PERIOD_MS = 300000; // Defaults to 5 minutes
-      private const int BACKGROUND_LOOP_DELAY_MS = 500; // 1/2 second
+      private const int ACTIVE_GET_PERIOD_MS = 500; // 1/2 second
+      private const int BACKGROUND_LOOP_DELAY_MS = 100; // 100 ms
 
       private Task task;
       private CancellationTokenSource cts;
@@ -41,6 +42,7 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
          this.preferences = preferences;
          this.geolocation = geolocation;
          this.compass = compass;
+
          compass.ReadingChanged += Compass_ReadingChanged;
       }
 
@@ -131,13 +133,14 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
 
          lock(_lock) {
             observers.Add(observer);
-            getPeriodInMs = preferences.GPSPollIntervalInSeconds * 1000;
-            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) {
-               try {
+            getPeriodInMs = ACTIVE_GET_PERIOD_MS;
+
+            try {
+               if (!compass.IsMonitoring) {
                   compass.Start(SensorSpeed.Default);
-               } catch {
-                  // Silence
                }
+            } catch {
+               // Silence
             }
          }
 
@@ -150,12 +153,12 @@ namespace BoulderGuide.Mobile.Forms.Services.Location {
             if (observers.Count == 0) {
                // back to default poll period
                getPeriodInMs = DEFAULT_GET_PERIOD_MS;
-               if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) {
-                  try {
+               try {
+                  if (compass.IsMonitoring) {
                      compass.Stop();
-                  } catch {
-                     // Silence
                   }
+               } catch {
+                  // Silence
                }
             }
          }

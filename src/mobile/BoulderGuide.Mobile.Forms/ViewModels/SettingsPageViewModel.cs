@@ -3,7 +3,6 @@ using BoulderGuide.Mobile.Forms.Views;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -18,11 +17,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
       private int tapCounter;
       private readonly IPageDialogService dialogService;
 
-      public IEnumerable<int> GpsPollingIntervalList { get; set; }
-      public int SelectedGpsPollingInterval { get; set; }
-      public void OnSelectedGpsPollingIntervalChanged() {
-         preferences.GPSPollIntervalInSeconds = SelectedGpsPollingInterval;
-      }
       public int LocalStorageSizeInMB { get; set; }
 
       private bool initialized;
@@ -77,8 +71,6 @@ namespace BoulderGuide.Mobile.Forms.ViewModels {
             await base.InitializeAsync(parameters).ConfigureAwait(false);
 
             Version = versionTracking.CurrentVersion;
-            GpsPollingIntervalList = new[] { 1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 40, 50, 60 };
-            SelectedGpsPollingInterval = preferences.GPSPollIntervalInSeconds;
             IsDeveloperEnabled = preferences.IsDeveloperEnabled;
             IsAdvancedModeEnabled = preferences.IsAdvancedModeEnabled;
             ShowPrivateAreas = preferences.ShowPrivateRegions;

@@ -41,18 +41,6 @@
 
             <BoxView Style="{StaticResource Separator}" />
 
-            <StackLayout Margin="0, 10, 0, 10" Orientation="Horizontal">
-               <Label
-                  Text="{Binding Source={Static root:Strings.GpsPollingInterval}}"
-                  HorizontalOptions="StartAndExpand"
-                  />
-               <Picker
-                  SelectedItem="{Binding SelectedGpsPollingInterval}"
-                  ItemsSource="{Binding GpsPollingIntervalList}" />
-            </StackLayout>
-
-            <BoxView Style="{StaticResource Separator}" />
-
             <StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10" >
                <StackLayout.GestureRecognizers>
                   <TapGestureRecognizer Command="{Binding SettingsTappedCommand}" />

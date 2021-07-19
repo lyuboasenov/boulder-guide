@@ -142,7 +142,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
       }
 
       private void OnMyLocationChanged() {
-         MyLocationLayer.UpdateMyLocation(MyLocation);
+         MyLocationLayer.UpdateMyLocation(MyLocation, false);
          if (FollowMode == FollowMode.MyLocation) {
             GoToLocation(MyLocation);
          }
@@ -266,7 +266,7 @@ namespace BoulderGuide.Mobile.Forms.Views {
          try {
             MyLocationLayer.IsMoving = true;
             var adjustedDirection = (MyDirection + Rotation) % 360;
-            MyLocationLayer.UpdateMyDirection(adjustedDirection, 0);
+            MyLocationLayer.UpdateMyDirection(adjustedDirection, 0, false);
          } catch (Exception ex) {
             ex.Handle();
          }

@@ -6,15 +6,6 @@
          this.preferences = preferences;
       }
 
-      public int GPSPollIntervalInSeconds {
-         get {
-            return preferences.Get(nameof(GPSPollIntervalInSeconds), 1);
-         }
-         set {
-            preferences.Set(nameof(GPSPollIntervalInSeconds), value);
-         }
-      }
-
       public RouteOrderBy RouteOrderByProperty {
          get {
             return (RouteOrderBy) preferences.Get(nameof(RouteOrderByProperty), 0);
