@@ -19,5 +19,12 @@
       "access": "private",
       "gzip": true,
       "encrypted": true
+   },
+   {
+      "urn": "beli-iskyr",
+      "url": "https://storage.googleapis.com/boulder-maps/map-beli-iskyr/main",
+      "access": "public",
+      "gzip": true,
+      "encrypted": false
    }
 ]
