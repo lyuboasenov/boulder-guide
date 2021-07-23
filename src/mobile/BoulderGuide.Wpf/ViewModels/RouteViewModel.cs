@@ -180,7 +180,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          Route.RemoveShape(SelectedTopo, SelectedShape);
          RaisePropertyChanged(nameof(SelectedTopo));
          UpdateSurface?.Invoke(this, EventArgs.Empty);
-         SelectedShape = SelectedTopo.Shapes.LastOrDefault();
+         SelectedShape = SelectedTopo?.Shapes?.LastOrDefault();
       }
 
       private void RemoveImage() {
