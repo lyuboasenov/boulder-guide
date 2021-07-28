@@ -18,7 +18,7 @@ export class DataService {
       await this.initialize();
 
       if (path == '') {
-         return { id: '', areas: this._areas, name: '', index: '', routes: [], images: [] };
+         return { id: '', areas: this._areas, name: '', index: '', routes: [], images: [], totalAreas: 0, totalRoutes: 0 };
       } else {
          var ids = path.split('/');
          var areas = this._areas;
@@ -49,10 +49,37 @@ export class DataService {
                var url = region.url.replace(environment.apiRootPath, '/api') + '/index.json';
                var areaInfo = await this.http.get<AreaInfo>(url).toPromise();
                areaInfo = this.updateUrls(region, areaInfo);
+               areaInfo = this.updateAreaRouteCounts(areaInfo);
                this._areas.push(areaInfo);
             }
          }
       }
+   }
+
+   updateAreaRouteCounts(a: AreaInfo): AreaInfo {
+      var rCount: number = 0;
+      var aCount: number = 0;
+
+      if (a.areas != null) {
+         for (var i = 0; i < a.areas.length; i++) {
+            a.areas[i] = this.updateAreaRouteCounts(a.areas[i]);
+
+            rCount += a.areas[i].totalRoutes;
+            aCount += a.areas[i].totalAreas;
+         }
+
+         a.totalAreas = aCount + a.areas.length;
+      } else {
+         a.totalAreas = 0;
+      }
+
+      if (a.routes != null) {
+         a.totalRoutes = a.routes.length + rCount;
+      } else {
+         a.totalRoutes = rCount;
+      }
+
+      return a;
    }
 
    updateUrls(r: Region, a: AreaInfo): AreaInfo {

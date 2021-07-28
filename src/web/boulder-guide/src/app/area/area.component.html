@@ -1,14 +1,20 @@
 <div class="areas" *ngIf="area">
-   <nav>
-      <div class="area" *ngFor="let item of area.areas">
-         <a routerLink="/view/{{ area.id }}{{ item.id }}" routerLinkActive="active">
-            <div>
-               <h2> {{ item.name }}</h2>
-               <img *ngIf="item.images.length" src="{{ item.images[0] }}" />
-            </div>
-         </a>
-      </div>
-   </nav>
+   <mat-card class="area" *ngFor="let item of area.areas">
+      <a routerLink="/view/{{ area.id }}{{ item.id }}" routerLinkActive="active">
+         <div>
+            <mat-card-title>
+
+               <span> {{ item.name }} </span>
+            </mat-card-title>
+            <mat-card-content>
+               <img *ngIf="item.images.length" src="{{ item.images[0] }}" width="50px" height="50px" />
+
+               <span>сектори {{item.totalAreas }} / маршрути {{ item.totalRoutes }}</span>
+            </mat-card-content>
+
+         </div>
+      </a>
+   </mat-card>
 </div>
 
 <div class="routes" *ngIf="area">

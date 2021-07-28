@@ -6,5 +6,7 @@ export interface AreaInfo {
    index: string,
    areas: AreaInfo[],
    routes: RouteInfo[],
-   images: string[]
+   images: string[],
+   totalAreas: number,
+   totalRoutes: number
 }
