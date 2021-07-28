@@ -1,6 +1,7 @@
 import { RouteInfo } from "./RouteInfo";
 
 export interface AreaInfo {
+   rootId: string,
    id: string,
    name: string,
    index: string,

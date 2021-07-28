@@ -2,7 +2,7 @@ import { Component, OnInit, Input  } from '@angular/core';
 import { AreaInfo } from '../domain/AreaInfo';
 
 @Component({
-   selector: 'app-area',
+   selector: 'bg-area',
    templateUrl: './area.component.html',
    styleUrls: [ './area.component.scss' ]
 })

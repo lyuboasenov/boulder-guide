@@ -1,0 +1,14 @@
+<h1 *ngIf="route">{{ route.name }} ({{ route.difficulty | grade }})</h1>
+
+<mat-tab-group  *ngIf="route">
+   <mat-tab>
+      <ng-template mat-tab-label>
+         <mat-icon>info</mat-icon>
+      </ng-template>
+   </mat-tab>
+   <mat-tab>
+      <ng-template mat-tab-label>
+         <mat-icon>map</mat-icon>
+      </ng-template>
+   </mat-tab>
+</mat-tab-group>

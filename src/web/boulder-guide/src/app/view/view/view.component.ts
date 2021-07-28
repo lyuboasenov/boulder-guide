@@ -10,9 +10,8 @@ import { RouteInfo } from 'src/app/domain/RouteInfo';
   styleUrls: ['./view.component.scss']
 })
 export class ViewComponent implements OnInit {
-   areas: AreaInfo[] = [];
-   area:any;
-   routes: RouteInfo[] = [];
+   areaInfo?:AreaInfo;
+   routeInfo?: RouteInfo;
    id: string = '';
 
    constructor(
@@ -34,8 +33,11 @@ export class ViewComponent implements OnInit {
       }
 
       this.dataService.getAreaInfo(this.id).then(a => {
-         this.area = a;
-         this.areas = a.areas;
+         this.areaInfo = a;
+      });
+
+      this.dataService.getRouteInfo(this.id).then(r => {
+         this.routeInfo = r;
       });
    }
 }
