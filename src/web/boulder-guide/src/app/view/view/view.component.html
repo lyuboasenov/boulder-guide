@@ -1,18 +1,1 @@
-<p>view works!</p>
-
-<div class="areas" *ngIf="areas">
-   <nav>
-      <div class="area" *ngFor="let area of areas">
-         <a routerLink="/view/{{ id }}{{ area.id }}" routerLinkActive="active">
-            <div>
-               <h2> {{ area.name }}</h2>
-               <img *ngIf="area.images.length" src="{{ area.images[0] }}" />
-            </div>
-         </a>
-      </div>
-   </nav>
-</div>
-
-<div class="routes" *ngIf="routes">
-
-</div>
+<app-area *ngIf="area" [area]="area"></app-area>

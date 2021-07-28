@@ -1,0 +1,16 @@
+<div class="areas" *ngIf="area">
+   <nav>
+      <div class="area" *ngFor="let item of area.areas">
+         <a routerLink="/view/{{ area.id }}{{ item.id }}" routerLinkActive="active">
+            <div>
+               <h2> {{ item.name }}</h2>
+               <img *ngIf="item.images.length" src="{{ item.images[0] }}" />
+            </div>
+         </a>
+      </div>
+   </nav>
+</div>
+
+<div class="routes" *ngIf="area">
+
+</div>

@@ -11,6 +11,7 @@ import { RouteInfo } from 'src/app/domain/RouteInfo';
 })
 export class ViewComponent implements OnInit {
    areas: AreaInfo[] = [];
+   area:any;
    routes: RouteInfo[] = [];
    id: string = '';
 
@@ -33,6 +34,7 @@ export class ViewComponent implements OnInit {
       }
 
       this.dataService.getAreaInfo(this.id).then(a => {
+         this.area = a;
          this.areas = a.areas;
       });
    }
