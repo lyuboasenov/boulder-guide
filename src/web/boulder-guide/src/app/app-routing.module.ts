@@ -27,6 +27,7 @@ const routes: Routes = [
       }, component: ViewComponent },
    { path: 'topo', component: TopoViewComponent },
    { path: 'map', component: MapComponent },
+   { path: 'home', component: HomeComponent },
 ];
 
 @NgModule({

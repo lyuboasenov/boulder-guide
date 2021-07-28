@@ -13,6 +13,15 @@ import { RouteComponent } from './route/route.component';
 import { AppComponent } from './app.component';
 import { ViewComponent } from './view/view/view.component';
 import { DataService } from './services/data.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import { NavigationComponent } from './navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -24,13 +33,22 @@ import { DataService } from './services/data.service';
     MapComponent,
     OlMapComponent,
     AppComponent,
-    ViewComponent
+    ViewComponent,
+    NavigationComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSliderModule,
+    BrowserAnimationsModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [ DataService ],
   bootstrap: [AppComponent]
