@@ -113,7 +113,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-             "baseHref": "https://lyuboasenov.github.io/boulder-guide",
+             "baseHref": "https://lyuboasenov.github.io/boulder-guide/",
              "repo": "git@github.com:lyuboasenov/boulder-guide.git"
           }
         }
