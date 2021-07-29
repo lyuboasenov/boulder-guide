@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  masterIndex: '/master/index-v2.debug.json',
-  apiRootPath: "https://storage.googleapis.com/boulder-maps"
+  masterIndex: '/master/index-v2.debug.json'
 };
 
 /*

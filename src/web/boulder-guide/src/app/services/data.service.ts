@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AreaInfo } from '../domain/AreaInfo';
@@ -94,7 +93,7 @@ export class DataService {
 
          for (var region of regions) {
             if (region.access == 'public' && !region.encrypted) {
-               var url = region.url.replace(environment.apiRootPath, '/api') + '/index.json';
+               var url = region.url + '/index.json';
                var areaInfo = await this.http.get<AreaInfo>(url).toPromise();
                areaInfo.rootId = '';
                areaInfo = this.build(region, areaInfo);
