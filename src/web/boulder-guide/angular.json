@@ -72,8 +72,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-             "browserTarget": "boulder-guide:build",
-             "proxyConfig": "./proxy.conf.json"
+            "browserTarget": "boulder-guide:build",
+            "proxyConfig": "./proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -108,6 +108,14 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+             "baseHref": "https://lyuboasenov.github.io/boulder-guide",
+             "repo": "git@github.com:lyuboasenov/boulder-guide.git",
+             "branch": "main"
           }
         }
       }
