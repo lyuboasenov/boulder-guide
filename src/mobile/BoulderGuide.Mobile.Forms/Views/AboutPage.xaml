@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
+             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons" xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="BoulderGuide.Mobile.Forms.Views.AboutPage"
+             Title="{Static root:Strings.About}">
+   <StackLayout>
+
+      <views:TextView
+         Title="{Static root:Strings.Info}"
+         Text="{Static root:Strings.AboutInfo}" />
+
+      <StackLayout Padding="10" Margin="0, 0, 0, 5">
+         <Label
+            Text="{Static root:Strings.WebSite}"
+            FontSize="Medium"
+            FontAttributes="Bold"
+            Margin="2, 0, 0, 0"/>
+
+         <Label
+            Text="https://github.com/lyuboasenov/boulder-guide"
+            TextColor="{StaticResource Accent}">
+            <Label.GestureRecognizers>
+               <TapGestureRecognizer Command="{Binding WebSiteCommand}" />
+            </Label.GestureRecognizers>
+         </Label>
+      </StackLayout>
+
+      <StackLayout Padding="10" Margin="0, 0, 0, 5">
+         <Label
+            Text="{Static root:Strings.Contacts}"
+            FontSize="Medium"
+            FontAttributes="Bold"
+            Margin="2, 0, 0, 0"/>
+
+         <Label
+            Text="boulder.guide.app@gmail.com"
+            TextColor="{StaticResource Accent}">
+            <Label.GestureRecognizers>
+               <TapGestureRecognizer Command="{Binding ContactsCommand}" />
+            </Label.GestureRecognizers>
+         </Label>
+      </StackLayout>
+
+      <StackLayout Padding="10" Margin="0, 0, 0, 5">
+         <Label
+            Text="{Static root:Strings.OnError}"
+            FontSize="Medium"
+            FontAttributes="Bold"
+            Margin="2, 0, 0, 0"/>
+
+         <Label
+            Text="https://github.com/lyuboasenov/boulder-guide/issues"
+            TextColor="{StaticResource Accent}">
+            <Label.GestureRecognizers>
+               <TapGestureRecognizer Command="{Binding OnErrorCommand}" />
+            </Label.GestureRecognizers>
+         </Label>
+      </StackLayout>
+
+      <ImageButton
+         Margin="10"
+         HorizontalOptions="CenterAndExpand"
+         VerticalOptions="EndAndExpand"
+         Command="{Binding GoBackCommand}"
+         Style="{StaticResource Key=RoundAccentImageButton}">
+         <ImageButton.Source>
+            <FontImageSource
+               Color="{StaticResource Key=Accent}"
+               Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+         </ImageButton.Source>
+      </ImageButton>
+   </StackLayout>
+</ContentPage>

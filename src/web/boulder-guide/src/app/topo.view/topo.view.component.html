@@ -1,0 +1,8 @@
+<div class="TopoContainer">
+   <svg xmlns="http://www.w3.org/2000/svg" [attr.width]="imgWidth" [attr.height]="imgHeight" class="Topo">
+      <path *ngFor="let path of paths" [attr.d]="path" stroke="red" stroke-width="3" fill="none"/>
+      <ellipse *ngFor="let ellipse of ellipses" [attr.cx]="ellipse.cx" [attr.cy]="ellipse.cy" [attr.rx]="ellipse.rx" [attr.ry]="ellipse.ry" stroke="red" stroke-width="3" fill="none"/>
+   </svg>
+
+   <img #img [attr.src]="imgUrl" (load)="onLoad()" class="TopoImage" (window:resize)="onLoad()">
+</div>

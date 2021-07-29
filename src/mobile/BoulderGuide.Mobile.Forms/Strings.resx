@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>За приложението</value>
+  </data>
+  <data name="AboutInfo" xml:space="preserve">
+    <value>Катеренето е свобода. 
+
+Ние вярваме, че информацията за него също трябва да е свободна и свободно да се споделя.
+
+Разработването и преминаването на маршрут изискват усилен труд.
+
+Ние вярваме, че този труд трябва да бъде почетен. Всеки маршрут, който си е струвало да бъде изкатерен, си струва и да бъде споделен.
+
+Това приложение е израз на този стремеж за свобода. Целта му е да събере в себе си информация за Българските болдър обекти и маршрути и да я направи достъпна на всеки болдър ентусиаст.</value>
+  </data>
+  <data name="AdvancedModeDisabled" xml:space="preserve">
+    <value>Вие успешно деактивирахте разширеният режим.</value>
+  </data>
+  <data name="AdvancedModeEnabled" xml:space="preserve">
+    <value>Вие успешно активирахте разширеният режим.</value>
+  </data>
+  <data name="AdvancedOptions" xml:space="preserve">
+    <value>Разширени настройки</value>
+  </data>
+  <data name="AreaAccess" xml:space="preserve">
+    <value>Достъп</value>
+  </data>
+  <data name="AreaAccommodations" xml:space="preserve">
+    <value>Настаняване</value>
+  </data>
+  <data name="AreaContent" xml:space="preserve">
+    <value>Съдържание</value>
+  </data>
+  <data name="AreaEthics" xml:space="preserve">
+    <value>Етика</value>
+  </data>
+  <data name="AreaHistory" xml:space="preserve">
+    <value>История</value>
+  </data>
+  <data name="AreaInfo" xml:space="preserve">
+    <value>Обща информация</value>
+  </data>
+  <data name="AreaNotFoundOrCantBeDownloaded" xml:space="preserve">
+    <value>Избраният сектор не е запазен на устройството или не може да бъде свален.</value>
+  </data>
+  <data name="AreaRestrictions" xml:space="preserve">
+    <value>Ограничения</value>
+  </data>
+  <data name="Areas" xml:space="preserve">
+    <value>Сектори</value>
+  </data>
+  <data name="ClearLocalData" xml:space="preserve">
+    <value>Изтриване на локалните данни</value>
+  </data>
+  <data name="ClimbingAreas" xml:space="preserve">
+    <value>Катерачни обекти</value>
+  </data>
+  <data name="CloseDialog" xml:space="preserve">
+    <value>Добре</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>За контакти</value>
+  </data>
+  <data name="DefaultEmailBody" xml:space="preserve">
+    <value>Привет от приложението Boulder Guide,
+
+...</value>
+  </data>
+  <data name="DefaultEmailSubject" xml:space="preserve">
+    <value>Привет от приложението Boulder Guide,
+
+...</value>
+  </data>
+  <data name="DeveloperTools" xml:space="preserve">
+    <value>Инструменти на разработчика</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Свали</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Филтър</value>
+  </data>
+  <data name="GenericExceptionMessage" xml:space="preserve">
+    <value>Възникна неочаквана грешка. Моля да ни извините.</value>
+  </data>
+  <data name="GenericExceptionTitle" xml:space="preserve">
+    <value>Грешка</value>
+  </data>
+  <data name="GpsPollingInterval" xml:space="preserve">
+    <value>Интервал на опресняване на локацията (в секунди)</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Привет!</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="HomeAreaInfoCountsFormat" xml:space="preserve">
+    <value>{0} маршрута в {1} сектора</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="LocalStorageSizeInMB" xml:space="preserve">
+    <value>Размер на локалните данни</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Добре</value>
+  </data>
+  <data name="OnError" xml:space="preserve">
+    <value>При грешки</value>
+  </data>
+  <data name="OperationExceptionFormat" xml:space="preserve">
+    <value>Възникна грешка при опита да се {0}. 
+Моля опитайте отново по-късно.</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Подредба</value>
+  </data>
+  <data name="PickColor" xml:space="preserve">
+    <value>Избор на цвят</value>
+  </data>
+  <data name="PrivateAreas" xml:space="preserve">
+    <value>Скрити региони</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Повече ...</value>
+  </data>
+  <data name="Reload" xml:space="preserve">
+    <value>Презареди</value>
+  </data>
+  <data name="ReloadMessage" xml:space="preserve">
+    <value>Тази операция ще премахне свалените сектори.</value>
+  </data>
+  <data name="ReloadTitle" xml:space="preserve">
+    <value>Презареждане</value>
+  </data>
+  <data name="RouteOrderByDifficulty" xml:space="preserve">
+    <value>Трудност 6A-8C</value>
+  </data>
+  <data name="RouteOrderByDifficultyDesc" xml:space="preserve">
+    <value>Трудност 8C-6A</value>
+  </data>
+  <data name="RouteOrderByName" xml:space="preserve">
+    <value>Име А-Я</value>
+  </data>
+  <data name="RouteOrderByNameDesc" xml:space="preserve">
+    <value>Име Я-А</value>
+  </data>
+  <data name="Routes" xml:space="preserve">
+    <value>Маршрути</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Търсене</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="UnableToClearLocalData" xml:space="preserve">
+    <value>изчистят локалните данни</value>
+  </data>
+  <data name="UnableToDownloadArea" xml:space="preserve">
+    <value>Избраният сектор не е запазен на устройството.
+Няма интернет свързаност и той не може да бъде свален.
+Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка.</value>
+  </data>
+  <data name="UnableToDownloadEntireArea" xml:space="preserve">
+    <value>Няма интернет свързаност и секторът не може да бъде свален.
+Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка.</value>
+  </data>
+  <data name="UnableToDownloadFormat" xml:space="preserve">
+    <value>свали локално сектор {0}</value>
+  </data>
+  <data name="UnableToDownloadRoute" xml:space="preserve">
+    <value>Избраният маршрут не е запазен на устройството.
+Няма интернет свързаност и той не може да бъде свален.
+Запазете секторът на устройството си за да е достъпен дори при липса на интернет връзка.</value>
+  </data>
+  <data name="UnableToEnableAddvancedMode" xml:space="preserve">
+    <value>включи ранширеният режим</value>
+  </data>
+  <data name="UnableToEnterKey" xml:space="preserve">
+    <value>въведе ключът.</value>
+  </data>
+  <data name="UnableToFilter" xml:space="preserve">
+    <value>филтрират секторите и маршрутите</value>
+  </data>
+  <data name="UnableToInitializeAreaFormat" xml:space="preserve">
+    <value>зареди сектор {0}</value>
+  </data>
+  <data name="UnableToInitializeMap" xml:space="preserve">
+    <value>зареди картата</value>
+  </data>
+  <data name="UnableToInitializeSettings" xml:space="preserve">
+    <value>отвори екрана с настройките</value>
+  </data>
+  <data name="UnableToNavigateFormat" xml:space="preserve">
+    <value>отвори екрана {0}</value>
+  </data>
+  <data name="UnableToOpenBrowserFormat" xml:space="preserve">
+    <value>отвори браузър с адрес '{0}'</value>
+  </data>
+  <data name="UnableToOpenDialog" xml:space="preserve">
+    <value>отвори диалоговия прозорец</value>
+  </data>
+  <data name="UnableToOpenEmailClient" xml:space="preserve">
+    <value>стартира е-мейл клиентът</value>
+  </data>
+  <data name="UnableToReloadClimbingRegions" xml:space="preserve">
+    <value>презаред информацията за катерачните обекти</value>
+  </data>
+  <data name="UnableToSort" xml:space="preserve">
+    <value>сортират секторите и маршрутите</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="WebSite" xml:space="preserve">
+    <value>Уеб сайт</value>
+  </data>
+</root>

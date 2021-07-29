@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:prism="http://prismlibrary.com"
+       prism:ViewModelLocator.AutowireViewModel="True"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       xmlns:roots="clr-namespace:BoulderGuide.Mobile.Forms"
+       xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+       xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
+       x:Class="BoulderGuide.Mobile.Forms.Views.FilterDialogPage"
+       Style="{StaticResource Key=FitToContentDialogFrameStyle}">
+
+   <Frame.Resources>
+      <xamForms:DifficultyToGradeConverter x:Key="difficultyToGradeConverter" />
+   </Frame.Resources>
+
+   <StackLayout>
+
+      <Label
+         Text="{Static roots:Strings.Filter}"
+         Style="{StaticResource DialogTitle}" />
+
+      <BoxView Style="{StaticResource Separator}" />
+
+      <Frame
+         BorderColor="Transparent"
+         Padding="0"
+         HasShadow="False"
+         CornerRadius="40">
+         <SearchBar
+            Margin="0"
+            Placeholder="{Static roots:Strings.Search}"
+            HorizontalOptions="CenterAndExpand"
+            TextColor="{StaticResource TextColor}"
+            PlaceholderColor="{StaticResource TextColor}"
+            Text="{Binding SearchTerm}"
+            SearchCommand="{Binding DoneCommand}">
+            <SearchBar.BackgroundColor>
+               <OnPlatform x:TypeArguments="Color">
+                  <On Platform="iOS" Value="{StaticResource BackgroundColor}" />
+                  <On Platform="Android, UWP" Value="LightGray" />
+               </OnPlatform>
+            </SearchBar.BackgroundColor>
+         </SearchBar>
+      </Frame>
+
+      <Grid VerticalOptions="CenterAndExpand">
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
+         </Grid.ColumnDefinitions>
+         <Label
+            Text="{Binding MinDifficulty, Converter={StaticResource Key=difficultyToGradeConverter}}"
+            Margin="0, 27, 0, 0" />
+         <xct:RangeSlider
+            Grid.Column="1"
+            MaximumValue="150"
+            MinimumValue="0"
+            StepValue="1"
+            LowerValue="{Binding MinDifficulty}"
+            UpperValue="{Binding MaxDifficulty}">
+            <xct:RangeSlider.LowerValueLabelStyle>
+               <Style TargetType="Label">
+                  <Setter Property="IsVisible" Value="False" />
+               </Style>
+            </xct:RangeSlider.LowerValueLabelStyle>
+            <xct:RangeSlider.UpperValueLabelStyle>
+               <Style TargetType="Label">
+                  <Setter Property="IsVisible" Value="False" />
+               </Style>
+            </xct:RangeSlider.UpperValueLabelStyle>
+         </xct:RangeSlider>
+         <Label
+            Grid.Column="2"
+            Margin="0, 27, 0, 0"
+            Text="{Binding MaxDifficulty, Converter={StaticResource Key=difficultyToGradeConverter}}"
+            HorizontalOptions="End"/>
+      </Grid>
+
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+               Orientation="Horizontal"
+               Spacing="1">
+
+            <ImageButton
+               Command="{Binding CloseCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                        Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+                        Color="{StaticResource Key=Accent}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding DoneCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                        Glyph="{Static icons:MaterialIconFont.FilterList}"
+                        Color="{StaticResource Key=Accent}"
+                        FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+         </StackLayout>
+      </Frame>
+   </StackLayout>
+</Frame>

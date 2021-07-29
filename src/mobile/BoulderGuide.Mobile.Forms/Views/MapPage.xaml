@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+             xmlns:localViews="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="BoulderGuide.Mobile.Forms.Views.MapPage"
+             Title="{Binding Title}">
+   <Grid>
+      <localViews:MapView
+         IsMyLocationButtonVisible="False"
+         IsNorthingButtonVisible="False"
+         IsZoomButtonVisible="False"
+         Map="{Binding Map}"
+         MinResolution="{Binding MapMinResolution}"
+         MaxResolution="{Binding MapMaxResolution}"
+         Resolution="{Binding MapResolution, Mode=TwoWay}"
+         Rotation="{Binding MapRotation, Mode=TwoWay}"
+         MyLocation="{Binding MyLocation}"
+         MyDirection="{Binding MyDirection}"
+         TargetLocation="{Binding TargetLocation}"
+         FollowMode="{Binding FollowMode, Mode=TwoWay}"
+         BackgroundColor="Gray" />
+
+      <Label
+         VerticalOptions="End"
+         HorizontalOptions="End"
+         Margin="0, 0, 10, 60"
+         FontSize="Medium"
+         FontAttributes="Bold"
+         Text="{Binding Distance}" />
+
+      <Frame
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+            Orientation="Horizontal"
+            Spacing="1">
+
+            <ImageButton
+               Command="{Binding GoBackCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding GoToMyLocationCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.MyLocation}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding GoToTargetCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.Place}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding NorthCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.North}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomInCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomIn}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomOutCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomOut}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+         </StackLayout>
+      </Frame>
+
+
+   </Grid>
+</ContentPage>

@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:prism="http://prismlibrary.com"
+       xmlns:views="clr-namespace:BoulderGuide.Mobile.Forms.Views"
+       prism:ViewModelLocator.AutowireViewModel="True"
+       xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+       xmlns:xamarinforms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
+       x:Class="BoulderGuide.Mobile.Forms.Views.TopoDialogPage"
+       Style="{StaticResource Key=FullScreenDialogFrameStyle}">
+
+   <Frame.Resources>
+      <xamarinforms:RouteInfoToTitleConverter x:Key="RouteInfoToTitleConverter" />
+   </Frame.Resources>
+
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+         <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Label
+         Text="{Binding Info, Converter={StaticResource Key=RouteInfoToTitleConverter}}"
+         Style="{StaticResource DialogTitle}" />
+
+      <BoxView Grid.Row="1" Style="{StaticResource Separator}" />
+
+      <views:PinchToZoomContainer
+         Grid.Row="2"
+         ContentScale="{Binding Scale, Mode=TwoWay}">
+         <views:TopoView
+            Topo="{Binding Topo}"
+            TopoColor="{Binding TopoColor}"
+            RouteInfo="{Binding Info}" />
+      </views:PinchToZoomContainer>
+
+      <Frame
+         Grid.Row="3"
+         HorizontalOptions="Center"
+         Style="{StaticResource RoundedButtonListContainer}">
+
+         <StackLayout
+            Orientation="Horizontal"
+            Spacing="1">
+
+            <ImageButton
+               Command="{Binding CloseCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ArrowBackIosNew}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ShowHideTopoCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.InvertColorsOff}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+               <ImageButton.Triggers>
+                  <DataTrigger TargetType="ImageButton" Binding="{Binding ShowTopo}" Value="False">
+                     <Setter Property="Source">
+                        <Setter.Value>
+                           <FontImageSource
+                              Color="{StaticResource Key=Accent}"
+                              Glyph="{Static icons:MaterialIconFont.InvertColorsOn}"
+                              FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                        </Setter.Value>
+                     </Setter>
+                  </DataTrigger>
+               </ImageButton.Triggers>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ChangeColorCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Color="{StaticResource Key=Accent}"
+                     Glyph="{Static icons:MaterialIconFont.ColorLens}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ResetZoomCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomOutMap}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomInCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomIn}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton
+               Command="{Binding ZoomOutCommand}"
+               Style="{StaticResource Key=ListAccentImageButton}">
+               <ImageButton.Source>
+                  <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.ZoomOut}"
+                     Color="{StaticResource Key=Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+               </ImageButton.Source>
+            </ImageButton>
+
+         </StackLayout>
+
+      </Frame>
+
+   </Grid>
+
+</Frame>

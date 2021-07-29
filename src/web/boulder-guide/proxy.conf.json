@@ -1,0 +1,20 @@
+{
+   "/api/*": {
+       "target": "https://storage.googleapis.com/boulder-maps",
+       "secure": true,
+       "changeOrigin": true,
+       "pathRewrite": {
+         "^/api": ""
+       },
+       "logLevel": "debug"
+   },
+   "/master/*": {
+      "target": "https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/master": ""
+      },
+      "logLevel": "debug"
+  }
+}

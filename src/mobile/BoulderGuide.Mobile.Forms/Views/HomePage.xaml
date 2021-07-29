@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons"
+             xmlns:xamForms="clr-namespace:BoulderGuide.Mobile.Forms.XamarinForms"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="BoulderGuide.Mobile.Forms.Views.HomePage"
+             Title="{Static root:Strings.ClimbingAreas}">
+   <ContentPage.Resources>
+      <xamForms:AreaInfoToImageConverter x:Key="areaInfoToImageConverter" />
+      <system:Boolean x:Key="true">True</system:Boolean>
+   </ContentPage.Resources>
+   <ContentPage.ToolbarItems>
+      <ToolbarItem
+         Command="{Binding ReloadCommand}"
+         CommandParameter="{x:StaticResource true}">
+         <ToolbarItem.IconImageSource>
+            <FontImageSource
+               Glyph="{Static icons:MaterialIconFont.Cached}"
+               FontFamily="{StaticResource Key=MaterialFontFamily}" />
+         </ToolbarItem.IconImageSource>
+      </ToolbarItem>
+   </ContentPage.ToolbarItems>
+   <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
+      <CollectionView
+         ItemsSource="{Binding AreaInfos}"
+         SelectedItem="{Binding SelectedAreaInfo}"
+         SelectionMode="Single"
+         Margin="10">
+         <CollectionView.ItemTemplate>
+            <DataTemplate>
+               <Grid>
+                  <Frame
+                     HasShadow="False"
+                     Padding="5"
+                     CornerRadius="5"
+                     Margin="0, 0, 0, 5"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill">
+                     <Grid>
+                        <Grid.ColumnDefinitions>
+                           <ColumnDefinition Width="Auto" />
+                           <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Frame
+                           Grid.Column="0"
+                           Padding="3"
+                           Margin="9"
+                           CornerRadius="2"
+                           BackgroundColor="{StaticResource Key=Primary}"
+                           BorderColor="{StaticResource Key=Primary}">
+                           <Image
+                              HeightRequest="120"
+                              WidthRequest="120"
+                              Source="{Binding ., Converter={StaticResource Key=areaInfoToImageConverter}}" />
+                        </Frame>
+
+                        <Label
+                           Grid.Column="1"
+                           Text="{Binding Name}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="Medium" />
+                        <Label
+                           Grid.Column="1"
+                           HorizontalOptions="End"
+                           VerticalOptions="End"
+                           Margin="0, 0, 5, 10"
+                           FontSize="Micro">
+                           <Label.Text>
+                              <MultiBinding StringFormat="{Static root:Strings.HomeAreaInfoCountsFormat}">
+                                 <Binding Path="TotalRouteCount" />
+                                 <Binding Path="TotalAreaCount" />
+                              </MultiBinding>
+                           </Label.Text>
+                        </Label>
+
+                        <Label
+                           Grid.Column="1"
+                           Text="{Static icons:MaterialIconFont.DownloadDone}"
+                           HorizontalOptions="End"
+                           VerticalOptions="Start"
+                           FontFamily="{StaticResource Key=MaterialFontFamily}"
+                           IsVisible="{Binding IsOffline}"/>
+                        <Label
+                           Grid.Column="1"
+                           Text="{Static icons:MaterialIconFont.CloudDownload}"
+                           HorizontalOptions="End"
+                           VerticalOptions="Start"
+                           FontFamily="{StaticResource Key=MaterialFontFamily}">
+                           <Label.Triggers>
+                              <DataTrigger TargetType="Label" Binding="{Binding IsOffline}" Value="True">
+                                 <Setter Property="IsVisible" Value="False" />
+                              </DataTrigger>
+                           </Label.Triggers>
+                        </Label>
+                     </Grid>
+                  </Frame>
+               </Grid>
+            </DataTemplate>
+         </CollectionView.ItemTemplate>
+      </CollectionView>
+   </Grid>
+</ContentPage>

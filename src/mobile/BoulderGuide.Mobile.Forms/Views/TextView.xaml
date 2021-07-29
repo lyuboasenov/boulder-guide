@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
+             x:Class="BoulderGuide.Mobile.Forms.Views.TextView">
+  <ContentView.Content>
+      <Grid Padding="10" Margin="0, 0, 0, 5">
+         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+         </Grid.RowDefinitions>
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+         </Grid.ColumnDefinitions>
+
+         <Label
+            x:Name="lblTitle"
+            Grid.Row="0"
+            FontSize="Medium"
+            FontAttributes="Bold"
+            Margin="2, 0, 0, 0"/>
+
+         <Label
+            x:Name="lblText"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            MaxLines="3"
+            LineBreakMode="WordWrap"
+            />
+
+         <Label
+            x:Name="lblMore"
+            Text="{Static root:Strings.ReadMore}"
+            Grid.Row="2"
+            Grid.Column="1"
+            TextColor="{StaticResource Key=Accent}"
+            VerticalOptions="Start"
+            IsVisible="False">
+            <Label.GestureRecognizers>
+               <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </Label.GestureRecognizers>
+         </Label>
+      </Grid>
+  </ContentView.Content>
+</ContentView>

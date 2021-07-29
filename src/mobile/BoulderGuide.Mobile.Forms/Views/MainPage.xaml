@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  x:Class="BoulderGuide.Mobile.Forms.Views.MainPage"
+                  xmlns:root="clr-namespace:BoulderGuide.Mobile.Forms"
+                  xmlns:icons="clr-namespace:BoulderGuide.Mobile.Forms.Icons">
+
+   <MasterDetailPage.Master>
+      <ContentPage Title="Menu">
+         <Grid>
+            <Grid.Margin>
+               <OnPlatform x:TypeArguments="Thickness">
+                  <On Platform="iOS" Value="0, 40, 0, 0" />
+                  <On Platform="Android" Value="0" />
+                  <On Platform="UWP" Value="0" />
+               </OnPlatform>
+            </Grid.Margin>
+
+            <CollectionView
+               Margin="5, 10, 5, 60"
+               ItemsSource="{Binding Source={Static root:Breadcrumbs.Items}}"
+               SelectedItem="{Binding SelectectedBreadcrumbsItem}"
+               SelectionMode="Single">
+
+               <CollectionView.ItemTemplate>
+                  <DataTemplate>
+                     <StackLayout Spacing="0">
+                        <StackLayout
+                           Orientation="Horizontal"
+                           HeightRequest="40">
+                           <Label
+                              VerticalOptions="Center"
+                              Text="{Binding Offset}"
+                              Margin="5, 0, 0, 0" />
+                           <Label
+                              Text="{Binding Glyph}"
+                              TextColor="{StaticResource Accent}"
+                              FontFamily="{StaticResource Key=MaterialFontFamily}"
+                              VerticalOptions="Center"
+                              FontSize="20"
+                              Margin="5, 0, 0, 0" />
+                           <Label
+                              Text="{Binding Title}"
+                              VerticalOptions="CenterAndExpand"
+                              Margin="5, 0, 0, 0" FontAttributes="Bold" />
+                        </StackLayout>
+                        <BoxView
+                           Style="{StaticResource Separator}"
+                           Margin="0"
+                           HeightRequest="1"/>
+                     </StackLayout>
+                  </DataTemplate>
+               </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <StackLayout
+               Margin="10"
+               Orientation="Horizontal"
+               VerticalOptions="End"
+               HorizontalOptions="Center">
+               <ImageButton
+                  Command="{Binding InfoCommand}"
+                  Style="{StaticResource RoundAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.Info}"
+                     Color="{StaticResource Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+               <ImageButton
+                  Command="{Binding SettingsCommand}"
+                  Style="{StaticResource RoundAccentImageButton}">
+                  <ImageButton.Source>
+                     <FontImageSource
+                     Glyph="{Static icons:MaterialIconFont.Settings}"
+                     Color="{StaticResource Accent}"
+                     FontFamily="{StaticResource Key=MaterialFontFamily}" />
+                  </ImageButton.Source>
+               </ImageButton>
+
+            </StackLayout>
+
+
+
+         </Grid>
+      </ContentPage>
+   </MasterDetailPage.Master>
+
+</MasterDetailPage>
