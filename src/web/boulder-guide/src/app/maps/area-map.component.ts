@@ -12,12 +12,13 @@ import OSM from 'ol/source/OSM';
 import { Location } from '../domain/Location';
 import BaseLayer from 'ol/layer/Base';
 import VectorSource from 'ol/source/Vector';
-import Style from 'ol/style/Style';
+import { Text, Style } from 'ol/style';
 import Stroke from 'ol/style/Stroke';
 import Fill from 'ol/style/Fill';
 import Polygon from 'ol/geom/Polygon';
 import { AreaInfo } from '../domain/AreaInfo';
 import { Area } from '../domain/Area';
+import Point from 'ol/geom/Point';
 
 
 @Component({
@@ -51,7 +52,11 @@ export class OlMapComponent {
       register(proj4);
 
       this.map = new Map({
-         layers: [this.getOSMLayer(), this.getAreaBorderLayer()],
+         layers: [
+            this.getOSMLayer(),
+            this.getAreaBorderLayer(),
+            this.getRoutesLayer()
+         ],
          target: 'map',
          view: this.getView(),
          controls: DefaultControls().extend([
@@ -106,32 +111,78 @@ export class OlMapComponent {
          points.push(this.fromLocation(loc));
       }
 
-      console.log(points);
       return new VectorLayer({
          source: new VectorSource({
             features: [
                new Feature({
-                  geometry: new Polygon([ points] ),
+                  geometry: new Polygon([points]),
                   name: 'area'
-                })
+               })
             ],
          }),
          style: [
             new Style({
                stroke: new Stroke({
-                 color: 'blue',
-                 width: 3,
+                  color: 'blue',
+                  width: 3,
                }),
                fill: new Fill({
-                 color: 'rgba(0, 0, 255, 0.1)',
+                  color: 'rgba(0, 0, 255, 0.1)',
                }),
             })
          ],
       });
    }
 
+   getRoutesLayer(): BaseLayer {
+
+      var features: Feature[] = [];
+
+      for (var r of this.info.routes) {
+         var f = this.featureFromLocation(r.location);
+         f.setStyle(new Style({
+            text: new Text({
+               text: r.name,
+               offsetX: 10,
+               offsetY: -15,
+               rotation: 0,
+               textAlign: 'left',
+               fill: new Fill({
+                  color: 'black',
+               })
+            })
+         }));
+         features.push(f);
+         features.push(this.featureFromLocation(r.location));
+      }
+
+      return new VectorLayer({
+         source: new VectorSource({
+            features: features,
+         }),
+         style: [
+            new Style({
+               text: new Text({
+                  text: '\ue55f',
+                  font: 'normal 24px "Material Icons"',
+                  textBaseline: 'bottom',
+                  fill: new Fill({
+                     color: 'black',
+                  })
+               })
+            })
+         ]
+      });
+   }
+
+   featureFromLocation(location: Location): Feature {
+      return new Feature({
+         geometry: new Point(this.fromLocation(location)),
+      });
+   }
+
    fromLocation(location: Location): Coordinate {
-      return transform([ location.Longitude, location.Latitude ], 'EPSG:4326', this.projectionId);
+      return transform([location.Longitude, location.Latitude], 'EPSG:4326', this.projectionId);
    }
 
    fromLonLat(longitude: number, latitude: number): Coordinate {
