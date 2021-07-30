@@ -75,13 +75,13 @@
             <mat-icon >map</mat-icon>
          </ng-template>
 
-         <app-ol-map
+         <bg-area-map
             *ngIf="area && area.Location"
             class="map"
             [locations]="area.Location"
             (mapReady)="onMapReady($event)">
 
-         </app-ol-map>
+         </bg-area-map>
       </mat-tab>
    </mat-tab-group>
 </div>

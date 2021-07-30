@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild  } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Area } from '../domain/Area';
 import { AreaInfo } from '../domain/AreaInfo';
-import { OlMapComponent } from '../ol-map/ol-map.component';
+import { OlMapComponent } from '../maps/area-map.component';
 import { DataService } from '../services/data.service';
 
 @Component({

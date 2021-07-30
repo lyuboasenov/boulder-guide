@@ -21,9 +21,9 @@ import Polygon from 'ol/geom/Polygon';
 
 
 @Component({
-   selector: 'app-ol-map',
-   templateUrl: './ol-map.component.html',
-   styleUrls: ['./ol-map.component.scss']
+   selector: 'bg-area-map',
+   templateUrl: './area-map.component.html',
+   styleUrls: ['./area-map.component.scss']
 })
 export class OlMapComponent {
 

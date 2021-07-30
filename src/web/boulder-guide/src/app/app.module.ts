@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { TopoViewComponent } from './topo.view/topo.view.component';
-import { OlMapComponent } from './ol-map/ol-map.component';
+import { OlMapComponent } from './maps/area-map.component';
 import { HomeComponent } from './home/home.component';
 import { AreaComponent } from './area/area.component';
 import { RouteComponent } from './route/route.component';
