@@ -1,47 +1,124 @@
-<h1 *ngIf="area">{{ area.name }}</h1>
+<div *ngIf="info && !isRoot">
+   <h1>{{ info.name }}</h1>
 
-<mat-tab-group *ngIf="area">
-   <mat-tab>
-      <ng-template mat-tab-label>
-         <mat-icon >list</mat-icon>
-       </ng-template>
+   <mat-tab-group (selectedTabChange)="onTabChange($event)">
+      <mat-tab>
+         <ng-template mat-tab-label>
+            <mat-icon >list</mat-icon>
+         </ng-template>
 
-       <div>
-         <mat-card class="area" *ngFor="let item of area.areas">
-            <a routerLink="/view{{ item.rootId }}" routerLinkActive="active">
-               <div>
-                  <mat-card-title>
-                     <span> {{ item.name }} </span>
-                  </mat-card-title>
-                  <mat-card-content>
-                     <img *ngIf="item.images.length" src="{{ item.images[0] }}" width="50px" height="50px" />
-                     <span>сектори {{item.totalAreas }} / маршрути {{ item.totalRoutes }}</span>
-                  </mat-card-content>
-               </div>
-            </a>
-         </mat-card>
+         <ng-container [ngTemplateOutlet]="areaList" [ngTemplateOutletContext]="info"></ng-container>
 
-         <mat-card class="route" *ngFor="let item of area.routes">
-            <a routerLink="/view/{{ item.rootId }}" routerLinkActive="active">
-               <div>
-                  <mat-card-title>
-                     <span> {{ item.name }}&nbsp;({{ item.difficulty | grade }}) </span>
-                  </mat-card-title>
-                  <mat-card-content>
+      </mat-tab>
+      <mat-tab>
+         <ng-template mat-tab-label>
+            <mat-icon >info</mat-icon>
+         </ng-template>
 
-                  </mat-card-content>
-               </div>
-            </a>
-         </mat-card>
+         <mat-expansion-panel *ngIf="area && area.Info" class="info-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+               Обща информация
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>{{ area.Info }}</p>
+          </mat-expansion-panel>
 
-      </div>
+         <mat-expansion-panel *ngIf="area && area.Access" class="info-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+               Достъп
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>{{ area.Access }}</p>
+          </mat-expansion-panel>
 
-   </mat-tab>
-   <mat-tab>
-      <ng-template mat-tab-label>
-         <mat-icon >info</mat-icon>
-       </ng-template>
-   </mat-tab>
-</mat-tab-group>
+          <mat-expansion-panel *ngIf="area && area.History" class="info-panel">
+             <mat-expansion-panel-header>
+               <mat-panel-title>
+                История
+               </mat-panel-title>
+             </mat-expansion-panel-header>
+             <p>{{ area.History }}</p>
+           </mat-expansion-panel>
 
+           <mat-expansion-panel *ngIf="area && area.Ethics" class="info-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                 Етика
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>{{ area.Ethics }}</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="area && area.Accommodations" class="info-panel">
+               <mat-expansion-panel-header>
+                 <mat-panel-title>
+                  Отсядане
+                 </mat-panel-title>
+               </mat-expansion-panel-header>
+               <p>{{ area.Accommodations }}</p>
+             </mat-expansion-panel>
+
+             <mat-expansion-panel *ngIf="area && area.Restrictions" class="info-panel">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                   Ограничения
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ area.Restrictions }}</p>
+              </mat-expansion-panel>
+
+      </mat-tab>
+      <mat-tab aria-label="map-tab">
+         <ng-template mat-tab-label>
+            <mat-icon >map</mat-icon>
+         </ng-template>
+
+         <app-ol-map
+            *ngIf="area && area.Location"
+            class="map"
+            [locations]="area.Location"
+            (mapReady)="onMapReady($event)">
+
+         </app-ol-map>
+      </mat-tab>
+   </mat-tab-group>
+</div>
+
+<div *ngIf="info && isRoot">
+   <ng-container [ngTemplateOutlet]="areaList" [ngTemplateOutletContext]="info"></ng-container>
+</div>
+
+<ng-template #areaList>
+   <div *ngIf="info">
+      <mat-card class="area" *ngFor="let item of info.areas">
+         <a routerLink="/view{{ item.rootId }}" routerLinkActive="active">
+            <div>
+               <mat-card-title>
+                  <span> {{ item.name }} </span>
+               </mat-card-title>
+               <mat-card-content>
+                  <img *ngIf="item.images.length" src="{{ item.images[0] }}" width="50px" height="50px" />
+                  <span>сектори {{item.totalAreas }} / маршрути {{ item.totalRoutes }}</span>
+               </mat-card-content>
+            </div>
+         </a>
+      </mat-card>
+
+      <mat-card class="route" *ngFor="let item of info.routes">
+         <a routerLink="/view/{{ item.rootId }}" routerLinkActive="active">
+            <div>
+               <mat-card-title>
+                  <span> {{ item.name }}&nbsp;({{ item.difficulty | grade }}) </span>
+               </mat-card-title>
+               <mat-card-content>
+
+               </mat-card-content>
+            </div>
+         </a>
+      </mat-card>
+
+   </div>
+</ng-template>
 

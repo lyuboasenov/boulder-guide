@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { MapComponent } from './map/map.component';
 import { TopoViewComponent } from './topo.view/topo.view.component';
 import { ViewComponent } from './view/view/view.component';
 
@@ -26,7 +25,6 @@ const routes: Routes = [
          return null;
       }, component: ViewComponent },
    { path: 'topo', component: TopoViewComponent },
-   { path: 'map', component: MapComponent },
    { path: 'home', component: HomeComponent },
 ];
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Area } from '../domain/Area';
 import { AreaInfo } from '../domain/AreaInfo';
 import { Region } from '../domain/Region';
 import { RouteInfo } from '../domain/RouteInfo';
@@ -14,6 +15,13 @@ export class DataService {
    private _initializing: boolean = false;
 
    constructor(private http: HttpClient) { }
+
+   async getArea(info: AreaInfo): Promise<Area|null> {
+      if (info == null || info.index == null || info.index == '') {
+         return new Promise<Area|null>((resolve) => { resolve(null); });
+      }
+      return this.http.get<Area>(info.index).toPromise();
+   }
 
    async getAreaInfo(path: string): Promise<AreaInfo> {
       await this.initialize();
@@ -97,7 +105,6 @@ export class DataService {
                var areaInfo = await this.http.get<AreaInfo>(url).toPromise();
                areaInfo.rootId = '';
                areaInfo = this.build(region, areaInfo);
-               console.log(areaInfo);
                this._areas.push(areaInfo);
             }
          }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  masterIndex: '/master/index-v2.debug.json'
+  masterIndex: 'https://raw.githubusercontent.com/lyuboasenov/boulder-guide/main/data/index-v2.debug.json'
 };
 
 /*

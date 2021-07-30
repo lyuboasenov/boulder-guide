@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { TopoViewComponent } from './topo.view/topo.view.component';
-import { MapComponent } from './map/map.component';
 import { OlMapComponent } from './ol-map/ol-map.component';
 import { HomeComponent } from './home/home.component';
 import { AreaComponent } from './area/area.component';
@@ -25,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { GradePipe } from './pipes/grade.pipe';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,6 @@ import {MatTabsModule} from '@angular/material/tabs';
     AreaComponent,
     RouteComponent,
     TopoViewComponent,
-    MapComponent,
     OlMapComponent,
     AppComponent,
     ViewComponent,
@@ -54,7 +53,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatIconModule,
     MatListModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatExpansionModule
   ],
   providers: [ DataService ],
   bootstrap: [AppComponent]

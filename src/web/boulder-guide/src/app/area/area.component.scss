@@ -1,7 +1,9 @@
-.area {
+.area, .route, .info-panel, .map {
    margin: 1em;
 }
 
-.route {
-   margin: 1em;
+.map {
+   height: 80vh;
+   width: 100%;
+   display: block;
 }
