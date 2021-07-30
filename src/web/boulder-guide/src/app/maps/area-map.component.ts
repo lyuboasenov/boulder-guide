@@ -1,16 +1,14 @@
-import { Component, NgZone, AfterViewInit, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, NgZone, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { View, Feature, Map } from 'ol';
 import { Coordinate } from 'ol/coordinate';
 import { ScaleLine, defaults as DefaultControls } from 'ol/control';
 import proj4 from 'proj4';
 import VectorLayer from 'ol/layer/Vector';
-import Projection from 'ol/proj/Projection';
-import ZoomToExtent from 'ol/control/ZoomToExtent';
 import { register } from 'ol/proj/proj4';
 import { get as GetProjection, fromLonLat, transform } from 'ol/proj';
-import { extendFlatCoordinates, Extent } from 'ol/extent';
+import { Extent } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
-import OSM, { ATTRIBUTION } from 'ol/source/OSM';
+import OSM from 'ol/source/OSM';
 import { Location } from '../domain/Location';
 import BaseLayer from 'ol/layer/Base';
 import VectorSource from 'ol/source/Vector';
@@ -18,6 +16,8 @@ import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
 import Fill from 'ol/style/Fill';
 import Polygon from 'ol/geom/Polygon';
+import { AreaInfo } from '../domain/AreaInfo';
+import { Area } from '../domain/Area';
 
 
 @Component({
@@ -27,7 +27,8 @@ import Polygon from 'ol/geom/Polygon';
 })
 export class OlMapComponent {
 
-   @Input() locations!: Location[];
+   @Input() area!: Area;
+   @Input() info!: AreaInfo;
 
    map!: Map;
    extent!: Extent;
@@ -69,7 +70,7 @@ export class OlMapComponent {
       var minLon: number = 1000;
       var maxLon: number = 0;
 
-      for (var loc of this.locations) {
+      for (var loc of this.area.Location) {
          minLat = Math.min(minLat, loc.Latitude);
          maxLat = Math.max(maxLat, loc.Latitude);
          minLon = Math.min(minLon, loc.Longitude);
@@ -101,7 +102,7 @@ export class OlMapComponent {
    getAreaBorderLayer(): BaseLayer {
       var points: Coordinate[] = [];
 
-      for (var loc of this.locations) {
+      for (var loc of this.area.Location) {
          points.push(this.fromLocation(loc));
       }
 

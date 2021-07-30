@@ -78,7 +78,8 @@
          <bg-area-map
             *ngIf="area && area.Location"
             class="map"
-            [locations]="area.Location"
+            [area]="area"
+            [info]="info"
             (mapReady)="onMapReady($event)">
 
          </bg-area-map>
