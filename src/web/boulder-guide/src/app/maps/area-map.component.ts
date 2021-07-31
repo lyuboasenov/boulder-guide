@@ -138,22 +138,24 @@ export class OlMapComponent {
 
       var features: Feature[] = [];
 
-      for (var r of this.info.routes) {
-         var f = this.featureFromLocation(r.location);
-         f.setStyle(new Style({
-            text: new Text({
-               text: r.name,
-               offsetX: 10,
-               offsetY: -15,
-               rotation: 0,
-               textAlign: 'left',
-               fill: new Fill({
-                  color: 'black',
+      if (this.info != null && this.info.routes != null) {
+         for (var r of this.info.routes) {
+            var f = this.featureFromLocation(r.location);
+            f.setStyle(new Style({
+               text: new Text({
+                  text: r.name,
+                  offsetX: 10,
+                  offsetY: -15,
+                  rotation: 0,
+                  textAlign: 'left',
+                  fill: new Fill({
+                     color: 'black',
+                  })
                })
-            })
-         }));
-         features.push(f);
-         features.push(this.featureFromLocation(r.location));
+            }));
+            features.push(f);
+            features.push(this.featureFromLocation(r.location));
+         }
       }
 
       return new VectorLayer({
