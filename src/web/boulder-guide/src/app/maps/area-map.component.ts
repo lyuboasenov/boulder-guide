@@ -19,6 +19,7 @@ import Polygon from 'ol/geom/Polygon';
 import { AreaInfo } from '../domain/AreaInfo';
 import { Area } from '../domain/Area';
 import Point from 'ol/geom/Point';
+import { RouteInfo } from '../domain/RouteInfo';
 
 
 @Component({
@@ -139,11 +140,12 @@ export class OlMapComponent {
       var features: Feature[] = [];
 
       if (this.info != null && this.info.routes != null) {
-         for (var r of this.info.routes) {
-            var f = this.featureFromLocation(r.location);
+         var groupedRoutes = this.groupRoutesByLocation(this.info.routes);
+         for (var r of groupedRoutes) {
+            var f = this.featureFromLocation(r.Location);
             f.setStyle(new Style({
                text: new Text({
-                  text: r.name,
+                  text: r.Names,
                   offsetX: 10,
                   offsetY: -15,
                   rotation: 0,
@@ -154,7 +156,7 @@ export class OlMapComponent {
                })
             }));
             features.push(f);
-            features.push(this.featureFromLocation(r.location));
+            features.push(this.featureFromLocation(r.Location));
          }
       }
 
@@ -177,6 +179,39 @@ export class OlMapComponent {
       });
    }
 
+   groupRoutesByLocation(routes: RouteInfo[]): { Location: Location, Routes: RouteInfo[], Names: string }[] {
+      let result: { Location: Location, Routes: RouteInfo[], Names: string }[] = [];
+
+      let delta: number = 0.0001;
+      for (let route of routes) {
+         let found = false;
+         for (let item of result) {
+            if (Location.equals(item.Location, route.location, delta)) {
+               item.Routes.push(route);
+               item.Names += '\n' + route.name;
+               found = true;
+
+               // recalculate center location
+               let longitude: number = 0;
+               let latitude: number = 0;
+               for (let itemRoute of item.Routes) {
+                  longitude += itemRoute.location.Longitude;
+                  latitude += itemRoute.location.Latitude;
+               }
+
+               item.Location.Longitude = longitude / item.Routes.length;
+               item.Location.Latitude = latitude / item.Routes.length;
+            }
+         }
+
+         if (!found) {
+            result.push({ Location: route.location, Routes: [ route ], Names: route.name });
+         }
+      }
+
+      return result;
+   }
+
    featureFromLocation(location: Location): Feature {
       return new Feature({
          geometry: new Point(this.fromLocation(location)),
@@ -188,6 +223,6 @@ export class OlMapComponent {
    }
 
    fromLonLat(longitude: number, latitude: number): Coordinate {
-      return this.fromLocation({ Latitude: latitude, Longitude: longitude });
+      return this.fromLocation(new Location(longitude, latitude));
    }
 }
