@@ -5,7 +5,7 @@ import { TopoViewComponent } from './topo.view/topo.view.component';
 import { ViewComponent } from './view/view/view.component';
 
 const routes: Routes = [
-   { path: '', redirectTo: '/home', pathMatch: 'full' },
+   { path: '', redirectTo: '/view', pathMatch: 'full' },
    { path: 'view', component: ViewComponent },
    { matcher: (url) => {
          // match urls like "/files/:filepath" where filepath can contain '/'
@@ -25,7 +25,7 @@ const routes: Routes = [
          return null;
       }, component: ViewComponent },
    { path: 'topo', component: TopoViewComponent },
-   { path: 'home', component: HomeComponent },
+   { path: 'home', component: ViewComponent },
 ];
 
 @NgModule({
