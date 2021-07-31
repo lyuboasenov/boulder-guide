@@ -1,5 +1,5 @@
-export interface PointOfInterest {
-   Name: string,
-   Type: string,
-   Location: Location
+export class PointOfInterest {
+   Name!: string;
+   Type!: string;
+   Location!: Location;
 }

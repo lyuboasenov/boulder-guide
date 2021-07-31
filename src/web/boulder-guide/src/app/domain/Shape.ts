@@ -1,3 +1,3 @@
-export interface Shape {
-   _type: string
+export class Shape {
+   _type!: string;
 }

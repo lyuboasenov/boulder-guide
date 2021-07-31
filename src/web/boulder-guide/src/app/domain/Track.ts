@@ -1,4 +1,4 @@
-export interface Track {
-   Name: string,
-   Location: Location[]
+export class Track {
+   Name!: string;
+   Location!: Location[];
 }
