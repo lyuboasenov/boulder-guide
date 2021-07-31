@@ -9,7 +9,7 @@ import { RouteInfo } from '../domain/RouteInfo';
 
 export class RouteComponent implements OnInit {
 
-   @Input() route?: RouteInfo;
+   @Input() info?: RouteInfo;
 
    constructor() { }
 
