@@ -1,5 +1,11 @@
-.area, .route, .info-panel, .map {
-   margin: 1em;
+div.tab-content,
+div.main-areas-container {
+   padding: .5em;
+}
+
+.info-panel,
+.main-areas-container mat-card {
+   margin-bottom: .5em;
 }
 
 .map {
