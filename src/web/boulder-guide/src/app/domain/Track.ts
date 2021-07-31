@@ -1,4 +1,6 @@
+import { Location } from './Location'
+
 export class Track {
    Name!: string;
-   Location!: Location[];
+   Locations!: Location[];
 }

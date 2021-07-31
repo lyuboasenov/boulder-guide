@@ -20,6 +20,7 @@ import { AreaInfo } from '../domain/AreaInfo';
 import { Area } from '../domain/Area';
 import Point from 'ol/geom/Point';
 import { RouteInfo } from '../domain/RouteInfo';
+import LineString from 'ol/geom/LineString';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { RouteInfo } from '../domain/RouteInfo';
    templateUrl: './area-map.component.html',
    styleUrls: ['./area-map.component.scss']
 })
-export class OlMapComponent {
+export class AreaMapComponent {
 
    @Input() area!: Area;
    @Input() info!: AreaInfo;
@@ -37,7 +38,7 @@ export class OlMapComponent {
 
    @Output() mapReady = new EventEmitter<Map>();
 
-   readonly projectionId: string = "EPSG:3857";
+   private static readonly projectionId: string = "EPSG:3857";
 
    constructor(private zone: NgZone, private cd: ChangeDetectorRef) { }
 
@@ -49,14 +50,16 @@ export class OlMapComponent {
    }
 
    private initMapInternal(): void {
-      proj4.defs(this.projectionId, "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs");
+      proj4.defs(AreaMapComponent.projectionId, "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs");
       register(proj4);
 
       this.map = new Map({
          layers: [
             this.getOSMLayer(),
             this.getAreaBorderLayer(),
-            this.getRoutesLayer()
+            this.getRoutesLayer(),
+            this.getPOILayer(),
+            this.getTrackLayer()
          ],
          target: 'map',
          view: this.getView(),
@@ -69,7 +72,7 @@ export class OlMapComponent {
    }
 
    getView(): View {
-      var projection = GetProjection(this.projectionId);
+      var projection = GetProjection(AreaMapComponent.projectionId);
 
       var minLat: number = 1000;
       var maxLat: number = 0;
@@ -83,14 +86,14 @@ export class OlMapComponent {
          maxLon = Math.max(maxLon, loc.Longitude);
       }
 
-      var minCoo = fromLonLat([minLon, minLat]);
-      var maxCoo = fromLonLat([maxLon, maxLat]);
+      var minCoo = AreaMapComponent.fromLonLat(minLon, minLat);
+      var maxCoo = AreaMapComponent.fromLonLat(maxLon, maxLat);
       this.extent = [minCoo[0], minCoo[1], maxCoo[0], maxCoo[1]];
 
       var centerLon = (minLon + maxLon) / 2;
       var centerLat = (minLat + maxLat) / 2;
 
-      var center = fromLonLat([centerLon, centerLat]);
+      var center = AreaMapComponent.fromLonLat(centerLon, centerLat);
 
       return new View({
          center: center,
@@ -109,7 +112,7 @@ export class OlMapComponent {
       var points: Coordinate[] = [];
 
       for (var loc of this.area.Location) {
-         points.push(this.fromLocation(loc));
+         points.push(AreaMapComponent.fromLocation(loc));
       }
 
       return new VectorLayer({
@@ -179,7 +182,94 @@ export class OlMapComponent {
       });
    }
 
-   groupRoutesByLocation(routes: RouteInfo[]): { Location: Location, Routes: RouteInfo[], Names: string }[] {
+   getTrackLayer(): BaseLayer {
+      var features: Feature[] = [];
+
+      const parkingStyle = new Style({
+         text: new Text({
+            text: '\ue54f',
+            font: 'normal 24px "Material Icons"',
+            textBaseline: 'bottom',
+            fill: new Fill({
+               color: 'black',
+            })
+         })
+      });
+      const waterStyle = new Style({
+         text: new Text({
+            text: '\ue544',
+            font: 'normal 24px "Material Icons"',
+            textBaseline: 'bottom',
+            fill: new Fill({
+               color: 'black',
+            })
+         })
+      });
+
+      if (this.info != null && this.area.Tracks != null) {
+         for (let track of this.area.Tracks) {
+            if (null != track && null != track.Locations) {
+               features.push(this.featureFromTrack(track.Locations));
+            }
+         }
+      }
+
+      return new VectorLayer({
+         source: new VectorSource({
+            features: features,
+         }),
+         style: [
+            new Style({
+               stroke: new Stroke({
+                  color: 'blue',
+                  width: 3,
+               }),
+            })
+         ]
+      });
+   }
+
+   getPOILayer(): BaseLayer {
+      var features: Feature[] = [];
+
+      const parkingStyle = new Style({
+         text: new Text({
+            text: '\ue54f',
+            font: 'normal 24px "Material Icons"',
+            textBaseline: 'bottom',
+            fill: new Fill({
+               color: 'black',
+            })
+         })
+      });
+      const waterStyle = new Style({
+         text: new Text({
+            text: '\ue544',
+            font: 'normal 24px "Material Icons"',
+            textBaseline: 'bottom',
+            fill: new Fill({
+               color: 'black',
+            })
+         })
+      });
+
+      if (this.info != null && this.area.POIs != null) {
+         for (let poi of this.area.POIs) {
+            var f = this.featureFromLocation(poi.Location);
+            let style = poi.Type == 'parking' ? parkingStyle : waterStyle;
+            f.setStyle(style);
+            features.push(f);
+         }
+      }
+
+      return new VectorLayer({
+         source: new VectorSource({
+            features: features,
+         })
+      });
+   }
+
+   private groupRoutesByLocation(routes: RouteInfo[]): { Location: Location, Routes: RouteInfo[], Names: string }[] {
       let result: { Location: Location, Routes: RouteInfo[], Names: string }[] = [];
 
       let delta: number = 0.0001;
@@ -212,17 +302,32 @@ export class OlMapComponent {
       return result;
    }
 
-   featureFromLocation(location: Location): Feature {
+   private featureFromLocation(location: Location): Feature {
       return new Feature({
-         geometry: new Point(this.fromLocation(location)),
+         geometry: new Point(AreaMapComponent.fromLocation(location)),
       });
    }
 
-   fromLocation(location: Location): Coordinate {
-      return transform([location.Longitude, location.Latitude], 'EPSG:4326', this.projectionId);
+   featureFromTrack(trackLocations: Location[]): Feature {
+      let track: Coordinate[] = [];
+
+      for (let loc of trackLocations) {
+         track.push(AreaMapComponent.fromLocation(loc));
+      }
+
+      return new Feature({
+         geometry: new LineString(track),
+      });
    }
 
-   fromLonLat(longitude: number, latitude: number): Coordinate {
-      return this.fromLocation(new Location(longitude, latitude));
+   private static fromLocation(location: Location): Coordinate {
+      return transform(
+         [location.Longitude, location.Latitude],
+         'EPSG:4326',
+         AreaMapComponent.projectionId);
+   }
+
+   private static fromLonLat(longitude: number, latitude: number): Coordinate {
+      return AreaMapComponent.fromLocation(new Location(longitude, latitude));
    }
 }

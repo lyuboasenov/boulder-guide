@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild  } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Area } from '../domain/Area';
 import { AreaInfo } from '../domain/AreaInfo';
-import { OlMapComponent } from '../maps/area-map.component';
+import { AreaMapComponent } from '../maps/area-map.component';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -15,8 +15,8 @@ export class AreaComponent implements OnInit {
 
    @Input() info?: AreaInfo;
 
-   @ViewChild(OlMapComponent)
-   private map!: OlMapComponent;
+   @ViewChild(AreaMapComponent)
+   private map!: AreaMapComponent;
 
    area?: Area;
    isRoot: boolean = true;

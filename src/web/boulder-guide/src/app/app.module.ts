@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { TopoViewComponent } from './topo.view/topo.view.component';
-import { OlMapComponent } from './maps/area-map.component';
+import { AreaMapComponent } from './maps/area-map.component';
 import { HomeComponent } from './home/home.component';
 import { AreaComponent } from './area/area.component';
 import { RouteComponent } from './route/route.component';
@@ -33,7 +33,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     AreaComponent,
     RouteComponent,
     TopoViewComponent,
-    OlMapComponent,
+    AreaMapComponent,
     AppComponent,
     ViewComponent,
     NavigationComponent,
