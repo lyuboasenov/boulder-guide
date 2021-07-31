@@ -5,6 +5,37 @@
       <ng-template mat-tab-label>
          <mat-icon>info</mat-icon>
       </ng-template>
+
+      <div class="tab-content">
+         <div>
+            <mat-expansion-panel *ngIf="route && route.Info" class="info-panel">
+               <mat-expansion-panel-header>
+               <mat-panel-title>
+                  Обща информация
+               </mat-panel-title>
+               </mat-expansion-panel-header>
+               <p>{{ route.Info }}</p>
+            </mat-expansion-panel>
+         </div>
+         <div *ngIf="route && route.Schemas">
+            <mat-stepper [linear]="false" #stepper>
+               <mat-step *ngFor="let topo of route.Schemas">
+
+                  <div>
+                     <button mat-icon-button matStepperPrevious>
+                        <mat-icon>navigate_before</mat-icon>
+                     </button>
+                     <button mat-icon-button matStepperNext>
+                        <mat-icon>navigate_next</mat-icon>
+                     </button>
+                  </div>
+
+                  <bg-topo [topo]="topo"></bg-topo>
+
+               </mat-step>
+            </mat-stepper>
+         </div>
+      </div>
    </mat-tab>
    <mat-tab>
       <ng-template mat-tab-label>

@@ -1,5 +1,6 @@
 <div class="TopoContainer">
    <svg xmlns="http://www.w3.org/2000/svg" [attr.width]="imgWidth" [attr.height]="imgHeight" class="Topo">
+      <rect *ngFor="let rect of rectangles" [attr.x]="rect.x" [attr.y]="rect.y" [attr.width]="rect.width" [attr.height]="rect.height" style="fill:red;" />
       <path *ngFor="let path of paths" [attr.d]="path" stroke="red" stroke-width="3" fill="none"/>
       <ellipse *ngFor="let ellipse of ellipses" [attr.cx]="ellipse.cx" [attr.cy]="ellipse.cy" [attr.rx]="ellipse.rx" [attr.ry]="ellipse.ry" stroke="red" stroke-width="3" fill="none"/>
    </svg>

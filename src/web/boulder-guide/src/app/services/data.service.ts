@@ -5,6 +5,8 @@ import { Area } from '../domain/Area';
 import { AreaInfo } from '../domain/AreaInfo';
 import { Region } from '../domain/Region';
 import { RouteInfo } from '../domain/RouteInfo';
+import { Route } from '../domain/Route';
+import { returnOrUpdate } from 'ol/extent';
 
 @Injectable({
 providedIn: 'root'
@@ -15,6 +17,21 @@ export class DataService {
    private _initializing: boolean = false;
 
    constructor(private http: HttpClient) { }
+
+   async getRoute(info: RouteInfo): Promise<Route|null> {
+      if (info == null || info.index == null || info.index == '') {
+         return new Promise<Route|null>((resolve) => { resolve(null); });
+      }
+      let baseUrl = info.index.substring(0, info.index.lastIndexOf('/') + 1);
+      let route = await this.http.get<Route>(info.index).toPromise();
+      if (route.Schemas != null) {
+         for (let topo of route.Schemas) {
+            topo.Id = baseUrl + topo.Id;
+         }
+      }
+
+      return route;
+   }
 
    async getArea(info: AreaInfo): Promise<Area|null> {
       if (info == null || info.index == null || info.index == '') {

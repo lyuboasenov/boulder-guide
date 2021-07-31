@@ -1,49 +1,73 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import * as paths from './path';
 import { Route } from '../domain/Route';
+import { Topo } from '../domain/Topo';
 
 @Component({
-   selector: 'topo.view',
-   templateUrl: './topo.view.component.html',
-   styleUrls: ['./topo.view.component.scss']
+   selector: 'bg-topo',
+   templateUrl: './topo.component.html',
+   styleUrls: ['./topo.component.scss']
 })
 
-export class TopoViewComponent implements OnInit {
+export class TopoComponent implements OnInit {
+
+   @Input() topo?: Topo;
+
    @ViewChild('img') img!: ElementRef<HTMLImageElement>;
+
    paths: any[] = [];
    circles: any[] = [];
    ellipses: any[] = [];
+   rectangles: any[] = [];
    imgUrl: string = 'https://storage.googleapis.com/boulder-maps/map-vitosha-dev/main/boyana/myrtva_tyaga_0.jpg';
-   url: string = '/api/boulder-maps/map-vitosha-dev/main/boyana/myrtva_tyaga.json';
    route!: Route | null;
    imgWidth: number = 0;
    imgHeight: number = 0;
 
-   constructor(private http: HttpClient) { }
+   constructor() { }
 
    ngOnInit() {
-      this.getRoute().subscribe(
-         r => { this.route = r; this.initialize(); }
-      )
+      this.initialize();
    }
 
    initialize(): void {
       this.paths = [];
       this.ellipses = [];
-      if (this.route != null && this.imgWidth > 0 && this.imgHeight > 0) {
-         for (var shape of this.route.Schemas[0].Shapes) {
-            if (shape._type == 'Path') {
-               this.addPath(shape);
-            } else if (shape._type == 'Ellipse') {
-               this.addEllipse(shape);
+      if (this.topo != null) {
+         this.imgUrl = this.topo.Id;
+         if (this.imgWidth > 0 && this.imgHeight > 0) {
+            for (var shape of this.topo.Shapes) {
+               if (shape._type == 'Path') {
+                  this.addPath(shape);
+               } else if (shape._type == 'Ellipse') {
+                  this.addEllipse(shape);
+               } else if (shape._type == 'Rectangle') {
+                  this.addRectangle(shape);
+               }
             }
          }
       }
+   }
+
+   addRectangle(shape: any) {
+      let cx = Math.trunc(shape.Center.X * this.imgWidth);
+      let cy = Math.trunc(shape.Center.Y * this.imgHeight);
+
+      let width = Math.trunc(shape.Width * this.imgWidth);
+      let height = Math.trunc(shape.Height * this.imgHeight);
+
+
+
+      this.rectangles.push({
+         x: cx - width / 2,
+         y: cy - height / 2,
+         width: width,
+         height: height
+      });
    }
 
    addEllipse(shape: any) {
@@ -70,10 +94,6 @@ export class TopoViewComponent implements OnInit {
          pathD = pathD.concat(item.s + ' ');
       }
       this.paths.push(pathD);
-   }
-
-   getRoute() : Observable<Route> {
-      return this.http.get<Route>(this.url);
    }
 
    onLoad() {
