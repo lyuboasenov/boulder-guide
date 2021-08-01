@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Area } from '../domain/Area';
 import { Route } from '../domain/Route';
 import { RouteInfo } from '../domain/RouteInfo';
-import { AreaMapComponent } from '../maps/area-map.component';
+import { RouteMapComponent } from '../maps/route-map.component';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -14,21 +16,30 @@ export class RouteComponent implements OnInit {
 
    @Input() info?: RouteInfo;
 
-   @ViewChild(AreaMapComponent)
-   private map!: AreaMapComponent;
+   @ViewChild(RouteMapComponent)
+   private map!: RouteMapComponent;
 
-   route?: Route;
+   route?: Route | null;
+   area?: Area | null;
 
    constructor(private dataService: DataService) { }
 
    async ngOnInit() {
       if (this.info != null) {
-         var result = await this.dataService.getRoute(this.info);
-         if (result != null) {
-            this.route = result;
-            console.log(this.route);
-            console.log(this.route.Schemas);
-         }
+         this.route = await this.dataService.getRoute(this.info);
+         this.area = await this.dataService.getArea(this.info.areaInfo);
       }
+   }
+
+   onTabChange(event: MatTabChangeEvent) {
+      if (event.tab.ariaLabel && event.tab.ariaLabel === 'map-tab') {
+         this.map.initMap();
+      }
+   }
+
+
+
+   onMapReady(event: any) {
+      console.log("Map Ready");
    }
 }

@@ -163,6 +163,7 @@ export class DataService {
 
       if (a.routes != null) {
          for (var i = 0; i < a.routes.length; i++) {
+            a.routes[i].areaInfo = a;
             a.routes[i].rootId = a.rootId + '/' + a.routes[i].id;
             a.routes[i] = this.buildRoute(r, a.routes[i]);
          }

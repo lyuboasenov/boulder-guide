@@ -1,6 +1,6 @@
 <h1 *ngIf="info">{{ info.name }} ({{ info.difficulty | grade }})</h1>
 
-<mat-tab-group *ngIf="info">
+<mat-tab-group *ngIf="info" (selectedTabChange)="onTabChange($event)">
    <mat-tab>
       <ng-template mat-tab-label>
          <mat-icon>info</mat-icon>
@@ -42,9 +42,17 @@
          </div>
       </div>
    </mat-tab>
-   <mat-tab>
+   <mat-tab aria-label="map-tab">
       <ng-template mat-tab-label>
          <mat-icon>map</mat-icon>
       </ng-template>
+
+      <bg-route-map
+         *ngIf="info && route && area"
+         [info]="info"
+         [route]="route"
+         [area]="area"
+         class="map"></bg-route-map>
+
    </mat-tab>
 </mat-tab-group>

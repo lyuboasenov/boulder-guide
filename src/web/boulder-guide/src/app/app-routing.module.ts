@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule, Routes, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
-import { ViewComponent } from './view/view/view.component';
+import { RouterModule, Routes, UrlSegment } from '@angular/router';
+import { ViewComponent } from './view/view.component';
 
 const routes: Routes = [
    { path: '', redirectTo: '/view', pathMatch: 'full' },

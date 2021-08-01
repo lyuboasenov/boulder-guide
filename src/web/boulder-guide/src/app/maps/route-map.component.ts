@@ -9,20 +9,22 @@ import { Style } from 'ol/style';
 import Stroke from 'ol/style/Stroke';
 import Fill from 'ol/style/Fill';
 import Polygon from 'ol/geom/Polygon';
-import { AreaInfo } from '../domain/AreaInfo';
 import { Area } from '../domain/Area';
 import { MapComponent } from './map.component';
+import { Route } from '../domain/Route';
+import { RouteInfo } from '../domain/RouteInfo';
 
 
 @Component({
-   selector: 'bg-area-map',
+   selector: 'bg-route-map',
    templateUrl: './map.component.html',
    styleUrls: ['./map.component.scss']
 })
-export class AreaMapComponent extends MapComponent {
+export class RouteMapComponent extends MapComponent {
 
    @Input() area!: Area;
-   @Input() info!: AreaInfo;
+   @Input() route!: Route;
+   @Input() info!: RouteInfo;
 
    @Output() mapReady = new EventEmitter<Map>();
 
@@ -38,9 +40,9 @@ export class AreaMapComponent extends MapComponent {
    protected getAdditionalLayers(): BaseLayer[] {
       return [
          MapComponent.getAreaBorderLayer(this.area.Location),
-         MapComponent.getRoutesLayer(this.info?.routes),
-         MapComponent.getPOILayer(this.area?.POIs),
-         MapComponent.getTrackLayer(this.area?.Tracks)
+         MapComponent.getRoutesLayer([ this.info ]),
+         MapComponent.getPOILayer(this.area.POIs),
+         MapComponent.getTrackLayer(this.area.Tracks)
       ];
    }
 
