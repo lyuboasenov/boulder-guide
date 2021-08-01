@@ -7,8 +7,8 @@
       </ng-template>
 
       <div class="tab-content">
-         <div>
-            <mat-expansion-panel *ngIf="route && route.Info" class="info-panel">
+         <div class="info-panel">
+            <mat-expansion-panel *ngIf="route && route.Info">
                <mat-expansion-panel-header>
                <mat-panel-title>
                   Обща информация
@@ -17,7 +17,7 @@
                <p>{{ route.Info }}</p>
             </mat-expansion-panel>
          </div>
-         <div *ngIf="route && route.Schemas">
+         <div *ngIf="route && route.Schemas && route.Schemas.length > 1" class="info-panel">
             <mat-stepper [linear]="false" #stepper>
                <mat-step *ngFor="let topo of route.Schemas">
 
@@ -34,6 +34,11 @@
 
                </mat-step>
             </mat-stepper>
+         </div>
+         <div *ngIf="route && route.Schemas && route.Schemas.length == 1" class="info-panel">
+            <mat-card>
+               <bg-topo [topo]="route.Schemas[0]"></bg-topo>
+            </mat-card>
          </div>
       </div>
    </mat-tab>
