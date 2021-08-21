@@ -26,5 +26,12 @@
       "access": "public",
       "gzip": true,
       "encrypted": false
+   },
+   {
+      "urn": "sliven",
+      "url": "https://storage.googleapis.com/boulder-maps/map-sliven/main",
+      "access": "public",
+      "gzip": true,
+      "encrypted": false
    }
 ]

@@ -66,32 +66,27 @@ function getRelativePath ($path, $file) {
    return "/$rel"
 }
 
-function getId ($path, $file) {
+function getPropertyValue($path, $file, $property) {
    Get-Content (Join-Path $path $file) | `
    ConvertFrom-Json | `
-   Select-Object -ExpandProperty Id | `
+   Select-Object -ExpandProperty $property | `
    Write-Output
+}
+
+function getId ($path, $file) {
+   (getPropertyValue $path $file Id) | Write-Output
 }
 
 function getName ($path, $file) {
-   Get-Content (Join-Path $path $file) | `
-   ConvertFrom-Json | `
-   Select-Object -ExpandProperty Name | `
-   Write-Output
+   (getPropertyValue $path $file Name) | Write-Output
 }
 
 function getDifficulty ($path, $file) {
-   Get-Content (Join-Path $path $file) | `
-   ConvertFrom-Json | `
-   Select-Object -ExpandProperty Difficulty | `
-   Write-Output
+   (getPropertyValue $path $file Difficulty) | Write-Output
 }
 
 function getLocation ($path, $file) {
-   Get-Content (Join-Path $path $file) | `
-   ConvertFrom-Json | `
-   Select-Object -ExpandProperty Location | `
-   Write-Output
+   (getPropertyValue $path $file Location) | Write-Output
 }
 
 function getImages ($path, $file) {
