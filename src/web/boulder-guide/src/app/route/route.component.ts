@@ -34,14 +34,12 @@ export class RouteComponent implements OnInit {
    onTabChange(event: MatTabChangeEvent) {
       if (event.tab.ariaLabel && event.tab.ariaLabel === 'map-tab') {
          this.map.initMap();
+      } else if (event.tab.ariaLabel && event.tab.ariaLabel === 'video-tab') {
+         let instgrm = (window as { [key: string]: any })['instgrm'];
+         if (instgrm) {
+            instgrm.Embeds.process();
+         }
       }
-
-      let instgrm = (window as { [key: string]: any })['instgrm'];
-
-      if (instgrm) {
-         instgrm.Embeds.process();
-         console.log(1);
-       }
    }
 
    onMapReady(event: any) {

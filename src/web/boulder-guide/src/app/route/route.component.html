@@ -42,6 +42,7 @@
          </div>
       </div>
    </mat-tab>
+
    <mat-tab aria-label="map-tab">
       <ng-template mat-tab-label>
          <mat-icon>map</mat-icon>
@@ -56,7 +57,7 @@
 
    </mat-tab>
 
-   <mat-tab *ngIf="route && route.Videos && route.Videos.length > 0">
+   <mat-tab *ngIf="route && route.Videos && route.Videos.length > 0" aria-label="video-tab">
       <ng-template mat-tab-label>
          <mat-icon>video_library</mat-icon>
       </ng-template>
