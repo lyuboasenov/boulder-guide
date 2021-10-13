@@ -35,9 +35,14 @@ export class RouteComponent implements OnInit {
       if (event.tab.ariaLabel && event.tab.ariaLabel === 'map-tab') {
          this.map.initMap();
       }
+
+      let instgrm = (window as { [key: string]: any })['instgrm'];
+
+      if (instgrm) {
+         instgrm.Embeds.process();
+         console.log(1);
+       }
    }
-
-
 
    onMapReady(event: any) {
       console.log("Map Ready");

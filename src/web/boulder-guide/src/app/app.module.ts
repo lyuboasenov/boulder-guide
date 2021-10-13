@@ -27,6 +27,8 @@ import { GradePipe } from './pipes/grade.pipe';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
+import { UrlPipe } from './pipes/url.pipe';
+import { HtmlPipe } from './pipes/html.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     AppComponent,
     ViewComponent,
     NavigationComponent,
-    GradePipe
+    GradePipe,
+    UrlPipe,
+    HtmlPipe
   ],
   imports: [
     CommonModule,
