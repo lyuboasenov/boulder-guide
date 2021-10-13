@@ -11,3 +11,16 @@ div.info-panel {
    width: 100%;
    display: block;
 }
+
+.card-embeded-video {
+   margin: 1em;
+   padding: 1em;
+   width: 40em;
+   display: inline-block;
+}
+
+div.embeded-video > iframe {
+   border: none;
+   width: 38em;
+   height: 38em;
+}
