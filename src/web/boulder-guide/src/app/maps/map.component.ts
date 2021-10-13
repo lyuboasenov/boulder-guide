@@ -1,5 +1,5 @@
 import { NgZone, ChangeDetectorRef } from '@angular/core';
-import { View, Feature, Map } from 'ol';
+import { View, Feature, Map, Geolocation } from 'ol';
 import { Coordinate } from 'ol/coordinate';
 import { ScaleLine, defaults as DefaultControls } from 'ol/control';
 import proj4 from 'proj4';
@@ -21,11 +21,13 @@ import LineString from 'ol/geom/LineString';
 import { PointOfInterest } from '../domain/PointOfInterest';
 import { Track } from '../domain/Track';
 import Polygon from 'ol/geom/Polygon';
+import CircleStyle from 'ol/style/Circle';
 
 export abstract class MapComponent {
 
    map!: Map;
    extent!: Extent;
+   geolocation!: Geolocation;
 
    private static readonly projectionId: string = "EPSG:3857";
 
@@ -44,10 +46,24 @@ export abstract class MapComponent {
       proj4.defs(MapComponent.projectionId, "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs");
       register(proj4);
 
+      let view = this.getView(this.getMapBorder());
+
+      this.geolocation = new Geolocation({
+         // enableHighAccuracy must be set to true to have the heading value.
+         trackingOptions: {
+            enableHighAccuracy: true,
+         },
+         projection: view.getProjection(),
+      });
+      this.geolocation.setTracking(true);
+      this.geolocation.on('error', function (error) {
+         console.error(error);
+      });
+
       this.map = new Map({
          layers: this.getLayers(),
          target: 'map',
-         view: this.getView(this.getMapBorder()),
+         view: view,
          controls: DefaultControls().extend([
             new ScaleLine({}),
          ]),
@@ -58,7 +74,8 @@ export abstract class MapComponent {
 
    private getLayers(): BaseLayer[] {
       let layers = [
-         MapComponent.getOSMLayer()
+         MapComponent.getOSMLayer(),
+         this.getPositionLayer()
       ];
 
       for (let layer of this.getAdditionalLayers()) {
@@ -66,6 +83,42 @@ export abstract class MapComponent {
       }
 
       return layers;
+   }
+
+   protected getPositionLayer(): BaseLayer {
+      const accuracyFeature = new Feature();
+      let loc = this.geolocation;
+
+      this.geolocation.on('change:accuracyGeometry', function () {
+         accuracyFeature.setGeometry(loc.getAccuracyGeometry());
+      });
+
+      const positionFeature = new Feature();
+      positionFeature.setStyle(
+      new Style({
+         image: new CircleStyle({
+            radius: 6,
+            fill: new Fill({
+            color: '#3399CC',
+            }),
+            stroke: new Stroke({
+            color: '#fff',
+            width: 2,
+            }),
+         }),
+      })
+      );
+
+      this.geolocation.on('change:position', function () {
+         const coordinates = loc.getPosition();
+         positionFeature.setGeometry(coordinates ? new Point(coordinates) : undefined);
+      });
+
+      return new VectorLayer({
+         source: new VectorSource({
+            features: [accuracyFeature, positionFeature],
+         }),
+      });
    }
 
    protected getView(locations: Location[]): View {
