@@ -12,7 +12,7 @@ import OSM from 'ol/source/OSM';
 import { Location } from '../domain/Location';
 import BaseLayer from 'ol/layer/Base';
 import VectorSource from 'ol/source/Vector';
-import { Text, Style } from 'ol/style';
+import { Text, Style, Icon } from 'ol/style';
 import Stroke from 'ol/style/Stroke';
 import Fill from 'ol/style/Fill';
 import Point from 'ol/geom/Point';
@@ -22,6 +22,7 @@ import { PointOfInterest } from '../domain/PointOfInterest';
 import { Track } from '../domain/Track';
 import Polygon from 'ol/geom/Polygon';
 import CircleStyle from 'ol/style/Circle';
+import { toSize } from 'ol/size';
 
 export abstract class MapComponent {
 
@@ -93,25 +94,31 @@ export abstract class MapComponent {
          accuracyFeature.setGeometry(loc.getAccuracyGeometry());
       });
 
+      const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
       const positionFeature = new Feature();
+      let icon = new Icon({
+         img: marker,
+         imgSize: [20, 20]
+      });
       positionFeature.setStyle(
-      new Style({
-         image: new CircleStyle({
-            radius: 6,
-            fill: new Fill({
-            color: '#3399CC',
-            }),
-            stroke: new Stroke({
-            color: '#fff',
-            width: 2,
-            }),
-         }),
-      })
-      );
+         new Style({
+            image: icon,
+         }));
 
       this.geolocation.on('change:position', function () {
-         const coordinates = loc.getPosition();
-         positionFeature.setGeometry(coordinates ? new Point(coordinates) : undefined);
+         const position  = loc.getPosition();
+         const heading = loc.getHeading() || 0;
+         const speed = loc.getSpeed() || 0;
+
+         const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
+         if (marker && heading && speed) {
+            marker.src = 'assets/img/geolocation_marker_heading.png';
+         } else if (marker) {
+            marker.src = 'assets/img/geolocation_marker.png';
+         }
+
+         icon.setRotation(heading);
+         positionFeature.setGeometry(position ? new Point(position) : undefined);
       });
 
       return new VectorLayer({
