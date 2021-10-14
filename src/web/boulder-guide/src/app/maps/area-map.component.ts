@@ -1,14 +1,7 @@
 import { Component, NgZone, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { Feature, Map } from 'ol';
-import { Coordinate } from 'ol/coordinate';
-import VectorLayer from 'ol/layer/Vector';
+import { Map } from 'ol';
 import { Location } from '../domain/Location';
 import BaseLayer from 'ol/layer/Base';
-import VectorSource from 'ol/source/Vector';
-import { Style } from 'ol/style';
-import Stroke from 'ol/style/Stroke';
-import Fill from 'ol/style/Fill';
-import Polygon from 'ol/geom/Polygon';
 import { AreaInfo } from '../domain/AreaInfo';
 import { Area } from '../domain/Area';
 import { MapComponent } from './map.component';
