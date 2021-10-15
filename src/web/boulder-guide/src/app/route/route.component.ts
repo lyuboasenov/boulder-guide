@@ -5,6 +5,7 @@ import { Route } from '../domain/Route';
 import { RouteInfo } from '../domain/RouteInfo';
 import { RouteMapComponent } from '../maps/route-map.component';
 import { DataService } from '../services/data.service';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
    selector: 'bg-route',
@@ -16,11 +17,18 @@ export class RouteComponent implements OnInit {
 
    @Input() info?: RouteInfo;
 
+   @ViewChild('carousel', {static : true}) carousel!: NgbCarousel;
    @ViewChild(RouteMapComponent)
    private map!: RouteMapComponent;
 
    route?: Route | null;
    area?: Area | null;
+
+   paused = false;
+   unpauseOnArrow = false;
+   pauseOnIndicator = false;
+   pauseOnHover = true;
+   pauseOnFocus = true;
 
    constructor(private dataService: DataService) { }
 
@@ -44,5 +52,24 @@ export class RouteComponent implements OnInit {
 
    onMapReady(event: any) {
       console.log("Map Ready");
+   }
+
+   onSlide(slideEvent: NgbSlideEvent) {
+      if (this.unpauseOnArrow && slideEvent.paused &&
+         (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)) {
+         this.togglePaused();
+      }
+      if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
+         this.togglePaused();
+      }
+   }
+
+   togglePaused() {
+      if (this.paused) {
+        this.carousel.cycle();
+      } else {
+        this.carousel.pause();
+      }
+      this.paused = !this.paused;
    }
 }

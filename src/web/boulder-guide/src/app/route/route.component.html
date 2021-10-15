@@ -18,22 +18,16 @@
             </mat-expansion-panel>
          </div>
          <div *ngIf="route && route.Schemas && route.Schemas.length > 1" class="info-panel">
-            <mat-stepper [linear]="false" #stepper>
-               <mat-step *ngFor="let topo of route.Schemas">
-
-                  <div>
-                     <button mat-icon-button matStepperPrevious>
-                        <mat-icon>navigate_before</mat-icon>
-                     </button>
-                     <button mat-icon-button matStepperNext>
-                        <mat-icon>navigate_next</mat-icon>
-                     </button>
-                  </div>
-
-                  <bg-topo [topo]="topo"></bg-topo>
-
-               </mat-step>
-            </mat-stepper>
+            <ngb-carousel
+               #carousel
+               [interval]="3000"
+               [pauseOnHover]="pauseOnHover"
+               [pauseOnFocus]="pauseOnFocus"
+               (slide)="onSlide($event)">
+               <ng-template ngbSlide *ngFor="let topo of route.Schemas">
+                 <bg-topo [topo]="topo"></bg-topo>
+               </ng-template>
+            </ngb-carousel>
          </div>
          <div *ngIf="route && route.Schemas && route.Schemas.length == 1" class="info-panel">
             <mat-card>

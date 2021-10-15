@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -29,6 +29,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
 import { UrlPipe } from './pipes/url.pipe';
 import { HtmlPipe } from './pipes/html.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -62,9 +63,11 @@ import { HtmlPipe } from './pipes/html.pipe';
     MatCardModule,
     MatTabsModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    NgbModule
   ],
   providers: [ DataService ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }
