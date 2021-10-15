@@ -96,14 +96,13 @@ export abstract class MapComponent {
 
       const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
       const positionFeature = new Feature();
-      let icon = new Icon({
-         img: marker,
-         imgSize: [20, 20]
+      let style = new Style({
+         image: new Icon({
+            img: marker,
+            imgSize: [22, 22]
+         }),
       });
-      positionFeature.setStyle(
-         new Style({
-            image: icon,
-         }));
+      positionFeature.setStyle(style);
 
       this.geolocation.on('change:position', function () {
          const position  = loc.getPosition();
@@ -113,11 +112,19 @@ export abstract class MapComponent {
          const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
          if (marker && heading && speed) {
             marker.src = 'assets/img/geolocation_marker_heading.png';
+            style.setImage(new Icon({
+               img: marker,
+               imgSize: [22, 37]
+            }));
          } else if (marker) {
             marker.src = 'assets/img/geolocation_marker.png';
+            style.setImage(new Icon({
+               img: marker,
+               imgSize: [22, 22]
+            }));
          }
 
-         icon.setRotation(heading);
+         style.getImage().setRotation(heading);
          positionFeature.setGeometry(position ? new Point(position) : undefined);
       });
 
