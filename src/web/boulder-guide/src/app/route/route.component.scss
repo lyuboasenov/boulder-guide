@@ -12,10 +12,10 @@ div.info-panel {
    display: block;
 }
 
-.card-embeded-video {
-   margin: 1em;
+.embeded-video-carousel {
    padding: 1em;
-   width: 40em;
+   width: 100%;
+   height: 100%;
    display: inline-block;
 }
 
@@ -23,4 +23,8 @@ div.embeded-video > iframe {
    border: none;
    width: 38em;
    height: 38em;
+}
+
+.carousel-control-prev, .carousel-control-next {
+   opacity: .8;
 }

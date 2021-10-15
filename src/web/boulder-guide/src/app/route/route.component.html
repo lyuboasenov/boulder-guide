@@ -56,20 +56,28 @@
          <mat-icon>video_library</mat-icon>
       </ng-template>
 
-      <mat-card *ngFor="let video of route.Videos" class="card-embeded-video">
-         <div class="embeded-video">
-            <iframe
-               *ngIf="video.EmbedCode.startsWith('http')"
-               [src]="video.EmbedCode | url"
-               title="Beta video">
-            </iframe>
+      <ngb-carousel
+         #videoCarousel
+         [interval]="3000"
+         [pauseOnHover]="pauseOnHover"
+         [pauseOnFocus]="pauseOnFocus"
+         (slide)="onSlide($event)"
+         class="embeded-video-carousel">
+         <ng-template ngbSlide *ngFor="let video of route.Videos">
+            <div class="embeded-video">
+               <iframe
+                  *ngIf="video.EmbedCode.startsWith('http')"
+                  [src]="video.EmbedCode | url"
+                  title="Beta video">
+               </iframe>
 
-            <div
-               *ngIf="!video.EmbedCode.startsWith('http')"
-               [innerHTML]="video.EmbedCode | html">
+               <div
+                  *ngIf="!video.EmbedCode.startsWith('http')"
+                  [innerHTML]="video.EmbedCode | html">
+               </div>
             </div>
-         </div>
-      </mat-card>
+         </ng-template>
+      </ngb-carousel>
 
    </mat-tab>
 
