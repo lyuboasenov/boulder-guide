@@ -150,6 +150,7 @@ export class DataService {
       if (a.areas != null) {
          for (var i = 0; i < a.areas.length; i++) {
             a.areas[i].rootId = a.rootId;
+            a.areas[i].areaInfo = a;
             a.areas[i] = this.build(r, a.areas[i]);
 
             rCount += a.areas[i].totalRoutes;

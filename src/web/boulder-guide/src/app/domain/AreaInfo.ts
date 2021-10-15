@@ -6,6 +6,7 @@ export class AreaInfo {
    name!: string;
    index!: string;
    areas!: AreaInfo[];
+   areaInfo!: AreaInfo;
    routes!: RouteInfo[];
    images!: string[];
    totalAreas!: number;
