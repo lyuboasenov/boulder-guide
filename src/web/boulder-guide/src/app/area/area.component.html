@@ -1,5 +1,10 @@
 <div *ngIf="info && !isRoot">
-   <h1>{{ info.name }}</h1>
+   <h1>
+      <span *ngFor="let areaInfo of path">
+         <a routerLink="/view/{{ areaInfo.rootId }}" routerLinkActive="active">{{ areaInfo.name }}</a> |
+      </span>
+      {{ info.name }}
+   </h1>
 
    <mat-tab-group (selectedTabChange)="onTabChange($event)">
       <mat-tab>

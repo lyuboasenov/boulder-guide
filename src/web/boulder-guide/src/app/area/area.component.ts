@@ -20,6 +20,7 @@ export class AreaComponent implements OnInit {
 
    area?: Area;
    isRoot: boolean = true;
+   path: AreaInfo[] = [];
 
    constructor(private dataService: DataService) { }
 
@@ -30,6 +31,14 @@ export class AreaComponent implements OnInit {
          if (result != null) {
             this.area = result;
          }
+
+         let a = this.info.areaInfo;
+         while (a) {
+            this.path.push(a);
+            a = a.areaInfo;
+         }
+
+         this.path = this.path.reverse();
       }
    }
 

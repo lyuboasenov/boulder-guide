@@ -43,12 +43,13 @@ export class DataService {
    async getAreaInfo(path: string): Promise<AreaInfo> {
       await this.initialize();
 
+      var area!: AreaInfo;
+
       if (path == '') {
-         return { rootId: '', id: '', areas: this._areas, name: '', index: '', routes: [], images: [], totalAreas: 0, totalRoutes: 0 };
+         return { rootId: '', id: '', areas: this._areas, name: '', index: '', routes: [], images: [], totalAreas: 0, totalRoutes: 0, areaInfo: area };
       } else {
          var ids = path.split('/').filter(s => s);
          var areas = this._areas;
-         var area!: AreaInfo;
 
          for (var i = 0; i < ids.length; i++) {
             var id = ids[i];

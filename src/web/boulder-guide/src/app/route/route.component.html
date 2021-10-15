@@ -1,4 +1,9 @@
-<h1 *ngIf="info">{{ info.name }} ({{ info.difficulty | grade }})</h1>
+<h1 *ngIf="info">
+   <span *ngFor="let areaInfo of path">
+      <a routerLink="/view/{{ areaInfo.rootId }}" routerLinkActive="active">{{ areaInfo.name }}</a> |
+   </span>
+   {{ info.name }} ({{ info.difficulty | grade }})
+</h1>
 
 <mat-tab-group *ngIf="info" (selectedTabChange)="onTabChange($event)">
    <mat-tab>

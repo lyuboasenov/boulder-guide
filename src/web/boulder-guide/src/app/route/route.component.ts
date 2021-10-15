@@ -6,6 +6,7 @@ import { RouteInfo } from '../domain/RouteInfo';
 import { RouteMapComponent } from '../maps/route-map.component';
 import { DataService } from '../services/data.service';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { AreaInfo } from '../domain/AreaInfo';
 
 @Component({
    selector: 'bg-route',
@@ -24,6 +25,7 @@ export class RouteComponent implements OnInit {
 
    route?: Route | null;
    area?: Area | null;
+   path: AreaInfo[] = [];
 
    paused = false;
    unpauseOnArrow = false;
@@ -37,6 +39,14 @@ export class RouteComponent implements OnInit {
       if (this.info != null) {
          this.route = await this.dataService.getRoute(this.info);
          this.area = await this.dataService.getArea(this.info.areaInfo);
+
+         let a = this.info.areaInfo;
+         while (a) {
+            this.path.push(a);
+            a = a.areaInfo;
+         }
+
+         this.path = this.path.reverse();
       }
    }
 
