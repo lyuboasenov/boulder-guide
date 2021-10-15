@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Area } from '../domain/Area';
 import { Route } from '../domain/Route';
@@ -10,7 +10,8 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
 @Component({
    selector: 'bg-route',
    templateUrl: './route.component.html',
-   styleUrls: [ './route.component.scss' ]
+   styleUrls: [ './route.component.scss' ],
+   encapsulation: ViewEncapsulation.None
 })
 
 export class RouteComponent implements OnInit {

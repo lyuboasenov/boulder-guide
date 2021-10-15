@@ -58,22 +58,24 @@
 
       <ngb-carousel
          #videoCarousel
-         [interval]="3000"
+         [interval]="5000"
          [pauseOnHover]="pauseOnHover"
          [pauseOnFocus]="pauseOnFocus"
          (slide)="onSlide($event)"
          class="embeded-video-carousel">
          <ng-template ngbSlide *ngFor="let video of route.Videos">
-            <div class="embeded-video">
-               <iframe
-                  *ngIf="video.EmbedCode.startsWith('http')"
-                  [src]="video.EmbedCode | url"
-                  title="Beta video">
-               </iframe>
+            <div class="embeded-video-container">
+               <div class="embeded-video">
+                  <iframe
+                     *ngIf="video.EmbedCode.startsWith('http')"
+                     [src]="video.EmbedCode | url"
+                     title="Beta video">
+                  </iframe>
 
-               <div
-                  *ngIf="!video.EmbedCode.startsWith('http')"
-                  [innerHTML]="video.EmbedCode | html">
+                  <div
+                     *ngIf="!video.EmbedCode.startsWith('http')"
+                     [innerHTML]="video.EmbedCode | html">
+                  </div>
                </div>
             </div>
          </ng-template>

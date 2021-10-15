@@ -19,12 +19,23 @@ div.info-panel {
    display: inline-block;
 }
 
+div.embeded-video-container {
+   text-align: center;
+   display: block;
+}
+
+div.embeded-video {
+   display: block;
+   margin: auto;
+   width: 540px;
+}
+
 div.embeded-video > iframe {
    border: none;
-   width: 38em;
+   width: 540px;
    height: 38em;
 }
 
 .carousel-control-prev, .carousel-control-next {
-   opacity: .8;
+   background-color: rgba(128, 128, 128, 0.5);
 }
