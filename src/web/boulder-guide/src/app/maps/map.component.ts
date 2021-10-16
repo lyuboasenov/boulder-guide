@@ -52,7 +52,9 @@ export abstract class MapComponent {
       this.geolocation = new Geolocation({
          // enableHighAccuracy must be set to true to have the heading value.
          trackingOptions: {
+            maximumAge: 10000,
             enableHighAccuracy: true,
+            timeout: 600000,
          },
          projection: view.getProjection(),
       });
@@ -110,21 +112,28 @@ export abstract class MapComponent {
          const speed = loc.getSpeed() || 0;
 
          const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
-         if (marker && heading && speed) {
-            marker.src = 'assets/img/geolocation_marker_heading.png';
-            style.setImage(new Icon({
-               img: marker,
-               imgSize: [22, 37]
-            }));
-         } else if (marker) {
-            marker.src = 'assets/img/geolocation_marker.png';
-            style.setImage(new Icon({
-               img: marker,
-               imgSize: [22, 22]
-            }));
+         if (marker) {
+            let isMarkerHeading = marker.src === 'assets/img/geolocation_marker_heading.png';
+            if (heading || speed) {
+               if (!isMarkerHeading) {
+                  marker.src = 'assets/img/geolocation_marker_heading.png';
+                  style.setImage(new Icon({
+                     img: marker,
+                     imgSize: [22, 37]
+                  }));
+               }
+               style.getImage().setRotation(MapComponent.radToDeg(heading));
+            } else {
+               if (isMarkerHeading) {
+                  marker.src = 'assets/img/geolocation_marker.png';
+                  style.setImage(new Icon({
+                     img: marker,
+                     imgSize: [22, 22]
+                  }));
+               }
+            }
          }
 
-         style.getImage().setRotation(heading);
          positionFeature.setGeometry(position ? new Point(position) : undefined);
       });
 
@@ -395,5 +404,9 @@ export abstract class MapComponent {
 
    protected static fromLonLat(longitude: number, latitude: number): Coordinate {
       return MapComponent.fromLocation(new Location(longitude, latitude));
+   }
+
+   protected static radToDeg(rad: number): number {
+      return (rad * 360) / (Math.PI * 2);
    }
 }
