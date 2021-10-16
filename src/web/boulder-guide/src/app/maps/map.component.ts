@@ -29,6 +29,7 @@ export abstract class MapComponent {
    map!: Map;
    extent!: Extent;
    geolocation!: Geolocation;
+
    marker!: HTMLImageElement;
 
    positionStyle!: Style;
@@ -43,22 +44,12 @@ export abstract class MapComponent {
    constructor(private zone: NgZone, private cd: ChangeDetectorRef) { }
 
    public initMap(): void {
-      if (!this.map) {
-         this.zone.runOutsideAngular(() => this.initMapInternal())
-      }
-
       if (!this.marker) {
          this.marker = document.getElementById("geolocation_marker") as HTMLImageElement;
-         if (this.marker) {
-            this.markerDefaultIcon = new Icon({
-               img: this.marker,
-               imgSize: [22, 22]
-            })
-            this.markerHeadingIcon = new Icon({
-               img: this.marker,
-               imgSize: [22, 37]
-            })
-         }
+      }
+
+      if (!this.map) {
+         this.zone.runOutsideAngular(() => this.initMapInternal())
       }
    }
 
@@ -74,9 +65,9 @@ export abstract class MapComponent {
       this.geolocation = new Geolocation({
          // enableHighAccuracy must be set to true to have the heading value.
          trackingOptions: {
-            maximumAge: 10000,
+            maximumAge: 0,
             enableHighAccuracy: true,
-            timeout: 600000,
+            timeout: 10000,
          },
          projection: view.getProjection(),
       });
@@ -117,13 +108,15 @@ export abstract class MapComponent {
 
       const positionFeature = new Feature();
       this.positionStyle = new Style({
-         image: this.markerDefaultIcon,
+         image: new Icon({
+            img: this.marker,
+            imgSize: [22, 22]
+         }),
       });
       positionFeature.setStyle(this.positionStyle);
 
       this.geolocation.on('change:accuracyGeometry', function () {
          accuracyFeature.setGeometry(_this.geolocation.getAccuracyGeometry());
-         _this.updateOrientation();
       });
 
       this.geolocation.on('change:position', function () {
@@ -131,11 +124,6 @@ export abstract class MapComponent {
          if (position) {
             positionFeature.setGeometry(new Point(position));
          }
-         _this.updateOrientation();
-      });
-
-      this.geolocation.on('change:speed', function () {
-         _this.updateOrientation();
       });
 
       this.geolocation.on('change:heading', function () {
@@ -151,16 +139,25 @@ export abstract class MapComponent {
 
    private updateOrientation(): void {
       const heading = this.geolocation.getHeading();
-      const speed = this.geolocation.getSpeed();
+      const isHeading = this.marker.src === MapComponent.markerHeadingIcon;
 
-      if (this.marker) {
-         if (heading || speed) {
-            this.marker.src = 'assets/img/geolocation_marker_heading.png';
-            this.positionStyle.setImage(this.markerHeadingIcon);
-            this.positionStyle.getImage().setRotation(MapComponent.radToDeg(heading || 0));
-         } else {
-            this.marker.src = 'assets/img/geolocation_marker.png';
-            this.positionStyle.setImage(this.markerDefaultIcon);
+      if (heading) {
+         if (!isHeading) {
+            this.marker.src = MapComponent.markerHeadingIcon;
+            this.positionStyle.setImage(new Icon({
+               img: this.marker,
+               imgSize: [22, 37]
+            }));
+         }
+
+         this.positionStyle.getImage().setRotation(heading);
+      } else {
+         if (isHeading) {
+            this.marker.src = MapComponent.markerDefaultIcon;
+            this.positionStyle.setImage(new Icon({
+               img: this.marker,
+               imgSize: [22, 22]
+            }));
          }
       }
    }
