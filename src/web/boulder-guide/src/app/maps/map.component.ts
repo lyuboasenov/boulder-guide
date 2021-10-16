@@ -52,13 +52,12 @@ export abstract class MapComponent {
       this.geolocation = new Geolocation({
          // enableHighAccuracy must be set to true to have the heading value.
          trackingOptions: {
-            maximumAge: 10000,
+            maximumAge: 500,
             enableHighAccuracy: true,
-            timeout: 600000,
+            timeout: 60000,
          },
          projection: view.getProjection(),
       });
-      this.geolocation.setTracking(true);
       this.geolocation.on('error', function (error) {
          console.error(error);
       });
@@ -73,6 +72,8 @@ export abstract class MapComponent {
       });
 
       this.map.getView().fit(this.extent);
+
+      this.geolocation.setTracking(true);
    }
 
    private getLayers(): BaseLayer[] {
