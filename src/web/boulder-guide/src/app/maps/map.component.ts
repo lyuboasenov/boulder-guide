@@ -29,6 +29,14 @@ export abstract class MapComponent {
    map!: Map;
    extent!: Extent;
    geolocation!: Geolocation;
+   marker!: HTMLImageElement;
+
+   positionStyle!: Style;
+   markerDefaultIcon!: Icon;
+   markerHeadingIcon!: Icon;
+
+   static readonly markerHeadingIcon: string = 'assets/img/geolocation_marker_heading.png';
+   static readonly markerDefaultIcon: string = 'assets/img/geolocation_marker.png';
 
    private static readonly projectionId: string = "EPSG:3857";
 
@@ -37,6 +45,20 @@ export abstract class MapComponent {
    public initMap(): void {
       if (!this.map) {
          this.zone.runOutsideAngular(() => this.initMapInternal())
+      }
+
+      if (!this.marker) {
+         this.marker = document.getElementById("geolocation_marker") as HTMLImageElement;
+         if (this.marker) {
+            this.markerDefaultIcon = new Icon({
+               img: this.marker,
+               imgSize: [22, 22]
+            })
+            this.markerHeadingIcon = new Icon({
+               img: this.marker,
+               imgSize: [22, 37]
+            })
+         }
       }
    }
 
@@ -91,51 +113,33 @@ export abstract class MapComponent {
 
    protected getPositionLayer(): BaseLayer {
       const accuracyFeature = new Feature();
-      let loc = this.geolocation;
+      const _this = this;
+
+      const positionFeature = new Feature();
+      this.positionStyle = new Style({
+         image: this.markerDefaultIcon,
+      });
+      positionFeature.setStyle(this.positionStyle);
 
       this.geolocation.on('change:accuracyGeometry', function () {
-         accuracyFeature.setGeometry(loc.getAccuracyGeometry());
+         accuracyFeature.setGeometry(_this.geolocation.getAccuracyGeometry());
+         _this.updateOrientation();
       });
-
-      const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
-      const positionFeature = new Feature();
-      let style = new Style({
-         image: new Icon({
-            img: marker,
-            imgSize: [22, 22]
-         }),
-      });
-      positionFeature.setStyle(style);
 
       this.geolocation.on('change:position', function () {
-         const position  = loc.getPosition();
-         const heading = loc.getHeading() || 0;
-         const speed = loc.getSpeed() || 0;
-
-         const marker = document.getElementById("geolocation_marker") as HTMLImageElement;
-         if (marker) {
-            let isMarkerHeading = marker.src === 'assets/img/geolocation_marker_heading.png';
-            if (heading || speed) {
-               if (!isMarkerHeading) {
-                  marker.src = 'assets/img/geolocation_marker_heading.png';
-                  style.setImage(new Icon({
-                     img: marker,
-                     imgSize: [22, 37]
-                  }));
-               }
-               style.getImage().setRotation(MapComponent.radToDeg(heading));
-            } else {
-               if (isMarkerHeading) {
-                  marker.src = 'assets/img/geolocation_marker.png';
-                  style.setImage(new Icon({
-                     img: marker,
-                     imgSize: [22, 22]
-                  }));
-               }
-            }
+         const position  = _this.geolocation.getPosition();
+         if (position) {
+            positionFeature.setGeometry(new Point(position));
          }
+         _this.updateOrientation();
+      });
 
-         positionFeature.setGeometry(position ? new Point(position) : undefined);
+      this.geolocation.on('change:speed', function () {
+         _this.updateOrientation();
+      });
+
+      this.geolocation.on('change:heading', function () {
+         _this.updateOrientation();
       });
 
       return new VectorLayer({
@@ -143,6 +147,22 @@ export abstract class MapComponent {
             features: [accuracyFeature, positionFeature],
          }),
       });
+   }
+
+   private updateOrientation(): void {
+      const heading = this.geolocation.getHeading();
+      const speed = this.geolocation.getSpeed();
+
+      if (this.marker) {
+         if (heading || speed) {
+            this.marker.src = 'assets/img/geolocation_marker_heading.png';
+            this.positionStyle.setImage(this.markerHeadingIcon);
+            this.positionStyle.getImage().setRotation(MapComponent.radToDeg(heading || 0));
+         } else {
+            this.marker.src = 'assets/img/geolocation_marker.png';
+            this.positionStyle.setImage(this.markerDefaultIcon);
+         }
+      }
    }
 
    protected getView(locations: Location[]): View {
