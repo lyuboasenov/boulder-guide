@@ -65,6 +65,10 @@
             Content="Copy route"
             Command="{Binding CopyRouteCommand}" />
 
+         <Button
+            Content="Import routes"
+            Command="{Binding ImportRouteCommand}" />
+
       </StackPanel>
 
    </Grid>

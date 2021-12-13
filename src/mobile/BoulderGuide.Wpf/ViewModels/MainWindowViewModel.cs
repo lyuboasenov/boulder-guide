@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml;
 
 namespace BoulderGuide.Wpf.ViewModels {
    internal class MainWindowViewModel : BaseViewModel<MainWindow> {
@@ -17,6 +18,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          AddAreaCommand = new Command(AddArea, CanAddArea);
          AddRouteCommand = new Command(AddRoute, CanAddRoute);
          CopyRouteCommand = new Command(CopyRoute, CanCopyRoute);
+         ImportRouteCommand = new Command(ImportRoute, CanImportRoute);
          ReloadCommand = new Command(Reload);
       }
 
@@ -24,6 +26,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       public ICommand AddAreaCommand { get; }
       public ICommand AddRouteCommand { get; }
       public ICommand CopyRouteCommand { get; }
+      public ICommand ImportRouteCommand { get; }
       public ICommand ReloadCommand { get; }
 
       public object SelectedItem { get; set; }
@@ -49,10 +52,15 @@ namespace BoulderGuide.Wpf.ViewModels {
          (AddAreaCommand as Command)?.RaiseCanExecuteChanged();
          (AddRouteCommand as Command)?.RaiseCanExecuteChanged();
          (CopyRouteCommand as Command)?.RaiseCanExecuteChanged();
+         (ImportRouteCommand as Command)?.RaiseCanExecuteChanged();
       }
 
       private void Reload() {
          Items = new[] { GetArea(rootPath) };
+      }
+
+      private bool CanImportRoute() {
+         return SelectedItem is Area;
       }
 
       private bool CanCopyRoute() {
@@ -84,6 +92,45 @@ namespace BoulderGuide.Wpf.ViewModels {
          if (SelectedItem is Route r) {
             r.Id = r.Id + "-copy";
             r.Save();
+
+            Reload();
+         }
+      }
+
+      private void ImportRoute() {
+         string indexPath = SelectFile("Area gpx | *.gpx");
+         if (SelectedItem is Area a) {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(indexPath);
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+            nsmgr.AddNamespace("gpx", "http://www.topografix.com/GPX/1/1");
+
+            var points = new List<Location>();
+
+            foreach (XmlNode node in doc.DocumentElement.SelectNodes($"//gpx:wpt", nsmgr)) {
+               points.Add(new Location() {
+                  Latitude = double.Parse(node.Attributes["lat"].Value),
+                  Longitude = double.Parse(node.Attributes["lon"].Value)
+               });
+
+               string name = null;
+               string desc = null;
+
+               foreach (XmlNode subNode in node.ChildNodes) {
+                  if (subNode.Name.Equals("name", StringComparison.InvariantCultureIgnoreCase)) {
+                     name = subNode.InnerText;
+                  } else if (subNode.Name.Equals("desc", StringComparison.InvariantCultureIgnoreCase)) {
+                     desc = subNode.InnerText;
+                  }
+               }
+
+               var route = new Route(a) {
+                  Name = name,
+                  Info = desc,
+                  Location = $"N{node.Attributes["lat"].Value} E{node.Attributes["lon"].Value}"
+               };
+               route.Save();
+            }
 
             Reload();
          }

@@ -79,7 +79,6 @@ namespace BoulderGuide.Wpf.ViewModels {
                      Locations = points.ToArray()
                   });
                }
-
             }
          }
       }
