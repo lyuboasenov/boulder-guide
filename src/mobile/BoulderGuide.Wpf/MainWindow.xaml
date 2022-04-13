@@ -69,6 +69,10 @@
             Content="Import routes"
             Command="{Binding ImportRouteCommand}" />
 
+         <Button
+            Content="Import Orux GPX"
+            Command="{Binding ImportOruxToGpxCommand}" />
+
       </StackPanel>
 
    </Grid>

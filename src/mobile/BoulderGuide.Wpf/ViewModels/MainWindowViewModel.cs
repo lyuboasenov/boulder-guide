@@ -19,6 +19,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          AddRouteCommand = new Command(AddRoute, CanAddRoute);
          CopyRouteCommand = new Command(CopyRoute, CanCopyRoute);
          ImportRouteCommand = new Command(ImportRoute, CanImportRoute);
+         ImportOruxToGpxCommand = new Command(ImportOruxToGpx);
          ReloadCommand = new Command(Reload);
       }
 
@@ -27,6 +28,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       public ICommand AddRouteCommand { get; }
       public ICommand CopyRouteCommand { get; }
       public ICommand ImportRouteCommand { get; }
+      public ICommand ImportOruxToGpxCommand { get; }
       public ICommand ReloadCommand { get; }
 
       public object SelectedItem { get; set; }
@@ -97,6 +99,96 @@ namespace BoulderGuide.Wpf.ViewModels {
          }
       }
 
+      private void ImportOruxToGpx() {
+         string oruxGpxPath = SelectFile("OruxMap gpx file | *.gpx");
+         string areaGpxPath = SelectFile("Area gpx file | *.gpx");
+
+         XmlDocument oruxDoc = new XmlDocument();
+         oruxDoc.Load(oruxGpxPath);
+         XmlNamespaceManager oruxNsMgr = new XmlNamespaceManager(oruxDoc.NameTable);
+         oruxNsMgr.AddNamespace("gpx", "http://www.topografix.com/GPX/1/1");
+         oruxNsMgr.AddNamespace("om", "http://www.oruxmaps.com/oruxmapsextensions/1/0");
+
+         XmlDocument areaDoc = new XmlDocument();
+         areaDoc.Load(areaGpxPath);
+         XmlNamespaceManager areaNsMgr = new XmlNamespaceManager(areaDoc.NameTable);
+         areaNsMgr.AddNamespace("gpx", "http://www.topografix.com/GPX/1/1");
+
+         foreach (XmlNode node in oruxDoc.DocumentElement.SelectNodes($"//gpx:wpt", oruxNsMgr)) {
+            var latitude = node.Attributes["lat"].Value;
+            var longitude = node.Attributes["lon"].Value;
+
+            string img = null; // <extensions>/<om:oruxmapsextensions>/<om:ext type="IMAGEN">
+
+            string name = GetXmlSubNodeInnerText(node, nameof(name)).
+               Replace("<![CDATA[", "").
+               Replace("]]>", ""); // <![CDATA[0000440]]>
+            string desc = GetXmlSubNodeInnerText(node, nameof(desc));
+            string ele = GetXmlSubNodeInnerText(node, nameof(ele));
+            string type = GetXmlSubNodeInnerText(node, nameof(type)); // <type>Photo</type> <type>Waypoint</type>
+            string time = GetXmlSubNodeInnerText(node, nameof(time));
+
+            if (type.Equals("Photo", StringComparison.InvariantCultureIgnoreCase)) {
+               var extentions = GetFirstChild(node, "extensions");
+               var oruxExt = GetFirstChild(extentions, "om:oruxmapsextensions");
+               var omExt = GetFirstChild(oruxExt, "om:ext", (n) => n.Attributes["type"]?.Value?.Equals("IMAGEN", StringComparison.InvariantCultureIgnoreCase) ?? false);
+
+               img = omExt?.InnerText;
+               img = img?.Substring(img.LastIndexOf("/") + 1);
+
+               if (!string.IsNullOrEmpty(desc)) {
+                  desc += Environment.NewLine;
+               }
+
+               desc += img;
+            }
+
+            var wptEl = areaDoc.CreateElement("wpt", "http://www.topografix.com/GPX/1/1");
+            wptEl.SetAttribute("lat", latitude);
+            wptEl.SetAttribute("lon", longitude);
+            areaDoc.DocumentElement.InsertAfter(wptEl, GetFirstChild(areaDoc.DocumentElement, "metadata"));
+
+            var eleEl = areaDoc.CreateElement("ele", "http://www.topografix.com/GPX/1/1");
+            eleEl.InnerText = ele;
+            wptEl.AppendChild(eleEl);
+            var timeEl = areaDoc.CreateElement("time", "http://www.topografix.com/GPX/1/1");
+            timeEl.InnerText = time;
+            wptEl.AppendChild(timeEl);
+            var nameEl = areaDoc.CreateElement("name", "http://www.topografix.com/GPX/1/1");
+            nameEl.InnerText = name;
+            wptEl.AppendChild(nameEl);
+            var descEl = areaDoc.CreateElement("desc", "http://www.topografix.com/GPX/1/1");
+            descEl.InnerText = desc;
+            wptEl.AppendChild(descEl);
+         }
+
+         areaDoc.Save(areaGpxPath);
+      }
+
+      private XmlNode GetFirstChild(XmlNode node, string name, Func<XmlNode, bool> filter) {
+         return node?.
+            ChildNodes?.
+            Cast<XmlNode>()?.
+            FirstOrDefault(
+               n =>
+                  n.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase) &&
+                  filter(n));
+      }
+
+      private XmlNode GetFirstChild(XmlNode node, string name) {
+         return GetFirstChild(node, name, (n) => true);
+      }
+
+      private string GetXmlSubNodeInnerText(XmlNode node, string nodeName) {
+         foreach (XmlNode subNode in node.ChildNodes) {
+            if (subNode.Name.Equals(nodeName, StringComparison.InvariantCultureIgnoreCase)) {
+               return subNode.InnerText;
+            }
+         }
+
+         return null;
+      }
+
       private void ImportRoute() {
          string indexPath = SelectFile("Area gpx | *.gpx");
          if (SelectedItem is Area a) {
@@ -113,16 +205,8 @@ namespace BoulderGuide.Wpf.ViewModels {
                   Longitude = double.Parse(node.Attributes["lon"].Value)
                });
 
-               string name = null;
-               string desc = null;
-
-               foreach (XmlNode subNode in node.ChildNodes) {
-                  if (subNode.Name.Equals("name", StringComparison.InvariantCultureIgnoreCase)) {
-                     name = subNode.InnerText;
-                  } else if (subNode.Name.Equals("desc", StringComparison.InvariantCultureIgnoreCase)) {
-                     desc = subNode.InnerText;
-                  }
-               }
+               string name = GetXmlSubNodeInnerText(node, nameof(name));
+               string desc = GetXmlSubNodeInnerText(node, nameof(desc));
 
                var route = new Route(a) {
                   Name = name,
