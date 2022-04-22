@@ -64,7 +64,6 @@
                <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="*" />
                </Grid.ColumnDefinitions>
                <Grid.RowDefinitions>
                   <RowDefinition Height="Auto" />
@@ -73,41 +72,23 @@
 
                <StackPanel Orientation="Horizontal">
                   <Button
-                     Content="Add point"
-                     Command="{Binding AddPointCommand}" />
-
-                  <Button
-                     Content="Remove point"
-                     Command="{Binding RemovePointCommand}" />
-               </StackPanel>
-
-               <ListView
-                  Grid.Row="1"
-                  SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
-                  ItemsSource="{Binding Area.Locations}" />
-
-               <StackPanel
-                  Orientation="Horizontal"
-                  Grid.Column="1">
-                  <Button
-                     Content="Add point"
+                     Content="Add POI"
                      Command="{Binding AddPOICommand}" />
 
                   <Button
-                     Content="Remove point"
+                     Content="Remove POI"
                      Command="{Binding RemovePOICommand}" />
                </StackPanel>
 
                <ListView
                   Grid.Row="1"
-                  Grid.Column="1"
                   SelectedItem="{Binding SelectedPOI, Mode=TwoWay}"
                   DisplayMemberPath="Name"
                   ItemsSource="{Binding Area.POIs}" />
 
                <StackPanel
                   Orientation="Horizontal"
-                  Grid.Column="2">
+                  Grid.Column="1">
                   <Button
                      Content="Add track"
                      Command="{Binding AddTrackCommand}" />
@@ -119,7 +100,7 @@
 
                <ListView
                   Grid.Row="1"
-                  Grid.Column="2"
+                  Grid.Column="1"
                   SelectedItem="{Binding SelectedTrack, Mode=TwoWay}"
                   DisplayMemberPath="Name"
                   ItemsSource="{Binding Area.Tracks}" />

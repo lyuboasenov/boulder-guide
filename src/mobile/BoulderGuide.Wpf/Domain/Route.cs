@@ -59,6 +59,10 @@ namespace BoulderGuide.Wpf.Domain {
          }
       }
 
+      public DTOs.Location RawLocation {
+         get { return dto.Location; }
+      }
+
       public double Difficulty {
          get {
             return dto.Difficulty;

@@ -142,6 +142,12 @@ namespace BoulderGuide.Wpf.Domain {
          RaisePropertyChanged(nameof(Locations));
       }
 
+      public void ClearLocations() {
+         var list = new List<Location>();
+         dto.Location = list.ToArray();
+         RaisePropertyChanged(nameof(Locations));
+      }
+
       public void AddPOI(PointOfInterest poi) {
          dto.POIs = dto.POIs.Append(poi).ToArray();
          RaisePropertyChanged(nameof(POIs));

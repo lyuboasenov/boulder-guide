@@ -1,8 +1,10 @@
 ﻿using BoulderGuide.DTOs;
 using BoulderGuide.Wpf.Domain;
 using BoulderGuide.Wpf.Views;
+using MIConvexHull;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using System.Xml;
 
@@ -11,9 +13,6 @@ namespace BoulderGuide.Wpf.ViewModels {
       public Area Area { get; set; }
       public Location SelectedLocation { get; set; }
 
-      public void OnSelectedLocationChanged() {
-         (RemovePointCommand as Command)?.RaiseCanExecuteChanged();
-      }
       public PointOfInterest SelectedPOI { get; set; }
       public void OnSelectedPOIChanged() {
          (RemovePOICommand as Command)?.RaiseCanExecuteChanged();
@@ -24,8 +23,6 @@ namespace BoulderGuide.Wpf.ViewModels {
       }
 
       public ICommand SaveCommand { get; }
-      public ICommand AddPointCommand { get; }
-      public ICommand RemovePointCommand { get; }
       public ICommand AddPOICommand { get; }
       public ICommand RemovePOICommand { get; }
       public ICommand AddTrackCommand { get; }
@@ -33,8 +30,6 @@ namespace BoulderGuide.Wpf.ViewModels {
 
       public AreaViewModel(Area area) {
          SaveCommand = new Command(Save, CanSave);
-         AddPointCommand = new Command(AddPoint);
-         RemovePointCommand = new Command(RemovePoint, CanRemovePoint);
          AddPOICommand = new Command(AddPOI);
          RemovePOICommand = new Command(RemovePOI, CanRemovePOI);
          AddTrackCommand = new Command(AddTrack);
@@ -107,38 +102,49 @@ namespace BoulderGuide.Wpf.ViewModels {
          }
       }
 
-      private bool CanRemovePoint() {
-         return SelectedLocation != null;
-      }
-
-      private void RemovePoint() {
-         try {
-            var l = SelectedLocation;
-            SelectedLocation = null;
-            Area.RemoveLocation(l);
-         } catch (Exception ex) {
-            HandleError(ex);
-         }
-      }
-
-      private void AddPoint() {
-         InputTextViewModel vm = new InputTextViewModel();
-         (App.Current as App)?.NavigationService.Show(vm, true);
-
-         try {
-            var l = new Location(vm.Input);
-            Area.AddLocation(l);
-         } catch (Exception ex) {
-            HandleError(ex);
-         }
-      }
-
       private bool CanSave() {
          return true;
       }
 
       private void Save() {
+         RecalculateBorders();
          Area.Save();
+      }
+
+      private void RecalculateBorders() {
+         double locationOffset = 0.0001; // should equal to approximately 55m
+         var locations = GetAllRoutesLocations(Area);
+
+         var verticies = GetAllRoutesLocations(Area).
+            SelectMany(l =>
+               new[] {
+                  new DefaultVertex2D(l.Longitude - locationOffset, l.Latitude),
+                  new DefaultVertex2D(l.Longitude + locationOffset, l.Latitude),
+                  new DefaultVertex2D(l.Longitude, l.Latitude - locationOffset),
+                  new DefaultVertex2D(l.Longitude, l.Latitude + locationOffset),
+               }).ToList();
+
+         var convexHull = ConvexHull.Create2D(verticies);
+         Area.ClearLocations();
+         foreach(var v in convexHull.Result) {
+            Area.AddLocation(new Location(v.Y, v.X));
+         }
+      }
+
+      private IEnumerable<DTOs.Location> GetAllRoutesLocations(Area area) {
+         var locations = new List<DTOs.Location>();
+
+         foreach (var item in area.Items) {
+            if (item is Area a) {
+               locations.AddRange(GetAllRoutesLocations(a));
+            } else if (item is Route r) {
+               locations.Add(r.RawLocation);
+            } else {
+               throw new ArgumentException("Unknown item type");
+            }
+         }
+
+         return locations;
       }
    }
 }
