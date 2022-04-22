@@ -107,15 +107,15 @@ namespace BoulderGuide.Wpf.ViewModels {
       }
 
       private void Save() {
-         RecalculateBorders();
+         RecalculateBorders(Area);
          Area.Save();
       }
 
-      private void RecalculateBorders() {
+      internal static void RecalculateBorders(Area area) {
          double locationOffset = 0.0001; // should equal to approximately 55m
-         var locations = GetAllRoutesLocations(Area);
+         var locations = GetAllRoutesLocations(area);
 
-         var verticies = GetAllRoutesLocations(Area).
+         var verticies = GetAllRoutesLocations(area).
             SelectMany(l =>
                new[] {
                   new DefaultVertex2D(l.Longitude - locationOffset, l.Latitude),
@@ -125,13 +125,13 @@ namespace BoulderGuide.Wpf.ViewModels {
                }).ToList();
 
          var convexHull = ConvexHull.Create2D(verticies);
-         Area.ClearLocations();
+         area.ClearLocations();
          foreach(var v in convexHull.Result) {
-            Area.AddLocation(new Location(v.Y, v.X));
+            area.AddLocation(new Location(v.Y, v.X));
          }
       }
 
-      private IEnumerable<DTOs.Location> GetAllRoutesLocations(Area area) {
+      private static IEnumerable<DTOs.Location> GetAllRoutesLocations(Area area) {
          var locations = new List<DTOs.Location>();
 
          foreach (var item in area.Items) {

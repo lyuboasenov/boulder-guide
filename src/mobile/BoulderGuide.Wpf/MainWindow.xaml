@@ -33,6 +33,7 @@
       <Grid.RowDefinitions>
          <RowDefinition Height="*" />
          <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <TreeView
          ItemsSource="{Binding Items}"
@@ -72,6 +73,17 @@
          <Button
             Content="Import Orux GPX"
             Command="{Binding ImportOruxToGpxCommand}" />
+
+      </StackPanel>
+
+      <StackPanel
+         Grid.Row="2"
+         Grid.ColumnSpan="2"
+         Orientation="Horizontal">
+
+         <Button
+            Content="Recalc boundaries"
+            Command="{Binding RecalculateAreaBounderiesCommand}" />
 
       </StackPanel>
 

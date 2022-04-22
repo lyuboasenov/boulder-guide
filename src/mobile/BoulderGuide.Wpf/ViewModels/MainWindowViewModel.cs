@@ -21,6 +21,7 @@ namespace BoulderGuide.Wpf.ViewModels {
          ImportRouteCommand = new Command(ImportRoute, CanImportRoute);
          ImportOruxToGpxCommand = new Command(ImportOruxToGpx);
          ReloadCommand = new Command(Reload);
+         RecalculateAreaBounderiesCommand = new Command(RecalculateAreaBounderies);
       }
 
       public IEnumerable<Area> Items { get; set; }
@@ -30,6 +31,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       public ICommand ImportRouteCommand { get; }
       public ICommand ImportOruxToGpxCommand { get; }
       public ICommand ReloadCommand { get; }
+      public ICommand RecalculateAreaBounderiesCommand { get; }
 
       public object SelectedItem { get; set; }
       public string Title { get; set; } = "Initial";
@@ -55,6 +57,22 @@ namespace BoulderGuide.Wpf.ViewModels {
          (AddRouteCommand as Command)?.RaiseCanExecuteChanged();
          (CopyRouteCommand as Command)?.RaiseCanExecuteChanged();
          (ImportRouteCommand as Command)?.RaiseCanExecuteChanged();
+      }
+
+      private void RecalculateAreaBounderies() {
+         foreach(var item in Items) {
+            RecalculateAreaBounderies(item);
+         }
+      }
+
+      private void RecalculateAreaBounderies(Area area) {
+         AreaViewModel.RecalculateBorders(area);
+         foreach (var item in area.Items) {
+            if (item is Area a) {
+               RecalculateAreaBounderies(a);
+            }
+         }
+         area.Save();
       }
 
       private void Reload() {
