@@ -1,7 +1,7 @@
 [
    {
       "urn": "vitosha-dev",
-      "url": "https://storage.googleapis.com/boulder-maps/map-vitosha-dev/main",
+      "url": "https://storage.googleapis.com/boulder-maps/map-vitosha-dev",
       "access": "public",
       "gzip": true,
       "encrypted": false
