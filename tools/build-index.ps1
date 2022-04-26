@@ -3,7 +3,7 @@ param(
    $rootPath
 )
 
-function getArea ($path) {
+function getArea ($path, $date) {
 
    Write-Host "Getting area from '$path'"
 
@@ -16,7 +16,7 @@ function getArea ($path) {
 
    Get-ChildItem -Path $path | % {
       if ($_.PSIsContainer -and !$_.name.StartsWith('.')) {
-         $area = getArea ($_.FullName)
+         $area = getArea ($_.FullName) $date
          $areas.Add($area) | Out-Null
       } elseif ($_.Name -eq 'area.json') {
          # added by default
@@ -56,7 +56,8 @@ function getArea ($path) {
       areas = $areas;
       routes = $routes;
       map = '';
-      images = @()
+      images = @();
+      date = $date
    }
 }
 
@@ -107,7 +108,7 @@ $indexLocation = (Join-Path $rootPath 'index.json')
 $rootUri = [System.Uri]::new("$rootPath/")
 Remove-Item -Path $indexLocation -ErrorAction:SilentlyContinue
 
-$area = getArea $rootPath
+$area = getArea $rootPath ([DateTime]::Now.ToFileTimeUtc())
 $area.images = [string[]]@(Get-ChildItem -Path $rootPath -Filter '*.jpg' | %{ "/$($_.Name)" })
 $area.map = '/map.mbtiles'
 
