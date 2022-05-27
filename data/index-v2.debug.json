@@ -22,7 +22,7 @@
    },
    {
       "urn": "beli-iskyr",
-      "url": "https://storage.googleapis.com/boulder-maps/map-beli-iskyr/main",
+      "url": "https://storage.googleapis.com/boulder-maps/map-beli-iskyr",
       "access": "public",
       "gzip": true,
       "encrypted": false
