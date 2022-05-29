@@ -1,12 +1,19 @@
 .TopoContainer {
+   text-align: center;
+}
+
+.TopoWrapper {
    position: relative;
+   display: inline-block;
 }
 
 .Topo {
+   top: 0;
+   left: 0;
    position: absolute;
 }
 
 .TopoImage {
-   width: 100%;
-   height: 100%;
+   max-width: 75vh;
+   max-height: 75vh;
 }

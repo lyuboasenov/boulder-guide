@@ -1,7 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
 
 import * as paths from './path';
 import { Route } from '../domain/Route';
@@ -17,16 +14,18 @@ export class TopoComponent implements OnInit {
 
    @Input() topo?: Topo;
 
-   @ViewChild('img') img!: ElementRef<HTMLImageElement>;
+   @ViewChild('img') imgElement!: ElementRef<HTMLImageElement>;
 
    paths: any[] = [];
    circles: any[] = [];
    ellipses: any[] = [];
    rectangles: any[] = [];
-   imgUrl: string = 'https://storage.googleapis.com/boulder-maps/map-vitosha-dev/main/boyana/myrtva_tyaga_0.jpg';
+
+   imgUrl: string = '';
    route!: Route | null;
    imgWidth: number = 0;
    imgHeight: number = 0;
+   static factor: number = 1;
 
    constructor() { }
 
@@ -34,20 +33,31 @@ export class TopoComponent implements OnInit {
       this.initialize();
    }
 
+   ngAfterViewInit(){
+      this.adjustSchemaSize();
+   }
+
    initialize(): void {
-      this.paths = [];
-      this.ellipses = [];
       if (this.topo != null) {
          this.imgUrl = this.topo.Id;
-         if (this.imgWidth > 0 && this.imgHeight > 0) {
-            for (var shape of this.topo.Shapes) {
-               if (shape._type == 'Path') {
-                  this.addPath(shape);
-               } else if (shape._type == 'Ellipse') {
-                  this.addEllipse(shape);
-               } else if (shape._type == 'Rectangle') {
-                  this.addRectangle(shape);
-               }
+         this.drawTopo();
+      }
+   }
+
+   drawTopo(): void {
+      this.paths = [];
+      this.circles = [];
+      this.ellipses = [];
+      this.rectangles = [];
+
+      if (this.topo && this.imgWidth > 0 && this.imgHeight > 0) {
+         for (var shape of this.topo.Shapes) {
+            if (shape._type == 'Path') {
+               this.addPath(shape);
+            } else if (shape._type == 'Ellipse') {
+               this.addEllipse(shape);
+            } else if (shape._type == 'Rectangle') {
+               this.addRectangle(shape);
             }
          }
       }
@@ -59,8 +69,6 @@ export class TopoComponent implements OnInit {
 
       let width = Math.trunc(shape.Width * this.imgWidth);
       let height = Math.trunc(shape.Height * this.imgHeight);
-
-
 
       this.rectangles.push({
          x: cx - width / 2,
@@ -97,8 +105,19 @@ export class TopoComponent implements OnInit {
    }
 
    onLoad() {
-      this.imgWidth = (this.img.nativeElement as HTMLImageElement).clientWidth;
-      this.imgHeight = (this.img.nativeElement as HTMLImageElement).clientHeight;
+      this.adjustSchemaSize();
+   }
+
+   adjustSchemaSize() {
+      let img = this.imgElement.nativeElement as HTMLImageElement;
+
+      if (img.clientHeight > 0) {
+         TopoComponent.factor = img.clientHeight / img.naturalHeight;
+      }
+
+      this.imgWidth = img.naturalWidth * TopoComponent.factor;
+      this.imgHeight = img.naturalHeight * TopoComponent.factor;
+
       this.initialize();
    }
 }

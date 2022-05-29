@@ -30,7 +30,7 @@
                [pauseOnFocus]="pauseOnFocus"
                (slide)="onSlide($event)">
                <ng-template ngbSlide *ngFor="let topo of route.Schemas">
-                 <bg-topo [topo]="topo"></bg-topo>
+                 <bg-topo #t [topo]="topo"></bg-topo>
                </ng-template>
             </ngb-carousel>
          </div>

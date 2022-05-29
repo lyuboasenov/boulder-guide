@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation, QueryList, ElementRef } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Area } from '../domain/Area';
 import { Route } from '../domain/Route';
@@ -7,6 +7,7 @@ import { RouteMapComponent } from '../maps/route-map.component';
 import { DataService } from '../services/data.service';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { AreaInfo } from '../domain/AreaInfo';
+import { TopoComponent } from '../topo/topo.component';
 
 @Component({
    selector: 'bg-route',
@@ -20,6 +21,7 @@ export class RouteComponent implements OnInit {
    @Input() info?: RouteInfo;
 
    @ViewChild('carousel', {static : true}) carousel!: NgbCarousel;
+   // @ViewChild('t') topos!: QueryList<TopoComponent>;
    @ViewChild(RouteMapComponent)
    private map!: RouteMapComponent;
 
@@ -73,6 +75,12 @@ export class RouteComponent implements OnInit {
       if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
          this.togglePaused();
       }
+
+      // if (this.topos) {
+      //    this.topos.forEach(t => {
+      //       console.log(t);
+      //    });
+      // }
    }
 
    togglePaused() {
