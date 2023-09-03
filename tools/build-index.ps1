@@ -94,7 +94,9 @@ function getImages ($path, $file) {
    Get-Content (Join-Path $path $file) | `
    ConvertFrom-Json | %{
       $_.Schemas | %{
-         $size = Get-Item (Join-Path $path $_.Id) | Select-Object -ExpandProperty Length
+         $imagePath = Join-Path $path $_.Id
+         . (Join-Path $PSScriptRoot 'update-images.ps1') $imagePath
+         $size = Get-Item $imagePath | Select-Object -ExpandProperty Length
          if ($size -gt 410000) {
             Write-Error "Image '$(Join-Path $path $_.Id)' is larger than 400KB ($size)."
          }

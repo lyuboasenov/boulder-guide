@@ -1,91 +1,84 @@
-﻿<Window x:Class="BoulderGuide.Wpf.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:BoulderGuide.Wpf"
-        WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
-        Title="{Binding Title}">
-   <Window.Resources>
+﻿<Window
+    x:Class="BoulderGuide.Wpf.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BoulderGuide.Wpf"
+    Title="{Binding Title}"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized">
+    <Window.Resources>
 
-      <HierarchicalDataTemplate x:Key="areaDT" ItemsSource="{Binding Items}">
-         <Grid>
-            <Label Content="{Binding Name}" />
-         </Grid>
-      </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate x:Key="areaDT" ItemsSource="{Binding Items}">
+            <Grid>
+                <Label Content="{Binding Name}" />
+            </Grid>
+        </HierarchicalDataTemplate>
 
-      <DataTemplate x:Key="routeDT">
-         <Grid>
-            <Label Content="{Binding Name}" />
-         </Grid>
-      </DataTemplate>
+        <local:DifficultyToGradeConverter x:Key="DifficultyToGradeConverter" />
 
-      <local:AreaRouteDataTemplateSelector
-         x:Key="AreaRouteDataTemplateSelector"
-         AreaTemplate="{StaticResource areaDT}"
-         RouteTemplate="{StaticResource routeDT}" />
-      <local:AreaRouteEditDataTemplateSelector x:Key="AreaRouteEditDataTemplateSelector" />
-   </Window.Resources>
-   <Grid>
-      <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="*" />
-         <ColumnDefinition Width="3*" />
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-         <RowDefinition Height="*" />
-         <RowDefinition Height="Auto" />
-         <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
-      <TreeView
-         ItemsSource="{Binding Items}"
-         local:TreeViewHelper.SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"
-         ItemTemplateSelector="{StaticResource AreaRouteDataTemplateSelector}" />
+        <DataTemplate x:Key="routeDT">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding Name}" />
+                <Label Content="{Binding Difficulty, Converter={StaticResource DifficultyToGradeConverter}}" ContentStringFormat="({0})" />
+            </StackPanel>
+        </DataTemplate>
 
-      <ContentControl
-         Content="{Binding SelectedItem}"
-         Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-         ContentTemplateSelector="{StaticResource AreaRouteEditDataTemplateSelector}" />
+        <local:AreaRouteDataTemplateSelector
+            x:Key="AreaRouteDataTemplateSelector"
+            AreaTemplate="{StaticResource areaDT}"
+            RouteTemplate="{StaticResource routeDT}" />
+        <local:AreaRouteEditDataTemplateSelector x:Key="AreaRouteEditDataTemplateSelector" />
 
-      <StackPanel
-         Grid.Row="1"
-         Grid.ColumnSpan="2"
-         Orientation="Horizontal">
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TreeView
+            local:TreeViewHelper.SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"
+            ItemTemplateSelector="{StaticResource AreaRouteDataTemplateSelector}"
+            ItemsSource="{Binding Items}" />
 
-         <Button
-            Content="Reload"
-            Command="{Binding ReloadCommand}" />
+        <ContentControl
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Content="{Binding SelectedItem}"
+            ContentTemplateSelector="{StaticResource AreaRouteEditDataTemplateSelector}" />
 
-         <Button
-            Content="Add area"
-            Command="{Binding AddAreaCommand}" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
 
-         <Button
-            Content="Add route"
-            Command="{Binding AddRouteCommand}" />
+            <Button Command="{Binding ReloadCommand}" Content="Reload" />
 
-         <Button
-            Content="Copy route"
-            Command="{Binding CopyRouteCommand}" />
+            <Button Command="{Binding AddAreaCommand}" Content="Add area" />
 
-         <Button
-            Content="Import routes"
-            Command="{Binding ImportRouteCommand}" />
+            <Button Command="{Binding AddRouteCommand}" Content="Add route" />
 
-         <Button
-            Content="Import Orux GPX"
-            Command="{Binding ImportOruxToGpxCommand}" />
+            <Button Command="{Binding CopyRouteCommand}" Content="Copy route" />
 
-      </StackPanel>
+            <Button Command="{Binding ImportRouteCommand}" Content="Import routes" />
 
-      <StackPanel
-         Grid.Row="2"
-         Grid.ColumnSpan="2"
-         Orientation="Horizontal">
+            <Button Command="{Binding ImportOruxToGpxCommand}" Content="Import Orux GPX" />
 
-         <Button
-            Content="Recalc boundaries"
-            Command="{Binding RecalculateAreaBounderiesCommand}" />
+        </StackPanel>
 
-      </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
 
-   </Grid>
+            <Button Command="{Binding RecalculateAreaBounderiesCommand}" Content="Recalc boundaries" />
+
+        </StackPanel>
+
+    </Grid>
 </Window>
