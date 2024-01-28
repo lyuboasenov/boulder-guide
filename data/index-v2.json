@@ -33,5 +33,12 @@
       "access": "public",
       "gzip": true,
       "encrypted": false
+   },
+   {
+      "urn": "kalugerovo",
+      "url": "https://storage.googleapis.com/boulder-maps/map-kalugerovo/main",
+      "access": "public",
+      "gzip": true,
+      "encrypted": false
    }
 ]
