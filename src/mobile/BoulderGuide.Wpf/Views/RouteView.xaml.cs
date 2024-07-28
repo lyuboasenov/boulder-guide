@@ -107,9 +107,13 @@ namespace BoulderGuide.Wpf.Views {
                shapes.Add(vm?.CurrentShape);
             }
 
-            using (var imgStream = System.IO.File.OpenRead(vm.SelectedTopo.Id)) {
-               canvasSize = new ImageUtils.Size(e.Surface.Canvas.DeviceClipBounds.Width, e.Surface.Canvas.DeviceClipBounds.Height);
-               currentImageSize = e.Surface.Canvas.DrawTopo(imgStream, shapes, 4);
+            if (System.IO.File.Exists(vm.SelectedTopo.Id)) {
+               using (var imgStream = System.IO.File.OpenRead(vm.SelectedTopo.Id)) {
+                  canvasSize = new ImageUtils.Size(e.Surface.Canvas.DeviceClipBounds.Width, e.Surface.Canvas.DeviceClipBounds.Height);
+                  currentImageSize = e.Surface.Canvas.DrawTopo(imgStream, shapes, 4);
+               }
+            } else {
+               MessageBox.Show($"Image '{vm.SelectedTopo.Id}' not found.");
             }
          }
       }

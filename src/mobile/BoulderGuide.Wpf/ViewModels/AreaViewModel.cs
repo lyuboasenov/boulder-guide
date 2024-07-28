@@ -126,7 +126,7 @@ namespace BoulderGuide.Wpf.ViewModels {
 
          var convexHull = ConvexHull.Create2D(verticies);
          area.ClearLocations();
-         foreach(var v in convexHull.Result) {
+         foreach(var v in convexHull.Result ?? Enumerable.Empty<DefaultVertex2D>()) {
             area.AddLocation(new Location(v.Y, v.X));
          }
       }

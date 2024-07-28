@@ -111,6 +111,7 @@ namespace BoulderGuide.Wpf.Domain {
          dto.Id = "_new-route-" + System.Guid.NewGuid().ToString();
          dto.Name = "Нов маршрут";
          path = System.IO.Path.Combine(directory, $"{dto.Id}.json");
+         topos = new List<Topo>();
       }
 
       internal void Save() {

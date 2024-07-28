@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace BoulderGuide.Wpf.ViewModels {
    public abstract class BaseViewModel<T> : INotifyPropertyChanged where T : FrameworkElement, new() {
@@ -38,7 +40,7 @@ namespace BoulderGuide.Wpf.ViewModels {
       }
 
       protected void HandleError(Exception ex) {
-         MessageBox.Show(ex.Message);
+         System.Windows.MessageBox.Show(ex.Message);
       }
 
       protected string SelectFile(string fileFilter) {
@@ -51,6 +53,24 @@ namespace BoulderGuide.Wpf.ViewModels {
          Nullable<bool> result = openFileDlg.ShowDialog();
          if (result == true) {
             return openFileDlg.FileName;
+         } else {
+            return string.Empty;
+         }
+      }
+
+      protected string SelectDirectory(string initialDirectory) {
+         // Create OpenFileDialog
+         using var dialog = new FolderBrowserDialog {
+            Description = "Select folder where pictions of the waypoints are stored",
+            UseDescriptionForTitle = true,
+            SelectedPath = initialDirectory + Path.DirectorySeparatorChar,
+            ShowNewFolderButton = true
+         };
+
+         // Launch OpenFileDialog by calling ShowDialog method
+         var result = dialog.ShowDialog();
+         if (result == DialogResult.OK) {
+            return dialog.SelectedPath;
          } else {
             return string.Empty;
          }

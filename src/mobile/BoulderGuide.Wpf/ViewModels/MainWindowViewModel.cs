@@ -208,8 +208,10 @@ namespace BoulderGuide.Wpf.ViewModels {
       }
 
       private void ImportRoute() {
-         string indexPath = SelectFile("Area gpx | *.gpx");
-         if (SelectedItem is Area a) {
+         string indexPath = SelectFile("Importing routes gpx | *.gpx");
+         string picturesPath = string.IsNullOrEmpty(indexPath) ? string.Empty : SelectDirectory(indexPath);
+
+         if (!string.IsNullOrEmpty(indexPath) && File.Exists(indexPath) && SelectedItem is Area a) {
             XmlDocument doc = new XmlDocument();
             doc.Load(indexPath);
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
@@ -225,12 +227,42 @@ namespace BoulderGuide.Wpf.ViewModels {
 
                string name = GetXmlSubNodeInnerText(node, nameof(name));
                string desc = GetXmlSubNodeInnerText(node, nameof(desc));
+               string type = GetXmlSubNodeInnerText(node, nameof(type));
+
+               string photo = string.Empty;
+               if (type.Equals("Photo", StringComparison.InvariantCultureIgnoreCase)) {
+                  var extentions = GetFirstChild(node, "extensions");
+                  var oruxExt = GetFirstChild(extentions, "om:oruxmapsextensions");
+                  var omExt = GetFirstChild(oruxExt, "om:ext", (n) => n.Attributes["type"]?.Value?.Equals("IMAGEN", StringComparison.InvariantCultureIgnoreCase) ?? false);
+
+                  photo = omExt?.InnerText;
+                  photo = photo?.Substring(photo.LastIndexOf("/") + 1);
+
+                  if (!string.IsNullOrEmpty(picturesPath) 
+                     && Directory.Exists(picturesPath) 
+                     && File.Exists(System.IO.Path.Combine(picturesPath, photo))) {
+                     photo = System.IO.Path.Combine(picturesPath, photo);
+                  } else {
+                     desc += $@"
+
+Picture: {photo}
+                        ";
+                     photo = string.Empty;
+                  }
+               }
 
                var route = new Route(a) {
+                  Id = name.ToLower(),
                   Name = name,
                   Info = desc,
                   Location = $"N{node.Attributes["lat"].Value} E{node.Attributes["lon"].Value}"
                };
+               if (!string.IsNullOrEmpty(photo)) {
+                  route.AddTopo(new Topo() {
+                     Id = photo,
+                  });
+               }
+
                route.Save();
             }
 
