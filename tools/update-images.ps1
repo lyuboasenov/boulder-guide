@@ -71,6 +71,31 @@ function _resizeImage($image) {
 
    # Set the interpolation mode for better resizing quality
    $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+   $graphics.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
+   $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
+
+   $exifOrientationID = 0x112 # 274
+
+   if ($image.PropertyIdList.Contains($exifOrientationID)) {
+      $orientation = [int]$image.GetPropertyItem($exifOrientationID).Value[0];
+      if ($orientation -eq 2) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::RotateNoneFlipX);
+      } elseif ($orientation -eq 3) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::Rotate180FlipNone);
+      } elseif ($orientation -eq 4) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::Rotate180FlipX);
+      } elseif ($orientation -eq 5) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::Rotate90FlipX);
+      } elseif ($orientation -eq 6) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::Rotate90FlipNone);
+      } elseif ($orientation -eq 7) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::Rotate270FlipX);
+      } elseif ($orientation -eq 8) {
+         $resizedImage.RotateFlip([System.Drawing.RotateFlipType]::Rotate270FlipNone);
+      } else {
+         # Assume it is good.
+      }
+   }
 
    # Draw the original image onto the new bitmap with resizing
    $graphics.DrawImage($image, 0, 0, $newWidth, $newHeight)
